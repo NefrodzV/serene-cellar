@@ -1,0 +1,11 @@
+{
+  "name": "serene_cellar_api",
+  "version": "1.0.0",
+  "description": "API for serene_cellar project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
