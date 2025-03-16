@@ -1,11 +1,16 @@
 {
   "name": "serene_cellar_api",
   "version": "1.0.0",
-  "description": "API for serene_cellar project",
+  "description": "API for Serene Cellar project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
