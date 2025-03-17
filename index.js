@@ -6,7 +6,7 @@ const port = 3000
 app.use('/products', ProductsRouter)
 app.use('/users', UsersRouter)
 app.get('/', (req, res) => {
-    res.send('Hello World')
+    res.send('Hello Serene Cellar')
 })
 
 
