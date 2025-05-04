@@ -2,10 +2,6 @@ import express from 'express'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.send('users index')
-})
-
 router.get('/:userId', (req, res) => {
     res.send('GET call to get the user with id')
 })
