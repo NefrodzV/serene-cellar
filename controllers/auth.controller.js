@@ -57,6 +57,42 @@ const register = [
     },
 ]
 
+const login = [
+    body('email')
+        .exists({ values: 'falsy' })
+        .withMessage('Email is required')
+        .bail()
+        .trim()
+        .notEmpty()
+        .withMessage('Email cannot be empty')
+        .bail()
+        .isEmail()
+        .withMessage('Please provide a valid email address'),
+    body('password')
+        .exists({ values: 'falsy' })
+        .withMessage('Password is required')
+        .bail()
+        .trim()
+        .notEmpty()
+        .withMessage('Password cannot be empty')
+        .bail(),
+    // TODO: validate password here
+    (req, res) => {
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({
+                message: 'Errors in request',
+                errors: result.array(),
+            })
+        }
+
+        // TODO: DO THE LOGIC TO LOGIN HERE
+
+        return res.json({ message: 'Everything ok' })
+    },
+]
+
 export default {
     register,
+    login,
 }
