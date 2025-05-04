@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { ProductsRouter, UsersRouter } from './routers/index.js'
+import { ProductsRouter, UsersRouter, AuthRouter } from './routers/index.js'
 const app = express()
 const port = 3000
 app.use(cors())
@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('/products', ProductsRouter)
 app.use('/users', UsersRouter)
+app.use('/auth', AuthRouter)
 app.get('/', (req, res) => {
     res.send('Hello! Serene Cellar!')
 })
