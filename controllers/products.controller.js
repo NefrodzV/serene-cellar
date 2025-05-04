@@ -3,6 +3,7 @@ import pool from '../pool.js'
 const getProducts = async (req, res) => {
     // Getting all the products from database
     try {
+        // TODO: probably need to update images having a white background
         const { rows } = await pool.query(`SELECT
             p.id,
             p.name,
@@ -23,7 +24,7 @@ const getProducts = async (req, res) => {
         `)
         res.json(rows)
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
         console.error(err)
     }
 }

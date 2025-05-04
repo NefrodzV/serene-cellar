@@ -1,2 +1,2 @@
-export { default as ProductsRouter } from './ProductsRouter.js'
-export { default as UsersRouter } from './UsersRouter.js'
+export { default as ProductsRouter } from './products.router.js'
+export { default as UsersRouter } from './user.router.js'
