@@ -1,5 +1,6 @@
-import { body, validationResult } from 'express-validator'
-
+import { body, matchedData, validationResult } from 'express-validator'
+import pool from '../pool.js'
+import bcrypt from 'bcryptjs'
 const register = [
     body('username')
         .exists({ values: 'falsy' })
@@ -17,7 +18,15 @@ const register = [
         .withMessage('Email cannot be empty')
         .bail()
         .isEmail()
-        .withMessage('Please provide a valid email address'),
+        .withMessage('Please provide a valid email address')
+        .custom(async (value, { req }) => {
+            const { rows } = await pool.query(
+                `SELECT FROM users WHERE email=$1`,
+                [value]
+            )
+            const user = rows[0]
+            if (user) return Promise.reject('This email is already registered')
+        }),
     body('password')
         .exists({ values: 'falsy' })
         .withMessage('Password is required')
@@ -39,10 +48,9 @@ const register = [
             if (value !== req.body.password) {
                 throw new Error('Passwords do not match')
             }
-            return true
         }),
 
-    (req, res) => {
+    (req, res, next) => {
         const result = validationResult(req)
         if (!result.isEmpty()) {
             return res.status(400).json({
@@ -50,10 +58,24 @@ const register = [
                 errors: result.array(),
             })
         }
+        next()
+    },
+    async (req, res) => {
+        try {
+            const data = matchedData(req)
+            const encryptedPassword = bcrypt.hash(data.password, 10)
+            const { rows } = await pool.query(
+                'INSERT INTO users(username, email, password) VALUES ($1,$2,$3) RETURNING id',
+                [data.username, data.email, encryptedPassword]
+            )
 
-        // TODO: DO THE LOGIC TO REGISTER HERE
-
-        return res.json({ message: 'Everything ok' })
+            // TODO:  MAKE THE TOKEN HERE
+        } catch (error) {
+            console.error('Database query failed:  ', error)
+            res.status(500).json({
+                message: 'Internal server error, please try again later',
+            })
+        }
     },
 ]
 
