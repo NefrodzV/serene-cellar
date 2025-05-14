@@ -1,2 +1,2 @@
-export { default as AuthController } from './auth.controller.js'
-export { default as ProductsController } from './products.controller.js'
+export { default as authController } from './auth-controller.js'
+export { default as productsController } from './products-controller.js'

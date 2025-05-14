@@ -1,6 +1,9 @@
 import { body, matchedData, validationResult } from 'express-validator'
 import pool from '../pool.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { configDotenv } from 'dotenv'
+configDotenv()
 const register = [
     body('username')
         .exists({ values: 'falsy' })
@@ -70,9 +73,16 @@ const register = [
             )
 
             // TODO:  MAKE THE TOKEN HERE
+
+            const user = rows[0]
+            const token = jwt.sign(
+                { userId: user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' }
+            )
         } catch (error) {
             console.error('Database query failed:  ', error)
-            res.status(500).json({
+            return res.status(500).json({
                 message: 'Internal server error, please try again later',
             })
         }
