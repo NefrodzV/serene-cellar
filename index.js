@@ -9,7 +9,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('/products', productsRouter)
-app.use('/user', userRouter)
+app.use('/users', userRouter)
 app.use('/auth', authRouter)
 app.get('/', (req, res) => {
     res.send('Hello! Serene Cellar!')
