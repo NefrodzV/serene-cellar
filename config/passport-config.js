@@ -1,6 +1,6 @@
 import passport from 'passport'
 import passportJwt from 'passport-jwt'
-import pool from '../pool'
+import pool from '../pool.js'
 import { configDotenv } from 'dotenv'
 configDotenv()
 
@@ -22,11 +22,12 @@ passport.use(
         async (jwt_payload, done) => {
             try {
                 const { userId } = jwt_payload
-                const { row } = pool.query('SELECT * FROM users WHERE id=$1', [
-                    userId,
-                ])
-                if (row.length === 0) return done(null, false)
-                const user = row[0]
+                const { rows } = await pool.query(
+                    'SELECT * FROM users WHERE id=$1',
+                    [userId]
+                )
+                if (rows.length === 0) return done(null, false)
+                const user = rows[0]
                 return done(null, user)
             } catch (error) {
                 console.error('Database query error', error)
@@ -35,3 +36,5 @@ passport.use(
         }
     )
 )
+
+export default passport
