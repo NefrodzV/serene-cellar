@@ -22,10 +22,10 @@ const getProducts = async (req, res) => {
         INNER JOIN prices pr ON p.id = pr.product_id
         GROUP BY p.id, p.name
         `)
-        res.json(rows)
+        return res.json(rows)
     } catch (err) {
-        res.status(500).send(err)
         console.error(err)
+        return res.status(500).send(err)
     }
 }
 
