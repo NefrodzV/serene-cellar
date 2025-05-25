@@ -1,4 +1,6 @@
+import { param, validationResult } from 'express-validator'
 import pool from '../pool.js'
+import { json } from 'express'
 
 const getProducts = async (req, res) => {
     // Getting all the products from database
@@ -29,6 +31,57 @@ const getProducts = async (req, res) => {
     }
 }
 
+const getProduct = [
+    param('productId')
+        .trim()
+        .exists({ values: 'falsy' })
+        .withMessage('Product ID must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Product ID must be a valid integer'),
+    (req, res, next) => {
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
+        next()
+    },
+    async (req, res) => {
+        const productId = parseInt(req.params.productId, 10)
+        try {
+            const { rows } = await pool.query(
+                `SELECT
+            p.id,
+            p.name,
+            p.description,
+            p.volume_ml,
+            p.abv,
+            jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
+            jsonb_object_agg(CASE 
+            WHEN pr.unit = '6/pkg' THEN 'sixPack'
+            WHEN pr.unit = '12/pkg' THEN 'twelvePack'
+            WHEN pr.unit = '24/pkg' THEN 'twentyFourPack'
+            ELSE pr.unit 
+        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
+        FROM products p
+        INNER JOIN product_images pi ON p.id = pi.product_id
+        INNER JOIN prices pr ON p.id = pr.product_id
+        WHERE p.id = $1
+        GROUP BY p.id, p.name`,
+                [productId]
+            )
+            return res.status(200).json({ product: rows[0] })
+        } catch (error) {
+            console.error('Database error: ', error)
+            return res.status(500).json({
+                message:
+                    'An unexpected event happened when processing your request',
+            })
+        }
+    },
+]
+
 export default {
     getProducts,
+    getProduct,
 }
