@@ -4,5 +4,7 @@ import { cartController } from '../controllers/index.js'
 const router = express.Router()
 
 router.get('/', cartController.getCart)
-// TODO: Make endpoint for update, delete and add
+router.post('/', cartController.addItem)
+router.delete('/items/:itemId', cartController.deleteItem)
+
 export default router

@@ -1,3 +1,4 @@
+import { body, param, validationResult, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import pool from '../pool.js'
 const getCart = [
@@ -35,6 +36,99 @@ const getCart = [
     },
 ]
 
+const addItem = [
+    passport.authenticate('jwt', { session: false }),
+    body('items')
+        .exists({ values: 'falsy' })
+        .withMessage('No items to add to cart')
+        .isArray()
+        .withMessage('Items must be defined as an array')
+        .bail(),
+    (req, res, next) => {
+        const errorResult = validationResult(req)
+        if (!errorResult.isEmpty()) {
+            const errors = errorResult.array()
+            return res.status(400).json({
+                message: 'There errors in the request',
+                errors: errors,
+            })
+        }
+        next()
+    },
+
+    async (req, res) => {
+        const data = matchedData(req)
+        const promises = []
+        for (const item of data.items) {
+            const promise = pool.query(
+                `INSERT INTO cart_items 
+                    (product_id, cart_id, quantity, unit_price, unit_type)
+                    VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                [
+                    item.productId,
+                    item.cartId,
+                    item.quantity,
+                    item.unitPrice,
+                    item.unitType,
+                ]
+            )
+            promises.push(promise)
+        }
+        try {
+            const queryResults = await Promise.all(promises)
+            return res.status(201).json({
+                message: 'Items added to the cart',
+                items: queryResults.map((r) => r.rows[0]),
+            })
+        } catch (error) {
+            console.error('[DB QUERY] ', error)
+        }
+    },
+]
+const deleteItem = [
+    passport.authenticate('jwt', { session: false }),
+    param('itemId')
+        .exists({ values: 'falsy' })
+        .withMessage('Item id must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Item ID must be a valid integer'),
+
+    (req, res, next) => {
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
+        next()
+    },
+    async (req, res) => {
+        const itemId = parseInt(req.params.itemId, 10)
+        try {
+            const { rowCount } = await pool.query(
+                `
+                DELETE FROM cart_items 
+                WHERE id=$1`,
+                [itemId]
+            )
+
+            if (rowCount === 0) {
+                return res.status(404).json({ message: 'Cart item not found' })
+            }
+
+            return res
+                .status(200)
+                .json({ message: 'Item deleted successfully' })
+        } catch (error) {
+            console.error('[DATABASE QUERY] ', error)
+            return res.status(500).json({
+                message: 'An unexpected error happened in your request.',
+            })
+        }
+    },
+]
+
 export default {
     getCart,
+    addItem,
+    deleteItem,
 }
