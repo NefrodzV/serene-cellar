@@ -3,6 +3,7 @@ import pool from '../pool.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { configDotenv } from 'dotenv'
+import { validate } from '../middlewares/validationHandler.js'
 configDotenv()
 const register = [
     body('username')
@@ -57,16 +58,7 @@ const register = [
             return true
         }),
 
-    (req, res, next) => {
-        const result = validationResult(req)
-        if (!result.isEmpty()) {
-            return res.status(400).json({
-                message: 'Errors in request',
-                errors: result.array(),
-            })
-        }
-        next()
-    },
+    validate,
     async (req, res) => {
         try {
             const data = matchedData(req)
@@ -140,20 +132,7 @@ const login = [
             if (!match) throw new Error('Incorrect username or password')
             return true
         }),
-    // TODO: validate password here
-    (req, res, next) => {
-        const result = validationResult(req)
-        console.log(req.body)
-        if (!result.isEmpty()) {
-            return res.status(400).json({
-                message: 'Errors in request',
-                errors: result.array(),
-            })
-        }
-
-        next()
-    },
-
+    validate,
     async (req, res) => {
         const token = jwt.sign(
             { userId: req.user.id },

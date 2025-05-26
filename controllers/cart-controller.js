@@ -1,9 +1,10 @@
 import { body, param, validationResult, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import pool from '../pool.js'
+import { validate } from '../middlewares/validationHandler.js'
 const getCart = [
     passport.authenticate('jwt', { session: false }),
-    async (req, res) => {
+    async (req, res, next) => {
         const user = req.user
         try {
             const { rows } = await pool.query(
@@ -30,8 +31,7 @@ const getCart = [
                 cart: rows,
             })
         } catch (error) {
-            console.error('[DB QUERY ERROR] ', error)
-            return res.status(500).json({ error: 'Something went wrong' })
+            next(error)
         }
     },
 ]
@@ -44,19 +44,9 @@ const addItem = [
         .isArray()
         .withMessage('Items must be defined as an array')
         .bail(),
-    (req, res, next) => {
-        const errorResult = validationResult(req)
-        if (!errorResult.isEmpty()) {
-            const errors = errorResult.array()
-            return res.status(400).json({
-                message: 'There errors in the request',
-                errors: errors,
-            })
-        }
-        next()
-    },
+    validate,
 
-    async (req, res) => {
+    async (req, res, next) => {
         const data = matchedData(req)
         const promises = []
         for (const item of data.items) {
@@ -81,7 +71,7 @@ const addItem = [
                 items: queryResults.map((r) => r.rows[0]),
             })
         } catch (error) {
-            console.error('[DB QUERY] ', error)
+            next(error)
         }
     },
 ]
@@ -94,19 +84,12 @@ const deleteItem = [
         .isInt()
         .withMessage('Item ID must be a valid integer'),
 
-    (req, res, next) => {
-        const result = validationResult(req)
-        if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() })
-        }
-        next()
-    },
-    async (req, res) => {
+    validate,
+    async (req, res, next) => {
         const itemId = parseInt(req.params.itemId, 10)
         try {
             const { rowCount } = await pool.query(
-                `
-                DELETE FROM cart_items 
+                `DELETE FROM cart_items 
                 WHERE id=$1`,
                 [itemId]
             )
@@ -119,10 +102,7 @@ const deleteItem = [
                 .status(200)
                 .json({ message: 'Item deleted successfully' })
         } catch (error) {
-            console.error('[DATABASE QUERY] ', error)
-            return res.status(500).json({
-                message: 'An unexpected error happened in your request.',
-            })
+            next(error)
         }
     },
 ]

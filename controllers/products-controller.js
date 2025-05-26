@@ -1,8 +1,9 @@
 import { param, validationResult } from 'express-validator'
 import pool from '../pool.js'
 import { json } from 'express'
+import { validate } from '../middlewares/validationHandler.js'
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
     // Getting all the products from database
     try {
         // TODO: probably need to update images having a white background
@@ -26,8 +27,7 @@ const getProducts = async (req, res) => {
         `)
         return res.json(rows)
     } catch (err) {
-        console.error(err)
-        return res.status(500).send(err)
+        next(err)
     }
 }
 
@@ -39,17 +39,11 @@ const getProduct = [
         .bail()
         .isInt()
         .withMessage('Product ID must be a valid integer'),
-    (req, res, next) => {
-        const result = validationResult(req)
-        if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() })
-        }
-        next()
-    },
-    async (req, res) => {
+    validate,
+    async (req, res, next) => {
         const productId = parseInt(req.params.productId, 10)
         try {
-            const { rows } = await pool.query(
+            const { rowCount, rows } = await pool.query(
                 `SELECT
             p.id,
             p.name,
@@ -70,13 +64,14 @@ const getProduct = [
         GROUP BY p.id, p.name`,
                 [productId]
             )
+            if (rowCount === 0) {
+                return res
+                    .status(400)
+                    .json({ message: 'No product exists with this ID' })
+            }
             return res.status(200).json({ product: rows[0] })
         } catch (error) {
-            console.error('Database error: ', error)
-            return res.status(500).json({
-                message:
-                    'An unexpected event happened when processing your request',
-            })
+            next(error)
         }
     },
 ]
