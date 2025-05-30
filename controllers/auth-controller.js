@@ -4,7 +4,11 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { configDotenv } from 'dotenv'
 import { validate } from '../middlewares/validationHandler.js'
+import { OAuth2Client } from 'google-auth-library'
 configDotenv()
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+
 const register = [
     body('username')
         .exists({ values: 'falsy' })
@@ -128,6 +132,7 @@ const login = [
         .bail()
         .custom(async (value, { req }) => {
             console.log(req.user)
+            // TODO GET THE PASSWORD FROM DATABASE
             const match = await bcrypt.compare(value, req.user.password)
             if (!match) throw new Error('Incorrect username or password')
             return true
@@ -152,7 +157,73 @@ const login = [
     },
 ]
 
+const google = [
+    body('idToken')
+        .exists({ values: 'falsy' })
+        .bail()
+        .isJWT()
+        .withMessage('ID token must be a valid jwt'),
+    validate,
+    async (req, res, next) => {
+        console.log()
+        const idToken = req.body.idToken
+        try {
+            const ticket = await googleClient.verifyIdToken({
+                idToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            })
+            const payload = ticket.getPayload()
+
+            const { rowCount, rows: existingUserRows } = await pool.query(
+                `
+                SELECT id FROM users WHERE email=$1`,
+                [payload.email]
+            )
+
+            if (rowCount > 0) {
+                const token = jwt.sign(
+                    { userId: existingUserRows[0].id },
+                    process.env.JWT_SECRET,
+                    {
+                        expiresIn: 1000 * 60 * 60,
+                    }
+                )
+
+                res.cookie('sereneJwt', token, {
+                    maxAge: 1000 * 60 * 60, // Lasts  1 hour,
+                    httpOnly: true,
+                })
+                return res.json({ message: 'Login successful' })
+            }
+            const { rows: createdUserRows } = await pool.query(
+                `INSERT INTO users(username, email) VALUES ($1, $2) RETURNING id`,
+                [payload.name, payload.email]
+            )
+
+            const token = jwt.sign(
+                { userId: createdUserRows[0].id },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: 1000 * 60 * 60,
+                }
+            )
+
+            res.cookie('sereneJwt', token, {
+                maxAge: 1000 * 60 * 60, // Lasts  1 hour,
+                httpOnly: true,
+            })
+            return res.json({
+                message: 'Login successful',
+                user: rows[0],
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+]
+
 export default {
     register,
     login,
+    google,
 }
