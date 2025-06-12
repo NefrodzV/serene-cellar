@@ -222,8 +222,50 @@ const google = [
     },
 ]
 
+const twitter = [
+    async (req, res, next) => {
+        try {
+            const CLIENT_ID = process.env.TWITTER_CLIENT_ID
+            const CLIENT_SECRET = process.env.TWITTER_SECRET
+            const authHeader = Buffer.from(
+                `${CLIENT_ID}:${CLIENT_SECRET}`
+            ).toString('base64')
+            console.log(req.body.code_verifier)
+            const response = await fetch('https://api.x.com/2/oauth2/token', {
+                method: 'post',
+                headers: {
+                    Authorization: `Basic ${authHeader}`,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    grant_type: 'authorization_code',
+                    code: req.body.code,
+                    redirect_uri: `https://nefrodzv23.ngrok.io/twitter/callback`,
+                    // client_id: process.env.TWITTER_CLIENT_ID,
+                    code_verifier: req.body.code_verifier,
+                }).toString(),
+            })
+
+            req.twitterToken = await response.json()
+            console.log('Twitter token', data)
+            next()
+        } catch (error) {
+            console.error('Twitter auth error -> ', error)
+        }
+
+        ;async (req, res, next) => {
+            // TODO: UPDATE THE DATABASE TO USE TWITTER ID AS UNIQUE ID
+            try {
+            } catch (error) {
+                console.error('')
+            }
+        }
+    },
+]
+
 export default {
     register,
     login,
     google,
+    twitter,
 }
