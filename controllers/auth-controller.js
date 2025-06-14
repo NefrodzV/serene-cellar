@@ -1,10 +1,10 @@
 import { body, matchedData, validationResult } from 'express-validator'
 import pool from '../db/pool.js'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 import { configDotenv } from 'dotenv'
 import { validate } from '../middlewares/validationHandler.js'
 import { OAuth2Client } from 'google-auth-library'
+import { generateToken } from '../services/index.js'
 configDotenv()
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -75,11 +75,7 @@ const register = [
             // TODO:  MAKE THE TOKEN HERE
 
             const user = rows[0]
-            const token = jwt.sign(
-                { userId: user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '7d' }
-            )
+            const token = generateToken(user)
 
             res.cookie('sereneJwt', token, {
                 maxAge: 1000 * 60 * 60, // Lasts  1 hour,
@@ -139,13 +135,8 @@ const login = [
         }),
     validate,
     async (req, res) => {
-        const token = jwt.sign(
-            { userId: req.user.id },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: '7d',
-            }
-        )
+        const user = req.user
+        const token = generateToken(user)
 
         res.cookie('sereneJwt', token, {
             maxAge: 1000 * 60 * 60, // Lasts  1 hour,
@@ -181,13 +172,8 @@ const google = [
             )
 
             if (rowCount > 0) {
-                const token = jwt.sign(
-                    { userId: existingUserRows[0].id },
-                    process.env.JWT_SECRET,
-                    {
-                        expiresIn: 1000 * 60 * 60,
-                    }
-                )
+                const user = existingUserRows[0]
+                const token = generateToken(user)
 
                 res.cookie('sereneJwt', token, {
                     maxAge: 1000 * 60 * 60, // Lasts  1 hour,
@@ -200,13 +186,8 @@ const google = [
                 [payload.name, payload.email]
             )
 
-            const token = jwt.sign(
-                { userId: createdUserRows[0].id },
-                process.env.JWT_SECRET,
-                {
-                    expiresIn: 1000 * 60 * 60,
-                }
-            )
+            const user = createdUserRows[0]
+            const token = generateToken(user)
 
             res.cookie('sereneJwt', token, {
                 maxAge: 1000 * 60 * 60, // Lasts  1 hour,
@@ -245,20 +226,43 @@ const twitter = [
                     code_verifier: req.body.code_verifier,
                 }).toString(),
             })
-
-            req.twitterToken = await response.json()
+            const data = await response.json()
+            req.twitterData = data
             console.log('Twitter token', data)
             next()
         } catch (error) {
             console.error('Twitter auth error -> ', error)
         }
-
-        ;async (req, res, next) => {
-            // TODO: UPDATE THE DATABASE TO USE TWITTER ID AS UNIQUE ID
-            try {
-            } catch (error) {
-                console.error('')
+    },
+    async (req, res, next) => {
+        try {
+            const options = {
+                headers: {
+                    Authorization: `Bearer ${req.twitterData.access_token}`,
+                },
             }
+            const response = await fetch(
+                'https://api.twitter.com/2/users/me',
+                options
+            )
+            const data = await response.json()
+            if (!response.ok) {
+                console.log('Twitter response error', data)
+                return
+            }
+            console.log('User data:', data)
+
+            /**
+             *  TODO: Save the new user into the database
+                Example of data returned by the user
+                data: {
+                    id: '1674953147607920645',
+                    name: 'Neftaly Rodriguez',
+                    username: 'Nfrodzv23'
+                }
+             */
+        } catch (error) {
+            console.error('Twitter get user -> ', error)
         }
     },
 ]
