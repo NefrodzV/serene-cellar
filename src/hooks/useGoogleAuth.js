@@ -1,14 +1,16 @@
+const sereneCellarApiUrl = import.meta.env.VITE_SERENE_CELLAR_API_URL
 export default function useGoogleAuth() {
     const onSuccess = async ({credential}) => {
 
         try {
-            const response  = await fetch(sereneCellarApiUrl + "/auth/google", {
+            const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }, 
                 body: JSON.stringify({idToken: credential})
-            })
+            }
+            const response  = await fetch(sereneCellarApiUrl + "/auth/google", options)
 
             if(!response.ok) {
                 console.error('Network response not ok')
@@ -24,7 +26,6 @@ export default function useGoogleAuth() {
         }
 
     }
-
     const onError = error => {
         console.error('Google login failed: ', error)
     }
