@@ -1,6 +1,6 @@
 import { body, param, validationResult, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
-import pool from '../pool.js'
+import pool from '../db/pool.js'
 import { validate } from '../middlewares/validationHandler.js'
 const getCart = [
     passport.authenticate('jwt', { session: false }),

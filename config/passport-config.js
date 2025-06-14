@@ -1,6 +1,6 @@
 import passport from 'passport'
 import passportJwt from 'passport-jwt'
-import pool from '../pool.js'
+import pool from '../db/pool.js'
 import { configDotenv } from 'dotenv'
 configDotenv()
 

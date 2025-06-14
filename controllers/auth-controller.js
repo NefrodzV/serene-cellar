@@ -1,5 +1,5 @@
 import { body, matchedData, validationResult } from 'express-validator'
-import pool from '../pool.js'
+import pool from '../db/pool.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { configDotenv } from 'dotenv'

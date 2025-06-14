@@ -1,5 +1,5 @@
 import { param, validationResult } from 'express-validator'
-import pool from '../pool.js'
+import pool from '../db/pool.js'
 import { json } from 'express'
 import { validate } from '../middlewares/validationHandler.js'
 
