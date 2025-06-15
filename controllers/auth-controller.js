@@ -1,10 +1,11 @@
-import { body, matchedData, validationResult } from 'express-validator'
-import pool from '../db/pool.js'
+import { body, matchedData } from 'express-validator'
 import bcrypt from 'bcryptjs'
 import { configDotenv } from 'dotenv'
 import { validate } from '../middlewares/validationHandler.js'
 import { OAuth2Client } from 'google-auth-library'
 import { generateToken } from '../services/index.js'
+import { userRepository } from '../repositories/index.js'
+import { setCookieAndRespond } from '../utils/setCookieAndRespond.js'
 configDotenv()
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -28,11 +29,7 @@ const register = [
         .isEmail()
         .withMessage('Please provide a valid email address')
         .custom(async (value, { req }) => {
-            const { rows } = await pool.query(
-                `SELECT *  FROM users WHERE email=$1`,
-                [value]
-            )
-            const user = rows[0]
+            const user = await userRepository.findByEmail(value)
             if (user) return Promise.reject('This email is already registered')
         }),
     body('password')
@@ -67,29 +64,16 @@ const register = [
         try {
             const data = matchedData(req)
             const encryptedPassword = await bcrypt.hash(data.password, 10)
-            const { rows } = await pool.query(
-                'INSERT INTO users(username, email, password) VALUES ($1,$2,$3) RETURNING id',
-                [data.username, data.email, encryptedPassword]
-            )
-
-            // TODO:  MAKE THE TOKEN HERE
-
-            const user = rows[0]
+            const user = await userRepository.createUserWithEmail({
+                email: data.email,
+                username: data.username,
+                password: encryptedPassword,
+            })
             const token = generateToken(user)
-
-            res.cookie('sereneJwt', token, {
-                maxAge: 1000 * 60 * 60, // Lasts  1 hour,
-                httpOnly: true,
-            })
-
-            return res.status(201).json({
-                message: 'User registry successful',
-            })
+            req.user = user
+            req.token = token
         } catch (error) {
-            console.error('Register user error: ', error)
-            return res.status(500).json({
-                message: 'Internal server error, please try again later',
-            })
+            next(error)
         }
     },
 ]
@@ -106,15 +90,12 @@ const login = [
         .isEmail()
         .withMessage('Please provide a valid email address')
         .custom(async (value, { req }) => {
-            const { rows } = await pool.query(
-                'SELECT *  FROM users WHERE email=$1',
-                [value]
-            )
-
+            const user = await userRepository.findByEmail(value)
             // Check if there is data here
-            if (rows.length === 0)
+            if (!user) {
                 throw new Error('Incorrect username or password')
-            const user = rows.at(0)
+            }
+
             req.user = user
             return true
         }),
@@ -135,17 +116,11 @@ const login = [
         }),
     validate,
     async (req, res) => {
-        const user = req.user
         const token = generateToken(user)
-
-        res.cookie('sereneJwt', token, {
-            maxAge: 1000 * 60 * 60, // Lasts  1 hour,
-            httpOnly: true,
-        })
-        return res.json({
-            message: 'Login successful',
-        })
+        req.token = token
+        next()
     },
+    setCookieAndRespond,
 ]
 
 const google = [
@@ -165,42 +140,26 @@ const google = [
             })
             const payload = ticket.getPayload()
 
-            const { rowCount, rows: existingUserRows } = await pool.query(
-                `
-                SELECT id FROM users WHERE email=$1`,
-                [payload.email]
-            )
-
-            if (rowCount > 0) {
-                const user = existingUserRows[0]
-                const token = generateToken(user)
-
-                res.cookie('sereneJwt', token, {
-                    maxAge: 1000 * 60 * 60, // Lasts  1 hour,
-                    httpOnly: true,
+            let user = await userRepository.findByEmail(payload.email)
+            let token = null
+            if (!user) {
+                console.log('No google user found')
+                user = await userRepository.createUserWithGoogle({
+                    googleId: payload.sub,
+                    email: payload.email,
+                    username: payload.name,
                 })
-                return res.json({ message: 'Login successful' })
             }
-            const { rows: createdUserRows } = await pool.query(
-                `INSERT INTO users(username, email) VALUES ($1, $2) RETURNING id`,
-                [payload.name, payload.email]
-            )
-
-            const user = createdUserRows[0]
-            const token = generateToken(user)
-
-            res.cookie('sereneJwt', token, {
-                maxAge: 1000 * 60 * 60, // Lasts  1 hour,
-                httpOnly: true,
-            })
-            return res.json({
-                message: 'Login successful',
-                user: rows[0],
-            })
+            console.log('Google user found')
+            token = generateToken(user)
+            req.user = user
+            req.token = token
+            next()
         } catch (error) {
             next(error)
         }
     },
+    setCookieAndRespond,
 ]
 
 const twitter = [
@@ -227,11 +186,16 @@ const twitter = [
                 }).toString(),
             })
             const data = await response.json()
+            // This may fail
+            if (data.errors) {
+                console.error('Twitter token fetch error: ', data)
+                return next(new Error('Failed to fetch twitter token'))
+            }
             req.twitterData = data
             console.log('Twitter token', data)
             next()
         } catch (error) {
-            console.error('Twitter auth error -> ', error)
+            next(error)
         }
     },
     async (req, res, next) => {
@@ -247,24 +211,39 @@ const twitter = [
             )
             const data = await response.json()
             if (!response.ok) {
-                console.log('Twitter response error', data)
-                return
+                console.error('Twitter user data fetch error response: ', data)
+                return next(
+                    new Error('Failed to fetch twitter token user data')
+                )
             }
-            console.log('User data:', data)
 
-            /**
-             *  TODO: Save the new user into the database
-                Example of data returned by the user
-                data: {
-                    id: '1674953147607920645',
-                    name: 'Neftaly Rodriguez',
-                    username: 'Nfrodzv23'
-                }
-             */
+            req.user = data
+            next()
         } catch (error) {
             console.error('Twitter get user -> ', error)
+            next(error)
         }
     },
+    async (req, res, next) => {
+        try {
+            let user = await userRepository.findByTwitterId(req.user.id)
+            let token = null
+            /** If no user exists just create a new one */
+            if (!user) {
+                user = await userRepository.createUserWithTwitter({
+                    twitterId: req.user.id,
+                    username: req.user.username,
+                })
+            }
+            req.user = user
+            req.token = token
+            token = generateToken(user)
+            /** If user already exists just create the token */
+        } catch (error) {
+            next(error)
+        }
+    },
+    setCookieAndRespond,
 ]
 
 export default {
