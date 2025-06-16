@@ -18,6 +18,7 @@ app.use('/products', productsRouter)
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
 app.use('/cart', cartRouter)
+app.use('/images', express.static('images'))
 app.get('/', (req, res) => {
     res.send('Hello! Serene Cellar!')
 })
