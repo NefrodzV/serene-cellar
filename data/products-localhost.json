@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Cold Forge",
+        "description": "Cold Forge is a bold craft beer inspired by the grit of the forge. Brewed with an industrial edge, it offers a refreshing taste with a crisp finish.",
+        "abv": 5.1,
+        "ml": 355,
+        "category": "Beer",
+        "pricing": { "6-pack": 15.99, "12-pack": 28.99, "24-pack": 52.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/cold_forge_phone.png",
+            "tablet": "http://localhost:3000/images/cold_forge_tablet.png",
+            "desktop": "http://localhost:3000/images/cold_forge_desktop.png"
+        }
+    },
+    {
+        "name": "Island Gold",
+        "description": "Island Gold is a smooth, tropical lager with light golden hues and subtle fruit notes, bringing you island vibes in every sip.",
+        "abv": 4.8,
+        "ml": 330,
+        "category": "Beer",
+        "pricing": { "6-pack": 13.99, "12-pack": 25.49, "24-pack": 47.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/island_gold_phone.png",
+            "tablet": "http://localhost:3000/images/island_gold_tablet.png",
+            "desktop": "http://localhost:3000/images/island_gold_desktop.png"
+        }
+    },
+    {
+        "name": "Night Haven",
+        "description": "A bold and mysterious dark beer with rich roasted flavors and a smooth finish. Night Haven invites you to discover the depth of its craft.",
+        "ml": 330,
+        "abv": 5.6,
+        "category": "Beer",
+        "pricing": { "6-pack": 10.99, "12-pack": 20.99, "24-pack": 38.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/night_haven_phone.png",
+            "tablet": "http://localhost:3000/images/night_haven_tablet.png",
+            "desktop": "http://localhost:3000/images/night_haven_desktop.png"
+        }
+    },
+    {
+        "name": "Iron Brew",
+        "description": "A robust and full-bodied beer forged with intensity. Iron Brew delivers bold malt flavor and a crisp, satisfying finish — crafted for those who crave strength in every sip.",
+        "ml": 330,
+        "abv": 6.2,
+        "category": "Beer",
+        "pricing": { "6-pack": 11.99, "12-pack": 22.99, "24-pack": 42.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/iron_brew_phone.png",
+            "tablet": "http://localhost:3000/images/iron_brew_tablet.png",
+            "desktop": "http://localhost:3000/images/iron_brew_desktop.png"
+        }
+    },
+    {
+        "name": "Borinquen Brew",
+        "description": "A refreshing tropical lager brewed with pride in Puerto Rico. Borinquen Brew features smooth malty notes and a crisp finish, inspired by the island’s natural beauty and vibrant culture.",
+        "ml": 330,
+        "abv": 5,
+        "category": "Beer",
+        "pricing": { "6_pack": 9.99, "12_pack": 18.99, "24_pack": 34.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/borinquen_brew_phone.png",
+            "tablet": "http://localhost:3000/images/borinquen_brew_tablet.png",
+            "desktop": "http://localhost:3000/images/borinquen_brew_desktop.png"
+        }
+    },
+    {
+        "name": "Liberty Ale",
+        "description": "A patriotic American ale brewed in celebration of freedom. Liberty Ale combines a balanced malt body with subtle hop bitterness, perfect for Independence Day and backyard barbecues.",
+        "ml": 355,
+        "abv": 5.7,
+        "category": "Beer",
+        "pricing": { "6_pack": 11.49, "12_pack": 21.99, "24_pack": 39.99 },
+        "images": {
+            "phone": "http://localhost:3000/images/liberty_ale_phone.png",
+            "tablet": "http://localhost:3000/images/liberty_ale_tablet.png",
+            "desktop": "http://localhost:3000/images/liberty_ale_desktop.png"
+        }
+    }
+]
