@@ -11,13 +11,13 @@ const getProducts = async (req, res, next) => {
             p.id,
             p.name,
             p.description,
-            p.volume_ml,
+            p.ml,
             p.abv,
             jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
             jsonb_object_agg(CASE 
-            WHEN pr.unit = '6/pkg' THEN 'sixPack'
-            WHEN pr.unit = '12/pkg' THEN 'twelvePack'
-            WHEN pr.unit = '24/pkg' THEN 'twentyFourPack'
+            WHEN pr.unit = '6-pack' THEN 'sixPack'
+            WHEN pr.unit = '12-pack' THEN 'twelvePack'
+            WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
         FROM products p
@@ -48,13 +48,13 @@ const getProduct = [
             p.id,
             p.name,
             p.description,
-            p.volume_ml,
+            p.ml,
             p.abv,
             jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
             jsonb_object_agg(CASE 
-            WHEN pr.unit = '6/pkg' THEN 'sixPack'
-            WHEN pr.unit = '12/pkg' THEN 'twelvePack'
-            WHEN pr.unit = '24/pkg' THEN 'twentyFourPack'
+            WHEN pr.unit = '6-pack' THEN 'sixPack'
+            WHEN pr.unit = '12-pack' THEN 'twelvePack'
+            WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
         FROM products p
