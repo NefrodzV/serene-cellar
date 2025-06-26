@@ -24,10 +24,13 @@ export default function TwitterCallback() {
                     console.error(await response.json())
                     return
                 }
+
+                console.log(await response.json())
             } catch(error) {
                 console.error('Twitter callback authentication -> ', error)
             }
         } 
+        if(!code) return
         authenticate()
     },[])
     return <p>Login you in to your account please wait...</p>
