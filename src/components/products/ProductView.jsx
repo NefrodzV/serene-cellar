@@ -1,7 +1,9 @@
+import React from "react";
 import { useProduct } from "../../hooks";
 
 export function ProductView() {
     const [product, isLoading] = useProduct()
+    console.log(product)
     return (
         <h1>Product View</h1>
     //     <article>
