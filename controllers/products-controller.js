@@ -32,16 +32,14 @@ const getProducts = async (req, res, next) => {
 }
 
 const getProduct = [
-    param('productId')
+    param('slug')
         .trim()
         .exists({ values: 'falsy' })
         .withMessage('Product ID must be defined')
-        .bail()
-        .isInt()
-        .withMessage('Product ID must be a valid integer'),
+        .bail(),
     validate,
     async (req, res, next) => {
-        const productId = parseInt(req.params.productId, 10)
+        const slug = req.params.slug
         try {
             const { rowCount, rows } = await pool.query(
                 `SELECT
@@ -60,16 +58,16 @@ const getProduct = [
         FROM products p
         INNER JOIN product_images pi ON p.id = pi.product_id
         INNER JOIN prices pr ON p.id = pr.product_id
-        WHERE p.id = $1
+        WHERE p.slug = $1
         GROUP BY p.id, p.name`,
-                [productId]
+                [slug]
             )
             if (rowCount === 0) {
                 return res
                     .status(400)
-                    .json({ message: 'No product exists with this ID' })
+                    .json({ message: 'No product exists with this slug' })
             }
-            return res.status(200).json({ product: rows[0] })
+            return res.status(200).json(rows[0])
         } catch (error) {
             next(error)
         }
