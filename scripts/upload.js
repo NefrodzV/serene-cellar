@@ -43,12 +43,13 @@ fs.readFile(filePathToRead, 'utf8', async (err, data) => {
 
 const uploadProduct = async (product) => {
     const { name, description, abv, ml, category, pricing, images } = product
+    const slug = name.toLowerCase().split(' ').join('-')
     try {
         const result = await db.query(
-            `INSERT INTO products (name, description, category, abv, ml) 
-            VALUES ($1, $2, $3, $4, $5) RETURNING id
+            `INSERT INTO products (name, description, category, abv, ml, slug) 
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING id
             `,
-            [name, description, category, abv, ml]
+            [name, description, category, abv, ml, slug]
         )
         const productId = result.rows[0].id
         const pricingInserts = Object.entries(pricing).map(([key, value]) => {
