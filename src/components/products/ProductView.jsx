@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import { useProduct } from "../../hooks";
+import { useProduct, useProductSelection } from "../../hooks";
 
 export function ProductView() {
     const [product, isLoading] = useProduct()
     const { name, price, category, abv, ml, description,  images } = product
-    const [packSize, setPackSize] = useState(Object.keys(price).at(0))
-    const [quantity, setQuantity] = useState(1)
-    function packSizeHandler(e) {
-        setPackSize(e.target.value)
-    }
-    function quantityHandler(e) {
-        setQuantity(e.target.value)
-    }
+    const { 
+        packSize,
+        quantity, 
+        packSizeHandler, 
+        quantityHandler, 
+        total
+    } = useProductSelection(price)
 
     return (
     <>
         <h1>{name}</h1>
         <p>{description}</p>
+        <p>Category: {category}</p>
+        <p>ABV(Alcohol by Volumen): {abv}%</p>
+        <p>Bottle size: {parseFloat(ml).toFixed(0)} ml</p>
         <label htmlFor="packSize">Pack Size</label>
         <select id="packSize" onChange={packSizeHandler}>
             {Object.entries(price).map(([key, {unit , value}]) => (
@@ -29,7 +31,7 @@ export function ProductView() {
                 <option key={i + 1}>{i + 1}</option>
             ))}
         </select>
-        <p>{`Total: $${Number(price[packSize]?.value) * Number(quantity)}` }</p>
+        <p>{`Total: $${total}` }</p>
         
     <img    
     width={'25%'}
@@ -37,7 +39,5 @@ export function ProductView() {
     sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1080px`}
     /> 
     </>
-        
-   
     )
 }
