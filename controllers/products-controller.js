@@ -13,6 +13,7 @@ const getProducts = async (req, res, next) => {
             p.description,
             p.ml,
             p.abv,
+            p.category,
             jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
             jsonb_object_agg(CASE 
             WHEN pr.unit = '6-pack' THEN 'sixPack'
@@ -48,6 +49,7 @@ const getProduct = [
             p.description,
             p.ml,
             p.abv,
+            p.category,
             jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
             jsonb_object_agg(CASE 
             WHEN pr.unit = '6-pack' THEN 'sixPack'
