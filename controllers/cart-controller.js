@@ -38,38 +38,34 @@ const getCart = [
 
 const addItem = [
     passport.authenticate('jwt', { session: false }),
-    body('items')
+    param('cartId')
         .exists({ values: 'falsy' })
-        .withMessage('No items to add to cart')
-        .isArray()
-        .withMessage('Items must be defined as an array')
-        .bail(),
+        .withMessage('Item id must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Item ID must be a valid integer'),
+    body('item')
+        .exists({ values: 'falsy' })
+        .withMessage('No item defined to add to cart'),
     validate,
 
     async (req, res, next) => {
+        const cartId = parseInt(req.params.cartId)
         const data = matchedData(req)
-        const promises = []
-        for (const item of data.items) {
-            const promise = pool.query(
+        try {
+            const { rows } = await pool.query(
                 `INSERT INTO cart_items 
                     (product_id, cart_id, quantity, unit_price, unit_type)
                     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
                 [
-                    item.productId,
-                    item.cartId,
-                    item.quantity,
-                    item.unitPrice,
-                    item.unitType,
+                    data.productId,
+                    cartId,
+                    data.quantity,
+                    data.unitPrice,
+                    data.unitType,
                 ]
             )
-            promises.push(promise)
-        }
-        try {
-            const queryResults = await Promise.all(promises)
-            return res.status(201).json({
-                message: 'Items added to the cart',
-                items: queryResults.map((r) => r.rows[0]),
-            })
+            return res.status(201).json(rows[0])
         } catch (error) {
             next(error)
         }
