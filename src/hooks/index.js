@@ -1,7 +1,8 @@
 export { useProducts } from './useProducts'
-
-export { default as useTwitterAuth} from './useTwitterAuth'
-export { default as useGoogleAuth} from './useGoogleAuth'
-export {useLoading} from './useLoading'
+export { default as useTwitterAuth } from './useTwitterAuth'
+export { default as useGoogleAuth } from './useGoogleAuth'
+export { useLoading } from './useLoading'
 export { useProduct } from './useProduct'
-export { useProductSelection} from './useProductSelection'
+export { useProductSelection } from './useProductSelection'
+export { useCart } from './useCart'
+export { useUser } from './useUser'
