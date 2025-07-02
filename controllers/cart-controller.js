@@ -2,6 +2,10 @@ import { body, param, validationResult, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import pool from '../db/pool.js'
 import { validate } from '../middlewares/validationHandler.js'
+
+/**
+ * Make the requests return the update cartItems
+ */
 const getCart = [
     passport.authenticate('jwt', { session: false }),
     async (req, res, next) => {
@@ -53,10 +57,10 @@ const addItem = [
         const cartId = parseInt(req.params.cartId)
         const data = matchedData(req)
         try {
-            const { rows } = await pool.query(
+            await pool.query(
                 `INSERT INTO cart_items 
                     (product_id, cart_id, quantity, unit_price, unit_type)
-                    VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                    VALUES ($1, $2, $3, $4, $5)`,
                 [
                     data.productId,
                     cartId,
@@ -65,7 +69,23 @@ const addItem = [
                     data.unitType,
                 ]
             )
-            return res.status(201).json(rows[0])
+
+            // Getting updated cart
+            const { rows } = await pool.query(`
+                SELECT 
+                ci.id, 
+                ci.quantity, 
+                ci.unit_price, 
+                ci.unit_type,
+                ci.product_id,
+                (
+                    SELECT json_object_agg(pi.device_type, pi.image_url)
+                    FROM product_images pi
+                    WHERE pi.product_id = ci.product_id
+                ) as images
+                FROM cart_items ci
+                `)
+            return res.status(201).json({ cart: rows[0] })
         } catch (error) {
             next(error)
         }
@@ -94,9 +114,22 @@ const deleteItem = [
                 return res.status(404).json({ message: 'Cart item not found' })
             }
 
-            return res
-                .status(200)
-                .json({ message: 'Item deleted successfully' })
+            const { rows } = await pool.query(`
+                SELECT 
+                ci.id, 
+                ci.quantity, 
+                ci.unit_price, 
+                ci.unit_type,
+                ci.product_id,
+                (
+                    SELECT json_object_agg(pi.device_type, pi.image_url)
+                    FROM product_images pi
+                    WHERE pi.product_id = ci.product_id
+                ) as images
+                FROM cart_items ci
+                `)
+
+            return res.status(200).json({ cart: rows[0] })
         } catch (error) {
             next(error)
         }
