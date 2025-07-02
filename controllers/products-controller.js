@@ -14,7 +14,12 @@ const getProducts = async (req, res, next) => {
             p.ml,
             p.abv,
             p.category,
-            jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
+            (   
+                SELECT
+                jsonb_object_agg(pi.device_type, pi.image_url)
+                FROM product_images pi
+                WHERE pi.product_id = p.id
+            ) as images,
             jsonb_object_agg(CASE 
             WHEN pr.unit = '6-pack' THEN 'sixPack'
             WHEN pr.unit = '12-pack' THEN 'twelvePack'
@@ -22,7 +27,6 @@ const getProducts = async (req, res, next) => {
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
         FROM products p
-        INNER JOIN product_images pi ON p.id = pi.product_id
         INNER JOIN prices pr ON p.id = pr.product_id
         GROUP BY p.id, p.name
         `)
@@ -50,7 +54,12 @@ const getProduct = [
             p.ml,
             p.abv,
             p.category,
-            jsonb_object_agg(DISTINCT pi.device_type, pi.image_url) AS images,
+            (   
+                SELECT
+                jsonb_object_agg(pi.device_type, pi.image_url)
+                FROM product_images pi
+                WHERE pi.product_id = p.id
+            ) as images,
             jsonb_object_agg(CASE 
             WHEN pr.unit = '6-pack' THEN 'sixPack'
             WHEN pr.unit = '12-pack' THEN 'twelvePack'
@@ -58,7 +67,6 @@ const getProduct = [
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
         FROM products p
-        INNER JOIN product_images pi ON p.id = pi.product_id
         INNER JOIN prices pr ON p.id = pr.product_id
         WHERE p.slug = $1
         GROUP BY p.id, p.name`,
