@@ -10,7 +10,7 @@ export async function fetchCart(cartId) {
         throw new Error(data || 'Fetch cart failed')
     }
 
-    return data
+    return data.cart
 }
 
 export async function addItemToRemoteCart(item, cartId) {
@@ -27,7 +27,7 @@ export async function addItemToRemoteCart(item, cartId) {
         throw new Error(data || 'Failed to add item to remote cart')
     }
 
-    return data
+    return data.cart
 }
 
 export function addItemToLocalCart(item) {
@@ -45,14 +45,14 @@ export function addItemToLocalCart(item) {
 }
 
 export async function deleteItemFromRemoteCart(item, cartId) {
-    const res = await fetch(`${API_URL}/cart/${cartId}/items/${item.id}`, {
+    const res = await fetch(`${API_URL}/cart/items/${item.id}`, {
         method: 'DELETE',
     })
     const data = await res.json()
     if (!res.ok) {
         throw new Error(data || 'Failed to delete item from remote cart')
     }
-    return data
+    return data.cart
 }
 
 export function deleteItemFromLocalCart(item) {
@@ -62,4 +62,30 @@ export function deleteItemFromLocalCart(item) {
     )
     localStorage.setItem(CART_KEY, JSON.stringify(updateCart))
     return updateCart
+}
+
+export async function updateItemFromRemoteCart(item) {
+    const { itemId, quantity } = item
+    const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quantity }),
+    }
+    const res = await fetch(`${API_URL}/cart/items/${itemId}`, options)
+    const data = res.json()
+    if (!res.ok) {
+        throw new Error(data || 'Failed to update item from remote cart')
+    }
+    return data.cart
+}
+
+export function updateItemFromLocalCart(item) {
+    const { slug, quantity, unitType } = item
+    const items = JSON.parse(localStorage.getItem(CART_KEY))
+    const item = items.find((i) => i.slug === slug && i.unitType === unitType)
+    item.quantity = quantity
+    localStorage.setItem(CART_KEY, JSON.stringify(items))
+    return items
 }

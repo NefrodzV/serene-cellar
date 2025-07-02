@@ -5,6 +5,8 @@ import {
     addItemToRemoteCart,
     deleteItemFromLocalCart,
     deleteItemFromRemoteCart,
+    updateItemFromLocalCart,
+    updateItemFromRemoteCart,
     fetchCart,
 } from '../services/cartService'
 
@@ -53,7 +55,7 @@ export function CartProvider({ children }) {
     function deleteItem(item) {
         try {
             const data = isAuthenticated
-                ? deleteItemFromRemoteCart(item, cartId)
+                ? deleteItemFromRemoteCart(item)
                 : deleteItemFromLocalCart(item)
             setCartItems(data)
         } catch (error) {
@@ -61,10 +63,21 @@ export function CartProvider({ children }) {
         }
     }
 
+    function updateItem(item) {
+        try {
+            const data = isAuthenticated
+                ? updateItemFromRemoteCart(item)
+                : updateItemFromLocalCart(item)
+            setCartItems(data)
+        } catch (error) {
+            console.error('Error updating item:', error)
+        }
+    }
     const value = {
         cartItems,
         addItem,
         deleteItem,
+        updateItem,
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
