@@ -136,8 +136,62 @@ const deleteItem = [
     },
 ]
 
+const updateItem = [
+    passport.authenticate('jwt', { session: false }),
+    param('itemId')
+        .exists({ values: 'falsy' })
+        .withMessage('Item ID must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Item ID must be a valid integer'),
+    body('quantity')
+        .exists({ values: 'falsy' })
+        .withMessage('Quantity must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Quantity must be a valid integer'),
+    body('unitType')
+        .exists({ values: 'falsy' })
+        .withMessage('Unit type must be defined')
+        .bail(),
+    validate,
+    async function (req, res, next) {
+        try {
+            const itemId = req.param.itemId
+            const { quantity, unitType } = matchedData(req)
+
+            await pool.query(
+                `
+                    UPDATE cart_items 
+                    SET quantity=$1, unit_type=$2 
+                    WHERE id=$3`,
+                [quantity, unitType, itemId]
+            )
+
+            const { rows } = await pool.query(`
+                SELECT 
+                ci.id, 
+                ci.quantity, 
+                ci.unit_price, 
+                ci.unit_type,
+                ci.product_id,
+                (
+                    SELECT json_object_agg(pi.device_type, pi.image_url)
+                    FROM product_images pi
+                    WHERE pi.product_id = ci.product_id
+                ) as images
+                FROM cart_items ci
+                `)
+
+            return res.json({ cart: rows[0] })
+        } catch (error) {
+            next(error)
+        }
+    },
+]
 export default {
     getCart,
     addItem,
     deleteItem,
+    updateItem,
 }
