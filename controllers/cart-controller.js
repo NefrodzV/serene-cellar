@@ -26,7 +26,7 @@ const getCart = [
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
-                p.slug
+                p.slug,
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
@@ -86,7 +86,7 @@ const addItem = [
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
-                p.slug
+                p.slug,
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
@@ -141,7 +141,7 @@ const deleteItem = [
                 ci.quantity, 
                 ci.unit_price as price, 
                 ci.unit_type as unitType,
-                p.slug
+                p.slug,
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
@@ -208,7 +208,7 @@ const updateItem = [
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
-                p.slug
+                p.slug,
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi

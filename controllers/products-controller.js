@@ -14,6 +14,7 @@ const getProducts = async (req, res, next) => {
             p.ml,
             p.abv,
             p.category,
+            p.slug,
             (   
                 SELECT
                 jsonb_object_agg(pi.device_type, pi.image_url)
@@ -54,6 +55,7 @@ const getProduct = [
             p.ml,
             p.abv,
             p.category,
+            p.slug,
             (   
                 SELECT
                 jsonb_object_agg(pi.device_type, pi.image_url)
