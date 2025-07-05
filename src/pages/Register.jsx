@@ -1,3 +1,1 @@
-export default function RegisterPage() {
-    
-}
+export function RegisterPage() {}

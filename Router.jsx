@@ -1,33 +1,37 @@
-import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import { LoginPage, ProductPage, ShopPage } from "./src/pages";
-import {TwitterCallback, TwitterAuth} from "./src/components";
+import React from 'react'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { CartPage, LoginPage, ProductPage, ShopPage } from './src/pages'
+import { TwitterCallback, TwitterAuth } from './src/components'
 const router = createBrowserRouter([
     {
         path: '/',
-        element : <Navigate to={'/shop'} />
+        element: <Navigate to={'/shop'} />,
     },
     {
         path: '/shop',
         element: <ShopPage />,
     },
     {
-        path:'/shop/:name',
-        element: <ProductPage />
+        path: '/shop/:name',
+        element: <ProductPage />,
     },
 
     {
         path: '/login',
-        element: <LoginPage />
+        element: <LoginPage />,
     },
     {
         path: '/twitter/callback',
-        element: <TwitterCallback />
+        element: <TwitterCallback />,
     },
     {
         path: '/twitter/auth',
-        element: <TwitterAuth />
-    }
+        element: <TwitterAuth />,
+    },
+    {
+        path: '/cart',
+        element: <CartPage />,
+    },
 ])
 
 export default router

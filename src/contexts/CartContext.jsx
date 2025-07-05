@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useUser } from '../hooks'
+import React from 'react'
 import {
     addItemToLocalCart,
     addItemToRemoteCart,
