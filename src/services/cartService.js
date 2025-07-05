@@ -45,7 +45,7 @@ export function addItemToLocalCart(item) {
 }
 
 export async function deleteItemFromRemoteCart(item, cartId) {
-    const res = await fetch(`${API_URL}/cart/items/${item.id}`, {
+    const res = await fetch(`${API_URL}/cart/${cartId}/items/${item.id}`, {
         method: 'DELETE',
     })
     const data = await res.json()
@@ -73,7 +73,10 @@ export async function updateItemFromRemoteCart(item) {
         },
         body: JSON.stringify({ quantity }),
     }
-    const res = await fetch(`${API_URL}/cart/items/${itemId}`, options)
+    const res = await fetch(
+        `${API_URL}/cart/${cartId}/items/${itemId}`,
+        options
+    )
     const data = res.json()
     if (!res.ok) {
         throw new Error(data || 'Failed to update item from remote cart')

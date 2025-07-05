@@ -55,7 +55,7 @@ export function CartProvider({ children }) {
     function deleteItem(item) {
         try {
             const data = isAuthenticated
-                ? deleteItemFromRemoteCart(item)
+                ? deleteItemFromRemoteCart(item, cartId)
                 : deleteItemFromLocalCart(item)
             setCartItems(data)
         } catch (error) {
@@ -66,7 +66,7 @@ export function CartProvider({ children }) {
     function updateItem(item) {
         try {
             const data = isAuthenticated
-                ? updateItemFromRemoteCart(item)
+                ? updateItemFromRemoteCart(item, cartId)
                 : updateItemFromLocalCart(item)
             setCartItems(data)
         } catch (error) {
