@@ -8,8 +8,15 @@ import { validate } from '../middlewares/validationHandler.js'
  */
 const getCart = [
     passport.authenticate('jwt', { session: false }),
+    param('cartId')
+        .exists({ values: 'falsy' })
+        .withMessage('Item id must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Item ID must be a valid integer'),
+    validate,
     async (req, res, next) => {
-        const user = req.user
+        const cartId = req.params.cartId
         try {
             const { rows } = await pool.query(
                 `SELECT 
@@ -18,18 +25,15 @@ const getCart = [
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
-                json_object_agg(DISTINCT pi.device_type, pi.image_url) as images
-                FROM cart c
-                INNER JOIN cart_items ci ON c.id = ci.cart_id
-                INNER JOIN product_images pi ON ci.product_id = pi.product_id
-                WHERE c.user_id = $1
-                GROUP BY   
-                ci.id, 
-                ci.quantity, 
-                ci.unit_price, 
-                ci.unit_type,
-                ci.product_id`,
-                [user.id]
+                (
+                    SELECT json_object_agg(pi.device_type, pi.image_url)
+                    FROM product_images pi
+                    WHERE ci.product_id = pi.product_id
+                ) as images
+                FROM cart_items ci
+                WHERE ci.cartId = $1
+               
+            `[cartId]
             )
             return res.json({
                 cart: rows,
@@ -44,10 +48,10 @@ const addItem = [
     passport.authenticate('jwt', { session: false }),
     param('cartId')
         .exists({ values: 'falsy' })
-        .withMessage('Item id must be defined')
+        .withMessage('Cart id must be defined')
         .bail()
         .isInt()
-        .withMessage('Item ID must be a valid integer'),
+        .withMessage('Cart id must be a valid integer'),
     body('item')
         .exists({ values: 'falsy' })
         .withMessage('No item defined to add to cart'),
@@ -99,6 +103,12 @@ const deleteItem = [
         .bail()
         .isInt()
         .withMessage('Item ID must be a valid integer'),
+    param('cartId')
+        .exists({ values: 'falsy' })
+        .withMessage('Cart id must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Cart ID must be a valid integer'),
 
     validate,
     async (req, res, next) => {
@@ -114,7 +124,9 @@ const deleteItem = [
                 return res.status(404).json({ message: 'Cart item not found' })
             }
 
-            const { rows } = await pool.query(`
+            const cartId = req.params.cartId
+            const { rows } = await pool.query(
+                `
                 SELECT 
                 ci.id, 
                 ci.quantity, 
@@ -127,7 +139,10 @@ const deleteItem = [
                     WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
-                `)
+                WHERE ci.cart_id = $1
+                `,
+                [cartId]
+            )
 
             return res.status(200).json({ cart: rows[0] })
         } catch (error) {
@@ -154,6 +169,12 @@ const updateItem = [
         .exists({ values: 'falsy' })
         .withMessage('Unit type must be defined')
         .bail(),
+    param('cartId')
+        .exists({ values: 'falsy' })
+        .withMessage('Cart id must be defined')
+        .bail()
+        .isInt()
+        .withMessage('Cart ID must be a valid integer'),
     validate,
     async function (req, res, next) {
         try {
@@ -168,7 +189,9 @@ const updateItem = [
                 [quantity, unitType, itemId]
             )
 
-            const { rows } = await pool.query(`
+            const cartId = req.params.cartId
+            const { rows } = await pool.query(
+                `
                 SELECT 
                 ci.id, 
                 ci.quantity, 
@@ -181,7 +204,10 @@ const updateItem = [
                     WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
-                `)
+                WHERE ci.cart_id = $1
+                `,
+                [cartId]
+            )
 
             return res.json({ cart: rows[0] })
         } catch (error) {

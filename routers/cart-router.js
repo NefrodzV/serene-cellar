@@ -3,9 +3,9 @@ import { cartController } from '../controllers/index.js'
 
 const router = express.Router()
 
-router.get('/', cartController.getCart)
+router.get('/:cartId', cartController.getCart)
 router.post('/:cartId', cartController.addItem)
-router.put('/items/:itemId', cartController.updateItem)
-router.delete('/items/:itemId', cartController.deleteItem)
+router.put('/:cartId/items/:itemId', cartController.updateItem)
+router.delete('/:cartId/items/:itemId', cartController.deleteItem)
 
 export default router
