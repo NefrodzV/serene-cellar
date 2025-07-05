@@ -1,6 +1,6 @@
 import { API_URL } from '../config'
-
-const CART_KEY = CART_KEY
+import { v4 as uuidv4 } from 'uuid'
+const CART_KEY = 'cart'
 
 export async function fetchCart(cartId) {
     const res = await fetch(`${API_URL}/cart/${cartId}`)
@@ -32,14 +32,10 @@ export async function addItemToRemoteCart(item, cartId) {
 
 export function addItemToLocalCart(item) {
     const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
-    const existing = localCart.find(
-        (i) => i.productId === item.productId && i.unitType === item.unitType
-    )
-    if (existing) {
-        existing.quantity = item.quantity
-    } else {
-        localCart.push(item)
-    }
+    localCart.push({
+        uuid: uuidv4(),
+        ...item,
+    })
     localStorage.setItem(CART_KEY, JSON.stringify(localCart))
     return localCart
 }
@@ -56,12 +52,10 @@ export async function deleteItemFromRemoteCart(item, cartId) {
 }
 
 export function deleteItemFromLocalCart(item) {
-    const localCart = JSON.parse(localStorage.getItem(CART_KEY))
-    const updateCart = localCart.filter(
-        (i) => !(i.slug === item.slug && i.unitType === item.unitType)
-    )
-    localStorage.setItem(CART_KEY, JSON.stringify(updateCart))
-    return updateCart
+    const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
+    const updatedCart = localCart.filter((i) => !(i.uuid === item.uuid))
+    localStorage.setItem(CART_KEY, JSON.stringify(updatedCdart))
+    return updatedCart
 }
 
 export async function updateItemFromRemoteCart(item) {
@@ -86,9 +80,9 @@ export async function updateItemFromRemoteCart(item) {
 
 export function updateItemFromLocalCart(item) {
     const { slug, quantity, unitType } = item
-    const items = JSON.parse(localStorage.getItem(CART_KEY))
-    const item = items.find((i) => i.slug === slug && i.unitType === unitType)
-    item.quantity = quantity
+    const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
+    const updateItem = items.find((i) => i.uuid === item.uuid)
+    updateItem.quantity = quantity
     localStorage.setItem(CART_KEY, JSON.stringify(items))
     return items
 }
