@@ -19,21 +19,24 @@ const getCart = [
         const cartId = req.params.cartId
         try {
             const { rows } = await pool.query(
-                `SELECT 
+                `
+                SELECT 
                 ci.id, 
                 ci.quantity, 
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
+                p.slug
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
-                    WHERE ci.product_id = pi.product_id
+                    WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
-                WHERE ci.cartId = $1
-               
-            `[cartId]
+                INNER JOIN products p ON p.id = ci.product_id
+                WHERE ci.cart_id = $1
+                `,
+                [cartId]
             )
             return res.json({
                 cart: rows,
@@ -75,20 +78,26 @@ const addItem = [
             )
 
             // Getting updated cart
-            const { rows } = await pool.query(`
+            const { rows } = await pool.query(
+                `
                 SELECT 
                 ci.id, 
                 ci.quantity, 
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
+                p.slug
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
                     WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
-                `)
+                INNER JOIN products p ON p.id = ci.product_id
+                WHERE ci.cart_id = $1
+                `,
+                [cartId]
+            )
             return res.status(201).json({ cart: rows[0] })
         } catch (error) {
             next(error)
@@ -130,15 +139,16 @@ const deleteItem = [
                 SELECT 
                 ci.id, 
                 ci.quantity, 
-                ci.unit_price, 
-                ci.unit_type,
-                ci.product_id,
+                ci.unit_price as price, 
+                ci.unit_type as unitType,
+                p.slug
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
                     WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
+                INNER JOIN products p ON p.id = ci.product_id
                 WHERE ci.cart_id = $1
                 `,
                 [cartId]
@@ -198,12 +208,14 @@ const updateItem = [
                 ci.unit_price, 
                 ci.unit_type,
                 ci.product_id,
+                p.slug
                 (
                     SELECT json_object_agg(pi.device_type, pi.image_url)
                     FROM product_images pi
                     WHERE pi.product_id = ci.product_id
                 ) as images
                 FROM cart_items ci
+                INNER JOIN products p ON p.id = ci.product_id
                 WHERE ci.cart_id = $1
                 `,
                 [cartId]
