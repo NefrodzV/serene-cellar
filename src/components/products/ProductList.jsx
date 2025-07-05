@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCard from './ProductCard'
+import { ProductCard } from './ProductCard'
 import { useProducts } from '../../hooks'
 export function ProductList() {
     const [products, isLoading] = useProducts()
