@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useUser } from '../../hooks'
+import { useCart } from '../../hooks'
 export function CartItem({ item }) {
-    const { name, images, quantity, price, packSize, slug, unitType } = item
+    const { id, name, images, quantity, price, packSize, slug, unitType } = item
     const params = new URLSearchParams({
         edit: 'true',
         itemId: item.id ?? item.uuid,
         pack: packSize,
         quantity: quantity,
     })
+    const { deleteItem } = useCart()
     return (
         <li>
             <article>
@@ -26,7 +27,14 @@ export function CartItem({ item }) {
                     <p>Price: ${price}</p>
                     <p>Unit: {unitType}</p>
                     <Link to={`/shop/${slug}?${params}`}>Edit</Link>
-                    <button type="button">Delete</button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            deleteItem(item)
+                        }}
+                    >
+                        Delete
+                    </button>
                 </div>
             </article>
         </li>
