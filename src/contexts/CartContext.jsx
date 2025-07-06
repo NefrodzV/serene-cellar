@@ -29,6 +29,11 @@ export function CartProvider({ children }) {
         return []
     })
 
+    const total = cartItems?.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    )
+
     useEffect(() => {
         async function loadCart() {
             try {
@@ -79,6 +84,7 @@ export function CartProvider({ children }) {
         addItem,
         deleteItem,
         updateItem,
+        total: total.toFixed(2),
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

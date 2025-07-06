@@ -1,6 +1,8 @@
 import { CartList } from '../components'
 import React from 'react'
+import { useCart } from '../hooks'
 export function CartPage() {
+    const { total } = useCart()
     return (
         <main>
             <div>
@@ -8,7 +10,8 @@ export function CartPage() {
                 <CartList />
             </div>
             <div>
-                <button type="button">Checkout $</button>
+                <p>Total: ${total}</p>
+                <button type="button">Checkout</button>
             </div>
         </main>
     )

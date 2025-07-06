@@ -1,35 +1,30 @@
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { useLoading } from "./useLoading";
-import { API_URL } from "../config";
-export function useProduct() {
-    const location = useLocation()
-    const { name } = useParams()
-    const [product, setProduct] = useState(location.state?.product || null)
+import { useState, useEffect } from 'react'
+import { useLoading } from './useLoading'
+import { API_URL } from '../config'
+export function useProduct(slug, isEditing) {
+    const [product, setProduct] = useState(null)
     const isLoading = useLoading(product)
+
     useEffect(() => {
         async function getProductWithSlug() {
-            const slug = name
-                .toLowerCase()
-                .trim()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/\s+/g, '-')
             try {
-                const response = await fetch(`${API_URL}/products/${slug}`)
+                const response = await fetch(
+                    `${API_URL}/products/${slug.trim()}`
+                )
                 const data = await response.json()
 
-                if(!response.ok) {
-                    return console.error('Error response:', data.errors.map((error) => `${error.msg}`))
+                if (!response.ok) {
+                    return console.error('Error response:', data)
                 }
                 setProduct(data)
-            } catch(e) {
+            } catch (e) {
                 console.error('GET product with slug error:', e)
             }
         }
 
-        if(!product) getProductWithSlug()
-        
-    },[name, product])
+        if (!product) getProductWithSlug()
+        if (isEditing) getProductWithSlug()
+    }, [slug, isEditing])
 
     return [product, isLoading]
 }

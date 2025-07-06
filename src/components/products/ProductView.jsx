@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useProduct, useProductSelection } from '../../hooks'
+import { useCart, useProduct, useProductSelection } from '../../hooks'
 
 export function ProductView() {
     const [product, isLoading] = useProduct()
     const { name, price, category, abv, ml, description, images } = product
     const { packSize, quantity, packSizeHandler, quantityHandler, total } =
         useProductSelection(price)
-
+    const { addItem } = useCart()
     return (
         <>
             <h1>{name}</h1>
@@ -29,7 +29,23 @@ export function ProductView() {
                 ))}
             </select>
             <p>{`Total: $${total}`}</p>
-            {/* <button onClick={} >Add to cart</button> */}
+            {
+                <button
+                    onClick={() =>
+                        addItem({
+                            slug: product.slug,
+                            name: product.name,
+                            quantity,
+                            packSize,
+                            unitType: product.price[packSize].unit,
+                            price: product.price[packSize].value,
+                            images: product.images,
+                        })
+                    }
+                >
+                    Add to cart
+                </button>
+            }
 
             <img
                 width={'25%'}

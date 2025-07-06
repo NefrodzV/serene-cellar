@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 export function CartItem({ item }) {
     console.log(item)
-    const { name, images, quantity, pack, slug } = item
+    const { name, images, quantity, price, slug, unitType } = item
     return (
         <li>
             <article>
@@ -14,13 +15,12 @@ export function CartItem({ item }) {
                     />
                 </div>
                 <div>
-                    <h3>
-                        {name} {unitType}
-                    </h3>
-                    <p>Quanity: {quantity}</p>
-                    <Link to={`/shop/${slug}?edit=true&pack=${unitType}`}>
-                        Edit
-                    </Link>
+                    <h3>{name}</h3>
+                    <p>Quantity: {quantity}</p>
+                    <p>Price: ${price}</p>
+                    <p>Unit: {unitType}</p>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
                 </div>
             </article>
         </li>
