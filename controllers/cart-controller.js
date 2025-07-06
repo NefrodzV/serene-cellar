@@ -64,18 +64,37 @@ const addItem = [
         const cartId = parseInt(req.params.cartId)
         const data = matchedData(req)
         try {
-            await pool.query(
-                `INSERT INTO cart_items 
+            const existsResult = await pool.query(
+                `
+                SELECT EXISTS (
+                    SELECT * FROM cart_items
+                    WHERE product_id=$1 AND unit_type=$2 AND cart_id=$3
+                )`,
+                [data.productId, data.unitType, cartId]
+            )
+            if (existsResult.rows[0].exists) {
+                await pool.query(
+                    `
+                    UPDATE cart_items
+                    SET quantity = quantity + $1
+                    WHERE product_id=$2 AND unit_type=$3 AND cart_id=$4
+                    `,
+                    [data.quantity, data.productId, data.unitType, cartId]
+                )
+            } else {
+                await pool.query(
+                    `INSERT INTO cart_items 
                     (product_id, cart_id, quantity, unit_price, unit_type)
                     VALUES ($1, $2, $3, $4, $5)`,
-                [
-                    data.productId,
-                    cartId,
-                    data.quantity,
-                    data.unitPrice,
-                    data.unitType,
-                ]
-            )
+                    [
+                        data.productId,
+                        cartId,
+                        data.quantity,
+                        data.unitPrice,
+                        data.unitType,
+                    ]
+                )
+            }
 
             // Getting updated cart
             const { rows } = await pool.query(
@@ -98,7 +117,7 @@ const addItem = [
                 `,
                 [cartId]
             )
-            return res.status(201).json({ cart: rows[0] })
+            return res.status(201).json({ cart: rows })
         } catch (error) {
             next(error)
         }
