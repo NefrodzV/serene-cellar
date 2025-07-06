@@ -1,12 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 export function ProductCard({ product }) {
-    const { images, id, name, price } = product
+    const { images, id, name, price, slug } = product
     return (
-        <Link
-            to={`/shop/${name.toLowerCase().split(' ').join('-')}`}
-            state={{ product }}
-        >
+        <Link to={`/shop/${slug}`} state={{ product }}>
             <img
                 width={150}
                 srcSet={`${images.phone} 360w, ${images.tablet} 720w, ${images.desktop} 1080w`}
