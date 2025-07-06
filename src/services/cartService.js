@@ -33,7 +33,7 @@ export async function addItemToRemoteCart(item, cartId) {
 export function addItemToLocalCart(item) {
     const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
     localCart.push({
-        uuid: uuidv4(),
+        id: uuidv4(),
         ...item,
     })
     localStorage.setItem(CART_KEY, JSON.stringify(localCart))
@@ -53,8 +53,8 @@ export async function deleteItemFromRemoteCart(item, cartId) {
 
 export function deleteItemFromLocalCart(item) {
     const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
-    const updatedCart = localCart.filter((i) => !(i.uuid === item.uuid))
-    localStorage.setItem(CART_KEY, JSON.stringify(updatedCdart))
+    const updatedCart = localCart.filter((i) => !(i.id === item.id))
+    localStorage.setItem(CART_KEY, JSON.stringify(updatedCart))
     return updatedCart
 }
 
@@ -81,7 +81,7 @@ export async function updateItemFromRemoteCart(item) {
 export function updateItemFromLocalCart(item) {
     const { slug, quantity, unitType } = item
     const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
-    const updateItem = items.find((i) => i.uuid === item.uuid)
+    const updateItem = items.find((i) => i.id === item.id)
     updateItem.quantity = quantity
     localStorage.setItem(CART_KEY, JSON.stringify(items))
     return items

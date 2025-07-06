@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useCart, useProduct, useProductSelection } from '../../hooks'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 export function ProductView() {
-    const [product, isLoading] = useProduct()
-    const { name, price, category, abv, ml, description, images } = product
+    const { slug } = useParams()
+    const [params] = useSearchParams()
+    const initialQuantity = params.get('quantity')
+    const initialPack = params.get('pack')
+    const isEditing = params.get('edit') === 'true'
+    const itemId = params.get('itemId')
+
+    const [product, isLoading] = useProduct(slug, isEditing)
+
     const { packSize, quantity, packSizeHandler, quantityHandler, total } =
-        useProductSelection(price)
-    const { addItem } = useCart()
+        useProductSelection(product?.price, initialPack, initialQuantity)
+    const { addItem, updateItem } = useCart()
+    if (!product) return <p>Loading product</p>
+    const { name, price, category, abv, ml, description, images } = product
     return (
         <>
             <h1>{name}</h1>
@@ -15,7 +25,12 @@ export function ProductView() {
             <p>ABV(Alcohol by Volumen): {abv}%</p>
             <p>Bottle size: {parseFloat(ml).toFixed(0)} ml</p>
             <label htmlFor="packSize">Pack Size</label>
-            <select id="packSize" onChange={packSizeHandler}>
+            <select
+                id="packSize"
+                onChange={packSizeHandler}
+                value={packSize ?? ''}
+                disabled={isEditing}
+            >
                 {Object.entries(price).map(([key, { unit, value }]) => (
                     <option value={key} key={key}>
                         {unit} - ${value}
@@ -23,7 +38,11 @@ export function ProductView() {
                 ))}
             </select>
             <label htmlFor="quantity">Quantity</label>
-            <select id="quantity" onChange={quantityHandler}>
+            <select
+                id="quantity"
+                onChange={quantityHandler}
+                value={quantity ?? 1}
+            >
                 {[...Array(10)].map((_, i) => (
                     <option key={i + 1}>{i + 1}</option>
                 ))}
@@ -32,18 +51,23 @@ export function ProductView() {
             {
                 <button
                     onClick={() =>
-                        addItem({
-                            slug: product.slug,
-                            name: product.name,
-                            quantity,
-                            packSize,
-                            unitType: product.price[packSize].unit,
-                            price: product.price[packSize].value,
-                            images: product.images,
-                        })
+                        isEditing
+                            ? updateItem({
+                                  id: itemId,
+                                  quantity: quantity,
+                              })
+                            : addItem({
+                                  slug: product.slug,
+                                  name: product.name,
+                                  quantity,
+                                  packSize,
+                                  unitType: product.price[packSize].unit,
+                                  price: product.price[packSize].value,
+                                  images: product.images,
+                              })
                     }
                 >
-                    Add to cart
+                    {isEditing ? 'Submit change' : 'Add to cart'}
                 </button>
             }
 
