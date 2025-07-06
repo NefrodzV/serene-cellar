@@ -1,8 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useUser } from '../../hooks'
 export function CartItem({ item }) {
-    console.log(item)
-    const { name, images, quantity, price, slug, unitType } = item
+    const { name, images, quantity, price, packSize, slug, unitType } = item
+    const params = new URLSearchParams({
+        edit: 'true',
+        itemId: item.id ?? item.uuid,
+        pack: packSize,
+        quantity: quantity,
+    })
     return (
         <li>
             <article>
@@ -19,7 +25,7 @@ export function CartItem({ item }) {
                     <p>Quantity: {quantity}</p>
                     <p>Price: ${price}</p>
                     <p>Unit: {unitType}</p>
-                    <button type="button">Edit</button>
+                    <Link to={`/shop/${slug}?${params}`}>Edit</Link>
                     <button type="button">Delete</button>
                 </div>
             </article>
