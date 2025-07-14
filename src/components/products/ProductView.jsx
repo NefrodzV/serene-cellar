@@ -57,6 +57,7 @@ export function ProductView() {
                                   quantity: quantity,
                               })
                             : addItem({
+                                  productId: product.id,
                                   slug: product.slug,
                                   name: product.name,
                                   quantity,
