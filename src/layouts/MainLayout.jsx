@@ -1,7 +1,6 @@
 import React from 'react'
 import { Outlet, Link } from 'react-router-dom'
 import { useCart } from '../hooks'
-import { MessageProvider } from '../contexts/MessageContext'
 import { MessageContainer } from '../components/messages/MessageContainer'
 export function MainLayout() {
   const { totalItems } = useCart()
