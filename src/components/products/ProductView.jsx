@@ -44,8 +44,6 @@ export function ProductView() {
         ))}
       </select>
       <p>{`Total: $${total}`}</p>
-
-      <button></button>
       <button
         onClick={() =>
           isEditing
