@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, Link, NavLink } from 'react-router-dom'
 import { useCart } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 export function MainLayout() {
@@ -11,7 +11,8 @@ export function MainLayout() {
         <nav>
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
           <a href="http://">Home</a>
-          <a href="http://">Login</a>
+          <NavLink to={'/shop'}>Shop</NavLink>
+          <NavLink to={'/login'}>Login</NavLink>
           <Link to={'/cart'}>Cart {totalItems}</Link>
         </nav>
       </header>
