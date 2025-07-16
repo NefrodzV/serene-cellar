@@ -32,10 +32,21 @@ export async function addItemToRemoteCart(item, cartId) {
 
 export function addItemToLocalCart(item) {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
-  localCart.push({
-    id: uuidv4(),
-    ...item,
-  })
+
+  // Finding if item already exists and updating the quantity
+  const existingItem = localCart.find(
+    (i) => i.productId === item.productId && i.unitType === item.unitType
+  )
+
+  if (existingItem) {
+    existingItem.quantity += item.quantity
+  } else {
+    localCart.push({
+      id: uuidv4(),
+      ...item,
+    })
+  }
+
   localStorage.setItem(CART_KEY, JSON.stringify(localCart))
   return localCart
 }
