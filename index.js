@@ -10,7 +10,13 @@ import cookieParser from 'cookie-parser'
 import { errorHandler } from './middlewares/errorHandler.js'
 const app = express()
 const port = 3000
-app.use(cors())
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    optionsSuccessStatus: 200,
+    credentials: true,
+}
+app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
