@@ -6,6 +6,7 @@ import { OAuth2Client } from 'google-auth-library'
 import { generateToken } from '../services/index.js'
 import { userRepository } from '../repositories/index.js'
 import { setCookieAndRespond } from '../utils/setCookieAndRespond.js'
+import { json } from 'express'
 configDotenv()
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -88,17 +89,7 @@ const login = [
         .withMessage('Email cannot be empty')
         .bail()
         .isEmail()
-        .withMessage('Please provide a valid email address')
-        .custom(async (value, { req }) => {
-            const user = await userRepository.findByEmail(value)
-            // Check if there is data here
-            if (!user) {
-                throw new Error('Incorrect username or password')
-            }
-
-            req.user = user
-            return true
-        }),
+        .withMessage('Please provide a valid email address'),
     body('password')
         .exists({ values: 'falsy' })
         .withMessage('Password is required')
@@ -106,19 +97,31 @@ const login = [
         .trim()
         .notEmpty()
         .withMessage('Password cannot be empty')
-        .bail()
-        .custom(async (value, { req }) => {
-            console.log(req.user)
-            // TODO GET THE PASSWORD FROM DATABASE
-            const match = await bcrypt.compare(value, req.user.password)
-            if (!match) throw new Error('Incorrect username or password')
-            return true
-        }),
+        .bail(),
     validate,
     async (req, res) => {
-        const token = generateToken(user)
-        req.token = token
-        next()
+        const { email, password } = req.body
+        try {
+            const user = await userRepository.findByEmail(email)
+            if (!user) {
+                return (
+                    res.status(401),
+                    json({ message: 'Invalid username or password' })
+                )
+            }
+            const match = await bcrypt.compare(user.password, password)
+            if (!match) {
+                return (
+                    res.status(401),
+                    json({ message: 'Invalid username or password' })
+                )
+            }
+            const token = generateToken(user)
+            req.token = token
+            next()
+        } catch (error) {
+            next(error)
+        }
     },
     setCookieAndRespond,
 ]
