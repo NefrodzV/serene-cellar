@@ -96,30 +96,30 @@ const login = [
         .bail()
         .trim()
         .notEmpty()
-        .withMessage('Password cannot be empty')
-        .bail(),
+        .withMessage('Password cannot be empty'),
     validate,
     async (req, res) => {
+        console.log('This is running')
         const { email, password } = req.body
         try {
             const user = await userRepository.findByEmail(email)
+            console.log(user)
             if (!user) {
-                return (
-                    res.status(401),
-                    json({ message: 'Invalid username or password' })
-                )
+                return res
+                    .status(401)
+                    .json({ message: 'Invalid username or password' })
             }
             const match = await bcrypt.compare(user.password, password)
             if (!match) {
-                return (
-                    res.status(401),
-                    json({ message: 'Invalid username or password' })
-                )
+                return res
+                    .status(401)
+                    .json({ message: 'Invalid username or password' })
             }
             const token = generateToken(user)
             req.token = token
             next()
         } catch (error) {
+            console.error(error)
             next(error)
         }
     },
