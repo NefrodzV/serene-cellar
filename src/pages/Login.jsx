@@ -1,55 +1,119 @@
 import { GoogleLogin } from '@react-oauth/google'
-import React from 'react'
-import { useGoogleAuth, useTwitterAuth } from '../hooks'
+import React, { useState } from 'react'
+import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
+import { Link } from 'react-router-dom'
 export function LoginPage() {
-    const { authenticate: twitterAuthenticate } = useTwitterAuth()
-    const { onSuccess, onError } = useGoogleAuth()
-    return (
-        <div>
-            <div
-                style={{
-                    width: '180px',
-                    height: '240px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                }}
-            >
-                <img
-                    src={desktopImage}
-                    alt="Beer"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                    }}
-                />
-            </div>
-            <div
-                style={{
-                    width: '180px',
-                    height: '240px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    border: '1px solid black',
-                }}
-            >
-                <img
-                    src={smallImage}
-                    alt="Beer"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                    }}
-                />
-            </div>
-            <h1>Login</h1>
-            <GoogleLogin onSuccess={onSuccess} onError={onError} />
-            <button type="button" onClick={twitterAuthenticate}>
-                Login with X
-            </button>
-        </div>
-    )
+  // const { authenticate: twitterAuthenticate } = useTwitterAuth()
+  // const { onSuccess, onError } = useGoogleAuth()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState({ email: '', password: '', global: '' })
+  const { loginWithEmailAndPassword } = useUser()
+
+  async function validateForm(e) {
+    e.preventDefault()
+    const emailRegularExpression =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+    setErrors({ email: '', password: '', global: '' })
+    let hasErrors = false
+    if (email.trim().length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        email: 'Please enter your email.',
+      }))
+      hasErrors = true
+    } else if (!emailRegularExpression.test(email.trim())) {
+      setErrors((prev) => ({
+        ...prev,
+        email: 'Please provide a valid email format.',
+      }))
+
+      hasErrors = true
+    }
+
+    if (password.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        password: 'Please enter your password.',
+      }))
+
+      hasErrors = true
+    }
+
+    // To avoid calling the api
+    if (hasErrors) return
+    try {
+      setErrors({ email: '', password: '', global: '' })
+      await loginWithEmailAndPassword(email, password)
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          setErrors(error.fieldErrors)
+          break
+
+        case 401:
+          setErrors({ global: error.message })
+          break
+        default:
+          console.error(error)
+          break
+      }
+    }
+  }
+
+  function onChangeHandler(e) {
+    const event = e.target
+    switch (event.name) {
+      case 'email':
+        setEmail(e.target.value)
+        break
+      case 'password':
+        setPassword(e.target.value)
+        break
+      default:
+        console.error('No event handled with the name')
+        break
+    }
+  }
+  return (
+    <div>
+      <form action="" method="post" onSubmit={validateForm} noValidate>
+        <h1>Login</h1>
+
+        <label>
+          Email
+          <input
+            onChange={onChangeHandler}
+            name="email"
+            type="email"
+            id="email"
+            value={email}
+          />
+          <div style={{ minHeight: '1.2rem' }}>{errors.email}</div>
+        </label>
+        <label>
+          Password
+          <input
+            onChange={onChangeHandler}
+            name="password"
+            type="password"
+            id="password"
+            value={password}
+          />
+          <div style={{ minHeight: '1.2rem' }}>{errors.password}</div>
+        </label>
+        <div>{errors.global}</div>
+        <button>Login</button>
+        <Link href="#">Create account</Link>
+        <Link href="#">Forgot password?</Link>
+      </form>
+
+      {/* <GoogleLogin onSuccess={onSuccess} onError={onError} />
+      <button type="button" onClick={twitterAuthenticate}>
+        Sign in with X
+      </button> */}
+    </div>
+  )
 }
