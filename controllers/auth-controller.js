@@ -73,10 +73,12 @@ const register = [
             const token = generateToken(user)
             req.user = user
             req.token = token
+            next()
         } catch (error) {
             next(error)
         }
     },
+    setCookieAndRespond,
 ]
 
 const login = [
