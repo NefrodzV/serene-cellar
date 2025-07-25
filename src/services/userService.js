@@ -33,3 +33,19 @@ export async function getCurrentUser() {
   }
   return data.user
 }
+
+export async function register(user) {
+  const res = await fetch(`${sereneApiUrl}/auth/register`, {
+    ...requestOptions,
+    method: 'POST',
+    body: JSON.stringify(user),
+  })
+  const data = await res.json()
+  if (!res.ok) {
+    const error = new Error(data.message || 'Register failed')
+    error.status = res.status
+    error.fieldErrors = data.errors || null
+    return error
+  }
+  return data.user
+}
