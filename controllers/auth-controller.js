@@ -12,6 +12,20 @@ configDotenv()
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 const register = [
+    body('firstName')
+        .exists({ values: 'falsy' })
+        .withMessage('First Name is required')
+        .bail()
+        .trim()
+        .notEmpty()
+        .withMessage('First Name cannot be empty'),
+    body('lastName')
+        .exists({ values: 'falsy' })
+        .withMessage('Last Name is required')
+        .bail()
+        .trim()
+        .notEmpty()
+        .withMessage('Last Name cannot be empty'),
     body('username')
         .exists({ values: 'falsy' })
         .withMessage('Username is required')
@@ -69,6 +83,8 @@ const register = [
                 email: data.email,
                 username: data.username,
                 password: encryptedPassword,
+                firstName: data.firstName,
+                lastName: data.lastName,
             })
             const token = generateToken(user)
             req.user = user
