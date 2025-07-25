@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
+import { useUser } from '../hooks'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -17,11 +18,23 @@ export function RegisterPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    global: '', // Form error
   })
 
-  function validateForm(e) {
+  const { registerWithEmailAndPassword } = useUser()
+
+  async function validateForm(e) {
     e.preventDefault()
     let hasErrors = false
+    setErrors({
+      firstName: '',
+      lastName: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      global: '',
+    })
 
     if (isEmpty(firstName)) {
       setErrors((prev) => ({
@@ -90,6 +103,34 @@ export function RegisterPage() {
     }
 
     if (hasErrors) return
+
+    try {
+      await registerWithEmailAndPassword(
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        confirmPassword
+      )
+      console.log('User created successfully')
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          const err = {}
+          error.fieldErrors.forEach((e) => {
+            err[`${e.path}`] = e.msg
+          })
+          setErrors(err)
+          break
+        case 401:
+          setErrors({ global: error.message })
+          break
+        default:
+          console.error('Unknown error not handled in switch statement')
+          break
+      }
+    }
   }
 
   function onChangeHandler(e) {
@@ -207,6 +248,7 @@ export function RegisterPage() {
             <div id="error-confirmPassword">{errors.confirmPassword}</div>
           )}
         </div>
+        {errors.global && <div>{errors.global}</div>}
         <button>Register</button>
         <p>
           Already have an account? <Link to={'/login'}>Log in here</Link>
