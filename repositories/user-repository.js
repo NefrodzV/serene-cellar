@@ -7,13 +7,18 @@ export const userRepository = {
         return rows[0]
     },
 
-    async createUserWithEmail({ username, password, email }) {
+    async createUserWithEmail({
+        firstName,
+        lastName,
+        username,
+        password,
+        email,
+    }) {
         const { rows } = await db.query(
-            `INSERT INTO users (username, email, password)
-            VALUES ($1,$2,$3) RETURNING id`,
-            [username, email, password]
+            `INSERT INTO users (username, email, password, firstName, lastName)
+            VALUES ($1,$2,$3,$4, $5) RETURNING id, username, firstName, lastName`,
+            [username, email, password, firstName, lastName]
         )
-
         return rows[0]
     },
 
