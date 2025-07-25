@@ -75,7 +75,7 @@ const register = [
         }),
 
     validate,
-    async (req, res) => {
+    async (req, res, next) => {
         try {
             const data = matchedData(req)
             const encryptedPassword = await bcrypt.hash(data.password, 10)
