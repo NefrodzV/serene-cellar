@@ -2,6 +2,7 @@ import { GoogleLogin } from '@react-oauth/google'
 import React, { useState } from 'react'
 import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
 import { Link } from 'react-router-dom'
+import { isEmail } from '../../utils'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -13,9 +14,6 @@ export function LoginPage() {
 
   async function validateForm(e) {
     e.preventDefault()
-    const emailRegularExpression =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-
     setErrors({ email: '', password: '', global: '' })
     let hasErrors = false
     if (email.trim().length === 0) {
@@ -24,7 +22,7 @@ export function LoginPage() {
         email: 'Please enter your email.',
       }))
       hasErrors = true
-    } else if (!emailRegularExpression.test(email.trim())) {
+    } else if (!isEmail(email)) {
       setErrors((prev) => ({
         ...prev,
         email: 'Please provide a valid email format.',

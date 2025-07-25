@@ -1,6 +1,12 @@
 import React from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { CartPage, LoginPage, ProductPage, ShopPage } from '../pages'
+import {
+  CartPage,
+  LoginPage,
+  ProductPage,
+  ShopPage,
+  RegisterPage,
+} from '../pages'
 import { TwitterCallback, TwitterAuth } from '../components'
 import { MainLayout } from '../layouts/MainLayout'
 const router = createBrowserRouter([
@@ -31,6 +37,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+
+  {
+    path: 'register',
+    element: <RegisterPage />,
   },
   {
     path: '/twitter/callback',
