@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import React from 'react'
-import { login, getCurrentUser } from '../services/userService'
+import { login, getCurrentUser, register } from '../services/userService'
 
 export const UserContext = createContext()
 
@@ -15,13 +15,33 @@ export function UserProvider({ children }) {
   }, [])
 
   async function loginWithEmailAndPassword(email, password) {
-    const user = await login(email, password)
-    setUser(user)
+    const data = await login(email, password)
+    setUser(data)
+  }
+
+  async function registerWithEmailAndPassword(
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    confirmPassword
+  ) {
+    const data = await register(
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      confirmPassword
+    )
+    setUser(data)
   }
   const value = {
     user,
     isAuthenticated,
     loginWithEmailAndPassword,
+    registerWithEmailAndPassword,
   }
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
