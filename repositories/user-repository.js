@@ -19,6 +19,11 @@ export const userRepository = {
             VALUES ($1,$2,$3,$4, $5) RETURNING id, username, firstName, lastName`,
             [username, email, password, firstName, lastName]
         )
+
+        // Creating cart
+        await db.query(`INSERT INTO cart (user_id) VALUES($1)`, [
+            rows[0].user_id,
+        ])
         return rows[0]
     },
 
