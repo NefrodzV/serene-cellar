@@ -80,38 +80,41 @@ export function LoginPage() {
       <form action="" method="post" onSubmit={validateForm} noValidate>
         <h1>Login</h1>
 
-        <label>
-          Email
+        <div>
+          <label htmlFor="email">Email</label>
           <input
             onChange={onChangeHandler}
             name="email"
             type="email"
             id="email"
             value={email}
+            aria-invalid={!!errors.email}
+            aria-describedby="error-email"
           />
-          <div style={{ minHeight: '1.2rem' }}>{errors.email}</div>
-        </label>
-        <label>
-          Password
+          {errors.email && <div id={'error-email'}>{errors.email}</div>}
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
           <input
+            id={'password'}
             onChange={onChangeHandler}
             name="password"
             type="password"
-            id="password"
             value={password}
+            aria-invalid={!!errors.password}
+            aria-describedby="error-password"
           />
-          <div style={{ minHeight: '1.2rem' }}>{errors.password}</div>
-        </label>
+          {errors.password && (
+            <div id={'error-password'}>{errors.password}</div>
+          )}
+        </div>
         <div>{errors.global}</div>
         <button>Login</button>
-        <Link href="#">Create account</Link>
         <Link href="#">Forgot password?</Link>
+        <p>
+          Don't have an account? <Link href="#">Register here.</Link>
+        </p>
       </form>
-
-      {/* <GoogleLogin onSuccess={onSuccess} onError={onError} />
-      <button type="button" onClick={twitterAuthenticate}>
-        Sign in with X
-      </button> */}
     </div>
   )
 }
