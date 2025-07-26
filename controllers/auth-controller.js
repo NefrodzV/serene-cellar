@@ -116,18 +116,17 @@ const login = [
         .notEmpty()
         .withMessage('Password cannot be empty'),
     validate,
-    async (req, res) => {
+    async (req, res, next) => {
         console.log('This is running')
         const { email, password } = req.body
         try {
             const user = await userRepository.findByEmail(email)
-            console.log(user)
             if (!user) {
                 return res
                     .status(401)
                     .json({ message: 'Invalid username or password' })
             }
-            const match = await bcrypt.compare(user.password, password)
+            const match = await bcrypt.compare(password, user.password)
             if (!match) {
                 return res
                     .status(401)
