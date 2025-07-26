@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
 
@@ -21,6 +21,7 @@ export function RegisterPage() {
     global: '', // Form error
   })
 
+  let navigate = useNavigate()
   const { registerWithEmailAndPassword } = useUser()
 
   async function validateForm(e) {
@@ -113,7 +114,8 @@ export function RegisterPage() {
         password,
         confirmPassword
       )
-      console.log('User created successfully')
+      // For now just navigation maybe update this to show a notification.
+      navigate('/shop')
     } catch (error) {
       switch (error.status) {
         case 400:
@@ -128,6 +130,7 @@ export function RegisterPage() {
           break
         default:
           console.error('Unknown error not handled in switch statement')
+          console.error(error)
           break
       }
     }
