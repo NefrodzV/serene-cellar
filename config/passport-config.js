@@ -13,7 +13,7 @@ passport.use(
             jwtFromRequest: (req) => {
                 let token = null
                 if (req && req.cookies) {
-                    token = req.cookies['sereneJwt']
+                    token = req.cookies['serene']
                 }
                 return token
             },
