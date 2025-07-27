@@ -75,3 +75,11 @@ export async function createCartItem(
         [productId, cartId, quantity, unitPrice, unitType]
     )
 }
+
+export async function deleteCartItem(itemId) {
+    await pool.query(
+        `DELETE FROM cart_items 
+        WHERE id=$1`,
+        [itemId]
+    )
+}

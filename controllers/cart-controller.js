@@ -92,12 +92,10 @@ const deleteItem = [
             const cart = await getCardByUserId(req.user.id)
             const cartItems = await getCartItemsWithProductData(cart.id)
 
-            return res
-                .status(200)
-                .json({
-                    message: 'Cart item deleted',
-                    cart: { items: cartItems },
-                })
+            return res.status(200).json({
+                message: 'Cart item deleted',
+                cart: { items: cartItems },
+            })
         } catch (error) {
             next(error)
         }
@@ -108,63 +106,29 @@ const updateItem = [
     passport.authenticate('jwt', { session: false }),
     param('itemId')
         .exists({ values: 'falsy' })
-        .withMessage('Item ID must be defined')
+        .withMessage('Item id must be defined')
         .bail()
         .isInt()
-        .withMessage('Item ID must be a valid integer'),
+        .withMessage('Item id must be a valid integer'),
     body('quantity')
         .exists({ values: 'falsy' })
         .withMessage('Quantity must be defined')
         .bail()
         .isInt()
         .withMessage('Quantity must be a valid integer'),
-    body('unitType')
-        .exists({ values: 'falsy' })
-        .withMessage('Unit type must be defined')
-        .bail(),
-    param('cartId')
-        .exists({ values: 'falsy' })
-        .withMessage('Cart id must be defined')
-        .bail()
-        .isInt()
-        .withMessage('Cart ID must be a valid integer'),
     validate,
     async function (req, res, next) {
         try {
-            const itemId = req.param.itemId
-            const { quantity, unitType } = matchedData(req)
-
-            await pool.query(
-                `
-                    UPDATE cart_items 
-                    SET quantity=$1, unit_type=$2 
-                    WHERE id=$3`,
-                [quantity, unitType, itemId]
-            )
-
-            const cartId = req.params.cartId
-            const { rows } = await pool.query(
-                `
-                SELECT 
-                ci.id, 
-                ci.quantity, 
-                ci.unit_price, 
-                ci.unit_type,
-                ci.product_id,
-                p.slug,
-                (
-                    SELECT json_object_agg(pi.device_type, pi.image_url)
-                    FROM product_images pi
-                    WHERE pi.product_id = ci.product_id
-                ) as images
-                FROM cart_items ci
-                INNER JOIN products p ON p.id = ci.product_id
-                WHERE ci.cart_id = $1
-                `,
-                [cartId]
-            )
-
-            return res.json({ cart: rows[0] })
+            const { quantity, itemId } = matchedData(req)
+            await updateCartItemQuantity(itemId, quantity)
+            const cart = await getCardByUserId(req.user.id)
+            const cartItems = await getCartItemsWithProductData(cart.id)
+            return res.json({
+                message: 'Cart item updated',
+                cart: {
+                    items: cartItems,
+                },
+            })
         } catch (error) {
             next(error)
         }
