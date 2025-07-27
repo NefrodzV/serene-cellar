@@ -4,6 +4,7 @@ import pool from '../db/pool.js'
 import { validate } from '../middlewares/validationHandler.js'
 import {
     createCartItem,
+    deleteCartItem,
     getCardByUserId,
     getCartItemByCartProductAndUnit,
     getCartItemsWithProductData,
@@ -22,7 +23,7 @@ const getCart = [
             if (!cart)
                 return res.status(404).json({ message: 'Cart not found' })
             const items = await getCartItemsWithProductData(cart.id)
-            return res.json({ cart: { ...cart, items } })
+            return res.json({ cart: { items } })
         } catch (error) {
             next(error)
         }
@@ -69,7 +70,7 @@ const addItem = [
             const cartItems = await getCartItemsWithProductData(cart.id)
             return res
                 .status(status)
-                .json({ message, cart: { ...cart, items: cartItems } })
+                .json({ message, cart: { items: cartItems } })
         } catch (error) {
             next(error)
         }
@@ -82,50 +83,21 @@ const deleteItem = [
         .withMessage('Item id must be defined')
         .bail()
         .isInt()
-        .withMessage('Item ID must be a valid integer'),
-    param('cartId')
-        .exists({ values: 'falsy' })
-        .withMessage('Cart id must be defined')
-        .bail()
-        .isInt()
-        .withMessage('Cart ID must be a valid integer'),
-
+        .withMessage('Item id must be a valid integer'),
     validate,
     async (req, res, next) => {
-        const itemId = parseInt(req.params.itemId, 10)
+        const data = matchedData(req)
         try {
-            const { rowCount } = await pool.query(
-                `DELETE FROM cart_items 
-                WHERE id=$1`,
-                [itemId]
-            )
+            await deleteCartItem(data.itemId)
+            const cart = await getCardByUserId(req.user.id)
+            const cartItems = await getCartItemsWithProductData(cart.id)
 
-            if (rowCount === 0) {
-                return res.status(404).json({ message: 'Cart item not found' })
-            }
-
-            const cartId = req.params.cartId
-            const { rows } = await pool.query(
-                `
-                SELECT 
-                ci.id, 
-                ci.quantity, 
-                ci.unit_price as price, 
-                ci.unit_type as unitType,
-                p.slug,
-                (
-                    SELECT json_object_agg(pi.device_type, pi.image_url)
-                    FROM product_images pi
-                    WHERE pi.product_id = ci.product_id
-                ) as images
-                FROM cart_items ci
-                INNER JOIN products p ON p.id = ci.product_id
-                WHERE ci.cart_id = $1
-                `,
-                [cartId]
-            )
-
-            return res.status(200).json({ cart: rows[0] })
+            return res
+                .status(200)
+                .json({
+                    message: 'Cart item deleted',
+                    cart: { items: cartItems },
+                })
         } catch (error) {
             next(error)
         }
