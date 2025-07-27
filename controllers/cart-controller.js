@@ -8,6 +8,7 @@ import {
     getCardByUserId,
     getCartItemByCartProductAndUnit,
     getCartItemsWithProductData,
+    getItemsByCartId,
     updateCartItemQuantity,
 } from '../repositories/cart-repository.js'
 
@@ -132,6 +133,60 @@ const updateItem = [
         } catch (error) {
             next(error)
         }
+    },
+]
+
+// This will sync the local cart items with the remote one
+const sync = [
+    passport.authenticate('jwt', { session: false }),
+    body('items')
+        .exists({ values: 'falsy' })
+        .withMessage('Items must be defined')
+        .bail()
+        .isArray()
+        .withMessage('Items must be an array')
+        .bail(),
+    validate,
+    async function (req, res, next) {
+        const data = matchedData(req)
+        const cart = await getCardByUserId(req.user.id)
+
+        // Maybe do a get function without products data it isnt needed right here
+        const existingItems = await getItemsByCartId(cart.id)
+        const existingMap = new Map(
+            existingItems.map((item) => [
+                `${item.product_id}-${item.unit_type}`,
+                item,
+            ])
+        )
+
+        for (const localItem of data.items) {
+            const existingItem = existingMap.get(
+                `${localItem.product_id}-${localItem.unit_type}`
+            )
+            if (existingItem) {
+                await updateCartItemQuantity(
+                    existingItem.id,
+                    localItem.quantity
+                )
+            } else {
+                await createCartItem(
+                    cart.id,
+                    localItem.productId,
+                    localItem.quantity,
+                    localItem.unitPrice,
+                    localItem.unitType
+                )
+            }
+        }
+
+        // Getting updated cart items
+        const cartItems = await getCartItemsWithProductData(cart.id)
+
+        return res.status(200).json({
+            message: 'Remote cart item syncronized',
+            cart: { items: cartItems },
+        })
     },
 ]
 export default {
