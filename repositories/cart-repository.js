@@ -36,7 +36,7 @@ export async function getCartItemsWithProductData(cartId) {
 }
 
 export async function updateCartItemQuantity(itemId, quantity) {
-    await pool.query(
+    await db.query(
         `
         UPDATE cart_items
         SET quantity = GREATEST(quantity + $1, 0)
@@ -51,7 +51,7 @@ export async function getCartItemByCartProductAndUnit(
     productId,
     unitType
 ) {
-    const { rows } = await pool.query(
+    const { rows } = await db.query(
         `
         SELECT id FROM cart_items
         WHERE product_id=$1 AND unit_type=$2 AND cart_id=$3
@@ -68,7 +68,7 @@ export async function createCartItem(
     unitPrice,
     unitType
 ) {
-    await pool.query(
+    await db.query(
         `INSERT INTO cart_items 
         (product_id, cart_id, quantity, unit_price, unit_type)
         VALUES ($1, $2, $3, $4, $5)`,
@@ -77,9 +77,23 @@ export async function createCartItem(
 }
 
 export async function deleteCartItem(itemId) {
-    await pool.query(
+    await db.query(
         `DELETE FROM cart_items 
         WHERE id=$1`,
         [itemId]
     )
+}
+
+export async function getItemsByCartId(cartId) {
+    const { rows } = await db.query(
+        `
+        SELECT 
+        product_id,
+        unit_type 
+        FROM cart_items 
+        WHERE cart_id=$1`,
+        [cartId]
+    )
+
+    return rows
 }
