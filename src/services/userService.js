@@ -26,7 +26,9 @@ export async function login(email, password) {
 }
 
 export async function getCurrentUser() {
-  const res = await fetch(sereneApiUrl + '/users/me')
+  const res = await fetch(sereneApiUrl + '/users/me', {
+    credentials: 'include',
+  })
   const data = await res.json()
   if (!res.ok) {
     throw new Error('Loading current authenticated user failed')
