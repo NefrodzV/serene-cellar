@@ -194,4 +194,5 @@ export default {
     addItem,
     deleteItem,
     updateItem,
+    sync,
 }
