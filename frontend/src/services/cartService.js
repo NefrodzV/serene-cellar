@@ -2,8 +2,8 @@ import { API_URL } from '../config'
 import { v4 as uuidv4 } from 'uuid'
 const CART_KEY = 'cart'
 
-export async function fetchCart(cartId) {
-  const res = await fetch(`${API_URL}/cart/${cartId}`)
+export async function fetchCart() {
+  const res = await fetch(`${API_URL}/me/cart`)
   const data = await res.json()
 
   if (!res.ok) {
@@ -13,7 +13,7 @@ export async function fetchCart(cartId) {
   return data.cart
 }
 
-export async function addItemToRemoteCart(item, cartId) {
+export async function addItemToRemoteCart(item) {
   const options = {
     method: 'post',
     headers: {
@@ -21,7 +21,7 @@ export async function addItemToRemoteCart(item, cartId) {
     },
     body: JSON.stringify(item),
   }
-  const res = await fetch(`${API_URL}/cart/${cartId}`, options)
+  const res = await fetch(`${API_URL}/me/cart`, options)
   const data = await res.json()
   if (!res.ok) {
     throw new Error(data || 'Failed to add item to remote cart')
@@ -51,8 +51,8 @@ export function addItemToLocalCart(item) {
   return localCart
 }
 
-export async function deleteItemFromRemoteCart(item, cartId) {
-  const res = await fetch(`${API_URL}/cart/${cartId}/items/${item.id}`, {
+export async function deleteItemFromRemoteCart(item) {
+  const res = await fetch(`${API_URL}/me/cart/${item.id}`, {
     method: 'DELETE',
   })
   const data = await res.json()
@@ -78,7 +78,7 @@ export async function updateItemFromRemoteCart(item) {
     },
     body: JSON.stringify({ quantity }),
   }
-  const res = await fetch(`${API_URL}/cart/${cartId}/items/${itemId}`, options)
+  const res = await fetch(`${API_URL}/me/cart/${itemId}`, options)
   const data = res.json()
   if (!res.ok) {
     throw new Error(data || 'Failed to update item from remote cart')
@@ -95,15 +95,24 @@ export function updateItemFromLocalCart(item) {
   return items
 }
 
-export async function syncCart(cartId) {
+export async function syncCart() {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY))
   if (localCart.length === 0) {
-    return null
-  }
-  let data = null
-  for (const cartItem of localCart) {
-    data = await addItemToRemoteCart(cartItem, cartId)
+    return
   }
 
-  return data?.cart ?? null
+  const res = await fetch(`${API_URL}/me/cart/sync`, {
+    method: 'post',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(localCart),
+  })
+
+  if (!res.ok) {
+    throw new Error('Failed to syncronize cart')
+  }
+  const data = await res.json()
+  return data.cart ?? null
 }
