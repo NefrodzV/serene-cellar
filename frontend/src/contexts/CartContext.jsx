@@ -14,7 +14,7 @@ import {
 export const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const { isAuthenticated, cartId } = useUser()
+  const { isAuthenticated } = useUser()
 
   const [cartItems, setCartItems] = useState(() => {
     if (!isAuthenticated) {
@@ -38,7 +38,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     async function loadCart() {
       try {
-        const data = await fetchCart(cartId)
+        const data = await fetchCart()
         setCartItems(data)
       } catch (e) {
         console.error('Error loading cart:', e)
@@ -46,12 +46,12 @@ export function CartProvider({ children }) {
     }
 
     if (isAuthenticated) loadCart()
-  }, [isAuthenticated, cartId])
+  }, [isAuthenticated])
 
   async function addItem(item) {
     try {
       const updateCart = isAuthenticated
-        ? addItemToRemoteCart(item, cartId)
+        ? addItemToRemoteCart(item)
         : addItemToLocalCart(item)
       setCartItems(updateCart)
       sendMessage('Item has been added to cart')
@@ -63,7 +63,7 @@ export function CartProvider({ children }) {
   function deleteItem(item) {
     try {
       const data = isAuthenticated
-        ? deleteItemFromRemoteCart(item, cartId)
+        ? deleteItemFromRemoteCart(item)
         : deleteItemFromLocalCart(item)
       setCartItems(data)
     } catch (error) {
@@ -74,7 +74,7 @@ export function CartProvider({ children }) {
   function updateItem(item) {
     try {
       const data = isAuthenticated
-        ? updateItemFromRemoteCart(item, cartId)
+        ? updateItemFromRemoteCart(item)
         : updateItemFromLocalCart(item)
       setCartItems(data)
     } catch (error) {
