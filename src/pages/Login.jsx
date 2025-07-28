@@ -1,7 +1,7 @@
 import { GoogleLogin } from '@react-oauth/google'
 import React, { useState } from 'react'
 import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
@@ -11,7 +11,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({ email: '', password: '', global: '' })
   const { loginWithEmailAndPassword } = useUser()
-
+  let navigate = useNavigate()
   async function validateForm(e) {
     e.preventDefault()
     setErrors({ email: '', password: '', global: '' })
@@ -45,6 +45,9 @@ export function LoginPage() {
     try {
       setErrors({ email: '', password: '', global: '' })
       await loginWithEmailAndPassword(email, password)
+
+      // Navigate to shop page but needs to be updated if the user logs in because he wants to checkout his items
+      navigate('/shop')
     } catch (error) {
       switch (error.status) {
         case 400:
