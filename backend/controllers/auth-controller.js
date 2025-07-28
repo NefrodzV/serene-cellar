@@ -134,6 +134,7 @@ const login = [
             }
             const token = generateToken(user)
             req.token = token
+            req.user = user
             next()
         } catch (error) {
             console.error(error)
