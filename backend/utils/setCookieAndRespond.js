@@ -1,7 +1,7 @@
 export function setCookieAndRespond(req, res) {
     const { token, user } = req
     res.cookie('serene', token, {
-        maxAge: 1000 * 60 * 60, // Lasts  1 hour,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // Last 7 days,
         httpOnly: true,
     })
 
