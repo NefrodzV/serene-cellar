@@ -9,6 +9,8 @@ import {
   updateItemFromLocalCart,
   updateItemFromRemoteCart,
   fetchCart,
+  localCartHasItems,
+  syncCart,
 } from '../services/cartService'
 
 export const CartContext = createContext()
@@ -16,6 +18,7 @@ export const CartContext = createContext()
 export function CartProvider({ children }) {
   const { isAuthenticated } = useUser()
 
+  // Update this to call the functions of the cartService
   const [cartItems, setCartItems] = useState(() => {
     if (!isAuthenticated) {
       try {
@@ -38,8 +41,14 @@ export function CartProvider({ children }) {
   useEffect(() => {
     async function loadCart() {
       try {
-        const data = await fetchCart()
-        setCartItems(data)
+        let data = null
+        if (localCartHasItems()) {
+          data = await syncCart()
+          console.log('Cart syncronized with remote')
+        } else {
+          data = await fetchCart()
+        }
+        setCartItems(data.items)
       } catch (e) {
         console.error('Error loading cart:', e)
       }
