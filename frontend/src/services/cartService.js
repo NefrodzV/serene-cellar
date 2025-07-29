@@ -98,7 +98,7 @@ export function updateItemFromLocalCart(item) {
 export async function syncCart() {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY))
   if (localCart.length === 0) {
-    return
+    return null
   }
 
   const res = await fetch(`${API_URL}/me/cart/sync`, {
@@ -107,12 +107,19 @@ export async function syncCart() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(localCart),
+    body: JSON.stringify({ items: localCart }),
   })
+  const data = await res.json()
 
   if (!res.ok) {
-    throw new Error('Failed to syncronize cart')
+    throw new Error(data.errors || 'Failed to syncronize cart')
   }
-  const data = await res.json()
+  // Remove the local items
+  localStorage.removeItem(CART_KEY)
   return data.cart ?? null
+}
+
+export function localCartHasItems() {
+  const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
+  return items.length > 0
 }
