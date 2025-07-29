@@ -98,3 +98,12 @@ export async function getItemsByCartId(cartId) {
 
   return rows
 }
+
+export async function createUserCart(userId) {
+  await db.query(
+    `
+        INSERT INTO cart
+        (user_id) VALUES ($1)`,
+    [userId]
+  )
+}
