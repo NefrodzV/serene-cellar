@@ -160,7 +160,7 @@ const sync = [
 
     for (const localItem of data.items) {
       const existingItem = existingMap.get(
-        `${localItem.product_id}-${localItem.unit_type}`
+        `${localItem.productId}-${localItem.unitType}`
       )
       if (existingItem) {
         await updateCartItemQuantity(existingItem.id, localItem.quantity)
@@ -169,7 +169,7 @@ const sync = [
           cart.id,
           localItem.productId,
           localItem.quantity,
-          localItem.unitPrice,
+          localItem.price,
           localItem.unitType
         )
       }
