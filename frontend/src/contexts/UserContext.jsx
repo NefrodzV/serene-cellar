@@ -10,7 +10,7 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     getCurrentUser()
-      .then((data) => setUser(data.user))
+      .then((data) => setUser(data))
       .catch((error) => console.error(error))
   }, [])
 
