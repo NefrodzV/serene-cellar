@@ -18,7 +18,7 @@ export async function getCartItemsWithProductData(cartId) {
         ci.id, 
         ci.quantity, 
         ci.unit_price AS price, 
-        ci.unit_type,
+        ci.unit_type AS "unitType",
         p.name,
         p.slug,
         (   
