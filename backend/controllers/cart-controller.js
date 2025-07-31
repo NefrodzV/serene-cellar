@@ -39,28 +39,28 @@ const addItem = [
   validate,
 
   async (req, res, next) => {
-    const data = matchedData(req)
+    const { item } = matchedData(req)
     try {
       const cart = await getCartByUserId(req.user.id)
       const existingItem = await getCartItemByCartProductAndUnit(
         cart.id,
-        data.productId,
-        data.unitType
+        item.productId,
+        item.unitType
       )
       let status = null
       let message = null
 
       if (existingItem) {
-        await updateCartItemQuantity(existingItem.id, data.quantity)
+        await updateCartItemQuantity(existingItem.id, item.quantity)
         status = 200
         message = 'Cart item updated'
       } else {
         await createCartItem(
           cart.id,
-          data.productId,
-          data.quantity,
-          data.unitPrice,
-          data.unitType
+          item.productId,
+          item.quantity,
+          item.price,
+          item.unitType
         )
         status = 201
         message = 'Cart item added'
