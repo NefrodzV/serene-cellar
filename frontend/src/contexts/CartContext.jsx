@@ -59,22 +59,23 @@ export function CartProvider({ children }) {
 
   async function addItem(item) {
     try {
-      const updateCart = isAuthenticated
+      const cart = isAuthenticated
         ? addItemToRemoteCart(item)
         : addItemToLocalCart(item)
-      setCartItems(updateCart)
+      setCartItems(cart.items)
       sendMessage('Item has been added to cart')
     } catch (error) {
       console.error('Error adding item:', error)
     }
   }
 
-  function deleteItem(item) {
+  async function deleteItem(item) {
     try {
       const data = isAuthenticated
-        ? deleteItemFromRemoteCart(item)
-        : deleteItemFromLocalCart(item)
-      setCartItems(data)
+        ? await deleteItemFromRemoteCart(item)
+        : await deleteItemFromLocalCart(item)
+      console.log(data)
+      setCartItems(data.items)
     } catch (error) {
       console.error('Error deleting item:', error)
     }
@@ -85,7 +86,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? updateItemFromRemoteCart(item)
         : updateItemFromLocalCart(item)
-      setCartItems(data)
+      setCartItems(data.items)
     } catch (error) {
       console.error('Error updating item:', error)
     }

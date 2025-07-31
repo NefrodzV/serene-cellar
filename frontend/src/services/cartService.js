@@ -3,7 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 const CART_KEY = 'cart'
 
 export async function fetchCart() {
-  const res = await fetch(`${API_URL}/me/cart`)
+  const res = await fetch(`${API_URL}/me/cart`, {
+    credentials: 'include',
+  })
   const data = await res.json()
 
   if (!res.ok) {
@@ -19,6 +21,7 @@ export async function addItemToRemoteCart(item) {
     headers: {
       'Content-Type': 'application/json',
     },
+
     body: JSON.stringify(item),
   }
   const res = await fetch(`${API_URL}/me/cart`, options)
@@ -54,6 +57,7 @@ export function addItemToLocalCart(item) {
 export async function deleteItemFromRemoteCart(item) {
   const res = await fetch(`${API_URL}/me/cart/${item.id}`, {
     method: 'DELETE',
+    credentials: 'include',
   })
   const data = await res.json()
   if (!res.ok) {
