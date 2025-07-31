@@ -55,8 +55,7 @@ export async function getCartItemByCartProductAndUnit(
   const { rows } = await db.query(
     `
         SELECT id FROM cart_items
-        WHERE product_id=$1 AND unit_type=$2 AND cart_id=$3
-        )`,
+        WHERE product_id=$1 AND unit_type=$2 AND cart_id=$3`,
     [productId, unitType, cartId]
   )
   return rows[0] || null
