@@ -20,7 +20,7 @@ const getCart = [
   validate,
   async (req, res, next) => {
     try {
-      const cart = await getCardByUserId(req.user.id)
+      const cart = await getCartByUserId(req.user.id)
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
       const items = await getCartItemsWithProductData(cart.id)
       return res.json({ cart: { items } })
@@ -41,7 +41,7 @@ const addItem = [
   async (req, res, next) => {
     const data = matchedData(req)
     try {
-      const cart = await getCardByUserId(req.user.id)
+      const cart = await getCartByUserId(req.user.id)
       const existingItem = await getCartItemByCartProductAndUnit(
         cart.id,
         data.productId,
@@ -87,7 +87,7 @@ const deleteItem = [
     const data = matchedData(req)
     try {
       await deleteCartItem(data.itemId)
-      const cart = await getCardByUserId(req.user.id)
+      const cart = await getCartByUserId(req.user.id)
       const cartItems = await getCartItemsWithProductData(cart.id)
 
       return res.status(200).json({
@@ -119,7 +119,7 @@ const updateItem = [
     try {
       const { quantity, itemId } = matchedData(req)
       await updateCartItemQuantity(itemId, quantity)
-      const cart = await getCardByUserId(req.user.id)
+      const cart = await getCartByUserId(req.user.id)
       const cartItems = await getCartItemsWithProductData(cart.id)
       return res.json({
         message: 'Cart item updated',
