@@ -21,8 +21,9 @@ export async function addItemToRemoteCart(item) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
 
-    body: JSON.stringify(item),
+    body: JSON.stringify({ item }),
   }
   const res = await fetch(`${API_URL}/me/cart`, options)
   const data = await res.json()
