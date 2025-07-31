@@ -60,8 +60,9 @@ export function CartProvider({ children }) {
   async function addItem(item) {
     try {
       const cart = isAuthenticated
-        ? addItemToRemoteCart(item)
-        : addItemToLocalCart(item)
+        ? await addItemToRemoteCart(item)
+        : await addItemToLocalCart(item)
+
       setCartItems(cart.items)
       sendMessage('Item has been added to cart')
     } catch (error) {
