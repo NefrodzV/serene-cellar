@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
+import { Input } from '../components/Input'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -137,6 +138,7 @@ export function RegisterPage() {
   }
 
   function onChangeHandler(e) {
+    console.log(e)
     switch (e.target.name) {
       case 'firstName':
         setFirstName(e.target.value)
@@ -162,100 +164,79 @@ export function RegisterPage() {
     }
   }
   return (
-    <div>
-      <form method="post" noValidate onSubmit={validateForm}>
-        <h1>Register</h1>
-        <div>
+    <div className="center-screen">
+      <form
+        className="register-form"
+        method="post"
+        noValidate
+        onSubmit={validateForm}
+      >
+        <div className="header">
+          <h1>Register</h1>
+        </div>
+        <div className="body">
           <div>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              id="firstName"
-              onChange={onChangeHandler}
-              type="text"
-              name="firstName"
+            <Input
+              id={'firstName'}
+              label={'First name'}
+              onChangeHandler={onChangeHandler}
+              type={'text'}
               value={firstName}
-              aria-invalid={!!errors.firstName}
-              aria-describedby="error-firstName"
+              error={errors.firstName}
             />
-            {errors.firstName && (
-              <div id="error-firstName">{errors.firstName}</div>
-            )}
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              id="lastName"
-              onChange={onChangeHandler}
-              type="text"
-              name="lastName"
+            <Input
+              id={'lastName'}
+              label={'Last name'}
+              onChangeHandler={onChangeHandler}
+              type={'text'}
               value={lastName}
-              aria-invalid={!!errors.lastName}
-              aria-describedby="error-lastName"
+              error={errors.lastName}
             />
-            {errors.lastName && (
-              <div id="error-lastName">{errors.lastName}</div>
-            )}
           </div>
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            onChange={onChangeHandler}
-            type="text"
-            name="username"
+          <Input
+            id={'username'}
+            label={'Username'}
+            onChangeHandler={onChangeHandler}
+            type={'text'}
             value={username}
-            aria-invalid={!!errors.username}
-            aria-describedby="error-username"
+            error={errors.username}
           />
-          {errors.username && <div id="error-username">{errors.username}</div>}
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            onChange={onChangeHandler}
-            type="email"
-            name="email"
+
+          <Input
+            id={'email'}
+            label={'Email'}
+            onChangeHandler={onChangeHandler}
+            type={'text'}
             value={email}
-            aria-invalid={!!errors.email}
-            aria-describedby="error-email"
+            error={errors.email}
           />
-          {errors.email && <div id="error-email">{errors.email}</div>}
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            onChange={onChangeHandler}
-            type="password"
-            name="password"
+
+          <Input
+            id={'password'}
+            label={'Password'}
+            onChangeHandler={onChangeHandler}
+            type={'password'}
             value={password}
-            aria-invalid={!!errors.password}
-            aria-describedby="error-password"
+            error={errors.password}
           />
-          {errors.password && <div id="error-password">{errors.password}</div>}
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={onChangeHandler}
-            type="password"
-            name="confirmPassword"
-            aria-invalid={!!errors.confirmPassword}
-            aria-describedby="error-confirmPassword"
+
+          <Input
+            id={'confirmPassword'}
+            label={'Confirm password'}
+            onChangeHandler={onChangeHandler}
+            type={'text'}
+            value={firstName}
+            error={errors.firstName}
           />
-          {errors.confirmPassword && (
-            <div id="error-confirmPassword">{errors.confirmPassword}</div>
-          )}
+
+          {errors.global && <div>{errors.global}</div>}
         </div>
-        {errors.global && <div>{errors.global}</div>}
-        <button>Register</button>
-        <p>
-          Already have an account? <Link to={'/login'}>Log in here</Link>
-        </p>
+        <div className="footer">
+          <button className="button primary">Register</button>
+          <Link className="center-flex" to={'/login'}>
+            Already have an account?
+          </Link>
+        </div>
       </form>
     </div>
   )

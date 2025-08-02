@@ -79,8 +79,13 @@ export function LoginPage() {
     }
   }
   return (
-    <div>
-      <form action="" method="post" onSubmit={validateForm} noValidate>
+    <div className="center-screen">
+      <form
+        className="login-form"
+        method="post"
+        onSubmit={validateForm}
+        noValidate
+      >
         <h1>Login</h1>
 
         <div className="input container">
@@ -100,6 +105,7 @@ export function LoginPage() {
         <div className="input container">
           <label htmlFor="password">Password</label>
           <input
+            className="input primary"
             id={'password'}
             onChange={onChangeHandler}
             name="password"
@@ -116,9 +122,12 @@ export function LoginPage() {
         </div>
         <div>{errors.global}</div>
         <button className="button primary">Login</button>
-        <Link href="#">Forgot password?</Link>
-        <p>
-          Don't have an account? <Link href="#">Register here.</Link>
+
+        <Link className="push-right" href="#">
+          Forgot password?
+        </Link>
+        <p className="center-flex">
+          Don't have an account? <Link to={'/register'}>Register here.</Link>
         </p>
       </form>
     </div>
