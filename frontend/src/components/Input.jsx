@@ -13,7 +13,11 @@ export function Input({ id, label, type, value, onChangeHandler, error }) {
         aria-invalid={!!error}
         aria-describedby={`error-${id}`}
       />
-      {error && <div id={`error-${id}`}>{error}</div>}
+      {error && (
+        <div className="error" id={`error-${id}`}>
+          {error}
+        </div>
+      )}
     </div>
   )
 }

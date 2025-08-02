@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
+import { Input } from '../components/Input'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -88,41 +89,23 @@ export function LoginPage() {
       >
         <h1>Login</h1>
 
-        <div className="input container">
-          <label htmlFor="email">Email</label>
-          <input
-            className="input primary"
-            onChange={onChangeHandler}
-            name="email"
-            type="email"
-            id="email"
-            value={email}
-            aria-invalid={!!errors.email}
-            aria-describedby="error-email"
-          />
-          {errors.email && <div id={'error-email'}>{errors.email}</div>}
-        </div>
-        <div className="input container">
-          <label htmlFor="password">Password</label>
-          <input
-            className="input primary"
-            id={'password'}
-            onChange={onChangeHandler}
-            name="password"
-            type="password"
-            value={password}
-            aria-invalid={!!errors.password}
-            aria-describedby="error-password"
-          />
-          {errors.password && (
-            <div className="error-message" id={'error-password'}>
-              {errors.password}
-            </div>
-          )}
-        </div>
+        <Input
+          id={'email'}
+          value={email}
+          label={'Email'}
+          type={'email'}
+          onChangeHandler={onChangeHandler}
+          error={errors.email}
+        />
+        <Input
+          id={'password'}
+          type={'password'}
+          label={'Password'}
+          onChangeHandler={onChangeHandler}
+          error={errors.password}
+        />
         <div>{errors.global}</div>
         <button className="button primary">Login</button>
-
         <Link className="push-right" href="#">
           Forgot password?
         </Link>

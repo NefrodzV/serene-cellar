@@ -99,7 +99,7 @@ label, button, input {
 }
 
 .input.primary:focus{
-  border: 2px solid var(--primar-color-hover);
+  border: 2px solid var(--primary-color);
   
 }
 
@@ -174,4 +174,7 @@ label, button, input {
   margin-left: auto;
 }
 
+.error {
+  color: var(--error-color);
+}
 
