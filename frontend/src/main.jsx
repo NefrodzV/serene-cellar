@@ -6,6 +6,7 @@ import router from './router/Router'
 import { UserProvider } from './contexts/UserContext'
 import { CartProvider } from './contexts/CartContext'
 import { MessageProvider } from './contexts/MessageContext'
+import './style.css'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 createRoot(document.getElementById('root')).render(

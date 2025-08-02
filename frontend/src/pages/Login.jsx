@@ -83,9 +83,10 @@ export function LoginPage() {
       <form action="" method="post" onSubmit={validateForm} noValidate>
         <h1>Login</h1>
 
-        <div>
+        <div className="input container">
           <label htmlFor="email">Email</label>
           <input
+            className="input primary"
             onChange={onChangeHandler}
             name="email"
             type="email"
@@ -96,7 +97,7 @@ export function LoginPage() {
           />
           {errors.email && <div id={'error-email'}>{errors.email}</div>}
         </div>
-        <div>
+        <div className="input container">
           <label htmlFor="password">Password</label>
           <input
             id={'password'}
@@ -108,11 +109,13 @@ export function LoginPage() {
             aria-describedby="error-password"
           />
           {errors.password && (
-            <div id={'error-password'}>{errors.password}</div>
+            <div className="error-message" id={'error-password'}>
+              {errors.password}
+            </div>
           )}
         </div>
         <div>{errors.global}</div>
-        <button>Login</button>
+        <button className="button primary">Login</button>
         <Link href="#">Forgot password?</Link>
         <p>
           Don't have an account? <Link href="#">Register here.</Link>
