@@ -226,7 +226,7 @@ export function RegisterPage() {
             onChangeHandler={onChangeHandler}
             type={'text'}
             value={firstName}
-            error={errors.firstName}
+            error={errors.confirmPassword}
           />
 
           {errors.global && <div>{errors.global}</div>}
