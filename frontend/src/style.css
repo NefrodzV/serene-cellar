@@ -178,3 +178,30 @@ label, button, input {
   color: var(--error-color);
 }
 
+.list {
+  margin: .5rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.card  {
+  background-color: var(--surface-color);
+  padding: 2rem;
+  border-radius:8px;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  justify-items: center;
+  align-items: center;
+  text-decoration: none;
+  
+  color: var(--text-color);
+}
+
+.card:hover {
+  box-shadow: 0 0 3px black;
+}
