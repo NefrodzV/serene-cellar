@@ -205,3 +205,19 @@ label, button, input {
 .card:hover {
   box-shadow: 0 0 3px black;
 }
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.app-layout .main-layout {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.app-layout header,  .app-layout footer {
+  flex-shrink: 0;
+}
