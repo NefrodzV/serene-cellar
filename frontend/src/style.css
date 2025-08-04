@@ -219,5 +219,7 @@ label, button, input {
 }
 
 .app-layout header,  .app-layout footer {
+  padding: .5rem 1rem;
   flex-shrink: 0;
+  background-color: var(--primary-color);
 }
