@@ -17,7 +17,7 @@
   /*Colors */
   /* Main button color, nav, logo */
   --primary-color: #581C1C;
-  --primar-color-hover: #481717;
+  --primary-color-hover: #fbadad;
   /* Call to action,  hightlights, price */
   --accent-color: #D4AF37;
   /* 	Input borders, tabs, muted text */
@@ -222,4 +222,36 @@ label, button, input {
   padding: .5rem 1rem;
   flex-shrink: 0;
   background-color: var(--primary-color);
+}
+
+.header, .nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav {
+  gap: .5rem;
+}
+
+.nav .link {
+  color: var(--surface-color);
+  text-decoration: none;
+}
+
+.nav .link:hover {
+  opacity: .8;
+  color: var(--primary-color-hover);
+}
+
+.cart {
+  position: relative;
+}
+
+.cart .total {
+  font-size: .5rem;
+
+right: -6px;
+top: -7px;
+
+position: absolute;
 }

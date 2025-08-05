@@ -7,18 +7,32 @@ export function MainLayout() {
   const { isAuthenticated, user } = useUser()
   return (
     <div className="app-layout">
-      <header>
+      <header className="header">
         <div>Logo</div>
-        <nav>
+        <nav className="nav">
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
-          <NavLink href="#">Home</NavLink>
-          <NavLink to={'/shop'}>Shop</NavLink>
+          <NavLink className="link" href="#">
+            <i className="fa-solid fa-home"></i> Home
+          </NavLink>
+          <NavLink className="link" to={'/shop'}>
+            <i class="fa-solid fa-wine-glass"></i> Shop
+          </NavLink>
           {isAuthenticated ? (
-            <NavLink to={'#'}>{user.username}</NavLink>
+            <NavLink className="link" to={'#'}>
+              <i class="fa-solid fa-user"></i> Profile
+            </NavLink>
           ) : (
-            <NavLink to={'/login'}>Login</NavLink>
+            <NavLink className="link" to={'/login'}>
+              Login
+            </NavLink>
           )}
-          <NavLink to={'/cart'}>Cart {totalItems}</NavLink>
+          <NavLink className="link" to={'/cart'}>
+            <i className="cart fa-solid fa-cart-shopping">
+              <span className="total">{totalItems}</span>
+            </i>
+
+            <span>Cart</span>
+          </NavLink>
         </nav>
       </header>
       <main className="main-layout">
