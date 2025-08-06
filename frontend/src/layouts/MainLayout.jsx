@@ -1,10 +1,13 @@
 import React from 'react'
-import { Outlet, Link, NavLink } from 'react-router-dom'
+import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 export function MainLayout() {
   const { totalItems } = useCart()
   const { isAuthenticated, user } = useUser()
+  const { pathname } = useLocation()
+  const isShopProductPage =
+    pathname.startsWith('/shop/') && pathname !== '/shop'
   return (
     <div className="app-layout">
       <header className="header">
@@ -19,11 +22,11 @@ export function MainLayout() {
           </NavLink>
           {isAuthenticated ? (
             <NavLink className="link" to={'#'}>
-              <i class="fa-solid fa-user"></i> Profile
+              <i class="fa-solid fa-user"></i> <span>Profile</span>
             </NavLink>
           ) : (
             <NavLink className="link" to={'/login'}>
-              Login
+              <span>Login </span>
             </NavLink>
           )}
           <NavLink className="link" to={'/cart'}>
@@ -35,7 +38,7 @@ export function MainLayout() {
           </NavLink>
         </nav>
       </header>
-      <main className="main-layout">
+      <main className={`main-layout ${isShopProductPage ? 'no-scroll' : ''}`}>
         <Outlet />
         <MessageContainer />
       </main>

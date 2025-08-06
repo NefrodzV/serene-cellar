@@ -20,6 +20,7 @@
   --primary-color-hover: #fbadad;
   /* Call to action,  hightlights, price */
   --accent-color: #D4AF37;
+  --accent-color-hover: #af912f;
   /* 	Input borders, tabs, muted text */
   --secondary-color: #6B4F4F;
   --background-color: #FDF6ED;
@@ -179,7 +180,7 @@ label, button, input {
 }
 
 .list {
-  margin: .5rem;
+  
   padding: 0;
   list-style: none;
   display: flex;
@@ -215,13 +216,22 @@ label, button, input {
 
 .app-layout .main-layout {
   flex: 1;
-  overflow-y: auto;
+  
 }
 
 .app-layout header,  .app-layout footer {
   padding: .5rem 1rem;
   flex-shrink: 0;
   background-color: var(--primary-color);
+}
+
+.main-layout {
+  padding-inline: .5rem;
+  overflow-y: auto;
+}
+
+.main-layout.no-scroll {
+  overflow-y: hidden;
 }
 
 .header, .nav {
@@ -254,4 +264,35 @@ right: -6px;
 top: -7px;
 
 position: absolute;
+}
+
+.product-view {
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.button.add-cart {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  color: var(--text-color);
+ background-color: var(--accent-color);
+}
+
+.button.add-cart {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  color: var(--text-color);
+ background-color: var(--accent-color);
+}
+
+.button.add-cart:hover {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  color: var(--text-color);
+ background-color: var(--accent-color-hover);
 }
