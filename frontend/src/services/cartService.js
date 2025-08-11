@@ -52,7 +52,7 @@ export function addItemToLocalCart(item) {
   }
 
   localStorage.setItem(CART_KEY, JSON.stringify(localCart))
-  return localCart
+  return { items: localCart }
 }
 
 export async function deleteItemFromRemoteCart(item) {
