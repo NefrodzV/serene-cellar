@@ -22,7 +22,7 @@ export function MainLayout() {
           </NavLink>
           {isAuthenticated ? (
             <NavLink className="link" to={'#'}>
-              <i class="fa-solid fa-user"></i> <span>Profile</span>
+              <i className="fa-solid fa-user"></i> <span>Profile</span>
             </NavLink>
           ) : (
             <NavLink className="link" to={'/login'}>
