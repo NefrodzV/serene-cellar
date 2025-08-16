@@ -42,15 +42,20 @@
 
 
 h1, h2, h3 {
+ 
   font-family: var(--font-heading);
   margin: 0;
   padding: 0;
 }
 
-body, input, button {
+
+
+body,.button, .input {
+  color: var(--text-color);
   font-family: var(--font-body);
 }
 body {
+  color: var(--text-color);
   margin: 0;
   background-color: var(--background-color);
   font-size: 1rem;
@@ -296,3 +301,78 @@ position: absolute;
   color: var(--text-color);
  background-color: var(--accent-color-hover);
 }
+
+.block {
+  display: block;
+}
+
+.select {
+  
+  position: relative;
+  width: 200px;
+  height: fit-content;
+}
+
+.select select {
+   overflow: hidden;
+   visibility: hidden;
+   height: 0; 
+  position: absolute; 
+}
+
+.select .button {
+  border: 1px solid var(--primary-color);
+  width: 100%;
+  background-color: var(--surface-color);
+  display: flex;
+  justify-content: space-between;
+}
+
+.select .button[data-open=true] {
+  border: 2px solid var(--primary-color);
+}
+
+.select .button i {
+  color: var(--primary-color);
+}
+
+.select-items {
+  border-radius: 8px;
+  top: 100%;
+  width: inherit;
+  position: absolute;
+  color: var(--text-color);
+  background-color: var(--surface-color);
+  box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+  overflow: hidden;
+  z-index: 2;
+  
+}
+
+.select-items:last-child {
+  border-bottom: 1px solid black;
+}
+.select-items[data-open=false] {
+  height: 0;
+  overflow: hidden;
+}
+
+.select-items[data-open=true] {
+  
+ 
+}
+
+.select-items div {
+  padding-inline: 1rem;
+}
+
+.select-items div:hover {
+  cursor: pointer;
+  color: var(--surface-color);
+  background-color: var(--primary-color);
+ }
+
+ .selected {
+
+  background-color: var(--primary-color-hover);
+ }

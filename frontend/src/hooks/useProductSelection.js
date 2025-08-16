@@ -1,41 +1,42 @@
 import { useEffect, useMemo, useState } from 'react'
 
 export function useProductSelection(
-    pricing = {},
-    defaultPack,
-    defaultQuantity = 1
+  pricing = {},
+  defaultPack,
+  defaultQuantity = 1
 ) {
-    const [packSize, setPackSize] = useState(() => {
-        if (defaultPack) return defaultPack
-        if (pricing && Object.keys(pricing).length > 0) {
-            return Object.keys(pricing)[0]
-        }
-        return null
-    })
-
-    const [quantity, setQuantity] = useState(defaultQuantity || 1)
-
-    useEffect(() => {
-        if (!packSize && pricing && Object.keys(pricing)?.length > 0) {
-            setPackSize(defaultPack ?? Object.keys(pricing)[0])
-        }
-    }, [pricing, defaultPack, defaultQuantity])
-
-    function packSizeHandler(e) {
-        setPackSize(e.target.value)
+  const [packSize, setPackSize] = useState(() => {
+    if (defaultPack) return defaultPack
+    if (pricing && Object.keys(pricing).length > 0) {
+      return Object.keys(pricing)[0]
     }
-    function quantityHandler(e) {
-        setQuantity(Number(e.target.value))
-    }
+    return null
+  })
 
-    const unitPrice = pricing?.[packSize]?.value
-    const total = unitPrice * quantity
+  const [quantity, setQuantity] = useState(defaultQuantity || 1)
 
-    return {
-        packSize,
-        quantity,
-        packSizeHandler,
-        quantityHandler,
-        total,
+  useEffect(() => {
+    if (!packSize && pricing && Object.keys(pricing)?.length > 0) {
+      setPackSize(defaultPack ?? Object.keys(pricing)[0])
     }
+  }, [pricing, defaultPack, defaultQuantity])
+
+  function packSizeHandler(value) {
+    setPackSize(value)
+  }
+  function quantityHandler(value) {
+    console.log(value)
+    setQuantity(Number(value))
+  }
+
+  const unitPrice = pricing?.[packSize]?.value
+  const total = (unitPrice * quantity).toFixed(2)
+
+  return {
+    packSize,
+    quantity,
+    packSizeHandler,
+    quantityHandler,
+    total,
+  }
 }
