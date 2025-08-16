@@ -6,7 +6,7 @@ export function MessageContainer() {
   const { messages } = useMessages()
   console.log(messages)
   return (
-    <ul style={{ background: 'lightgray' }}>
+    <ul className="message-container">
       {messages?.map((message) => (
         <MessageView key={message.id} message={message} />
       ))}
