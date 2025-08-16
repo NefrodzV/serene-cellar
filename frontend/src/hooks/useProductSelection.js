@@ -25,7 +25,6 @@ export function useProductSelection(
     setPackSize(value)
   }
   function quantityHandler(value) {
-    console.log(value)
     setQuantity(Number(value))
   }
 
