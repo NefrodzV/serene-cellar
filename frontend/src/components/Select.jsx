@@ -27,9 +27,9 @@ export function Select({ id, options, onChange, value, text }) {
       >
         {text || value}
         {isFocus ? (
-          <i class="fa-solid fa-caret-up"></i>
+          <i className="fa-solid fa-caret-up"></i>
         ) : (
-          <i class="fa-solid fa-caret-down"></i>
+          <i className="fa-solid fa-caret-down"></i>
         )}
       </button>
 
@@ -51,13 +51,10 @@ export function Select({ id, options, onChange, value, text }) {
         name={id}
         id={id}
         onFocus={onFocusHandler}
+        value={value}
       >
         {options?.map((option) => (
-          <option
-            key={option.key}
-            value={option.value}
-            selected={value === option.value}
-          >
+          <option key={option.key} value={option.value}>
             {option.text || option.value}
           </option>
         ))}
