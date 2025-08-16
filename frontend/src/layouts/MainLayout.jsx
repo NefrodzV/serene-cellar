@@ -15,10 +15,10 @@ export function MainLayout() {
         <nav className="nav">
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
           <NavLink className="link" href="#">
-            <i className="fa-solid fa-home"></i> Home
+            <i className="fa-solid fa-home icon"></i> Home
           </NavLink>
           <NavLink className="link" to={'/shop'}>
-            <i class="fa-solid fa-wine-glass"></i> Shop
+            <i className="fa-solid fa-wine-glass icon"></i> Shop
           </NavLink>
           {isAuthenticated ? (
             <NavLink className="link" to={'#'}>
