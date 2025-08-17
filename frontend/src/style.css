@@ -381,29 +381,35 @@ position: absolute;
 
 /* Message Container */
 .message-container {
+  pointer-events: none;
   width: 400px;
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 50px;
   bottom: 0;
   right: 10px;
   list-style: none;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  
 }
 
 /* Message */
 .message {
+  
   padding: 1rem;
   background-color: var(--surface-color);
   border-radius: .5rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.175);
-  gap: 1rem;
   display: flex;
+  flex-direction: column;
 }
 
 .message .button {
+  pointer-events: auto;
   background-color: var(--surface-color);
-  width: min-content;
   display: flex;
   margin-inline: auto 0;
   justify-content: center;
@@ -431,8 +437,12 @@ position: absolute;
 }
 .message .content {
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
   flex: 1;
+}
+
+.message .content .text {
+  justify-self: center;
 }
 
 .message .button:hover {

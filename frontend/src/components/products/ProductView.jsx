@@ -18,7 +18,7 @@ export function ProductView() {
   const { addItem, updateItem } = useCart()
   if (!product) return <p>Loading product</p>
   const { name, price, category, abv, ml, description, images } = product
-  console.log(packSize)
+
   return (
     <div className="product-view">
       <div>
@@ -43,7 +43,7 @@ export function ProductView() {
             value: key,
             text: `${unit} - $${value}`,
           }))}
-          value={packSize}
+          value={packSize || ''}
           text={
             packSize
               ? `${price[packSize].unit} - $${price[packSize].value}`
@@ -105,7 +105,7 @@ export function ProductView() {
                 })
           }
         >
-          <i class="fa-solid fa-cart-plus"></i>
+          <i className="fa-solid fa-cart-plus"></i>
           {isEditing ? 'Submit change' : 'Add to cart'}
         </button>
       </div>

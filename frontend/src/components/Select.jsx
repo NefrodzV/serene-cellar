@@ -23,7 +23,6 @@ export function Select({ id, options, onChange, value, text }) {
         onClick={onFocusHandler}
         className="select-selected button"
         data-open={isFocus}
-        aria
       >
         {text || value}
         {isFocus ? (
