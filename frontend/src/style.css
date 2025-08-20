@@ -17,7 +17,8 @@
   /*Colors */
   /* Main button color, nav, logo */
   --primary-color: #581C1C;
-  --primary-color-hover: #fbadad;
+  --primary-color-hover: #7b2525;
+  --nav-hover: #fbadad;
   /* Call to action,  hightlights, price */
   --accent-color: #D4AF37;
   --accent-color-hover: #af912f;
@@ -91,7 +92,7 @@ label, button, input {
 }
 
 .button.primary:hover {
-   background-color: var(--primar-color-hover);
+   background-color: var(--primary-color-hover);
 }
 
 
@@ -101,7 +102,7 @@ label, button, input {
 }
 
 .button.accent:hover {
-  background-color: var(--accent-color);
+  background-color: var(--accent-color-hover);
   color: var(--surface-color);
 }
 .fullwidth {
@@ -488,6 +489,13 @@ position: absolute;
 .cart-item .product  {
   display: flex;
   align-items: center;
+}
+
+.cart-item .quantity {
+  padding :.5rem 1rem;
+  border-radius: .5rem;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 
 /* Cart Page */

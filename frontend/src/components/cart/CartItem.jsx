@@ -23,18 +23,25 @@ export function CartItem({ item }) {
         </div>
         <div className="content">
           <h3>{name}</h3>
-          <p>Quantity: {quantity}</p>
+
           <p>Price: ${price}</p>
           <p>Unit: {unitType}</p>
-          <Link to={`/shop/${slug}?${params}`}>Edit</Link>
-          <button
-            type="button"
-            onClick={() => {
-              deleteItem(item)
-            }}
-          >
-            Delete
-          </button>
+          {/* <Link to={`/shop/${slug}?${params}`}>Edit</Link> */}
+          <div className="item-control">
+            <button className="button primary">-</button>
+            <span className="quantity">{quantity}</span>
+            <button className="button primary">+</button>
+
+            <button
+              className="button primary"
+              type="button"
+              onClick={() => {
+                deleteItem(item)
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </article>
     </li>
