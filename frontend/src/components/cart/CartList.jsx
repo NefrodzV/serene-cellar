@@ -3,21 +3,21 @@ import { CartItem } from './CartItem'
 import React from 'react'
 
 export function CartList() {
-    const { cartItems } = useCart()
+  const { cartItems } = useCart()
 
-    if (cartItems.length === 0) {
-        return (
-            <div>
-                <p>No items in cart</p>
-            </div>
-        )
-    }
-
+  if (cartItems.length === 0) {
     return (
-        <ul>
-            {cartItems.map((item) => (
-                <CartItem key={item.id ?? item.uuid} item={item} />
-            ))}
-        </ul>
+      <div>
+        <p>No items in cart</p>
+      </div>
     )
+  }
+
+  return (
+    <ul aria-label="Your current cart items" className="cart-list">
+      {cartItems.map((item) => (
+        <CartItem key={item.id ?? item.uuid} item={item} />
+      ))}
+    </ul>
+  )
 }

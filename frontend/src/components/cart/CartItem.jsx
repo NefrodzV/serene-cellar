@@ -11,9 +11,9 @@ export function CartItem({ item }) {
   })
   const { deleteItem } = useCart()
   return (
-    <li>
-      <article>
-        <div>
+    <li className="cart-item">
+      <article className="product">
+        <div className="image">
           <img
             alt={name}
             width={150}
@@ -21,7 +21,7 @@ export function CartItem({ item }) {
             sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1080px`}
           />
         </div>
-        <div>
+        <div className="content">
           <h3>{name}</h3>
           <p>Quantity: {quantity}</p>
           <p>Price: ${price}</p>

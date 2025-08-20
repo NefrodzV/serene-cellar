@@ -94,6 +94,20 @@ label, button, input {
    background-color: var(--primar-color-hover);
 }
 
+
+.button.accent {
+  background-color: var(--accent-color);
+  color: var(--surface-color);
+}
+
+.button.accent:hover {
+  background-color: var(--accent-color);
+  color: var(--surface-color);
+}
+.fullwidth {
+  width: 100%;
+}
+
 .input {
   font-size: 1rem;
   padding: .5rem .75rem;
@@ -221,6 +235,8 @@ label, button, input {
 
 .app-layout .main-layout {
   flex: 1;
+  display: flex;
+  padding:  .5rem .5rem .5rem;
   
 }
 
@@ -231,7 +247,7 @@ label, button, input {
 }
 
 .main-layout {
-  padding-inline: .5rem;
+  
   overflow-y: auto;
   position: relative;
 }
@@ -449,3 +465,57 @@ position: absolute;
   background-color: var(--primary-color);
   color: var(--surface-color);
 }
+
+
+/* Cart */
+
+.cart-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0
+}
+
+.cart-list .cart-item {
+  padding: 1rem;
+  margin-right: .2rem;
+  background-color: var(--surface-color);
+  border-radius: .5rem;
+}
+  
+
+.cart-item .product  {
+  display: flex;
+  align-items: center;
+}
+
+/* Cart Page */
+
+.cart-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.cart-page .main {
+  display: flex;
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.cart-page .main .cart-list {
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.checkout {
+  box-sizing: content-box;
+  padding: 1rem;
+  width: 300px;
+  background-color: var(--surface-color);
+}
+
