@@ -127,6 +127,7 @@ export function CartProvider({ children }) {
     increment,
     total: total.toFixed(2),
     totalItems: cartItems?.length === 0 ? null : cartItems.length,
+    isEmpty: cartItems.length === 0,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

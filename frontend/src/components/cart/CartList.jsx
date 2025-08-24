@@ -7,8 +7,8 @@ export function CartList() {
 
   if (cartItems.length === 0) {
     return (
-      <div>
-        <p>No items in cart</p>
+      <div className="empty-list-message">
+        <p>Your cart is empty</p>
       </div>
     )
   }
