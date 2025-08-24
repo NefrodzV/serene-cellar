@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/me/cart', cartController.getCart)
 router.post('/me/cart', cartController.addItem)
-router.put('/me/cart/:itemId', cartController.updateItem)
+router.patch('/me/cart/:itemId', cartController.updateItem)
 router.delete('/me/cart/:itemId', cartController.deleteItem)
 router.post('/me/cart/sync', cartController.sync)
 
