@@ -29,7 +29,11 @@ export function CartItem({ item }) {
           <p>Unit: {unitType}</p>
           {/* <Link to={`/shop/${slug}?${params}`}>Edit</Link> */}
           <div className="item-control">
-            <button className="button primary" onClick={() => decrement(item)}>
+            <button
+              disabled={quantity === 1}
+              className="button primary"
+              onClick={() => decrement(item)}
+            >
               -
             </button>
             <span className="quantity">{quantity}</span>

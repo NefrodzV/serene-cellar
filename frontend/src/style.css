@@ -90,6 +90,11 @@ label, button, input {
   background-color: var(--primary-color);
   color: var(--surface-color);
 }
+.button.primary:disabled, .button.primary:disabled:hover {
+  background-color: lightgray;
+  cursor: not-allowed;
+  color: var(--surface-color);
+}
 
 .button.primary:hover {
    background-color: var(--primary-color-hover);
@@ -511,6 +516,8 @@ position: absolute;
 .cart-item .delete {
   margin-inline: auto 0;
 }
+
+
 
 /* Cart Page */
 .cart-page {
