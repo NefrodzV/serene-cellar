@@ -9,7 +9,8 @@ export function CartItem({ item }) {
     pack: packSize,
     quantity: quantity,
   })
-  const { deleteItem } = useCart()
+  const { deleteItem, increment, decrement } = useCart()
+
   return (
     <li className="cart-item">
       <article className="product">
@@ -28,9 +29,13 @@ export function CartItem({ item }) {
           <p>Unit: {unitType}</p>
           {/* <Link to={`/shop/${slug}?${params}`}>Edit</Link> */}
           <div className="item-control">
-            <button className="button primary">-</button>
+            <button className="button primary" onClick={() => decrement(item)}>
+              -
+            </button>
             <span className="quantity">{quantity}</span>
-            <button className="button primary">+</button>
+            <button className="button primary" onClick={() => increment(item)}>
+              +
+            </button>
 
             <button
               aria-label="Delete cart item"

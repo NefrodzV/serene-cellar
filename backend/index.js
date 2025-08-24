@@ -12,7 +12,7 @@ const app = express()
 const port = 3000
 const corsOptions = {
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   optionsSuccessStatus: 200,
   credentials: true,
 }

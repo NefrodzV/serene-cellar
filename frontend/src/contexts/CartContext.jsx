@@ -82,14 +82,40 @@ export function CartProvider({ children }) {
     }
   }
 
-  function updateItem(item) {
+  async function updateItem(item) {
     try {
       const data = isAuthenticated
-        ? updateItemFromRemoteCart(item)
-        : updateItemFromLocalCart(item)
+        ? await updateItemFromRemoteCart(item)
+        : await updateItemFromLocalCart(item)
       setCartItems(data.items)
     } catch (error) {
       console.error('Error updating item:', error)
+    }
+  }
+
+  async function increment(item) {
+    try {
+      const quantity = item.quantity + 1
+      const data = isAuthenticated
+        ? await updateItemFromRemoteCart({ itemId: item.id, quantity })
+        : await updateItemFromLocalCart({ itemId: item.id, quantity })
+      console.log(data)
+      setCartItems(data.items)
+    } catch (error) {
+      console.error()
+    }
+  }
+
+  async function decrement(item) {
+    try {
+      const quantity = item.quantity + -1
+      const data = isAuthenticated
+        ? await updateItemFromRemoteCart({ itemId: item.id, quantity })
+        : await updateItemFromLocalCart({ itemId: item.id, quantity })
+      console.log(data)
+      setCartItems(data.items)
+    } catch (error) {
+      console.error(error)
     }
   }
   const value = {
@@ -97,6 +123,8 @@ export function CartProvider({ children }) {
     addItem,
     deleteItem,
     updateItem,
+    decrement,
+    increment,
     total: total.toFixed(2),
     totalItems: cartItems?.length === 0 ? null : cartItems.length,
   }

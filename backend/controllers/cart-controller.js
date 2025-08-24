@@ -9,7 +9,8 @@ import {
   getCartItemByCartProductAndUnit,
   getCartItemsWithProductData,
   getItemsByCartId,
-  updateCartItemQuantity,
+  incrementCartItemQuantity,
+  setCartItemQuantity,
 } from '../repositories/cart-repository.js'
 
 /**
@@ -51,7 +52,7 @@ const addItem = [
       let message = null
 
       if (existingItem) {
-        await updateCartItemQuantity(existingItem.id, item.quantity)
+        await incrementCartItemQuantity(existingItem.id, item.quantity)
         status = 200
         message = 'Cart item updated'
       } else {
@@ -117,10 +118,13 @@ const updateItem = [
   validate,
   async function (req, res, next) {
     try {
+      console.log('being called')
       const { quantity, itemId } = matchedData(req)
-      await updateCartItemQuantity(itemId, quantity)
+      console.log(quantity)
+      await setCartItemQuantity(itemId, quantity)
       const cart = await getCartByUserId(req.user.id)
       const cartItems = await getCartItemsWithProductData(cart.id)
+
       return res.json({
         message: 'Cart item updated',
         cart: {
@@ -163,7 +167,7 @@ const sync = [
         `${localItem.productId}-${localItem.unitType}`
       )
       if (existingItem) {
-        await updateCartItemQuantity(existingItem.id, localItem.quantity)
+        await incrementCartItemQuantity(existingItem.id, localItem.quantity)
       } else {
         await createCartItem(
           cart.id,

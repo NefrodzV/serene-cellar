@@ -77,14 +77,15 @@ export function deleteItemFromLocalCart(item) {
 export async function updateItemFromRemoteCart(item) {
   const { itemId, quantity } = item
   const options = {
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ quantity }),
   }
   const res = await fetch(`${API_URL}/me/cart/${itemId}`, options)
-  const data = res.json()
+  const data = await res.json()
   if (!res.ok) {
     throw new Error(data || 'Failed to update item from remote cart')
   }

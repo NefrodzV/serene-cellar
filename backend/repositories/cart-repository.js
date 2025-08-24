@@ -36,7 +36,16 @@ export async function getCartItemsWithProductData(cartId) {
   return rows
 }
 
-export async function updateCartItemQuantity(itemId, quantity) {
+export async function setCartItemQuantity(itemId, quantity) {
+  await db.query(
+    `
+      UPDATE cart_items
+      SET quantity=$1
+      WHERE id=$2`,
+    [quantity, itemId]
+  )
+}
+export async function incrementCartItemQuantity(itemId, quantity) {
   await db.query(
     `
         UPDATE cart_items
