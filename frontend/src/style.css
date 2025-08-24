@@ -489,6 +489,16 @@ position: absolute;
 .cart-item .product  {
   display: flex;
   align-items: center;
+  
+}
+
+.cart-item .content {
+  flex: 1;
+}
+
+.cart-item .item-control {
+  display: flex;
+  gap: .5rem;
 }
 
 .cart-item .quantity {
@@ -498,8 +508,11 @@ position: absolute;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 
-/* Cart Page */
+.cart-item .delete {
+  margin-inline: auto 0;
+}
 
+/* Cart Page */
 .cart-page {
   flex: 1;
   display: flex;

@@ -33,13 +33,14 @@ export function CartItem({ item }) {
             <button className="button primary">+</button>
 
             <button
-              className="button primary"
+              aria-label="Delete cart item"
+              className="button primary delete"
               type="button"
               onClick={() => {
                 deleteItem(item)
               }}
             >
-              Delete
+              <i class="fa-solid fa-trash"></i>
             </button>
           </div>
         </div>
