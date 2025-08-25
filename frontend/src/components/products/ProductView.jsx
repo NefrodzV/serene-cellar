@@ -17,7 +17,7 @@ export function ProductView() {
     useProductSelection(product?.price, initialPack, initialQuantity)
   const { addItem, updateItem } = useCart()
   if (!product) return <p>Loading product</p>
-  const { name, price, category, abv, ml, description, images } = product
+  const { name, price, category, abv, ml, description, images, stock } = product
 
   return (
     <div className="product-view">
@@ -32,6 +32,10 @@ export function ProductView() {
         </p>
         <p>
           <b className="block">Bottle size:</b> {parseFloat(ml).toFixed(0)} ml
+        </p>
+
+        <p>
+          <b className="block">Stock:</b> {stock}
         </p>
         <label className="block" htmlFor="packSize">
           <b>Pack Size</b>
