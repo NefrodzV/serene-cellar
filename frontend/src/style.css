@@ -278,7 +278,7 @@ label, button, input {
 
 .nav .link:hover {
   opacity: .8;
-  color: var(--primary-color-hover);
+  color: var(--nav-hover);
 }
 
 .cart {
@@ -396,7 +396,7 @@ position: absolute;
  }
 
  .selected {
-
+  color: var(--surface-color);
   background-color: var(--primary-color-hover);
  }
 
