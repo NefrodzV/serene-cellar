@@ -21,6 +21,7 @@ export async function getCartItemsWithProductData(cartId) {
         ci.unit_type AS "unitType",
         p.name,
         p.slug,
+        p.stock,
         (   
             SELECT
             jsonb_object_agg(pi.device_type, pi.image_url)
