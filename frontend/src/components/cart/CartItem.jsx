@@ -1,15 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
+
 export function CartItem({ item }) {
-  const { id, name, images, quantity, price, packSize, slug, unitType } = item
-  const params = new URLSearchParams({
-    edit: 'true',
-    itemId: item.id ?? item.uuid,
-    pack: packSize,
-    quantity: quantity,
-  })
-  const { deleteItem, increment, decrement } = useCart()
+  const { id, name, images, quantity, price, packSize, slug, unitType, stock } =
+    item
+  const MIN_ITEM_QUANTITY = 1
+  const { deleteItem, increment, decrement, updateItem } = useCart()
+  const [rawQuantity, setRawQuantity] = useState(String(quantity))
+  const [error, setError] = useState('')
+  useEffect(() => {
+    if (!stock) {
+      setError('Item is out of stock')
+    }
+    setRawQuantity(String(quantity))
+  }, [quantity])
+  const lastGoodQuantity = useRef(quantity)
+  function onChange(e) {}
 
   return (
     <li className="cart-item">
@@ -24,20 +30,62 @@ export function CartItem({ item }) {
         </div>
         <div className="content">
           <h3>{name}</h3>
-
           <p>Price: ${price}</p>
           <p>Unit: {unitType}</p>
+          <p>Available: {stock}</p>
           {/* <Link to={`/shop/${slug}?${params}`}>Edit</Link> */}
           <div className="item-control">
             <button
-              disabled={quantity === 1}
+              disabled={quantity === MIN_ITEM_QUANTITY}
               className="button primary"
-              onClick={() => decrement(item)}
+              onClick={() => decrement(id, Number(quantity))}
             >
               -
             </button>
-            <span className="quantity">{quantity}</span>
-            <button className="button primary" onClick={() => increment(item)}>
+
+            <input
+              onChange={(e) => {
+                setError('')
+                const value = e.target.value.replace(/\D/g, '')
+                if (Number(value) > stock) {
+                  setError('Quantity unavailable')
+                }
+                setRawQuantity(value)
+              }}
+              name="quantity"
+              size={5}
+              value={rawQuantity}
+              className="input primary quantity"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              min={MIN_ITEM_QUANTITY}
+              max={stock}
+              onBlur={(e) => {
+                if (rawQuantity === '' || Number(rawQuantity) <= 0) {
+                  setRawQuantity(String(quantity))
+                  return
+                }
+                const val = rawQuantity.replace(/^0+(?!$)/g, '')
+                setRawQuantity(val)
+
+                if (val > stock) {
+                  setRawQuantity(String(quantity))
+                  // Maybe send a message here that quantity reverted because it was an error
+                  return
+                }
+
+                updateItem(id, Number(rawQuantity))
+
+                // Send to server if needed here
+              }}
+            />
+            {/* <span className="quantity">{quantity}</span> */}
+            <button
+              disabled={quantity >= stock}
+              className="button primary"
+              onClick={() => increment(id, Number(rawQuantity))}
+            >
               +
             </button>
 
@@ -52,6 +100,7 @@ export function CartItem({ item }) {
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
+          {error && <div className="error">{error}</div>}
         </div>
       </article>
     </li>

@@ -74,8 +74,7 @@ export function deleteItemFromLocalCart(item) {
   return updatedCart
 }
 
-export async function updateItemFromRemoteCart(item) {
-  const { itemId, quantity } = item
+export async function updateItemFromRemoteCart(itemId, quantity) {
   const options = {
     method: 'PATCH',
     headers: {

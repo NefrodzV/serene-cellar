@@ -82,36 +82,36 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function updateItem(item) {
+  async function updateItem(itemId, quantity) {
     try {
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(item)
-        : await updateItemFromLocalCart(item)
+        ? await updateItemFromRemoteCart(itemId, quantity)
+        : await updateItemFromLocalCart(itemId, quantity)
       setCartItems(data.items)
     } catch (error) {
       console.error('Error updating item:', error)
     }
   }
 
-  async function increment(item) {
+  async function increment(itemId, quantity) {
     try {
-      const quantity = item.quantity + 1
+      const incrementedQuantity = quantity + 1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart({ itemId: item.id, quantity })
-        : await updateItemFromLocalCart({ itemId: item.id, quantity })
+        ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
+        : await updateItemFromLocalCart(itemId, quantity) //Need to update the local function
       console.log(data)
       setCartItems(data.items)
     } catch (error) {
-      console.error()
+      console.error(error)
     }
   }
 
-  async function decrement(item) {
+  async function decrement(itemId, quantity) {
     try {
-      const quantity = item.quantity + -1
+      const decreasedQuantity = quantity + -1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart({ itemId: item.id, quantity })
-        : await updateItemFromLocalCart({ itemId: item.id, quantity })
+        ? await updateItemFromRemoteCart(itemId, decreasedQuantity)
+        : await updateItemFromLocalCart({ itemId: item.id, quantity }) // Need to update the local functions
       console.log(data)
       setCartItems(data.items)
     } catch (error) {
