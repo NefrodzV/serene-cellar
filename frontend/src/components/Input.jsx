@@ -2,7 +2,7 @@ import React from 'react'
 export function Input({ id, label, type, value, onChangeHandler, error }) {
   return (
     <div className="input container">
-      <label htmlFor={id}>{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
       <input
         className="input primary"
         id={id}
