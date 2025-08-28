@@ -31,6 +31,7 @@ export function CartProvider({ children }) {
 
     return []
   })
+
   const { sendMessage } = useMessages()
 
   const total = cartItems?.reduce(
@@ -82,8 +83,9 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function updateItem(itemId, quantity) {
+  async function updateItem(item, quantity) {
     try {
+      const itemId = item.id
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, quantity)
         : await updateItemFromLocalCart(itemId, quantity)
@@ -93,8 +95,9 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function increment(itemId, quantity) {
+  async function increment(item, quantity) {
     try {
+      const itemId = item.id
       const incrementedQuantity = quantity + 1
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
@@ -106,8 +109,9 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function decrement(itemId, quantity) {
+  async function decrement(item, quantity) {
     try {
+      const itemId = item.id
       const decreasedQuantity = quantity + -1
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, decreasedQuantity)

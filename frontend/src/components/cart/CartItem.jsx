@@ -38,7 +38,7 @@ export function CartItem({ item }) {
             <button
               disabled={quantity === MIN_ITEM_QUANTITY}
               className="button primary"
-              onClick={() => decrement(id, Number(quantity))}
+              onClick={() => decrement(item, Number(quantity))}
             >
               -
             </button>
@@ -75,7 +75,7 @@ export function CartItem({ item }) {
                   return
                 }
 
-                updateItem(id, Number(rawQuantity))
+                updateItem(item, Number(rawQuantity))
 
                 // Send to server if needed here
               }}
@@ -84,7 +84,7 @@ export function CartItem({ item }) {
             <button
               disabled={quantity >= stock}
               className="button primary"
-              onClick={() => increment(id, Number(rawQuantity))}
+              onClick={() => increment(item, Number(rawQuantity))}
             >
               +
             </button>
