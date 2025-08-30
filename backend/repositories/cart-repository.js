@@ -19,6 +19,17 @@ export async function getCartItemsWithProductData(cartId) {
         ci.quantity, 
         ci.unit_price AS price, 
         ci.unit_type AS "unitType",
+        ARRAY_REMOVE(ARRAY[
+          CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
+          CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
+          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END], null)
+        AS errors,
+        CASE
+          WHEN p.active = false THEN false
+          WHEN p.stock <= 0 THEN false
+          WHEN ci.quantity > p.stock THEN false
+          ELSE true
+        END AS purchasable,
         p.name,
         p.slug,
         p.stock,

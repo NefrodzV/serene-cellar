@@ -26,7 +26,15 @@ const getProducts = async (req, res, next) => {
             WHEN pr.unit = '12-pack' THEN 'twelvePack'
             WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
             ELSE pr.unit 
-        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
+        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
+        CASE
+          WHEN p.active=false THEN false
+          WHEN p.stock=0 THEN false
+          ELSE true
+        END AS purchasable,
+        ARRAY_REMOVE(ARRAY[
+          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END,
+          CASE WHEN p.stock  = 0 THEN 'OUT_OF_STOCK' END],null) as errors
         FROM products p
         INNER JOIN prices pr ON p.id = pr.product_id
         GROUP BY p.id, p.name
@@ -68,7 +76,15 @@ const getProduct = [
             WHEN pr.unit = '12-pack' THEN 'twelvePack'
             WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
             ELSE pr.unit 
-        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price
+        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
+        CASE
+          WHEN p.active=false THEN false
+          WHEN p.stock=0 THEN false
+          ELSE true
+        END AS purchasable,
+        ARRAY_REMOVE(ARRAY[
+          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END,
+          CASE WHEN p.stock  = 0 THEN 'OUT_OF_STOCK' END],null) as errors
         FROM products p
         INNER JOIN prices pr ON p.id = pr.product_id
         WHERE p.slug = $1
