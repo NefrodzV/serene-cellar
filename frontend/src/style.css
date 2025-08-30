@@ -58,7 +58,6 @@ body,.button, .input {
 body {
   color: var(--text-color);
   margin: 0;
-  background-color: var(--background-color);
   font-size: 1rem;
 }
 
@@ -236,10 +235,15 @@ label, button, input {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: var(--background-color);
   height: 100dvh;
+  width: clamp(320px, 100vw, 1280px) ;
+  margin-inline: auto;
+  
 }
 
 .app-layout .main-layout {
+  background-color: none;
   flex: 1;
   display: flex;
   padding:  .5rem .5rem .5rem;
@@ -252,8 +256,9 @@ label, button, input {
   background-color: var(--primary-color);
 }
 
+
+
 .main-layout {
-  
   overflow-y: auto;
   position: relative;
 }
