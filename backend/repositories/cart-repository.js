@@ -5,15 +5,25 @@ export async function getCartByUserId(userId) {
   const { rows } = await db.query(
     `
     SELECT 
-    bool_and(item.purchasable) as can_checkout,
-    SUM(item.quantity * item.unit_price) as subtotal,
-    json_agg(item) as items
+    COALESCE(bool_and(item.purchasable), false) as can_checkout,
+    COALESCE(SUM(item.quantity * item.unit_price), 0) as subtotal,
+    COALESCE(json_agg(item), '[]') as items,
+    COALESCE(SUM(item.quantity), 0) as total_items,
+    CASE 
+      WHEN COALESCE(SUM(item.quantity), 0) > 0 THEN false
+      ELSE true
+    END as is_empty
     FROM
     (SELECT 
         ci.id, 
         ci.quantity, 
         ci.unit_price, 
         ci.unit_type,
+        CASE
+          WHEN p.discount_percent IS NOT NULL 
+          THEN (ROUND(ci.unit_price) * (1 - p.discount_percent/100), 2)
+          ELSE unit_price
+        END as effective_price
         ARRAY_REMOVE(ARRAY[
           CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
           CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
@@ -41,7 +51,7 @@ export async function getCartByUserId(userId) {
     [userId]
   )
 
-  return camelize(rows) || null
+  return camelize(rows[0]) || null
 }
 
 export async function setCartItemQuantity(itemId, quantity) {
