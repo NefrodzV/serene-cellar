@@ -17,27 +17,25 @@ export const CartContext = createContext()
 
 export function CartProvider({ children }) {
   const { isAuthenticated } = useUser()
+  const { sendMessage } = useMessages()
 
   // Update this to call the functions of the cartService
-  const [cartItems, setCartItems] = useState(() => {
+  const [cart, setCart] = useState(() => {
     if (!isAuthenticated) {
       try {
         const localCart = localStorage.getItem('cart')
-        return localCart ? JSON.parse(localCart) : []
+        return localCart
+          ? {
+              items: JSON.parse(localCart),
+            }
+          : { cart: { items: [] } }
       } catch {
-        return []
+        return { cart: { items: [] } }
       }
     }
 
     return []
   })
-
-  const { sendMessage } = useMessages()
-
-  const total = cartItems?.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  )
 
   useEffect(() => {
     async function loadCart() {
@@ -49,7 +47,8 @@ export function CartProvider({ children }) {
         } else {
           data = await fetchCart()
         }
-        setCartItems(data.items)
+        console.log(data)
+        setCart(data.cart)
       } catch (e) {
         console.error('Error loading cart:', e)
       }
@@ -64,7 +63,7 @@ export function CartProvider({ children }) {
         ? await addItemToRemoteCart(item)
         : await addItemToLocalCart(item)
 
-      setCartItems(cart.items)
+      setCart(cart.items)
       sendMessage('Item has been added to cart')
     } catch (error) {
       console.error('Error adding item:', error)
@@ -77,7 +76,7 @@ export function CartProvider({ children }) {
         ? await deleteItemFromRemoteCart(item)
         : await deleteItemFromLocalCart(item)
       console.log(data)
-      setCartItems(data.items)
+      setCart(data.cart)
     } catch (error) {
       console.error('Error deleting item:', error)
     }
@@ -89,7 +88,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, quantity)
         : await updateItemFromLocalCart(itemId, quantity)
-      setCartItems(data.items)
+      setCart(data.cart)
     } catch (error) {
       console.error('Error updating item:', error)
     }
@@ -103,7 +102,7 @@ export function CartProvider({ children }) {
         ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
         : await updateItemFromLocalCart(itemId, quantity) //Need to update the local function
       console.log(data)
-      setCartItems(data.items)
+      setCart(data.cart)
     } catch (error) {
       console.error(error)
     }
@@ -116,22 +115,20 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, decreasedQuantity)
         : await updateItemFromLocalCart({ itemId: item.id, quantity }) // Need to update the local functions
-      console.log(data)
-      setCartItems(data.items)
+
+      setCart(data.cart)
     } catch (error) {
       console.error(error)
     }
   }
   const value = {
-    cartItems,
+    cart,
     addItem,
     deleteItem,
     updateItem,
     decrement,
     increment,
-    total: total.toFixed(2),
-    totalItems: cartItems?.length === 0 ? null : cartItems.length,
-    isEmpty: cartItems.length === 0,
+    isEmpty: cart?.items?.length === 0,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
