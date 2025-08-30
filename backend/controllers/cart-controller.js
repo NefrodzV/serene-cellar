@@ -6,7 +6,6 @@ import {
   deleteCartItem,
   getCartByUserId,
   getCartItemByCartProductAndUnit,
-  getCartItemsWithProductData,
   getItemsByUserId,
   incrementCartItemQuantity,
   setCartItemQuantity,
@@ -21,6 +20,8 @@ const getCart = [
   async (req, res, next) => {
     try {
       const cart = await getCartByUserId(req.user.id)
+      console.dir(cart, { depth: null })
+
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
       return res.json({ cart })
     } catch (error) {
@@ -142,9 +143,6 @@ const sync = [
   validate,
   async function (req, res, next) {
     const data = matchedData(req)
-    const cart = await getCartByUserId(req.user.id)
-
-    // Maybe do a get function without products data it isnt needed right here
     const existingItems = await getItemsByUserId(req.user.id)
     const existingMap = new Map(
       existingItems.map((item) => [
@@ -171,11 +169,10 @@ const sync = [
     }
 
     // Getting updated cart items
-    const cartItems = await getCartItemsWithProductData(cart.id)
-
+    const cart = await getCartByUserId(req.user.id)
     return res.status(200).json({
-      message: 'Remote cart item syncronized',
-      cart: { items: cartItems },
+      message,
+      cart,
     })
   },
 ]
