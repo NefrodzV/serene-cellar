@@ -1,17 +1,18 @@
 import db from '../db/index.js'
+import { camelize } from '../utils/camelize.js'
 
 export async function getCartByUserId(userId) {
   const { rows } = await db.query(
     `
     SELECT 
-    bool_and(item.purchasable) as "canCheckout",
-    SUM(item.quantity * item.price) as subtotal,
+    bool_and(item.purchasable) as can_checkout,
+    SUM(item.quantity * item.unit_price) as subtotal,
     json_agg(item) as items
     FROM
     (SELECT 
         ci.id, 
         ci.quantity, 
-        ci.unit_price AS price, 
+        ci.unit_price, 
         ci.unit_type,
         ARRAY_REMOVE(ARRAY[
           CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
@@ -40,48 +41,7 @@ export async function getCartByUserId(userId) {
     [userId]
   )
 
-  return rows[0] || null
-}
-
-export async function getCartItemsWithProductData(cartId) {
-  const { rows } = await db.query(
-    `
-    SELECT 
-    bool_and(item.purchasable) as can_checkout,
-    SUM(item.quantity * item.price) as total,
-    json_agg(item) as items
-    FROM
-    (SELECT 
-        ci.id 
-        ci.quantity, 
-        ci.unit_price AS price, 
-        ci.unit_type,
-        ARRAY_REMOVE(ARRAY[
-          CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
-          CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
-          CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
-        AS errors,
-        CASE
-          WHEN p.status <> 'active' THEN false
-          WHEN p.stock <= 0 THEN false
-          WHEN ci.quantity > p.stock THEN false
-          ELSE true
-        END AS purchasable,
-        p.name,
-        p.slug,
-        p.stock,
-        (   
-            SELECT
-            jsonb_object_agg(pi.device_type, pi.image_url)
-            FROM product_images pi
-            WHERE pi.product_id = p.id
-        ) as images
-        FROM cart_items ci
-        INNER JOIN products p ON ci.product_id = p.id
-        WHERE cart_id=$1) item`,
-    [cartId]
-  )
-  return rows
+  return camelize(rows) || null
 }
 
 export async function setCartItemQuantity(itemId, quantity) {
