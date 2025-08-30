@@ -20,7 +20,6 @@ const getCart = [
   async (req, res, next) => {
     try {
       const cart = await getCartByUserId(req.user.id)
-      console.dir(cart, { depth: null })
 
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
       return res.json({ cart })
