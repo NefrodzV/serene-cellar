@@ -1,6 +1,5 @@
-import { body, param, validationResult, matchedData } from 'express-validator'
+import { body, param, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
-import pool from '../db/pool.js'
 import { validate } from '../middlewares/validationHandler.js'
 import {
   createCartItem,
@@ -8,7 +7,7 @@ import {
   getCartByUserId,
   getCartItemByCartProductAndUnit,
   getCartItemsWithProductData,
-  getItemsByCartId,
+  getItemsByUserId,
   incrementCartItemQuantity,
   setCartItemQuantity,
 } from '../repositories/cart-repository.js'
@@ -23,8 +22,7 @@ const getCart = [
     try {
       const cart = await getCartByUserId(req.user.id)
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
-      const items = await getCartItemsWithProductData(cart.id)
-      return res.json({ cart: { items } })
+      return res.json({ cart })
     } catch (error) {
       next(error)
     }
@@ -42,9 +40,8 @@ const addItem = [
   async (req, res, next) => {
     const { item } = matchedData(req)
     try {
-      const cart = await getCartByUserId(req.user.id)
       const existingItem = await getCartItemByCartProductAndUnit(
-        cart.id,
+        req.user.id,
         item.productId,
         item.unitType
       )
@@ -57,7 +54,7 @@ const addItem = [
         message = 'Cart item updated'
       } else {
         await createCartItem(
-          cart.id,
+          req.user.id,
           item.productId,
           item.quantity,
           item.price,
@@ -68,8 +65,8 @@ const addItem = [
       }
 
       // Getting updated cart items
-      const cartItems = await getCartItemsWithProductData(cart.id)
-      return res.status(status).json({ message, cart: { items: cartItems } })
+      const cart = await getCartByUserId(req.user.id)
+      return res.status(status).json({ message, cart })
     } catch (error) {
       next(error)
     }
@@ -89,11 +86,10 @@ const deleteItem = [
     try {
       await deleteCartItem(data.itemId)
       const cart = await getCartByUserId(req.user.id)
-      const cartItems = await getCartItemsWithProductData(cart.id)
 
       return res.status(200).json({
         message: 'Cart item deleted',
-        cart: { items: cartItems },
+        cart,
       })
     } catch (error) {
       next(error)
@@ -118,18 +114,14 @@ const updateItem = [
   validate,
   async function (req, res, next) {
     try {
-      console.log('being called')
       const { quantity, itemId } = matchedData(req)
-      console.log(quantity)
+
       await setCartItemQuantity(itemId, quantity)
       const cart = await getCartByUserId(req.user.id)
-      const cartItems = await getCartItemsWithProductData(cart.id)
 
       return res.json({
         message: 'Cart item updated',
-        cart: {
-          items: cartItems,
-        },
+        cart,
       })
     } catch (error) {
       next(error)
@@ -150,11 +142,10 @@ const sync = [
   validate,
   async function (req, res, next) {
     const data = matchedData(req)
-    console.log(req.user)
     const cart = await getCartByUserId(req.user.id)
 
     // Maybe do a get function without products data it isnt needed right here
-    const existingItems = await getItemsByCartId(cart.id)
+    const existingItems = await getItemsByUserId(req.user.id)
     const existingMap = new Map(
       existingItems.map((item) => [
         `${item.product_id}-${item.unit_type}`,

@@ -22,18 +22,18 @@ const getProducts = async (req, res, next) => {
                 WHERE pi.product_id = p.id
             ) as images,
             jsonb_object_agg(CASE 
-            WHEN pr.unit = '6-pack' THEN 'sixPack'
-            WHEN pr.unit = '12-pack' THEN 'twelvePack'
-            WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
+            WHEN pr.unit = '6-pack' THEN 'six_pack'
+            WHEN pr.unit = '12-pack' THEN 'twelve_pack'
+            WHEN pr.unit = '24-pack' THEN 'twenty_four_pack'
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
         CASE
-          WHEN p.active=false THEN false
+          WHEN p.status <> 'active' THEN false
           WHEN p.stock=0 THEN false
           ELSE true
         END AS purchasable,
         ARRAY_REMOVE(ARRAY[
-          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END,
+          CASE WHEN p.status = 'inactive' THEN 'PRODUCT_UNAVAILABLE' END,
           CASE WHEN p.stock  = 0 THEN 'OUT_OF_STOCK' END],null) as errors
         FROM products p
         INNER JOIN prices pr ON p.id = pr.product_id
@@ -72,9 +72,9 @@ const getProduct = [
                 WHERE pi.product_id = p.id
             ) as images,
             jsonb_object_agg(CASE 
-            WHEN pr.unit = '6-pack' THEN 'sixPack'
-            WHEN pr.unit = '12-pack' THEN 'twelvePack'
-            WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
+            WHEN pr.unit = '6-pack' THEN 'six_pack'
+            WHEN pr.unit = '12-pack' THEN 'twelve_pack'
+            WHEN pr.unit = '24-pack' THEN 'twenty_four_pack'
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
         CASE

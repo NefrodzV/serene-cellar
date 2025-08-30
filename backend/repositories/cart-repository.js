@@ -3,29 +3,23 @@ import db from '../db/index.js'
 export async function getCartByUserId(userId) {
   const { rows } = await db.query(
     `
-        SELECT id 
-        FROM cart 
-        WHERE user_id=$1`,
-    [userId]
-  )
-
-  return rows[0] || null
-}
-
-export async function getCartItemsWithProductData(cartId) {
-  const { rows } = await db.query(
-    `SELECT 
-        ci.id, 
+    SELECT 
+    bool_and(item.purchasable) as can_checkout,
+    SUM(item.quantity * item.price) as subtotal,
+    json_agg(item) as items
+    FROM
+    (SELECT 
+        ci.id cart_item_id, 
         ci.quantity, 
         ci.unit_price AS price, 
-        ci.unit_type AS "unitType",
+        ci.unit_type,
         ARRAY_REMOVE(ARRAY[
           CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
           CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
-          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END], null)
+          CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
         AS errors,
         CASE
-          WHEN p.active = false THEN false
+          WHEN p.status <> 'active' THEN false
           WHEN p.stock <= 0 THEN false
           WHEN ci.quantity > p.stock THEN false
           ELSE true
@@ -41,10 +35,52 @@ export async function getCartItemsWithProductData(cartId) {
         ) as images
         FROM cart_items ci
         INNER JOIN products p ON ci.product_id = p.id
-        WHERE cart_id=$1`,
-    [cartId]
+        WHERE cart_id=(SELECT id FROM cart where user_id = $1)) item
+        `,
+    [userId]
   )
 
+  return rows[0] || null
+}
+
+export async function getCartItemsWithProductData(cartId) {
+  const { rows } = await db.query(
+    `
+    SELECT 
+    bool_and(item.purchasable) as can_checkout,
+    SUM(item.quantity * item.price) as total,
+    json_agg(item) as items
+    FROM
+    (SELECT 
+        ci.id cart_item_id, 
+        ci.quantity, 
+        ci.unit_price AS price, 
+        ci.unit_type,
+        ARRAY_REMOVE(ARRAY[
+          CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
+          CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
+          CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
+        AS errors,
+        CASE
+          WHEN p.status <> 'active' THEN false
+          WHEN p.stock <= 0 THEN false
+          WHEN ci.quantity > p.stock THEN false
+          ELSE true
+        END AS purchasable,
+        p.name,
+        p.slug,
+        p.stock,
+        (   
+            SELECT
+            jsonb_object_agg(pi.device_type, pi.image_url)
+            FROM product_images pi
+            WHERE pi.product_id = p.id
+        ) as images
+        FROM cart_items ci
+        INNER JOIN products p ON ci.product_id = p.id
+        WHERE cart_id=$1) item`,
+    [cartId]
+  )
   return rows
 }
 
@@ -69,21 +105,22 @@ export async function incrementCartItemQuantity(itemId, quantity) {
 }
 
 export async function getCartItemByCartProductAndUnit(
-  cartId,
+  userId,
   productId,
   unitType
 ) {
   const { rows } = await db.query(
     `
         SELECT id FROM cart_items
-        WHERE product_id=$1 AND unit_type=$2 AND cart_id=$3`,
-    [productId, unitType, cartId]
+        WHERE product_id=$1 AND unit_type=$2 AND
+        cart_id=(SELECT id from cart WHERE user_id=$3)`,
+    [productId, unitType, userId]
   )
   return rows[0] || null
 }
 
 export async function createCartItem(
-  cartId,
+  userId,
   productId,
   quantity,
   unitPrice,
@@ -92,8 +129,8 @@ export async function createCartItem(
   await db.query(
     `INSERT INTO cart_items 
         (product_id, cart_id, quantity, unit_price, unit_type)
-        VALUES ($1, $2, $3, $4, $5)`,
-    [productId, cartId, quantity, unitPrice, unitType]
+        VALUES ($1, (SELECT id from cart WHERE user_id=$2), $3, $4, $5)`,
+    [productId, userId, quantity, unitPrice, unitType]
   )
 }
 
@@ -105,15 +142,15 @@ export async function deleteCartItem(itemId) {
   )
 }
 
-export async function getItemsByCartId(cartId) {
+export async function getItemsByUserId(userId) {
   const { rows } = await db.query(
     `
         SELECT 
         product_id,
         unit_type 
         FROM cart_items 
-        WHERE cart_id=$1`,
-    [cartId]
+        WHERE cart_id=(SELECT id from cart WHERE=$1)`,
+    [userId]
   )
 
   return rows
