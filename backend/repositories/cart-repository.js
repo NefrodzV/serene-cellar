@@ -4,12 +4,12 @@ export async function getCartByUserId(userId) {
   const { rows } = await db.query(
     `
     SELECT 
-    bool_and(item.purchasable) as can_checkout,
+    bool_and(item.purchasable) as "canCheckout",
     SUM(item.quantity * item.price) as subtotal,
     json_agg(item) as items
     FROM
     (SELECT 
-        ci.id cart_item_id, 
+        ci.id, 
         ci.quantity, 
         ci.unit_price AS price, 
         ci.unit_type,
@@ -52,7 +52,7 @@ export async function getCartItemsWithProductData(cartId) {
     json_agg(item) as items
     FROM
     (SELECT 
-        ci.id cart_item_id, 
+        ci.id 
         ci.quantity, 
         ci.unit_price AS price, 
         ci.unit_type,

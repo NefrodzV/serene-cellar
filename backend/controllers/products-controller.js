@@ -22,9 +22,9 @@ const getProducts = async (req, res, next) => {
                 WHERE pi.product_id = p.id
             ) as images,
             jsonb_object_agg(CASE 
-            WHEN pr.unit = '6-pack' THEN 'six_pack'
-            WHEN pr.unit = '12-pack' THEN 'twelve_pack'
-            WHEN pr.unit = '24-pack' THEN 'twenty_four_pack'
+            WHEN pr.unit = '6-pack' THEN 'sixPack'
+            WHEN pr.unit = '12-pack' THEN 'twelvePack'
+            WHEN pr.unit = '24-pack' THEN 'twentyFourPack'
             ELSE pr.unit 
         END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
         CASE
