@@ -12,7 +12,7 @@ export async function fetchCart() {
     throw new Error(data || 'Fetch cart failed')
   }
 
-  return data.cart
+  return data
 }
 
 export async function addItemToRemoteCart(item) {
@@ -31,7 +31,7 @@ export async function addItemToRemoteCart(item) {
     throw new Error(data || 'Failed to add item to remote cart')
   }
 
-  return data.cart
+  return data
 }
 
 export function addItemToLocalCart(item) {
@@ -64,7 +64,7 @@ export async function deleteItemFromRemoteCart(item) {
   if (!res.ok) {
     throw new Error(data || 'Failed to delete item from remote cart')
   }
-  return data.cart
+  return data
 }
 
 export function deleteItemFromLocalCart(item) {
@@ -88,7 +88,7 @@ export async function updateItemFromRemoteCart(itemId, quantity) {
   if (!res.ok) {
     throw new Error(data || 'Failed to update item from remote cart')
   }
-  return data.cart
+  return data
 }
 
 export function updateItemFromLocalCart(item) {
@@ -121,7 +121,7 @@ export async function syncCart() {
   }
   // Remove the local items
   localStorage.removeItem(CART_KEY)
-  return data.cart ?? null
+  return data ?? null
 }
 
 export function localCartHasItems() {
