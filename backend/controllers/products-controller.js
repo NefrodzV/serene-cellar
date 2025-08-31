@@ -49,7 +49,7 @@ const getProducts = async (req, res, next) => {
       )
       FROM prices pp
       WHERE pp.product_id = p.id
-    ) AS prices,  -- (rename from "price" since it's a map)
+    ) AS prices,
     CASE
       WHEN p.status <> 'active' THEN FALSE
       WHEN p.stock = 0          THEN FALSE
@@ -78,44 +78,76 @@ const getProduct = [
     const slug = req.params.slug
     try {
       const { rowCount, rows } = await pool.query(
-        `SELECT
-            p.id,
-            p.name,
-            p.description,
-            p.ml,
-            p.abv,
-            p.category,
-            p.slug,
-            p.stock,
-            CASE
-              WHEN p.discount_percent IS NOT NULL 
-              THEN (ROUND(ci.unit_price) * (1 - p.discount_percent/100), 2)
-              ELSE unit_price
-            END as effective_price,
-            (   
-                SELECT
-                jsonb_object_agg(pi.device_type, pi.image_url)
-                FROM product_images pi
-                WHERE pi.product_id = p.id
-            ) as images,
-            jsonb_object_agg(CASE 
-            WHEN pr.unit = '6-pack' THEN 'six_pack'
-            WHEN pr.unit = '12-pack' THEN 'twelve_pack'
-            WHEN pr.unit = '24-pack' THEN 'twenty_four_pack'
-            ELSE pr.unit 
-        END, jsonb_build_object('unit', pr.unit, 'value',pr.value)) AS price,
-        CASE
-          WHEN p.active=false THEN false
-          WHEN p.stock=0 THEN false
-          ELSE true
-        END AS purchasable,
-        ARRAY_REMOVE(ARRAY[
-          CASE WHEN p.active = false THEN 'PRODUCT_UNAVAILABLE' END,
-          CASE WHEN p.stock  = 0 THEN 'OUT_OF_STOCK' END],null) as errors
-        FROM products p
-        INNER JOIN prices pr ON p.id = pr.product_id
-        WHERE p.slug = $1
-        GROUP BY p.id, p.name`,
+        `
+        SELECT 
+          p.name,
+          p.description,
+          p.slug, 
+          p.category,
+          p.abv,
+          p.discount_percent,
+          (p.discount_percent IS NOT NULL AND p.discount_percent > 0) as has_discount,
+          (
+            SELECT COALESCE(
+              jsonb_object_agg(
+                img.device_type,
+                img.image_url
+              ),
+              '{}'::jsonb
+            )
+            from product_images img WHERE p.id = img.product_id
+          ) as images,
+          (
+            SELECT COALESCE(
+              jsonb_object_agg(
+                pr.format_key,
+                jsonb_build_object(
+                  'unit', pr.unit,
+                  'value', pr.value,
+                  'stock', pr.stock_quantity,
+                  'effectiveValue', 
+                    CASE 
+                      WHEN p.discount_percent IS NOT NULL
+                      THEN ROUND(pr.value * (1 - p.discount_percent/100) , 2) 
+                    END,
+                  'purchasable',
+                    CASE
+                      WHEN p.status <> 'active' THEN false
+                      WHEN pr.stock_quantity  = 0 THEN false
+                      ELSE true
+                    END,
+                  'errors',
+                  ARRAY_REMOVE(ARRAY[
+                    CASE WHEN pr.stock_quantity <= 0 THEN 'OUT_OF_STOCK' END
+                  ], NULL)
+                )
+              )
+            ) FROM prices pr WHERE pr.product_id = p.id
+          ) as prices,
+          CASE
+            WHEN p.status <> 'active' THEN ARRAY['PRODUCT_UNAVAILABLE']
+            WHEN NOT EXISTS (
+              SELECT 1
+              FROM prices pr
+              WHERE pr.product_id = p.id
+                AND pr.stock_quantity > 0
+            )
+            THEN ARRAY['OUT_OF_STOCK']
+            ELSE ARRAY[]::text[]
+          END AS errors,
+          CASE
+            WHEN p.status <> 'active' THEN false
+            WHEN NOT EXISTS (
+              SELECT 1
+              FROM prices pr
+              WHERE pr.product_id = p.id
+                AND pr.stock_quantity > 0
+            )
+            THEN false
+            ELSE true
+          END AS is_available
+          FROM products p WHERE p.slug=$1
+          `,
         [slug]
       )
       if (rowCount === 0) {
