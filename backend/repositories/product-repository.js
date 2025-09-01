@@ -1,4 +1,6 @@
 import db from '../db/index.js'
+import { camelize } from '../utils/camelize.js'
+
 export async function findProducts() {
   const { rows } = await db.query(`
         SELECT
@@ -50,7 +52,7 @@ export async function findProducts() {
         FROM products p;
         `)
 
-  return rows
+  return camelize(rows)
 }
 
 export async function findProduct(slug) {
@@ -128,5 +130,5 @@ export async function findProduct(slug) {
     [slug]
   )
 
-  return rows[0] || null
+  return camelize(rows[0]) || null
 }
