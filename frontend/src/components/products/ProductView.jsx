@@ -2,6 +2,8 @@ import React from 'react'
 import { useCart, useProduct, useProductSelection } from '../../hooks'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { Select } from '../Select'
+import { Error } from '../Error'
+import { ErrorsMessages } from '../../constants/ErrorMessages'
 
 export function ProductView() {
   const { slug } = useParams()
@@ -14,11 +16,21 @@ export function ProductView() {
   const [product, isLoading] = useProduct(slug, isEditing)
 
   const { packSize, quantity, packSizeHandler, quantityHandler, total } =
-    useProductSelection(product?.price, initialPack, initialQuantity)
+    useProductSelection(product?.prices, initialPack, initialQuantity)
   const { addItem, updateItem } = useCart()
   if (!product) return <p>Loading product</p>
-  const { name, price, category, abv, ml, description, images, stock } = product
-
+  const {
+    name,
+    isAvailable,
+    prices,
+    category,
+    abv,
+    ml,
+    description,
+    errors,
+    images,
+    stock,
+  } = product
   return (
     <div className="product-view">
       <div>
@@ -31,31 +43,31 @@ export function ProductView() {
           <b className="block">ABV(Alcohol by Volumen):</b> {abv}%
         </p>
         <p>
-          <b className="block">Bottle size:</b> {parseFloat(ml).toFixed(0)} ml
+          <b className="block">Bottle size:</b> {ml} ml
         </p>
-
-        <p>
-          <b className="block">Stock:</b> {stock}
-        </p>
-        <label className="block" htmlFor="packSize">
-          <b>Pack Size</b>
-        </label>
-
-        <Select
-          options={Object.entries(price).map(([key, { unit, value }]) => ({
-            key,
-            value: key,
-            text: `${unit} - $${value}`,
-          }))}
-          value={packSize || ''}
-          text={
-            packSize
-              ? `${price[packSize].unit} - $${price[packSize].value}`
-              : null
-          }
-          onChange={packSizeHandler}
-        />
-        {/* <select
+        {isAvailable ? (
+          <>
+            <p>
+              <b className="block">Stock:</b> {stock}
+            </p>
+            <label className="block" htmlFor="packSize">
+              <b>Pack Size</b>
+            </label>
+            <Select
+              options={Object.entries(prices).map(([key, { unit, value }]) => ({
+                key,
+                value: key,
+                text: `${unit} - $${value}`,
+              }))}
+              value={packSize || ''}
+              text={
+                packSize
+                  ? `${prices[packSize].unit} - $${prices[packSize].value}`
+                  : null
+              }
+              onChange={packSizeHandler}
+            />
+            {/* <select
           className="input primary"
           id="packSize"
           onChange={packSizeHandler}
@@ -67,15 +79,18 @@ export function ProductView() {
             </option>
           ))}
         </select> */}
-        <label className="block" htmlFor="quantity">
-          <b>Quantity</b>
-        </label>
-        <Select
-          options={[...Array(10)].map((_, i) => ({ key: i + 1, value: i + 1 }))}
-          onChange={quantityHandler}
-          value={quantity}
-        />
-        {/* <select
+            <label className="block" htmlFor="quantity">
+              <b>Quantity</b>
+            </label>
+            <Select
+              options={[...Array(10)].map((_, i) => ({
+                key: i + 1,
+                value: i + 1,
+              }))}
+              onChange={quantityHandler}
+              value={quantity}
+            />
+            {/* <select
           className="input primary"
           id="quantity"
           onChange={quantityHandler}
@@ -85,33 +100,37 @@ export function ProductView() {
             <option key={i + 1}>{i + 1}</option>
           ))}
         </select> */}
-        <p>
-          <b className="block">Total:</b>
-          {`$${total}`}
-        </p>
-        <button
-          className="button add-cart"
-          onClick={() =>
-            isEditing
-              ? updateItem({
-                  id: itemId,
-                  quantity: quantity,
-                })
-              : addItem({
-                  productId: product.id,
-                  slug: product.slug,
-                  name: product.name,
-                  quantity,
-                  packSize,
-                  unitType: product.price[packSize].unit,
-                  price: product.price[packSize].value,
-                  images: product.images,
-                })
-          }
-        >
-          <i className="fa-solid fa-cart-plus"></i>
-          {isEditing ? 'Submit change' : 'Add to cart'}
-        </button>
+            <p>
+              <b className="block">Total:</b>
+              {`$${total}`}
+            </p>
+            <button
+              className="button add-cart"
+              onClick={() =>
+                isEditing
+                  ? updateItem({
+                      id: itemId,
+                      quantity: quantity,
+                    })
+                  : addItem({
+                      productId: product.id,
+                      slug: product.slug,
+                      name: product.name,
+                      quantity,
+                      packSize,
+                      unitType: product.prices[packSize].unit,
+                      price: product.prices[packSize].value,
+                      images: product.images,
+                    })
+              }
+            >
+              <i className="fa-solid fa-cart-plus"></i>
+              Add to cart
+            </button>
+          </>
+        ) : (
+          <Error text={ErrorsMessages[errors[0]]} />
+        )}
       </div>
       <img
         width={'25%'}
