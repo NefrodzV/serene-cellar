@@ -63,7 +63,8 @@ export async function findProduct(slug) {
               p.description,
               p.slug, 
               p.category,
-              p.abv,
+              ROUND(p.ml, -1) as ml,
+              ROUND(p.abv, -1) as abv,
               p.discount_percent,
               (p.discount_percent IS NOT NULL AND p.discount_percent > 0) as has_discount,
               (
