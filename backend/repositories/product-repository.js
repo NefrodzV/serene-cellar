@@ -1,4 +1,4 @@
-import db from '../db'
+import db from '../db/index.js'
 export async function findProducts() {
   const { rows } = await db.query(`
         SELECT

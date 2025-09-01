@@ -21,9 +21,9 @@ export async function getCartByUserId(userId) {
         ci.unit_type,
         CASE
           WHEN p.discount_percent IS NOT NULL 
-          THEN (ROUND(ci.unit_price) * (1 - p.discount_percent/100), 2)
+          THEN ROUND(ci.unit_price * (1 - p.discount_percent / 100), 2)
           ELSE unit_price
-        END as effective_price
+        END as effective_price,
         ARRAY_REMOVE(ARRAY[
           CASE WHEN p.stock < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
           CASE WHEN p.stock <= 0 THEN 'OUT_OF_STOCK' END,
