@@ -37,69 +37,53 @@ export function ProductView() {
         <h1>{name}</h1>
         <p>{description}</p>
         <p>
-          <b className="block">Category:</b> {category}
+          <b>Category:</b> {category}
         </p>
         <p>
-          <b className="block">ABV(Alcohol by Volumen):</b> {abv}%
+          <b>Abv:</b> {abv}%
         </p>
         <p>
-          <b className="block">Bottle size:</b> {ml} ml
+          <b>Bottle size:</b> {ml} ml
         </p>
         {isAvailable ? (
           <>
-            <p>
-              <b className="block">Stock:</b> {stock}
-            </p>
-            <label className="block" htmlFor="packSize">
-              <b>Pack Size</b>
-            </label>
-            <Select
-              options={Object.entries(prices).map(([key, { unit, value }]) => ({
-                key,
-                value: key,
-                text: `${unit} - $${value}`,
-              }))}
-              value={packSize || ''}
-              text={
-                packSize
-                  ? `${prices[packSize].unit} - $${prices[packSize].value}`
-                  : null
-              }
-              onChange={packSizeHandler}
-            />
-            {/* <select
-          className="input primary"
-          id="packSize"
-          onChange={packSizeHandler}
-          disabled={isEditing}
-        >
-          {Object.entries(price).map(([key, { unit, value }]) => (
-            <option value={key} key={key}>
-              {unit} - ${value}
-            </option>
-          ))}
-        </select> */}
-            <label className="block" htmlFor="quantity">
-              <b>Quantity</b>
-            </label>
-            <Select
-              options={[...Array(10)].map((_, i) => ({
-                key: i + 1,
-                value: i + 1,
-              }))}
-              onChange={quantityHandler}
-              value={quantity}
-            />
-            {/* <select
-          className="input primary"
-          id="quantity"
-          onChange={quantityHandler}
-          value={quantity ?? 1}
-        >
-          {[...Array(10)].map((_, i) => (
-            <option key={i + 1}>{i + 1}</option>
-          ))}
-        </select> */}
+            <div className="flex-1rem">
+              <div>
+                <label htmlFor="packSize">
+                  <b>Pack Size</b>
+                </label>
+                <Select
+                  options={Object.entries(prices).map(
+                    ([key, { unit, value }]) => ({
+                      key,
+                      value: key,
+                      text: `${unit} - $${value}`,
+                    })
+                  )}
+                  value={packSize || ''}
+                  text={
+                    packSize
+                      ? `${prices[packSize].unit} - $${prices[packSize].value}`
+                      : null
+                  }
+                  onChange={packSizeHandler}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="quantity">
+                  <b>Quantity</b>
+                </label>
+                <Select
+                  options={[...Array(10)].map((_, i) => ({
+                    key: i + 1,
+                    value: i + 1,
+                  }))}
+                  onChange={quantityHandler}
+                  value={quantity}
+                />
+              </div>
+            </div>
             <p>
               <b className="block">Total:</b>
               {`$${total}`}

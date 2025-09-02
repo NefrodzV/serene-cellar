@@ -227,6 +227,10 @@ label, button, input {
   color: var(--text-color);
 }
 
+.flex-1rem {
+  display: flex;
+  gap: 1rem;
+}
 .card:hover {
   box-shadow: 0 0 3px black;
 }
@@ -255,8 +259,6 @@ label, button, input {
   flex-shrink: 0;
   background-color: var(--primary-color);
 }
-
-
 
 .main-layout {
   overflow-y: auto;

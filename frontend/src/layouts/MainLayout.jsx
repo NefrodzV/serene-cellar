@@ -5,9 +5,6 @@ import { MessageContainer } from '../components/messages/MessageContainer'
 export function MainLayout() {
   const { totalItems } = useCart()
   const { isAuthenticated, user } = useUser()
-  const { pathname } = useLocation()
-  const isShopProductPage =
-    pathname.startsWith('/shop/') && pathname !== '/shop'
   return (
     <div className="app-layout">
       <header className="header">
@@ -38,7 +35,7 @@ export function MainLayout() {
           </NavLink>
         </nav>
       </header>
-      <main className={`main-layout ${isShopProductPage ? 'no-scroll' : ''}`}>
+      <main className={`main-layout `}>
         <Outlet />
         <MessageContainer />
       </main>
