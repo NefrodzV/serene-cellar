@@ -50,6 +50,9 @@ h1, h2, h3 {
 }
 
 
+html {
+  font-size: 100%;
+}
 
 body,.button, .input {
   color: var(--text-color);
@@ -241,7 +244,7 @@ label, button, input {
   height: 100vh;
   background-color: var(--background-color);
   height: 100dvh;
-  width: clamp(320px, 100vw, 1280px) ;
+  /* width: clamp(320px, 100vw, 1280px) ; */
   margin-inline: auto;
   
 }
@@ -306,6 +309,7 @@ position: absolute;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+  justify-content: center;
 }
 
 .button.add-cart {
