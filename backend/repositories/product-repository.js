@@ -41,13 +41,21 @@ export async function findProducts() {
           WHERE pp.product_id = p.id
         ) AS prices,
         CASE
-          WHEN p.status <> 'active' THEN FALSE
-          WHEN p.stock = 0          THEN FALSE
-          ELSE TRUE
+          WHEN p.status <> 'active' THEN false
+          WHEN NOT EXISTS (
+            SELECT 1
+            FROM prices pr
+            WHERE pr.product_id = p.id
+            AND pr.stock_quantity > 0) THEN false
+          ELSE true
         END AS purchasable,
         ARRAY_REMOVE(ARRAY[
           CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END,
-          CASE WHEN p.stock  = 0         THEN 'OUT_OF_STOCK' END
+          CASE WHEN NOT EXISTS (
+            SELECT 1
+            FROM prices pr
+            WHERE pr.product_id = p.id
+            AND pr.stock_quantity > 0)THEN 'OUT_OF_STOCK' END
         ], NULL) AS errors
         FROM products p;
         `)
@@ -59,12 +67,13 @@ export async function findProduct(slug) {
   const { rowCount, rows } = await db.query(
     `
             SELECT 
+              p.id,
               p.name,
               p.description,
               p.slug, 
               p.category,
-              ROUND(p.ml, -1) as ml,
-              ROUND(p.abv, -1) as abv,
+              ROUND(p.ml)as ml,
+              ROUND(p.abv) as abv,
               p.discount_percent,
               (p.discount_percent IS NOT NULL AND p.discount_percent > 0) as has_discount,
               (
