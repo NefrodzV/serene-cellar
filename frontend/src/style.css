@@ -589,3 +589,19 @@ position: absolute;
   border-radius: .5rem;
   background-color: var(--surface-color);
 }
+
+.line-through {
+  text-decoration: line-through;
+  color: var(--primary-color);
+}
+
+
+
+.green {
+  
+  color: green;
+}
+
+.bold {
+  font-weight: bold;
+}
