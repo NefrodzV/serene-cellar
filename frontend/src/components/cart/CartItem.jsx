@@ -2,8 +2,20 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
 
 export function CartItem({ item }) {
-  const { id, name, images, quantity, price, packSize, slug, unitType, stock } =
-    item
+  const {
+    id,
+    name,
+    images,
+    quantity,
+    unitPrice,
+    packSize,
+    slug,
+    unitType,
+    stock,
+    hasDiscount,
+    discountPercent,
+    finalUnitPrice,
+  } = item
   const MIN_ITEM_QUANTITY = 1
   const { deleteItem, increment, decrement, updateItem } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
@@ -29,11 +41,22 @@ export function CartItem({ item }) {
           />
         </div>
         <div className="content">
-          <h3>{name}</h3>
-          <p>Price: ${price}</p>
-          <p>Unit: {unitType}</p>
+          <h3>
+            {name} ({unitType})
+          </h3>
+          <p>
+            <span className={`${hasDiscount ? 'line-through' : ''}`}>
+              ${unitPrice}
+            </span>{' '}
+            {hasDiscount && (
+              <>
+                <span>&#x27A1;</span> <span>${finalUnitPrice}</span>{' '}
+                <span className="green bold">{discountPercent}% OFF</span>
+              </>
+            )}
+          </p>
+
           <p>Available: {stock}</p>
-          {/* <Link to={`/shop/${slug}?${params}`}>Edit</Link> */}
           <div className="item-control">
             <button
               disabled={quantity === MIN_ITEM_QUANTITY}
