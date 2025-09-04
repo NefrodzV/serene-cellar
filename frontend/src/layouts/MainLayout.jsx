@@ -3,7 +3,7 @@ import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 export function MainLayout() {
-  const { totalItems } = useCart()
+  const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
   return (
     <div className="app-layout">
@@ -28,7 +28,7 @@ export function MainLayout() {
           )}
           <NavLink className="link" to={'/cart'}>
             <i className="cart fa-solid fa-cart-shopping">
-              <span className="total">{totalItems}</span>
+              <span className="total">{cart?.totalItems}</span>
             </i>
 
             <span>Cart</span>
