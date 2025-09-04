@@ -20,6 +20,8 @@ export async function getCartByUserId(userId) {
         ci.quantity, 
         ci.unit_price, 
         ci.unit_type,
+        p.discount_percent,
+        (p.discount_percent <> 0 AND p.discount_percent IS NOT NULL) as has_discount,
         CASE WHEN p.discount_percent <> 0
           THEN ROUND(ci.quantity * (ci.unit_price - (ci.unit_price * p.discount_percent/100)), 2)
           ELSE ci.quantity * ci.unit_price 
