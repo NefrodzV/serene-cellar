@@ -3,9 +3,9 @@ import { CartItem } from './CartItem'
 import React from 'react'
 
 export function CartList() {
-  const { cartItems } = useCart()
+  const { cart } = useCart()
 
-  if (cartItems.length === 0) {
+  if (cart?.isEmpty) {
     return (
       <div className="empty-list-message">
         <p>Your cart is empty</p>
@@ -15,7 +15,7 @@ export function CartList() {
 
   return (
     <ul aria-label="Your current cart items" className="cart-list">
-      {cartItems.map((item) => (
+      {cart?.items?.map((item) => (
         <CartItem key={item.id ?? item.uuid} item={item} />
       ))}
     </ul>
