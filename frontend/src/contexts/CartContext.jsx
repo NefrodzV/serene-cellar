@@ -59,11 +59,11 @@ export function CartProvider({ children }) {
 
   async function addItem(item) {
     try {
-      const cart = isAuthenticated
+      const data = isAuthenticated
         ? await addItemToRemoteCart(item)
         : await addItemToLocalCart(item)
 
-      setCart(cart.items)
+      setCart(data?.cart)
       sendMessage('Item has been added to cart')
     } catch (error) {
       console.error('Error adding item:', error)
