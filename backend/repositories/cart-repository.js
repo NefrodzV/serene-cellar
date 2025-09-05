@@ -7,6 +7,7 @@ export async function getCartByUserId(userId) {
     SELECT 
     COALESCE(bool_and(item.purchasable), false) as can_checkout,
     COALESCE(SUM(line_total), 0) as subtotal,
+    COALESCE(SUM(final_line_total), 0) as total,
     COALESCE(json_agg(item), '[]') as items,
     COALESCE(SUM(item.quantity), 0) as total_items,
     CASE 

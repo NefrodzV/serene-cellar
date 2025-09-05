@@ -92,7 +92,7 @@ label, button, input {
   background-color: var(--primary-color);
   color: var(--surface-color);
 }
-.button.primary:disabled, .button.primary:disabled:hover {
+.button.primary:disabled, .button.primary:disabled:hover, .button.accent:disabled, .button.accent:disabled:hover {
   background-color: lightgray;
   cursor: not-allowed;
   color: var(--surface-color);

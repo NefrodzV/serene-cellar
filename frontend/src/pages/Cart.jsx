@@ -1,9 +1,11 @@
 import { CartList } from '../components'
 import React from 'react'
-import { useCart } from '../hooks'
+import { useCart, useUser } from '../hooks'
 export function CartPage() {
-  const { total, isEmpty } = useCart()
-  console.log(isEmpty)
+  const { cart } = useCart()
+  const { isAuthenticated } = useUser()
+  console.log(cart)
+
   return (
     <div className="cart-page">
       <h2 className="title">
@@ -12,7 +14,7 @@ export function CartPage() {
 
       <div className="main">
         <CartList />
-        {isEmpty ? null : (
+        {cart?.isEmpty ? null : (
           <div className="checkout">
             <h2>Order Summary</h2>
             <p>
@@ -20,11 +22,18 @@ export function CartPage() {
               purchase.
             </p>
             <p>
-              Total: <strong>${total}</strong>
+              <strong>Number of items: {cart?.totalItems}</strong>
+            </p>
+            <p>
+              <strong> Subtotal: ${cart?.subtotal}</strong>
+            </p>
+            <p>
+              <strong> Total: ${cart?.total}</strong>
             </p>
             <button
               className="button accent fullwidth"
               aria-label="Proceed to payment"
+              disabled={!isAuthenticated || !cart?.canCheckout}
               type="button"
             >
               Continue to Payment
