@@ -76,7 +76,9 @@ export function CartItem({ item }) {
                 setRawQuantity(value)
               }}
               name="quantity"
-              size={5}
+              style={{
+                width: `${rawQuantity.length}ch`,
+              }}
               value={rawQuantity}
               className="input primary quantity"
               type="text"
@@ -85,6 +87,7 @@ export function CartItem({ item }) {
               min={MIN_ITEM_QUANTITY}
               max={stock}
               onBlur={(e) => {
+                setError('')
                 if (rawQuantity === '' || Number(rawQuantity) <= 0) {
                   setRawQuantity(String(quantity))
                   return
