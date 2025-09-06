@@ -14,7 +14,17 @@ export async function findProducts() {
         p.discount_percent,
         (p.discount_percent IS NOT NULL AND p.discount_percent > 0) as has_discount,
         (
-          SELECT jsonb_object_agg(pi.device_type, pi.image_url)
+          SELECT json_build_object(
+            'thumbnail', json_object_agg(
+              (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+              pi.image_url
+            ) FILTER (WHERE pi.image_url ILIKE '%thumb%'),
+             'gallery', json_object_agg(
+              (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+              pi.image_url
+            ) FILTER (WHERE pi.image_url NOT ILIKE '%thumb%')
+
+          )
           FROM product_images pi
           WHERE pi.product_id = p.id
         ) AS images,
@@ -36,7 +46,7 @@ export async function findProducts() {
               )
             ),
             '{}'::jsonb
-          )
+  )
           FROM prices pp
           WHERE pp.product_id = p.id
         ) AS prices,
@@ -77,15 +87,20 @@ export async function findProduct(slug) {
               p.discount_percent,
               (p.discount_percent IS NOT NULL AND p.discount_percent > 0) as has_discount,
               (
-                SELECT COALESCE(
-                  jsonb_object_agg(
-                    img.device_type,
-                    img.image_url
-                  ),
-                  '{}'::jsonb
+                SELECT json_build_object(
+                  'thumbnail', json_object_agg(
+                    (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+                    pi.image_url
+                  ) FILTER (WHERE pi.image_url ILIKE '%thumb%'),
+                  'gallery', json_object_agg(
+                    (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+                    pi.image_url
+                  ) FILTER (WHERE pi.image_url NOT ILIKE '%thumb%')
+
                 )
-                from product_images img WHERE p.id = img.product_id
-              ) as images,
+                FROM product_images pi
+                WHERE pi.product_id = p.id
+              ) AS images,
               (
                 SELECT COALESCE(
                   jsonb_object_agg(

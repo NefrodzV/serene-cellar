@@ -61,12 +61,21 @@ export async function getCartByUserId(userId) {
           ),0) THEN false
           ELSE true
         END AS purchasable,
-        (   
-            SELECT
-            jsonb_object_agg(pi.device_type, pi.image_url)
-            FROM product_images pi
-            WHERE pi.product_id = p.id
-        ) as images
+        (
+          SELECT json_build_object(
+            'thumbnail', json_object_agg(
+              (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+              pi.image_url
+            ) FILTER (WHERE pi.image_url ILIKE '%thumb%'),
+             'gallery', json_object_agg(
+              (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+              pi.image_url
+            ) FILTER (WHERE pi.image_url NOT ILIKE '%thumb%')
+
+          )
+          FROM product_images pi
+          WHERE pi.product_id = p.id
+        ) AS images
         FROM cart_items ci
         INNER JOIN products p ON ci.product_id = p.id
         WHERE cart_id=(SELECT id FROM cart where user_id = $1)) item
