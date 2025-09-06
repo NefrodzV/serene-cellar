@@ -9,26 +9,28 @@ export function CartPage() {
   return (
     <div className="cart-page">
       <h2 className="title">
-        <i className="fa-solid fa-cart-shopping"></i>Cart
+        <i className="fa-solid fa-cart-shopping"></i> Shopping Cart
       </h2>
 
       <div className="main">
         <CartList />
         {cart?.isEmpty ? null : (
           <div className="checkout">
-            <h2>Order Summary</h2>
             <p>
               Review your items and continue to payment to complete your
               purchase.
             </p>
             <p>
-              <strong>Number of items: {cart?.totalItems}</strong>
+              <strong>
+                {' '}
+                Subtotal ({`${cart.totalItems} items`}): ${cart?.subtotal}
+              </strong>
             </p>
             <p>
-              <strong> Subtotal: ${cart?.subtotal}</strong>
-            </p>
-            <p>
-              <strong> Total: ${cart?.total}</strong>
+              <strong>
+                {' '}
+                Total ({`${cart.totalItems} items`}): ${cart?.total}
+              </strong>
             </p>
             <button
               className="button accent fullwidth"

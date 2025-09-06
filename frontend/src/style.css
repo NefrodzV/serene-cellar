@@ -605,3 +605,24 @@ position: absolute;
 .bold {
   font-weight: bold;
 }
+
+@media(max-width: 1080px) {
+  .checkout {
+    width: 260px;
+  }
+}
+@media(max-width: 600px) {
+
+  /* Shopping cart */
+  .cart-page .main {
+    display: flex;
+    flex-direction: column-reverse;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .checkout {
+    width: auto;
+    
+  }
+}
