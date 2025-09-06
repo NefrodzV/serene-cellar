@@ -16,6 +16,7 @@ export function CartItem({ item }) {
     discountPercent,
     finalUnitPrice,
   } = item
+  console.log(item)
   const MIN_ITEM_QUANTITY = 1
   const { deleteItem, increment, decrement, updateItem } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
@@ -26,9 +27,6 @@ export function CartItem({ item }) {
     }
     setRawQuantity(String(quantity))
   }, [quantity])
-  const lastGoodQuantity = useRef(quantity)
-  function onChange(e) {}
-
   return (
     <li className="cart-item">
       <article className="product">
@@ -36,8 +34,9 @@ export function CartItem({ item }) {
           <img
             alt={name}
             width={150}
-            srcSet={`${images?.phone} 360w, ${images?.tablet} 720w, ${images?.desktop} 1080w`}
-            sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1080px`}
+            height={150}
+            srcSet={`${images?.thumbnail[150]} 1x, ${images?.thumbnail[300]} 2x, ${images?.thumbnail[450]} 3x`}
+            // sizes="(width <=600px) 360px, (600px < width < 720px) 720px , 1080"
           />
         </div>
         <div className="content">
@@ -94,19 +93,14 @@ export function CartItem({ item }) {
                 }
                 const val = rawQuantity.replace(/^0+(?!$)/g, '')
                 setRawQuantity(val)
-
                 if (val > stock) {
                   setRawQuantity(String(quantity))
-                  // Maybe send a message here that quantity reverted because it was an error
                   return
                 }
-
                 updateItem(item, Number(rawQuantity))
-
-                // Send to server if needed here
               }}
             />
-            {/* <span className="quantity">{quantity}</span> */}
+
             <button
               disabled={quantity >= stock}
               className="button primary"

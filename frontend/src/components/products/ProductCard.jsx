@@ -7,8 +7,7 @@ export function ProductCard({ product }) {
       <Link className="card" to={`/shop/${slug}`} state={{ product }}>
         <img
           width={150}
-          srcSet={`${images.phone} 360w, ${images.tablet} 720w, ${images.desktop} 1080w`}
-          sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1080px`}
+          srcSet={`${images?.thumbnail[150]} 1x, ${images?.thumbnail[300]} 2x, ${images?.thumbnail[450]} 3x`}
         />
         <h3>{name}</h3>
         <p>{`From $${prices.SIX_PACK.value}`}</p>
