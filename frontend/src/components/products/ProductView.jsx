@@ -10,14 +10,11 @@ export function ProductView() {
   const [params] = useSearchParams()
   const initialQuantity = params.get('quantity')
   const initialPack = params.get('pack')
-  const isEditing = params.get('edit') === 'true'
-  const itemId = params.get('itemId')
-
-  const [product, isLoading] = useProduct(slug, isEditing)
+  const [product, isLoading] = useProduct(slug)
 
   const { packSize, quantity, packSizeHandler, quantityHandler, total } =
     useProductSelection(product?.prices, initialPack, initialQuantity)
-  const { addItem, updateItem } = useCart()
+  const { addItem } = useCart()
   if (!product) return <p>Loading product</p>
   const {
     name,
@@ -34,7 +31,6 @@ export function ProductView() {
   return (
     <div className="product-view">
       <div>
-        <h1>{name}</h1>
         <p>{description}</p>
         <p>
           <b>Category:</b> {category}
@@ -91,21 +87,16 @@ export function ProductView() {
             <button
               className="button add-cart"
               onClick={() =>
-                isEditing
-                  ? updateItem({
-                      id: itemId,
-                      quantity: quantity,
-                    })
-                  : addItem({
-                      productId: product.id,
-                      slug: product.slug,
-                      name: product.name,
-                      quantity,
-                      packSize,
-                      unitType: product.prices[packSize].unit,
-                      price: product.prices[packSize].value,
-                      images: product.images,
-                    })
+                addItem({
+                  productId: product.id,
+                  slug: product.slug,
+                  name: product.name,
+                  quantity,
+                  packSize,
+                  unitType: product.prices[packSize].unit,
+                  price: product.prices[packSize].value,
+                  images: product.images,
+                })
               }
             >
               <i className="fa-solid fa-cart-plus"></i>
@@ -117,10 +108,11 @@ export function ProductView() {
         )}
       </div>
       <img
-        width={'25%'}
-        srcSet={`${images.phone} 360w, ${images.tablet} 720w, ${images.desktop} 1080w`}
-        sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1080px`}
+        className="image"
+        srcSet={`${images.gallery[360]} 360w, ${images.gallery[720]} 720w, ${images.gallery[1024]} 1024w`}
+        sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1024px`}
       />
+      <h1 className="title">{name}</h1>
     </div>
   )
 }
