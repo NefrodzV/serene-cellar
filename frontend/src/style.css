@@ -207,13 +207,13 @@ label, button, input {
 }
 
 .list {
-  
   padding: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  align-content: flex-start;
 }
 
 .card  {
@@ -245,8 +245,6 @@ label, button, input {
   background-color: var(--background-color);
   height: 100dvh;
   /* width: clamp(320px, 100vw, 1280px) ; */
-  margin-inline: auto;
-  
 }
 
 .app-layout .main-layout {
@@ -254,7 +252,7 @@ label, button, input {
   flex: 1;
   display: flex;
   padding:  .5rem .5rem .5rem;
-  
+  /* width: clamp(320px, 100vw, 1280px) ; */ 
 }
 
 .app-layout header,  .app-layout footer {
@@ -606,10 +604,18 @@ position: absolute;
   font-weight: bold;
 }
 
+.thumbnail {
+  width: 150px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
 @media(max-width: 1080px) {
   .checkout {
     width: 260px;
   }
+
+  
 }
 @media(max-width: 600px) {
 
@@ -625,4 +631,5 @@ position: absolute;
     width: auto;
     
   }
+
 }

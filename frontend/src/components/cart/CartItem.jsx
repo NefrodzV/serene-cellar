@@ -32,9 +32,8 @@ export function CartItem({ item }) {
       <article className="product">
         <div className="image">
           <img
+            className="thumbnail"
             alt={name}
-            width={150}
-            height={150}
             srcSet={`${images?.thumbnail[150]} 1x, ${images?.thumbnail[300]} 2x, ${images?.thumbnail[450]} 3x`}
             // sizes="(width <=600px) 360px, (600px < width < 720px) 720px , 1080"
           />
