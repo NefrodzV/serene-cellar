@@ -75,7 +75,6 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await deleteItemFromRemoteCart(item)
         : await deleteItemFromLocalCart(item)
-      console.log(data)
       setCart(data.cart)
     } catch (error) {
       console.error('Error deleting item:', error)
@@ -116,7 +115,7 @@ export function CartProvider({ children }) {
         ? await updateItemFromRemoteCart(itemId, decreasedQuantity)
         : await updateItemFromLocalCart({ itemId: item.id, quantity }) // Need to update the local functions
 
-      setCart(data.cart)
+      setCart(data?.cart)
     } catch (error) {
       console.error(error)
     }
