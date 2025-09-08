@@ -217,6 +217,7 @@ label, button, input {
 }
 
 .card  {
+  border: 1px solid var(--text-color);
   background-color: var(--surface-color);
   padding: 2rem;
   border-radius:8px;
@@ -226,7 +227,6 @@ label, button, input {
   justify-items: center;
   align-items: center;
   text-decoration: none;
-  
   color: var(--text-color);
 }
 
@@ -513,8 +513,11 @@ position: absolute;
   border-radius: .5rem;
 }
   
-
+.cart-item {
+  border: 1px solid var(--text-color);
+}
 .cart-item .product  {
+  
   display: flex;
   align-items: center;
   
@@ -587,6 +590,7 @@ position: absolute;
 }
 
 .checkout {
+  border: 1px solid var(--text-color);
   box-sizing: content-box;
   padding: 1rem;
   width: 300px;
@@ -678,4 +682,11 @@ position: absolute;
     margin-bottom: 1rem;
   }
 
+}
+
+@media(max-width: 480px) {
+
+  .thumbnail {
+    width: 75px;
+  }
 }
