@@ -2,13 +2,16 @@ import React from 'react'
 import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
+import logo from '../assets/logo-bg.png'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
   return (
     <div className="app-layout">
       <header className="header">
-        <div>Logo</div>
+        <div className="logo">
+          <img src={logo} />
+        </div>
         <nav className="nav">
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
           <NavLink className="link" href="#">
@@ -39,7 +42,7 @@ export function MainLayout() {
         <Outlet />
         <MessageContainer />
       </main>
-      <footer>Footer</footer>
+      <footer className="footer">Footer</footer>
     </div>
   )
 }

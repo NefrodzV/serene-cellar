@@ -39,6 +39,8 @@
 
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
+  --header-footer-height: 60px;
+  --control-height: 44px;
 }
 
 
@@ -49,6 +51,9 @@ h1, h2, h3 {
   padding: 0;
 }
 
+.header, .footer {
+  height: var(--header-footer-height);
+}
 
 html {
   font-size: 100%;
@@ -80,6 +85,7 @@ label, button, input {
 }
 
 .button.primary, a.button.primary {
+  min-height: var(--control-height);
   background-color: var(--primary-color);
   color: var(--surface-color);
 }
@@ -135,6 +141,15 @@ label, button, input {
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+.logo {
+  
+}
+
+.logo img {
+  height: 100%;
+  aspect-ratio: 1 / 1;
 }
 
 .center-screen {
@@ -252,6 +267,8 @@ label, button, input {
   flex: 1;
   display: flex;
   
+  
+  
   /* width: clamp(320px, 100vw, 1280px) ; */ 
 }
 
@@ -277,10 +294,15 @@ label, button, input {
 }
 
 .nav {
-  gap: .5rem;
+  align-items: center;
+  gap: 1rem;
 }
 
 .nav .link {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  height: var(--control-height);
   color: var(--surface-color);
   text-decoration: none;
 }
@@ -426,8 +448,9 @@ position: absolute;
 
 /* Message Container */
 .message-container {
+  margin: 0;
   pointer-events: none;
-  width: 400px;
+  width: 300px;
   position: fixed;
   top: 50px;
   bottom: 0;
@@ -443,11 +466,10 @@ position: absolute;
 
 /* Message */
 .message {
-  
-  padding: 1rem;
+  padding: .5rem;
   background-color: var(--surface-color);
   border-radius: .5rem;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 0 3px rgba(0, 0, 0);
   display: flex;
   flex-direction: column;
 }
@@ -463,10 +485,16 @@ position: absolute;
   border-radius: 8px;
   height: min-content;
 }
+
+.message .icon-container {
+  flex: .2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .message .icon {
   font-size: 1.5rem;
-  display: flex;
-  align-items: center;
 }
 
 .error {
@@ -636,6 +664,10 @@ position: absolute;
   object-fit: cover;
 }
 
+.bg-color {
+  background-color: var(--background-color);
+}
+
 @media(max-width: 1080px) {
   .checkout {
     width: 260px;
@@ -645,6 +677,30 @@ position: absolute;
 }
 @media(max-width: 600px) {
 
+  .bg-color {
+    background-color: var(--surface-color);
+  }
+  .register-form, .login-form {
+    box-shadow: none;
+    height: 100%;
+    border-radius: 0;
+    margin: 0;
+    flex: 1;
+  }
+  .message-container {
+    padding: .5rem;
+    top: 36px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    bottom: 36px;
+    padding-inline: .5rem;
+  }
+
+  .message {
+    box-sizing: border-box;
+    width: 100%;
+  }
   /* Shopping cart */
   .cart-page .main {
     display: flex;

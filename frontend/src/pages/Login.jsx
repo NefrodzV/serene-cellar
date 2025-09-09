@@ -80,7 +80,7 @@ export function LoginPage() {
     }
   }
   return (
-    <div className="center-screen">
+    <div className="center-screen bg-color">
       <form
         className="login-form"
         method="post"

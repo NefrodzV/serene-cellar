@@ -30,9 +30,12 @@ export function MessageView({ message, type = 'notify' }) {
       </div>
 
       <div className="content">
-        <div className={`icon ${type}`} aria-hidden>
-          {messageType[type]}
+        <div className="icon-container">
+          <div className={`icon ${type}`} aria-hidden>
+            {messageType[type]}
+          </div>
         </div>
+
         <p className="text">{message.text}</p>
       </div>
     </li>
