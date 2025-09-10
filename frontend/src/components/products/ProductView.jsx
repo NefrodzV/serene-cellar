@@ -85,7 +85,7 @@ export function ProductView() {
               {`$${total}`}
             </p>
             <button
-              className="button add-cart"
+              className="button accent fullwidth bottom-margin-1rem"
               onClick={() =>
                 addItem({
                   productId: product.id,

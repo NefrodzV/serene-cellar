@@ -113,6 +113,10 @@ label, button, input {
   height: var(--control-height);
   background-color: var(--accent-color);
   color: var(--surface-color);
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .button.accent:hover {
@@ -346,7 +350,9 @@ position: absolute;
 .product-view .title {
   grid-row-start: 1;
 }
-
+.product-view:last-child {
+  margin-bottom: 1rem;
+}
 .button.add-cart {
   display: flex;
   gap: .5rem;
@@ -354,13 +360,8 @@ position: absolute;
   color: var(--text-color);
  background-color: var(--accent-color);
 }
-
-.button.add-cart {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-  color: var(--text-color);
- background-color: var(--accent-color);
+.bottom-margin-1rem {
+  margin-bottom: 1rem;
 }
 
 .button.add-cart:hover {

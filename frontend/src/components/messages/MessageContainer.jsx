@@ -7,11 +7,6 @@ export function MessageContainer() {
 
   return (
     <ul className="message-container">
-      <MessageView
-        message={{
-          text: 'My message text ',
-        }}
-      />
       {messages?.map((message) => (
         <MessageView key={message.id} message={message} />
       ))}
