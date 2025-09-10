@@ -28,6 +28,7 @@ export function ProductView() {
     images,
     stock,
   } = product
+
   return (
     <div className="product-view">
       <div>
@@ -71,10 +72,12 @@ export function ProductView() {
                   <b>Quantity</b>
                 </label>
                 <Select
-                  options={[...Array(10)].map((_, i) => ({
-                    key: i + 1,
-                    value: i + 1,
-                  }))}
+                  options={[...(Array(prices[packSize]?.stock) || 0)].map(
+                    (_, i) => ({
+                      key: i + 1,
+                      value: i + 1,
+                    })
+                  )}
                   onChange={quantityHandler}
                   value={quantity}
                 />
@@ -85,7 +88,7 @@ export function ProductView() {
               {`$${total}`}
             </p>
             <button
-              className="button accent fullwidth bottom-margin-1rem"
+              className="button accent  add-cart"
               onClick={() =>
                 addItem({
                   productId: product.id,
