@@ -19,6 +19,7 @@ export function Select({ id, options, onChange, value, text }) {
 
   return (
     <div className="select">
+      <div className="overlay" data-open={isFocus} onClick={onFocusHandler} />
       <button
         onClick={onFocusHandler}
         className="select-selected button"

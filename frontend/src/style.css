@@ -409,6 +409,8 @@ position: absolute;
   z-index: 2;
   }
 
+  
+
   .select-items > *  {
     display: flex;
     align-items: center;
@@ -679,6 +681,15 @@ position: absolute;
     position: static;
   }
 
+  .overlay[data-open=true] {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: .5;
+    background-color: #2F2F2F;
+  }
   .select-items {
     box-sizing: border-box;
     position: fixed;
