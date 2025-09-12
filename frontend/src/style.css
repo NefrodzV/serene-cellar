@@ -149,7 +149,7 @@ label, button, input {
 }
 
 .logo {
-  
+  height: 100%;
 }
 
 .logo img {
@@ -293,17 +293,20 @@ label, button, input {
   overflow-y: hidden;
 }
 
-.header, .nav {
+.header, .drawer{
   display: flex;
   justify-content: space-between;
 }
+.header {
+  align-items: center;
+}
 
-.nav {
+.drawer {
   align-items: center;
   gap: 1rem;
 }
 
-.nav .link {
+.drawer .link {
   display: flex;
   align-items: center;
   gap: .3rem;
@@ -312,7 +315,7 @@ label, button, input {
   text-decoration: none;
 }
 
-.nav .link:hover {
+.drawer .link:hover {
   opacity: .8;
   color: var(--nav-hover);
 }
@@ -409,7 +412,13 @@ position: absolute;
   z-index: 2;
   }
 
-  
+  .button.nav {
+    display: none;
+    color: var(--surface-color);
+    background-color: var(--primary-color);
+  }
+
+ 
 
   .select-items > *  {
     display: flex;
@@ -676,6 +685,39 @@ position: absolute;
   
 }
 @media(max-width: 600px) {
+  .button.nav {
+    display: block;
+    margin-inline: auto 0;
+    
+  }
+
+  .drawer {
+    overflow: hidden;
+    padding: .5rem;
+    z-index: 2;
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: initial;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    transition: width .5s ease, padding .5s ease;
+  }
+
+  .drawer[data-open=true] {
+    width: 70%;
+    pointer-events: auto;
+  }
+  .drawer[data-open=false] {
+    box-sizing: border-box;
+    width: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+
 
   .select {
     position: static;

@@ -1,18 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 import logo from '../assets/logo-bg.png'
+import { Nav } from '../components/navigation/Nav'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
+  const [isOpen, setOpen] = useState(false)
+  const mql = window.matchMedia('(min-width: 600px)')
+
+  useEffect(() => {
+    mql.addEventListener('change', handleMediaQueryChange)
+    return () => {
+      mql.removeEventListener('change', handleMediaQueryChange)
+    }
+  }, [])
+  function handleMediaQueryChange(e) {
+    if (e.matches && isOpen) {
+      setOpen(!isOpen)
+      return
+    }
+  }
   return (
     <div className="app-layout">
       <header className="header">
         <div className="logo">
           <img src={logo} />
         </div>
-        <nav className="nav">
+
+        <button
+          className="button nav"
+          aria-label={'Open menu'}
+          onClick={() => setOpen(!isOpen)}
+        >
+          <i className="fa-solid fa-bars" />
+        </button>
+        <nav className="drawer" data-open={isOpen} aria-hidden={!isOpen}>
+          <button
+            aria-label={'Close menu'}
+            onClick={() => setOpen(!isOpen)}
+            className="button nav"
+          >
+            X
+          </button>
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
           <NavLink className="link" href="#">
             <i className="fa-solid fa-home icon"></i> Home
