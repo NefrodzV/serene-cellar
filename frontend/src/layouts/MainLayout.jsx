@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
@@ -9,19 +9,39 @@ export function MainLayout() {
   const { isAuthenticated, user } = useUser()
   const [isOpen, setOpen] = useState(false)
   const mql = window.matchMedia('(min-width: 600px)')
-
+  const smallScreenMql = window.matchMedia('(max-width: 600px)')
+  const drawerRef = useRef(null)
+  let timer
   useEffect(() => {
     mql.addEventListener('change', handleMediaQueryChange)
+    smallScreenMql.addEventListener('change', handleSmallScreenMediaQueryChange)
     return () => {
       mql.removeEventListener('change', handleMediaQueryChange)
+      smallScreenMql.removeEventListener(
+        'change',
+        handleSmallScreenMediaQueryChange
+      )
+      clearTimeout(timer)
     }
   }, [])
   function handleMediaQueryChange(e) {
     if (e.matches) {
+      console.log('Has changed to large or medium screen size')
       setOpen(true)
       return
     }
-    setOpen(false)
+  }
+
+  function handleSmallScreenMediaQueryChange(e) {
+    clearTimeout(timer)
+    if (e.matches) {
+      console.log('Has changed to small screen device')
+      setOpen(false)
+      drawerRef.current.classList.add('no-transition')
+      timer = setTimeout(() => {
+        drawerRef.current.classList.remove('no-transition')
+      }, 500)
+    }
   }
   return (
     <div className="app-layout">
@@ -37,7 +57,12 @@ export function MainLayout() {
         >
           <i className="fa-solid fa-bars" />
         </button>
-        <nav className="drawer" data-open={isOpen} aria-hidden={!isOpen}>
+        <nav
+          className="drawer"
+          data-open={isOpen}
+          aria-hidden={!isOpen}
+          ref={drawerRef}
+        >
           <button
             aria-label={'Close menu'}
             onClick={() => setOpen(!isOpen)}
