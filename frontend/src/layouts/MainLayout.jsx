@@ -17,10 +17,11 @@ export function MainLayout() {
     }
   }, [])
   function handleMediaQueryChange(e) {
-    if (e.matches && isOpen) {
-      setOpen(!isOpen)
+    if (e.matches) {
+      setOpen(true)
       return
     }
+    setOpen(false)
   }
   return (
     <div className="app-layout">
