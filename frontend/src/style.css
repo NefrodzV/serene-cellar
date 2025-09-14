@@ -386,6 +386,11 @@ position: absolute;
   justify-content: space-between;
 }
 
+.select .button:disabled {
+  background-color: lightgray;
+  cursor:not-allowed;
+}
+
 .select .button[data-open=true] {
   border: 2px solid var(--primary-color);
 }
@@ -411,7 +416,11 @@ position: absolute;
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
-
+.select-items  .disabled, .select-items  .disabled:hover {
+  background-color: lightgray;
+  color: var(--error-color);
+  cursor: not-allowed;
+}
   .button.nav {
     display: none;
     color: var(--surface-color);

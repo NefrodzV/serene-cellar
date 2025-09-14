@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 // Continue this custom select
-export function Select({ id, options, onChange, value, text }) {
+export function Select({ id, options, onChange, value, text, disabled }) {
   const [isFocus, setIsFocus] = useState(false)
 
   function onClickHandler(e) {
@@ -24,6 +24,7 @@ export function Select({ id, options, onChange, value, text }) {
         onClick={onFocusHandler}
         className="select-selected button"
         data-open={isFocus}
+        disabled={disabled}
       >
         {text || value}
         {isFocus ? (
@@ -36,10 +37,16 @@ export function Select({ id, options, onChange, value, text }) {
       <div className="select-items" data-open={isFocus} aria-hidden={true}>
         {options.map((option) => (
           <div
-            className={value === option.value ? 'selected' : ''}
+            className={
+              option.disabled
+                ? 'disabled'
+                : value === option.value
+                  ? 'selected'
+                  : ''
+            }
             onFocus={onFocusHandler}
             key={option.key}
-            onClick={onClickHandler}
+            onClick={option.disabled ? undefined : onClickHandler}
             data-value={option.value}
           >
             {option.text || option.value}

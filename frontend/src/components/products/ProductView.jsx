@@ -1,19 +1,16 @@
 import React from 'react'
 import { useCart, useProduct, useProductSelection } from '../../hooks'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Select } from '../Select'
 import { Error } from '../Error'
 import { ErrorsMessages } from '../../constants/ErrorMessages'
 
 export function ProductView() {
   const { slug } = useParams()
-  const [params] = useSearchParams()
-  const initialQuantity = params.get('quantity')
-  const initialPack = params.get('pack')
   const [product, isLoading] = useProduct(slug)
 
   const { packSize, quantity, packSizeHandler, quantityHandler, total } =
-    useProductSelection(product?.prices, initialPack, initialQuantity)
+    useProductSelection(product?.prices)
   const { addItem } = useCart()
   if (!product) return <p>Loading product</p>
   const {
@@ -26,9 +23,9 @@ export function ProductView() {
     description,
     errors,
     images,
-    stock,
   } = product
 
+  console.log(prices)
   return (
     <div className="product-view">
       <div>
@@ -51,10 +48,11 @@ export function ProductView() {
                 </label>
                 <Select
                   options={Object.entries(prices).map(
-                    ([key, { unit, value }]) => ({
+                    ([key, { unit, value, errors }]) => ({
                       key,
                       value: key,
-                      text: `${unit} - $${value}`,
+                      text: `${unit} - $${value} ${ErrorsMessages.SELECT[errors[0]] || ''}`,
+                      disabled: errors.length !== 0,
                     })
                   )}
                   value={packSize || ''}
@@ -80,6 +78,7 @@ export function ProductView() {
                   )}
                   onChange={quantityHandler}
                   value={quantity}
+                  disabled={prices[packSize]?.errors?.length !== 0}
                 />
               </div>
             </div>
