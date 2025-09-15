@@ -65,6 +65,7 @@ export function MainLayout() {
           data-open={isOpen}
           aria-hidden={!isOpen}
           ref={drawerRef}
+          onClick={(e) => e.target.blur()}
         >
           <button
             aria-label={'Close menu'}
