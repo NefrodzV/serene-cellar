@@ -7,20 +7,23 @@ import { Nav } from '../components/navigation/Nav'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
-  const [isOpen, setOpen] = useState(false)
+
   const mql = window.matchMedia('(min-width: 600px)')
-  const smallScreenMql = window.matchMedia('(max-width: 600px)')
+  const smql = window.matchMedia('(max-width: 600px)')
   const drawerRef = useRef(null)
   let timer
+  const [isOpen, setOpen] = useState(() => {
+    const isBigScreen = mql.matches
+    const isSmallScreen = smql.matches
+    if (isBigScreen) return true
+    if (isSmallScreen) return false
+  })
   useEffect(() => {
     mql.addEventListener('change', handleMediaQueryChange)
-    smallScreenMql.addEventListener('change', handleSmallScreenMediaQueryChange)
+    smql.addEventListener('change', handleSmallScreenMediaQueryChange)
     return () => {
       mql.removeEventListener('change', handleMediaQueryChange)
-      smallScreenMql.removeEventListener(
-        'change',
-        handleSmallScreenMediaQueryChange
-      )
+      smql.removeEventListener('change', handleSmallScreenMediaQueryChange)
       clearTimeout(timer)
     }
   }, [])
