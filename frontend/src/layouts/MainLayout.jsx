@@ -3,7 +3,6 @@ import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 import logo from '../assets/logo-bg.png'
-import { Nav } from '../components/navigation/Nav'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
@@ -65,7 +64,15 @@ export function MainLayout() {
           data-open={isOpen}
           aria-hidden={!isOpen}
           ref={drawerRef}
-          onClick={(e) => e.target.blur()}
+          onClick={(e) => {
+            e.target.blur()
+            const anchor = 'A'
+            const button = 'BUTTON'
+            const nodeType = e.target.nodeName
+            if (nodeType === anchor || (nodeType === button && smql.matches)) {
+              setOpen(false)
+            }
+          }}
         >
           <button
             aria-label={'Close menu'}

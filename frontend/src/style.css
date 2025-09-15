@@ -314,6 +314,9 @@ label, button, input {
   color: var(--surface-color);
   text-decoration: none;
 }
+.link > * {
+  pointer-events: none;
+}
 
 .drawer .link:hover {
   opacity: .8;
