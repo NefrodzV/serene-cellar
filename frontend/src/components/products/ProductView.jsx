@@ -25,7 +25,6 @@ export function ProductView() {
     images,
   } = product
 
-  console.log(prices)
   return (
     <div className="product-view">
       <div>
@@ -100,6 +99,7 @@ export function ProductView() {
                   images: product.images,
                 })
               }
+              disabled={prices[packSize]?.errors.length > 0}
             >
               <i className="fa-solid fa-cart-plus"></i>
               Add to cart
