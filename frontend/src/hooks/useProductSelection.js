@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 
-export function useProductSelection(pricing = {}) {
-  const [packSize, setPackSize] = useState(() => {
-    if (pricing && Object.keys(pricing).length > 0) {
-    }
-    return null
-  })
+export function useProductSelection(pricing) {
+  const [packSize, setPackSize] = useState(null)
 
   const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     if (!packSize && pricing && Object.keys(pricing)?.length > 0) {
-      setPackSize(Object.keys(pricing)[0])
+      for (const [key, value] of Object.entries(pricing)) {
+        if (value.purchasable) {
+          setPackSize(key)
+          break
+        }
+      }
     }
   }, [pricing])
 

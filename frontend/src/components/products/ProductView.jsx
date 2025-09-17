@@ -47,11 +47,11 @@ export function ProductView() {
                 </label>
                 <Select
                   options={Object.entries(prices).map(
-                    ([key, { unit, value, errors }]) => ({
+                    ([key, { unit, value, purchasable }]) => ({
                       key,
                       value: key,
                       text: `${unit} - $${value} ${ErrorsMessages.SELECT[errors[0]] || ''}`,
-                      disabled: errors.length !== 0,
+                      disabled: purchasable === false,
                     })
                   )}
                   value={packSize || ''}
@@ -77,7 +77,7 @@ export function ProductView() {
                   )}
                   onChange={quantityHandler}
                   value={quantity}
-                  disabled={prices[packSize]?.errors?.length !== 0}
+                  disabled={prices[packSize]?.purchasable === false}
                 />
               </div>
             </div>
