@@ -69,7 +69,7 @@ export function MainLayout() {
             const anchor = 'A'
             const button = 'BUTTON'
             const nodeType = e.target.nodeName
-            if (nodeType === anchor || (nodeType === button && smql.matches)) {
+            if ((nodeType === anchor || nodeType === button) && smql.matches) {
               setOpen(false)
             }
           }}
