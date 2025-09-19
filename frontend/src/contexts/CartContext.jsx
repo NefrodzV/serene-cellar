@@ -20,21 +20,12 @@ export function CartProvider({ children }) {
   const { sendMessage } = useMessages()
 
   // Update this to call the functions of the cartService
-  const [cart, setCart] = useState(() => {
-    if (!isAuthenticated) {
-      try {
-        const localCart = localStorage.getItem('cart')
-        return localCart
-          ? {
-              items: JSON.parse(localCart),
-            }
-          : { cart: { items: [] } }
-      } catch {
-        return { cart: { items: [] } }
-      }
-    }
-
-    return []
+  const [cart, setCart] = useState({
+    items: [],
+    isEmpty: true,
+    total: 0,
+    subtotal: 0,
+    canCheckout: false,
   })
 
   useEffect(() => {
@@ -127,7 +118,6 @@ export function CartProvider({ children }) {
     updateItem,
     decrement,
     increment,
-    isEmpty: cart?.items?.length === 0,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
