@@ -1,4 +1,5 @@
 import db from '../db/index.js'
+import { validate } from '../middlewares/validationHandler.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function getCartByUserId(userId) {
@@ -15,50 +16,36 @@ export async function getCartByUserId(userId) {
       ELSE true
     END as is_empty
     FROM
-    (SELECT 
+    (
+        SELECT 
         p.name,
         ci.id, 
         ci.quantity, 
-        ci.unit_price, 
-        ci.unit_type,
+        pr.value as price, 
+        pr.unit,
         p.discount_percent,
+        pr.stock_quantity as stock,
         (p.discount_percent <> 0 AND p.discount_percent IS NOT NULL) as has_discount,
         CASE WHEN p.discount_percent <> 0
-          THEN ROUND(ci.quantity * (ci.unit_price - (ci.unit_price * p.discount_percent/100)), 2)
-          ELSE ci.quantity * ci.unit_price 
+          THEN ROUND(ci.quantity * (pr.value - (pr.value * p.discount_percent/100)), 2)
+          ELSE ci.quantity * pr.value
         END as final_line_total,
-        (ci. unit_price * ci.quantity) as line_total,
-        (
-          SELECT pr.stock_quantity FROM prices pr 
-          WHERE ci.product_id = pr.product_id AND pr.unit = ci.unit_type
-        ) as stock,
+        (pr.value * ci.quantity) as line_total,
         CASE
           WHEN p.discount_percent IS NOT NULL 
-          THEN ROUND(ci.unit_price - (ci.unit_price * p.discount_percent / 100), 2)
-          ELSE unit_price
+          THEN ROUND(pr.value - (pr.value * p.discount_percent / 100), 2)
+          ELSE pr.value
         END as final_unit_price,
         ARRAY_REMOVE(ARRAY[
           CASE WHEN 
-          (
-            SELECT pr.stock_quantity FROM prices pr 
-            WHERE ci.product_id = pr.product_id AND ci.unit_type = pr.unit
-          ) < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
-          CASE WHEN (
-            SELECT pr.stock_quantity FROM prices pr 
-            WHERE ci.product_id = pr.product_id AND ci.unit_type = pr.unit
-          ) = 0 THEN 'OUT_OF_STOCK' END,
+          pr.stock_quantity < ci.quantity THEN 'INSUFFICIENT_STOCK' END,
+          CASE WHEN pr.stock_quantity = 0 THEN 'OUT_OF_STOCK' END,
           CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
         AS errors,
         CASE
           WHEN p.status <> 'active' THEN false
-          WHEN (
-            SELECT pr.stock_quantity FROM prices pr 
-            WHERE ci.product_id = pr.product_id AND ci.unit_type = pr.unit
-          ) = 0 THEN false
-          WHEN ci.quantity > COALESCE((
-            SELECT pr.stock_quantity FROM prices pr 
-            WHERE ci.product_id = pr.product_id AND ci.unit_type = pr.unit
-          ),0) THEN false
+          WHEN pr.stock_quantity  = 0 THEN false
+          WHEN ci.quantity > COALESCE(pr.stock_quantity ,0) THEN false
           ELSE true
         END AS purchasable,
         (
@@ -78,7 +65,9 @@ export async function getCartByUserId(userId) {
         ) AS images
         FROM cart_items ci
         INNER JOIN products p ON ci.product_id = p.id
-        WHERE cart_id=(SELECT id FROM cart where user_id = $1)) item
+        INNER JOIN prices pr ON ci.price_id = pr.id
+        WHERE cart_id=(SELECT id FROM cart where user_id = $1)
+      ) item
         `,
     [userId]
   )
@@ -121,18 +110,12 @@ export async function getCartItemByCartProductAndUnit(
   return rows[0] || null
 }
 
-export async function createCartItem(
-  userId,
-  productId,
-  quantity,
-  unitPrice,
-  unitType
-) {
+export async function createCartItem(userId, productId, quantity, priceId) {
   await db.query(
     `INSERT INTO cart_items 
-        (product_id, cart_id, quantity, unit_price, unit_type)
-        VALUES ($1, (SELECT id from cart WHERE user_id=$2), $3, $4, $5)`,
-    [productId, userId, quantity, unitPrice, unitType]
+        (product_id, cart_id, quantity)
+        VALUES ($1, (SELECT id from cart WHERE user_id=$2), $3, $4)`,
+    [productId, userId, quantity, priceId]
   )
 }
 
@@ -165,4 +148,87 @@ export async function createUserCart(userId) {
         (user_id) VALUES ($1)`,
     [userId]
   )
+}
+
+export async function validateLocalCartItems(items) {
+  const values = items
+    .map(
+      (_, i) =>
+        `(CAST($${i * 4 + 1} AS text),CAST($${i * 4 + 2} AS int), CAST($${i * 4 + 3} AS int), CAST($${i * 4 + 4} AS int))`
+    )
+    .join(',')
+  const params = items
+    .map((item) => [
+      String(item.id),
+      Number(item.productId),
+      Number(item.quantity),
+      Number(item.priceId),
+    ])
+    .flat()
+  const { rows } = await db.query(
+    `
+      SELECT 
+      COALESCE(bool_and(item.purchasable), false) as can_checkout,
+      COALESCE(SUM(line_total), 0) as subtotal,
+      COALESCE(SUM(final_line_total), 0) as total,
+      COALESCE(json_agg(item), '[]') as items,
+      COALESCE(SUM(item.quantity), 0) as total_items
+      FROM 
+      (
+        SELECT 
+        p.name,
+        lc.product_id,
+        lc.price_id,
+        lc.quantity, 
+        pr.unit,
+        pr.value as price,
+        pr.stock_quantity as stock,
+        (pr.value * lc.quantity) as line_total,
+        (p.discount_percent <> 0 AND p.discount_percent IS NOT NULL) as has_discount,
+        ARRAY_REMOVE(ARRAY[
+            CASE WHEN 
+            pr.stock_quantity < lc.quantity THEN 'INSUFFICIENT_STOCK' END,
+            CASE WHEN pr.stock_quantity = 0 THEN 'OUT_OF_STOCK' END,
+            CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
+        AS errors,
+        CASE WHEN p.discount_percent <> 0
+            THEN ROUND(lc.quantity * (pr.value - (pr.value * p.discount_percent/100)), 2)
+            ELSE lc.quantity * pr.value
+        END as final_line_total,
+        (
+            SELECT json_build_object(
+              'thumbnail', json_object_agg(
+                (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+                pi.image_url
+              ) FILTER (WHERE pi.image_url ILIKE '%thumb%'),
+              'gallery', json_object_agg(
+                (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
+                pi.image_url
+              ) FILTER (WHERE pi.image_url NOT ILIKE '%thumb%')
+
+            )
+            FROM product_images pi
+            WHERE pi.product_id = p.id
+        ) AS images,
+        CASE
+            WHEN p.status <> 'active' THEN false
+            WHEN pr.stock_quantity  = 0 THEN false
+            WHEN lc.quantity > COALESCE(pr.stock_quantity ,0) THEN false
+            ELSE true
+        END AS purchasable,
+        CASE
+          WHEN p.discount_percent IS NOT NULL 
+          THEN ROUND(pr.value - (pr.value * p.discount_percent / 100), 2)
+          ELSE pr.value
+        END as final_unit_price
+        FROM 
+        (VALUES ${values}) as lc(id, product_id, quantity, price_id)
+        JOIN prices pr ON pr.id = lc.price_id
+        JOIN products p ON p.id = lc.product_id
+      ) item
+    `,
+    params
+  )
+
+  return camelize(rows[0]) || null
 }

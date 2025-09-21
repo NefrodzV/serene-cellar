@@ -9,6 +9,7 @@ import {
   getItemsByUserId,
   incrementCartItemQuantity,
   setCartItemQuantity,
+  validateLocalCartItems,
 } from '../repositories/cart-repository.js'
 
 /**
@@ -175,10 +176,42 @@ const sync = [
     })
   },
 ]
+
+const validateLocalCart = [
+  body('items')
+    .exists({ values: 'falsy' })
+    .withMessage('Items must be defined')
+    .bail()
+    .isArray()
+    .withMessage('Items must be an array')
+    .bail(),
+  validate,
+  async (req, res, next) => {
+    const { items } = matchedData(req)
+
+    if (items.length === 0) {
+      return res.status(422).json({ error: 'There are no items in array' })
+    }
+    try {
+      const cart = await validateLocalCartItems(items)
+      console.log(cart)
+      if (!cart) {
+        return res
+          .status(422)
+          .json({ error: 'Server could not process local cart' })
+      } else {
+        return res.json({ cart })
+      }
+    } catch (e) {
+      next(e)
+    }
+  },
+]
 export default {
   getCart,
   addItem,
   deleteItem,
   updateItem,
   sync,
+  validateLocalCart,
 }

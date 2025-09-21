@@ -7,10 +7,8 @@ export function CartItem({ item }) {
     name,
     images,
     quantity,
-    unitPrice,
-    packSize,
-    slug,
-    unitType,
+    price,
+    unit,
     stock,
     hasDiscount,
     discountPercent,
@@ -40,11 +38,11 @@ export function CartItem({ item }) {
         </div>
         <div className="content">
           <h3>
-            {name} ({unitType})
+            {name} ({unit})
           </h3>
           <p>
             <span className={`${hasDiscount ? 'line-through' : ''}`}>
-              ${unitPrice}
+              ${price}
             </span>{' '}
             {hasDiscount && (
               <>

@@ -14,6 +14,7 @@ export function ProductView() {
   const { addItem } = useCart()
   if (!product) return <p>Loading product</p>
   const {
+    id,
     name,
     isAvailable,
     prices,
@@ -88,16 +89,12 @@ export function ProductView() {
             <button
               className="button accent  add-cart"
               onClick={() =>
-                addItem({
-                  productId: product.id,
-                  slug: product.slug,
-                  name: product.name,
+                addItem(
+                  id,
+
                   quantity,
-                  packSize,
-                  unitType: product.prices[packSize].unit,
-                  price: product.prices[packSize].value,
-                  images: product.images,
-                })
+                  prices[packSize].id
+                )
               }
               disabled={prices[packSize]?.errors.length > 0}
             >
