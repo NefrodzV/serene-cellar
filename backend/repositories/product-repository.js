@@ -35,6 +35,7 @@ export async function findProducts() {
               pp.format_key,
               -- value
               jsonb_build_object(
+              'id', pp.id,
                 'unit',  pp.unit,
                 'value', pp.value,
                 'effectiveValue',
@@ -106,6 +107,7 @@ export async function findProduct(slug) {
                   jsonb_object_agg(
                     pr.format_key,
                     jsonb_build_object(
+                      'id', pr.id,
                       'unit', pr.unit,
                       'value', pr.value,
                       'stock', pr.stock_quantity,
