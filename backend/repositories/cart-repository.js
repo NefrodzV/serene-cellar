@@ -44,7 +44,7 @@ export async function getCartByUserId(userId) {
         AS errors,
         CASE
           WHEN p.status <> 'active' THEN false
-          WHEN pr.stock_quantity  = 0 THEN false
+          WHEN pr.stock_quantity = 0 THEN false
           WHEN ci.quantity > COALESCE(pr.stock_quantity ,0) THEN false
           ELSE true
         END AS purchasable,
@@ -64,8 +64,8 @@ export async function getCartByUserId(userId) {
           WHERE pi.product_id = p.id
         ) AS images
         FROM cart_items ci
-        INNER JOIN products p ON ci.product_id = p.id
-        INNER JOIN prices pr ON ci.price_id = pr.id
+        INNER JOIN prices pr ON pr.id = ci.price_id
+        INNER JOIN products p ON p.id = pr.product_id
         WHERE cart_id=(SELECT id FROM cart where user_id = $1)
       ) item
         `,
@@ -95,27 +95,23 @@ export async function incrementCartItemQuantity(itemId, quantity) {
   )
 }
 
-export async function getCartItemByCartProductAndUnit(
-  userId,
-  productId,
-  unitType
-) {
+export async function getCartItemByPriceId(userId, priceId) {
   const { rows } = await db.query(
     `
         SELECT id FROM cart_items
-        WHERE product_id=$1 AND unit_type=$2 AND
-        cart_id=(SELECT id from cart WHERE user_id=$3)`,
-    [productId, unitType, userId]
+        WHERE price_id=$1 AND
+        cart_id=(SELECT id from cart WHERE user_id=$2)`,
+    [priceId, userId]
   )
   return rows[0] || null
 }
 
-export async function createCartItem(userId, productId, quantity, priceId) {
+export async function createCartItem(userId, quantity, priceId) {
   await db.query(
     `INSERT INTO cart_items 
-        (product_id, cart_id, quantity)
-        VALUES ($1, (SELECT id from cart WHERE user_id=$2), $3, $4)`,
-    [productId, userId, quantity, priceId]
+        (cart_id, quantity, price_id)
+        VALUES ((SELECT id from cart WHERE user_id=$1), $2, $3)`,
+    [userId, quantity, priceId]
   )
 }
 
@@ -132,9 +128,9 @@ export async function getItemsByUserId(userId) {
     `
         SELECT 
         product_id,
-        unit_type 
+        price_id 
         FROM cart_items 
-        WHERE cart_id=(SELECT id from cart WHERE=$1)`,
+        WHERE cart_id=(SELECT id from cart WHERE user_id=$1)`,
     [userId]
   )
 
@@ -151,16 +147,16 @@ export async function createUserCart(userId) {
 }
 
 export async function validateLocalCartItems(items) {
+  console.log(items)
   const values = items
     .map(
       (_, i) =>
-        `(CAST($${i * 4 + 1} AS text),CAST($${i * 4 + 2} AS int), CAST($${i * 4 + 3} AS int), CAST($${i * 4 + 4} AS int))`
+        `(CAST($${i * 3 + 1} AS text),CAST($${i * 3 + 2} AS int), CAST($${i * 3 + 3} AS int))`
     )
     .join(',')
   const params = items
     .map((item) => [
       String(item.id),
-      Number(item.productId),
       Number(item.quantity),
       Number(item.priceId),
     ])
@@ -178,7 +174,6 @@ export async function validateLocalCartItems(items) {
         SELECT 
         p.name,
         lc.id,
-        lc.product_id,
         lc.price_id,
         lc.quantity, 
         pr.unit,
@@ -223,13 +218,14 @@ export async function validateLocalCartItems(items) {
           ELSE pr.value
         END as final_unit_price
         FROM 
-        (VALUES ${values}) as lc(id, product_id, quantity, price_id)
+        (VALUES ${values}) as lc(id, quantity, price_id)
         JOIN prices pr ON pr.id = lc.price_id
-        JOIN products p ON p.id = lc.product_id
+        JOIN products p ON p.id = pr.product_id
       ) item
     `,
     params
   )
 
+  console.dir(rows, { depth: null })
   return camelize(rows[0]) || null
 }

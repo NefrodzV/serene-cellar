@@ -5,10 +5,10 @@ import {
   createCartItem,
   deleteCartItem,
   getCartByUserId,
-  getCartItemByCartProductAndUnit,
   getItemsByUserId,
   incrementCartItemQuantity,
   setCartItemQuantity,
+  getCartItemByPriceId,
   validateLocalCartItems,
 } from '../repositories/cart-repository.js'
 
@@ -33,34 +33,26 @@ const getCart = [
  * and add functions to the repository*/
 const addItem = [
   passport.authenticate('jwt', { session: false }),
-  body('item')
+  body('priceId').exists({ values: 'falsy' }).withMessage('No priceId defined'),
+  body('quantity')
     .exists({ values: 'falsy' })
-    .withMessage('No item defined to add to cart'),
+    .withMessage('No quantity defined'),
   validate,
 
   async (req, res, next) => {
-    const { item } = matchedData(req)
+    const { productId, priceId, quantity } = matchedData(req)
+    console.log(productId, priceId, quantity)
     try {
-      const existingItem = await getCartItemByCartProductAndUnit(
-        req.user.id,
-        item.productId,
-        item.unitType
-      )
+      const existingItem = await getCartItemByPriceId(req.user.id, priceId)
       let status = null
       let message = null
 
       if (existingItem) {
-        await incrementCartItemQuantity(existingItem.id, item.quantity)
+        await incrementCartItemQuantity(existingItem.id, quantity)
         status = 200
         message = 'Cart item updated'
       } else {
-        await createCartItem(
-          req.user.id,
-          item.productId,
-          item.quantity,
-          item.price,
-          item.unitType
-        )
+        await createCartItem(req.user.id, quantity, priceId)
         status = 201
         message = 'Cart item added'
       }
@@ -145,33 +137,21 @@ const sync = [
     const data = matchedData(req)
     const existingItems = await getItemsByUserId(req.user.id)
     const existingMap = new Map(
-      existingItems.map((item) => [
-        `${item.product_id}-${item.unit_type}`,
-        item,
-      ])
+      existingItems.map((item) => [`${item.priceId}`, item])
     )
 
     for (const localItem of data.items) {
-      const existingItem = existingMap.get(
-        `${localItem.productId}-${localItem.unitType}`
-      )
+      const existingItem = existingMap.get(`${localItem.priceId}`)
       if (existingItem) {
         await incrementCartItemQuantity(existingItem.id, localItem.quantity)
       } else {
-        await createCartItem(
-          cart.id,
-          localItem.productId,
-          localItem.quantity,
-          localItem.price,
-          localItem.unitType
-        )
+        await createCartItem(req.user.id, localItem.quantity, localItem.priceId)
       }
     }
 
     // Getting updated cart items
     const cart = await getCartByUserId(req.user.id)
     return res.status(200).json({
-      message,
       cart,
     })
   },
@@ -194,7 +174,7 @@ const validateLocalCart = [
     }
     try {
       const cart = await validateLocalCartItems(items)
-      console.log(cart)
+
       if (!cart) {
         return res
           .status(422)
