@@ -64,11 +64,13 @@ export function CartProvider({ children }) {
     }
   }, [isAuthenticated])
 
-  async function addItem(productId, quantity, priceId) {
+  async function addItem(quantity, priceId) {
+    console.log('add item fn')
+    console.log(quantity, priceId)
     try {
       const data = isAuthenticated
-        ? await addItemToRemoteCart(item)
-        : await addItemToLocalCart(productId, priceId, quantity)
+        ? await addItemToRemoteCart(priceId, Number(quantity))
+        : await addItemToLocalCart(priceId, quantity)
 
       setCart(data?.cart)
       sendMessage('Item has been added to cart')
@@ -77,11 +79,11 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function deleteItem(item) {
+  async function deleteItem(itemId) {
     try {
       const data = isAuthenticated
-        ? await deleteItemFromRemoteCart(item)
-        : await deleteItemFromLocalCart(item)
+        ? await deleteItemFromRemoteCart(itemId)
+        : await deleteItemFromLocalCart(itemId)
       setCart(data.cart)
     } catch (error) {
       console.error('Error deleting item:', error)

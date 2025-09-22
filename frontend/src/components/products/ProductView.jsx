@@ -26,6 +26,8 @@ export function ProductView() {
     images,
   } = product
 
+  console.log(product)
+
   return (
     <div className="product-view">
       <div>
@@ -88,14 +90,9 @@ export function ProductView() {
             </p>
             <button
               className="button accent  add-cart"
-              onClick={() =>
-                addItem(
-                  id,
-
-                  quantity,
-                  prices[packSize].id
-                )
-              }
+              onClick={() => {
+                addItem(quantity, prices[packSize].id)
+              }}
               disabled={prices[packSize]?.errors.length > 0}
             >
               <i className="fa-solid fa-cart-plus"></i>

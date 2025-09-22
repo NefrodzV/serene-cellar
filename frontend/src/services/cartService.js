@@ -15,7 +15,7 @@ export async function fetchCart() {
   return data
 }
 
-export async function addItemToRemoteCart(item) {
+export async function addItemToRemoteCart(priceId, quantity) {
   const options = {
     method: 'post',
     headers: {
@@ -23,7 +23,7 @@ export async function addItemToRemoteCart(item) {
     },
     credentials: 'include',
 
-    body: JSON.stringify({ item }),
+    body: JSON.stringify({ priceId, quantity }),
   }
   const res = await fetch(`${API_URL}/me/cart`, options)
   const data = await res.json()
@@ -34,13 +34,11 @@ export async function addItemToRemoteCart(item) {
   return data
 }
 
-export async function addItemToLocalCart(productId, priceId, quantity) {
+export async function addItemToLocalCart(priceId, quantity) {
   const localCartItems = JSON.parse(localStorage.getItem(CART_KEY)) || []
 
   // Finding if item already exists and updating the quantity
-  const itemIndex = localCartItems.findIndex(
-    (i) => i.productId === productId && i.priceId === priceId
-  )
+  const itemIndex = localCartItems.findIndex((i) => i.priceId === priceId)
   if (itemIndex !== -1) {
     const itemFound = localCartItems[itemIndex]
     localCartItems[itemIndex] = {
@@ -50,7 +48,6 @@ export async function addItemToLocalCart(productId, priceId, quantity) {
   } else {
     localCartItems.push({
       id: uuidv4(),
-      productId,
       priceId,
       quantity,
     })
@@ -61,8 +58,8 @@ export async function addItemToLocalCart(productId, priceId, quantity) {
   return validatedCart
 }
 
-export async function deleteItemFromRemoteCart(item) {
-  const res = await fetch(`${API_URL}/me/cart/${item.id}`, {
+export async function deleteItemFromRemoteCart(itemId) {
+  const res = await fetch(`${API_URL}/me/cart/${itemId}`, {
     method: 'DELETE',
     credentials: 'include',
   })
@@ -73,9 +70,9 @@ export async function deleteItemFromRemoteCart(item) {
   return data
 }
 
-export function deleteItemFromLocalCart(id) {
+export function deleteItemFromLocalCart(itemId) {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
-  const updatedCart = localCart.filter((i) => !(i.id === id))
+  const updatedCart = localCart.filter((i) => !(i.id === itemId))
   localStorage.setItem(CART_KEY, JSON.stringify(updatedCart))
   return updatedCart
 }
@@ -111,8 +108,8 @@ export async function updateItemFromLocalCart(itemId, quantity) {
 }
 
 export async function syncCart() {
-  const localCart = JSON.parse(localStorage.getItem(CART_KEY))
-  if (localCart.length === 0) {
+  const items = await getLocalCart()
+  if (items.length === 0) {
     return null
   }
 
@@ -122,7 +119,13 @@ export async function syncCart() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ items: localCart }),
+    body: JSON.stringify({
+      // On pass the fields I need
+      items: items.map((it) => ({
+        priceId: it.priceId,
+        quantity: it.quantity,
+      })),
+    }),
   })
   const data = await res.json()
 
