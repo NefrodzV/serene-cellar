@@ -177,6 +177,7 @@ export async function validateLocalCartItems(items) {
       (
         SELECT 
         p.name,
+        lc.id,
         lc.product_id,
         lc.price_id,
         lc.quantity, 

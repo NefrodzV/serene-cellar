@@ -14,6 +14,7 @@ export function CartItem({ item }) {
     discountPercent,
     finalUnitPrice,
   } = item
+
   console.log(item)
   const MIN_ITEM_QUANTITY = 1
   const { deleteItem, increment, decrement, updateItem } = useCart()
@@ -33,7 +34,6 @@ export function CartItem({ item }) {
             className="thumbnail"
             alt={name}
             srcSet={`${images?.thumbnail[150]} 1x, ${images?.thumbnail[300]} 2x, ${images?.thumbnail[450]} 3x`}
-            // sizes="(width <=600px) 360px, (600px < width < 720px) 720px , 1080"
           />
         </div>
         <div className="content">
@@ -53,14 +53,12 @@ export function CartItem({ item }) {
           </p>
 
           <p>Available: {stock}</p>
-
-          {error && <div className="error">{error}</div>}
         </div>
         <div className="item-control">
           <button
             disabled={quantity === MIN_ITEM_QUANTITY}
             className="button primary"
-            onClick={() => decrement(item, Number(quantity))}
+            onClick={() => decrement(id, Number(quantity))}
           >
             -
           </button>
@@ -97,14 +95,14 @@ export function CartItem({ item }) {
                 setRawQuantity(String(quantity))
                 return
               }
-              updateItem(item, Number(rawQuantity))
+              updateItem(id, Number(rawQuantity))
             }}
           />
 
           <button
             disabled={quantity >= stock}
             className="button primary"
-            onClick={() => increment(item, Number(rawQuantity))}
+            onClick={() => increment(id, Number(rawQuantity))}
           >
             +
           </button>
@@ -114,12 +112,13 @@ export function CartItem({ item }) {
             className="button primary delete"
             type="button"
             onClick={() => {
-              deleteItem(item)
+              deleteItem(id)
             }}
           >
             <i class="fa-solid fa-trash"></i>
           </button>
-        </div>
+        </div>{' '}
+        {error && <div className="error">{error}</div>}
       </article>
     </li>
   )

@@ -98,16 +98,16 @@ export async function updateItemFromRemoteCart(itemId, quantity) {
 }
 
 export async function updateItemFromLocalCart(itemId, quantity) {
-  const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
+  const items = await getLocalCart()
   const itemIndex = items.findIndex((i) => i.id === itemId)
   if (itemIndex === -1)
     throw new Error('No index found for this item in local storage')
   const itemFound = items[itemIndex]
-  items[itemIndex] = { ...itemFound, quantity: itemFound + quantity }
+  items[itemIndex] = { ...itemFound, quantity: quantity }
   localStorage.setItem(CART_KEY, JSON.stringify(items))
 
-  const validatedCart = await validateLocalCartItems(items)
-  return items
+  const data = await validateLocalCartItems(items)
+  return data ?? null
 }
 
 export async function syncCart() {
@@ -145,13 +145,14 @@ export async function validateLocalCartItems(items) {
 
   const data = await res.json()
   if (!res.ok) {
+    consolelog(data)
     throw new Error(data.error)
   }
   return data ?? null
 }
 
 export async function getLocalCart() {
-  return JSON.parse(localStorage.getItem(CART_KEY))
+  return JSON.parse(localStorage.getItem(CART_KEY)) || []
 }
 
 export function localCartHasItems() {
