@@ -21,14 +21,15 @@ export function CartProvider({ children }) {
   const { isAuthenticated } = useUser()
   const { sendMessage } = useMessages()
 
-  // Update this to call the functions of the cartService
-  const [cart, setCart] = useState({
+  const defaultCart = {
     items: [],
     isEmpty: true,
     total: 0,
     subtotal: 0,
     canCheckout: false,
-  })
+  }
+  // Update this to call the functions of the cartService
+  const [cart, setCart] = useState(defaultCart)
 
   useEffect(() => {
     async function loadCart() {
@@ -84,7 +85,8 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await deleteItemFromRemoteCart(itemId)
         : await deleteItemFromLocalCart(itemId)
-      setCart(data.cart)
+
+      setCart(data?.cart || defaultCart)
     } catch (error) {
       console.error('Error deleting item:', error)
     }

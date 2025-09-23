@@ -70,11 +70,17 @@ export async function deleteItemFromRemoteCart(itemId) {
   return data
 }
 
-export function deleteItemFromLocalCart(itemId) {
-  const localCart = JSON.parse(localStorage.getItem(CART_KEY)) || []
-  const updatedCart = localCart.filter((i) => !(i.id === itemId))
-  localStorage.setItem(CART_KEY, JSON.stringify(updatedCart))
-  return updatedCart
+export async function deleteItemFromLocalCart(itemId) {
+  const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
+  const itemsUpdated = items.filter((i) => !(i.id === itemId))
+  localStorage.setItem(CART_KEY, JSON.stringify(itemsUpdated))
+
+  if (itemsUpdated.length) {
+    const data = await validateLocalCartItems(itemsUpdated)
+    return data ?? null
+  } else {
+    return null
+  }
 }
 
 export async function updateItemFromRemoteCart(itemId, quantity) {
