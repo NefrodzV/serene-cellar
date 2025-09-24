@@ -18,10 +18,10 @@ export function MessageView({ message, type = 'notify' }) {
         if (e.key === 'Escape') removeMessage(message.id)
       }}
     >
-      <div className="header">
+      <div className>
         <button
           aria-label="Dismiss notification"
-          className="button"
+          className="button primary"
           type="button"
           onClick={() => removeMessage(message.id)}
         >

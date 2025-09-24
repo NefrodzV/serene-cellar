@@ -52,7 +52,7 @@ export function CartItem({ item }) {
             )}
           </p>
 
-          <p>Available: {stock}</p>
+          <p>{stock} in stock</p>
         </div>
         <div className="item-control">
           <button
