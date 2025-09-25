@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProductCard } from './ProductCard'
+import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
 export function ProductList() {
   const [products, isLoading] = useProducts()
@@ -8,7 +8,7 @@ export function ProductList() {
   return (
     <ul className="list">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductItem key={product.id} product={product} />
       ))}
     </ul>
   )

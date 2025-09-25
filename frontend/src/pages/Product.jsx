@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProductView } from '../components'
+import { ProductDetail } from '../components'
 export function ProductPage() {
-    return <ProductView />
+  return <ProductDetail />
 }

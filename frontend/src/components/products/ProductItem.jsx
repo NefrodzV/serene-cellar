@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-export function ProductCard({ product }) {
+export function ProductItem({ product }) {
   const { images, id, name, prices, slug } = product
   return (
     <li>

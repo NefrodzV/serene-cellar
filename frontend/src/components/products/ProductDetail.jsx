@@ -2,10 +2,10 @@ import React from 'react'
 import { useCart, useProduct, useProductSelection } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Select } from '../Select'
-import { Error } from '../Error'
+import { Error } from '../ErrorMessage'
 import { ErrorsMessages } from '../../constants/ErrorMessages'
 
-export function ProductView() {
+export function ProductDetail() {
   const { slug } = useParams()
   const [product, isLoading] = useProduct(slug)
 

@@ -1,6 +1,6 @@
 import { useMessages } from '../../hooks'
 import React from 'react'
-export function MessageView({ message, type = 'notify' }) {
+export function Message({ message, type = 'notify' }) {
   const { removeMessage } = useMessages()
   const messageType = {
     notify: '\u2139', // i
@@ -18,7 +18,7 @@ export function MessageView({ message, type = 'notify' }) {
         if (e.key === 'Escape') removeMessage(message.id)
       }}
     >
-      <div className>
+      <div>
         <button
           aria-label="Dismiss notification"
           className="button primary"
