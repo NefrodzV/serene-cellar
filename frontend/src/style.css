@@ -82,16 +82,23 @@ label, button, input {
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  transition: background-color .3s ;
 }
 
 .button.primary, a.button.primary {
   min-height: var(--control-height);
   background-color: var(--primary-color);
   color: var(--surface-color);
+  display: flex;
+  justify-content: center;
 }
 
 .button.primary:hover {
-   background-color: var(--primar-color-hover);
+   background-color: var(--primary-color-hover);
+}
+
+.button.primary:active {
+  background-color: var(--primary-color-active);
 }
 
 .button.primary {
@@ -446,11 +453,6 @@ position: absolute;
   overflow: hidden;
 }
 
-.select-items[data-open=true] {
-  
- 
-}
-
 .select-items div {
   padding-inline: 1rem;
 }
@@ -487,6 +489,7 @@ position: absolute;
 
 /* Message */
 .message {
+  pointer-events: all;
   padding: .5rem;
   background-color: var(--surface-color);
   border-radius: .5rem;
@@ -495,16 +498,15 @@ position: absolute;
   flex-direction: column;
 }
 
-.message .button {
-  
-  margin-inline: auto 0;
-  
-}
+
 
 .message .icon-container {
   display: flex;
-  
 }
+.message .button {
+  margin-inline: auto 0;
+}
+
 
 .message .icon {
   height: 50px;
@@ -541,10 +543,7 @@ position: absolute;
   justify-self: center;
 }
 
-.message .button:hover {
-  background-color: var(--primary-color);
-  color: var(--surface-color);
-}
+
 
 
 /* Cart */
