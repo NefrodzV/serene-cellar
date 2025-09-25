@@ -30,11 +30,10 @@ export async function getCurrentUser() {
     credentials: 'include',
   })
 
-  const data = await res.json()
   if (!res.ok) {
     throw new Error('Loading current authenticated user failed')
   }
-
+  const data = await res.json()
   return data.user
 }
 
