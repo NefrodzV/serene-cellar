@@ -1,46 +1,23 @@
 :root {
-  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
+  /* Colors */
+  --primary: #581C1C;
+  --primary-40l: hsl(0, 52%, 40%);
+  --primary5: hsl(0, 52%, 23%, 5%);
+  --accent: #3E2723;
+  --secondary: #C49A6C;
+  --background: #FDF6ED;
+  --text: #160303;
+  --error: #8C1D1D;
   
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
-
-  /*Colors */
-  /* Main button color, nav, logo */
-  --primary-color: #581C1C;
-  --primary-color-hover: #7b2525;
-  --nav-hover: #fbadad;
-  /* Call to action,  hightlights, price */
-  --accent-color: #D4AF37;
-  --accent-color-hover: #af912f;
-  /* 	Input borders, tabs, muted text */
-  --secondary-color: #6B4F4F;
-  --background-color: #FDF6ED;
-  /* Cards and Forms */ 
-  --surface-color: #FFFFFF;
-  --text-color: #2F2F2F;
-  --highlight-color: #A87060;
-
-  --error-color: #8B2E2E;
-  /* Maybe dark mode colors */
-  /* background	#1B1B1B (Charcoal Black)
-  surface	#2B2B2B
-  text	#F0EDE8 (Warm white)
-  accent	Same gold: #D4AF37  */
-
+  /* https://www.realtimecolors.com/?colors=160303-FDF6ED-591c1c-C49A6C-3E2723&fonts=Inter-Inter */
+  
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
+
+  /** Dimensions */
   --header-footer-height: 60px;
   --control-height: 44px;
+  --border-radius: 8px;
 }
 
 
@@ -60,11 +37,11 @@ html {
 }
 
 body,.button, .input {
-  color: var(--text-color);
+  color: var(--text);
   font-family: var(--font-body);
 }
 body {
-  color: var(--text-color);
+  color: var(--text);
   margin: 0;
   font-size: 1rem;
 }
@@ -73,60 +50,54 @@ label, button, input {
   cursor: pointer;
 }
 
-.button, a.button {
+.button-primary {
   padding: .5rem 1rem;
-  border: none;
-  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  transition: background-color .3s ;
-}
-
-.button.primary, a.button.primary {
+  font-size: 1rem;
   min-height: var(--control-height);
-  background-color: var(--primary-color);
-  color: var(--surface-color);
+  background-color: var(--primary);
+  color: white;
   display: flex;
   justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius);
+  transition: background-color .3s, transform .1s ;
 }
 
-.button.primary:hover {
-   background-color: var(--primary-color-hover);
+.button-primary:hover {
+   background-color: var(--primary-40l);
 }
 
-.button.primary:active {
-  background-color: var(--primary-color-active);
+.button-primary:active {
+  transform: scale(.9);
 }
 
 .button.primary {
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   color: var(--surface-color);
 }
-.button.primary:disabled, .button.primary:disabled:hover, .button.accent:disabled, .button.accent:disabled:hover {
+.button-primary:disabled, .button-primary:disabled:hover, .button-accent:disabled, .button-accent:disabled:hover {
   background-color: lightgray;
   cursor: not-allowed;
-  color: var(--surface-color);
+ 
 }
 
 .button.primary:hover {
    background-color: var(--primary-color-hover);
 }
-
-
-.button.accent {
+.button-accent {
   height: var(--control-height);
   background-color: var(--accent-color);
-  color: var(--surface-color);
+  color: white;
   display: flex;
   gap: .5rem;
   justify-content: center;
   align-items: center;
 }
 
-.button.accent:hover {
+.button-accent:hover {
   background-color: var(--accent-color-hover);
   color: var(--surface-color);
 }
@@ -140,12 +111,12 @@ label, button, input {
 }
 .input.primary {
   outline: none;
-  border: 1px solid var(--secondary-color);
+  border: 1px solid var(--secondary);
   border-radius: 8px;
 }
 
 .input.primary:focus{
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--primary);
   
 }
 
@@ -210,7 +181,7 @@ label, button, input {
 }
 
 .login-form a, .register-form a {
-  color: var(--primary-color);
+  color: var(--primary);
   text-decoration: none;
 }
 
@@ -230,7 +201,7 @@ label, button, input {
 }
 
 .error {
-  color: var(--error-color);
+  color: var(--error);
 }
 
 .list {
@@ -244,8 +215,8 @@ label, button, input {
 }
 
 .card  {
-  border: 1px solid var(--text-color);
-  background-color: var(--surface-color);
+  
+  background-color: var(--primary5);
   padding: 2rem;
   border-radius:8px;
   display: flex;
@@ -254,7 +225,8 @@ label, button, input {
   justify-items: center;
   align-items: center;
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--text);
+  transition: box-shadow .3s;
 }
 
 .flex-1rem {
@@ -262,14 +234,14 @@ label, button, input {
   gap: 1rem;
 }
 .card:hover {
-  box-shadow: 0 0 3px black;
+  box-shadow: 0 0 12px var(--secondary);
 }
 
 .app-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--background-color);
+  background-color: var(--background);
   height: 100dvh;
   /* width: clamp(320px, 100vw, 1280px) ; */
 }
@@ -287,7 +259,7 @@ label, button, input {
 .app-layout header,  .app-layout footer {
   padding: .5rem 1rem;
   flex-shrink: 0;
-  background-color: var(--primary-color);
+  background-color: var(--primary);
 }
 
 .main-layout {
@@ -318,7 +290,7 @@ label, button, input {
   align-items: center;
   gap: .3rem;
   height: var(--control-height);
-  color: var(--surface-color);
+  color: white;
   text-decoration: none;
 }
 .link > * {
@@ -326,8 +298,8 @@ label, button, input {
 }
 
 .drawer .link:hover {
-  opacity: .8;
-  color: var(--nav-hover);
+  opacity: .5;
+  
 }
 
 .cart {
@@ -389,7 +361,7 @@ position: absolute;
 }
 
 .select .button {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary);
   width: 100%;
   background-color: var(--surface-color);
   display: flex;
@@ -402,7 +374,7 @@ position: absolute;
 }
 
 .select .button[data-open=true] {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--primary);
 }
 
 .button {
@@ -411,7 +383,7 @@ position: absolute;
   align-items: center;
 }
 .select .button i {
-  color: var(--primary-color);
+  color: var(--primary);
 }
 
 .select-items {
@@ -421,20 +393,20 @@ position: absolute;
   top: 100%;
   width: inherit;
   position: absolute;
-  color: var(--text-color);
+  color: var(--text);
   background-color: var(--surface-color);
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
 .select-items  .disabled, .select-items  .disabled:hover {
   background-color: lightgray;
-  color: var(--error-color);
+  color: var(--error);
   cursor: not-allowed;
 }
   .button.nav {
     display: none;
     color: var(--surface-color);
-    background-color: var(--primary-color);
+    background-color: var(--primary);
   }
 
  
@@ -460,7 +432,7 @@ position: absolute;
 .select-items div:hover {
   cursor: pointer;
   color: var(--surface-color);
-  background-color: var(--primary-color);
+  background-color: var(--primary);
  }
 
  .selected {
@@ -564,7 +536,7 @@ position: absolute;
 }
   
 .cart-item {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--text);
 }
 .cart-item .product  {
   display: grid;
@@ -598,7 +570,7 @@ position: absolute;
 .cart-item .quantity {
   padding :.5rem ;
   border-radius: .5rem;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 
@@ -621,7 +593,7 @@ position: absolute;
   
   padding :.5rem 1rem;
   border-radius: .5rem;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 
@@ -655,7 +627,7 @@ position: absolute;
 }
 
 .checkout {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--text);
   box-sizing: content-box;
   padding: 1rem;
   width: 300px;
@@ -673,7 +645,7 @@ position: absolute;
 
 .line-through {
   text-decoration: line-through;
-  color: var(--primary-color);
+  color: var(--primary);
 }
 
 .green {
@@ -733,7 +705,7 @@ position: absolute;
     top: 0;
     height: 100%;
     right: 0;
-    background-color: var(--primary-color);
+    background-color: var(--primary);
     transition: .5s;
   }
 
