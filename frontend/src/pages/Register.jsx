@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { Button } from '../components/elements/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
@@ -232,7 +233,7 @@ export function RegisterPage() {
           {errors.global && <div>{errors.global}</div>}
         </div>
         <div className="footer">
-          <button className="button primary">Register</button>
+          <Button variant="primary">Register</Button>
           <Link className="center-flex" to={'/login'}>
             Already have an account?
           </Link>

@@ -4,6 +4,7 @@ import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
 import { Input } from '../components/Input'
+import { Button } from '../components/elements/Button'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -105,7 +106,7 @@ export function LoginPage() {
           error={errors.password}
         />
         <div>{errors.global}</div>
-        <button className="button primary">Login</button>
+        <Button variant="primary">Login</Button>
         <Link className="push-right" href="#">
           Forgot password?
         </Link>
