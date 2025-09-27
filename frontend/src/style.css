@@ -50,14 +50,14 @@ label, button, input {
   cursor: pointer;
 }
 
-.button-primary {
+/** Button styles */
+.button {
   padding: .5rem 1rem;
+  pointer-events: all;
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
   min-height: var(--control-height);
-  background-color: var(--primary);
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,11 +66,32 @@ label, button, input {
   transition: background-color .3s, transform .1s ;
 }
 
+.button-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
 .button-primary:hover {
    background-color: var(--primary-40l);
 }
 
-.button-primary:active {
+.button-card{
+  color: var(--text);
+  margin-inline: auto 0;
+  background-color: transparent;
+}
+
+.button-card:hover {
+  background-color: hsl(0, 0%, 0%, .2);
+}
+
+.button-card {
+  margin-inline: auto 0;
+  color: text;
+  background-color: transparent;
+}
+
+.button:active{
   transform: scale(.9);
 }
 
@@ -214,7 +235,7 @@ label, button, input {
   align-content: flex-start;
 }
 
-.card  {
+/* .card  {
   
   background-color: var(--primary5);
   padding: 2rem;
@@ -227,15 +248,15 @@ label, button, input {
   text-decoration: none;
   color: var(--text);
   transition: box-shadow .3s;
-}
+} */
 
 .flex-1rem {
   display: flex;
   gap: 1rem;
 }
-.card:hover {
+/* .card:hover {
   box-shadow: 0 0 12px var(--secondary);
-}
+} */
 
 .app-layout {
   display: flex;
@@ -445,7 +466,7 @@ position: absolute;
 .message-container {
   margin: 0;
   pointer-events: none;
-  width: 300px;
+  width: 450px;
   position: fixed;
   top: 50px;
   bottom: 0;
@@ -459,26 +480,41 @@ position: absolute;
   
 }
 
+.card {
+  box-sizing: inherit;
+  width: 100%;
+  display: block;
+  padding: .5rem;
+  background-color: var(--background);
+  transition: box-shadow .5s ease;
+}
+
+.primary-bg {
+  background-color: var(--primary5);
+}
+
+.rounded {
+  border-radius: var(--border-radius);
+}
+
+.shadow3 {
+  box-shadow: 0 0 3px var(--accent);
+}
+
+.shadow3:hover {
+  box-shadow: 0 0 6px var(--accent);
+}
+
 /* Message */
 .message {
   pointer-events: all;
-  padding: .5rem;
-  background-color: var(--surface-color);
-  border-radius: .5rem;
-  box-shadow: 0 0 3px rgba(0, 0, 0);
   display: flex;
   flex-direction: column;
 }
 
-
-
 .message .icon-container {
   display: flex;
 }
-.message .button {
-  margin-inline: auto 0;
-}
-
 
 .message .icon {
   height: 50px;
@@ -491,29 +527,18 @@ position: absolute;
   text-align: center;
 }
 
-.error {
-  background-color: red;
-  color: var(--surface-color);
+.message-error ,.message-notify, .message-success {
+  background-color: var(--secondary);
+  color: var(--text);
 }
 
-.notify {
-  background-color: blue;
-  color: var(--surface-color);
-}
-
-.success {
-  background-color: green;
-  color: var(--surface-color);
-}
 .message .content {
   display: flex;
   gap: 1rem;
   flex: 1;
 }
 
-.message .content .text {
-  justify-self: center;
-}
+
 
 
 

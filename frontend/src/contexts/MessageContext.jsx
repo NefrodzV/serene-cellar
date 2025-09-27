@@ -6,10 +6,11 @@ export const MessageContext = createContext()
 export function MessageProvider({ children }) {
   const [messages, setMessages] = useState([])
 
-  function sendMessage(text) {
+  function sendMessage(text, type = 'notify') {
     const message = {
       id: uuidv4(),
       text,
+      type,
     }
     setMessages((prev) => [...prev, message])
     /** This may need an improvement because this still runs when the user

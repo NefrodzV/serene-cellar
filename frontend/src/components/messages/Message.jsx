@@ -1,15 +1,15 @@
 import { useMessages } from '../../hooks'
 import React from 'react'
-export function Message({ message, type = 'notify' }) {
+export function Message({ message }) {
   const { removeMessage } = useMessages()
   const messageType = {
     notify: '\u2139', // i
     error: '\u2716', // ✖
     success: '\u2714', // ✔
   }
-  const isError = type === 'error'
+  const isError = message.type === 'error'
   return (
-    <li
+    <div
       className="message"
       aria-live={isError ? 'assertive' : 'polite'}
       aria-atomic="true"
@@ -18,26 +18,15 @@ export function Message({ message, type = 'notify' }) {
         if (e.key === 'Escape') removeMessage(message.id)
       }}
     >
-      <div>
-        <button
-          aria-label="Dismiss notification"
-          className="button primary"
-          type="button"
-          onClick={() => removeMessage(message.id)}
-        >
-          x
-        </button>
-      </div>
-
       <div className="content">
         <div className="icon-container">
-          <div className={`icon ${type}`} aria-hidden>
-            {messageType[type]}
+          <div className={`icon message-${message?.type}`} aria-hidden>
+            {messageType[message?.type]}
           </div>
         </div>
 
         <p className="text">{message.text}</p>
       </div>
-    </li>
+    </div>
   )
 }
