@@ -1,8 +1,17 @@
 import React from 'react'
-export function Card({ variant = 'card', children }) {
+export function Card({
+  as: Component = 'div',
+  variant = 'neutral',
+  className = '',
+  children,
+}) {
   const variants = {
-    card: 'card rounded shadow3',
-    primary: 'card primary-bg rounded',
+    neutral: 'card-neutral',
+    primary: 'card-primary',
   }
-  return <div className={variants[variant]}>{children}</div>
+  return (
+    <Component className={`card ${variants[variant]} ${className}`}>
+      {children}
+    </Component>
+  )
 }

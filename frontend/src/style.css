@@ -477,16 +477,22 @@ position: absolute;
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  
 }
 
+/* Card styles */
 .card {
   box-sizing: inherit;
   width: 100%;
   display: block;
   padding: .5rem;
-  background-color: var(--background);
   transition: box-shadow .5s ease;
+}
+.card-neutral {
+  background-color: var(--background);
+}
+
+.card-primary {
+  background-color: var(--primary5);
 }
 
 .primary-bg {
