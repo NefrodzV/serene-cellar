@@ -3,6 +3,7 @@ import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 import logo from '../assets/logo-bg.png'
+import { Button } from '../components/elements/Button'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
@@ -52,13 +53,14 @@ export function MainLayout() {
           <img src={logo} />
         </div>
 
-        <button
-          className="button nav"
-          aria-label={'Open menu'}
+        <Button
+          arial-lable="open navigation menu"
+          variant={'neutral'}
           onClick={() => setOpen(!isOpen)}
+          className="hamburger"
         >
           <i className="fa-solid fa-bars" />
-        </button>
+        </Button>
         <nav
           className="drawer"
           data-open={isOpen}
@@ -74,13 +76,14 @@ export function MainLayout() {
             }
           }}
         >
-          <button
+          <Button
+            variant="neutral"
             aria-label={'Close menu'}
             onClick={() => setOpen(!isOpen)}
-            className="button nav"
+            className="align-right close"
           >
             X
-          </button>
+          </Button>
           {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
           <NavLink className="link" href="#">
             <i className="fa-solid fa-home icon"></i> Home

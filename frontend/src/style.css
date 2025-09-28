@@ -75,6 +75,16 @@ label, button, input {
    background-color: var(--primary-40l);
 }
 
+.button-neutral {
+  color: white;
+  background-color: transparent;
+}
+
+.button-neutral:hover {
+  color: white;
+  background-color: hsl(0, 0%, 0%, .5);
+}
+
 .button-card{
   color: var(--text);
   margin-inline: auto 0;
@@ -557,7 +567,21 @@ position: absolute;
 }
 
 
+/* Drawer */
+.drawer[data-open="false"] {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;   
+}
 
+.drawer[data-open=true] .close {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+}
 
 
 
@@ -698,6 +722,12 @@ position: absolute;
   color: green;
 }
 
+/* Helper classes */
+
+.align-right {
+  margin-inline:  auto 0;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -714,12 +744,6 @@ position: absolute;
   background-color: var(--background-color);
 }
 
-.drawer[data-open="false"] {
-  width: 0;
-  padding: 0;
-  opacity: 0;
-  pointer-events: none;   
-}
 
 
 
@@ -735,12 +759,9 @@ position: absolute;
   
 }
 @media(max-width: 600px) {
-  .button.nav {
+  .hamburger {
     display: block;
-    margin-inline: auto 0;
-    
   }
-
   .drawer {
     overflow: hidden;
     padding: .5rem;
@@ -754,6 +775,10 @@ position: absolute;
     right: 0;
     background-color: var(--primary);
     transition: .5s;
+  }
+
+  .drawer[data-open=true] .close {
+    display: block;
   }
 
   .drawer[data-open=true] {
