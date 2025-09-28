@@ -9,7 +9,7 @@ export function MessageContainer() {
 
   return (
     <ul className="message-container">
-      <Card>
+      <Card as="li" className="rounded shadow3">
         <div>
           <Button variant="card">x</Button>
         </div>
@@ -20,7 +20,7 @@ export function MessageContainer() {
           }}
         />
       </Card>
-      <Card>
+      <Card as="li" className="rounded shadow3">
         <div>
           <Button variant="card">x</Button>
         </div>
@@ -31,7 +31,7 @@ export function MessageContainer() {
           }}
         />
       </Card>
-      <Card>
+      <Card as="li" className="rounded shadow3">
         <div>
           <Button variant="card">x</Button>
         </div>
@@ -44,14 +44,12 @@ export function MessageContainer() {
       </Card>
 
       {messages?.map((message) => (
-        <li>
-          <Card>
-            <div>
-              <Button variant="card">x</Button>
-            </div>
-            <Message message={message} />
-          </Card>
-        </li>
+        <Card key={message.id} as="li" className="rounded shadow3">
+          <div>
+            <Button variant="card">x</Button>
+          </div>
+          <Message message={message} />
+        </Card>
       ))}
     </ul>
   )

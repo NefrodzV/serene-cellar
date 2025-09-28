@@ -4,13 +4,14 @@ export function Card({
   variant = 'neutral',
   className = '',
   children,
+  ...props
 }) {
   const variants = {
     neutral: 'card-neutral',
     primary: 'card-primary',
   }
   return (
-    <Component className={`card ${variants[variant]} ${className}`}>
+    <Component className={`card ${variants[variant]} ${className}`} {...props}>
       {children}
     </Component>
   )
