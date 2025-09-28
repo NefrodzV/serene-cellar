@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Select } from '../Select'
 import { Error } from '../ErrorMessage'
 import { ErrorsMessages } from '../../constants/ErrorMessages'
-
+import { Button } from '../elements/Button'
 export function ProductDetail() {
   const { slug } = useParams()
   const [product, isLoading] = useProduct(slug)
@@ -88,8 +88,8 @@ export function ProductDetail() {
               <b className="block">Total:</b>
               {`$${total}`}
             </p>
-            <button
-              className="button accent  add-cart"
+            <Button
+              className="button-accent"
               onClick={() => {
                 addItem(quantity, prices[packSize].id)
               }}
@@ -97,7 +97,7 @@ export function ProductDetail() {
             >
               <i className="fa-solid fa-cart-plus"></i>
               Add to cart
-            </button>
+            </Button>
           </>
         ) : (
           <Error text={ErrorsMessages[errors[0]]} />

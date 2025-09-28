@@ -3,7 +3,8 @@
   --primary: #581C1C;
   --primary-40l: hsl(0, 52%, 40%);
   --primary5: hsl(0, 52%, 23%, 5%);
-  --accent: #3E2723;
+  --accent: rgb(62, 39, 35);
+  --accent5:rgb(62, 39, 35, 80%);
   --secondary: #C49A6C;
   --background: #FDF6ED;
   --text: #160303;
@@ -64,6 +65,7 @@ label, button, input {
   border: none;
   border-radius: var(--border-radius);
   transition: background-color .3s, transform .1s ;
+  gap: .5rem;
 }
 
 .button-primary {
@@ -85,6 +87,7 @@ label, button, input {
   background-color: hsl(0, 0%, 0%, .5);
 }
 
+
 .button-card{
   color: var(--text);
   margin-inline: auto 0;
@@ -95,42 +98,24 @@ label, button, input {
   background-color: hsl(0, 0%, 0%, .2);
 }
 
-.button-card {
-  margin-inline: auto 0;
-  color: text;
-  background-color: transparent;
-}
-
 .button:active{
   transform: scale(.9);
 }
 
-.button.primary {
-  background-color: var(--primary);
-  color: var(--surface-color);
-}
 .button-primary:disabled, .button-primary:disabled:hover, .button-accent:disabled, .button-accent:disabled:hover {
   background-color: lightgray;
   cursor: not-allowed;
  
 }
 
-.button.primary:hover {
-   background-color: var(--primary-color-hover);
-}
 .button-accent {
-  height: var(--control-height);
-  background-color: var(--accent-color);
+  background-color: var(--accent);
   color: white;
-  display: flex;
-  gap: .5rem;
-  justify-content: center;
-  align-items: center;
 }
 
 .button-accent:hover {
-  background-color: var(--accent-color-hover);
-  color: var(--surface-color);
+  background-color: var(--accent5);
+  
 }
 .fullwidth {
   width: 100%;
@@ -179,8 +164,7 @@ label, button, input {
   margin-inline: .5rem;
   background-color: var(--surface-color);
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
   max-width: 400px;
   width: 100%;
   display: flex;
@@ -323,13 +307,16 @@ label, button, input {
   height: var(--control-height);
   color: white;
   text-decoration: none;
+  transition: background-color .3s;
+  padding-inline: .5rem;
+  border-radius: var(--border-radius);
 }
 .link > * {
   pointer-events: none;
 }
 
 .drawer .link:hover {
-  opacity: .5;
+  background-color: rgba(0, 0, 0, .5);
   
 }
 
@@ -348,7 +335,7 @@ position: absolute;
 
 /* Product */
 .product-view {
-  
+  width: 100%;
   margin-block: auto;
   display: grid;
   grid-template-columns: auto;
@@ -357,6 +344,7 @@ position: absolute;
 }
 
 .product-view .image {
+  max-height: 450px;
   width: 100%;
   grid-column-start: 1;
   grid-row-start: 1;
@@ -401,9 +389,9 @@ position: absolute;
 .select .button {
   border: 1px solid var(--primary);
   width: 100%;
-  background-color: var(--surface-color);
   display: flex;
   justify-content: space-between;
+  background-color: var(--background);
 }
 
 .select .button:disabled {
@@ -432,7 +420,7 @@ position: absolute;
   width: inherit;
   position: absolute;
   color: var(--text);
-  background-color: var(--surface-color);
+  background-color: var(--background);
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
@@ -441,19 +429,12 @@ position: absolute;
   color: var(--error);
   cursor: not-allowed;
 }
-  .button.nav {
-    display: none;
-    color: var(--surface-color);
-    background-color: var(--primary);
-  }
 
- 
-
-  .select-items > *  {
-    display: flex;
-    align-items: center;
-    height: var(--control-height);
-  }
+.select-items > *  {
+  display: flex;
+  align-items: center;
+  height: var(--control-height);
+}
 
 .select-items:last-child {
   border-bottom: 1px solid black;
@@ -469,13 +450,13 @@ position: absolute;
 
 .select-items div:hover {
   cursor: pointer;
-  color: var(--surface-color);
+  color: white;
   background-color: var(--primary);
  }
 
  .selected {
-  color: var(--surface-color);
-  background-color: var(--primary-color-hover);
+  color: var(--text);
+  background-color: var(--secondary);
  }
 
 
@@ -659,7 +640,6 @@ position: absolute;
   appearance: none;
   display: none;
   margin: 0;
-  
   padding :.5rem 1rem;
   border-radius: .5rem;
   border: 1px solid var(--primary);
@@ -669,8 +649,6 @@ position: absolute;
 .cart-item .delete {
   margin-inline: auto 0;
 }
-
-
 
 /* Cart Page */
 .cart-page {
@@ -741,11 +719,8 @@ position: absolute;
 }
 
 .bg-color {
-  background-color: var(--background-color);
+  background-color: var(--background);
 }
-
-
-
 
 .no-transition {
   transition: none !important;
@@ -810,9 +785,7 @@ position: absolute;
     transform: translate(-50%, -50%);
   }
 
-  .bg-color {
-    background-color: var(--surface-color);
-  }
+  
   .register-form, .login-form {
     box-shadow: none;
     height: 100%;
