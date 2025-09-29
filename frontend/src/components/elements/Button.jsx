@@ -10,6 +10,8 @@ export function Button({
     primary: 'button-primary',
     card: 'button-card',
     neutral: 'button-neutral',
+    secondary: 'button-secondary',
+    accent: 'button-accent',
   }
 
   return (

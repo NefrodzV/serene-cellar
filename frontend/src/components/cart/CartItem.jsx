@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
-
+import { Button } from '../elements/Button'
 export function CartItem({ item }) {
   const {
     id,
@@ -55,13 +55,14 @@ export function CartItem({ item }) {
           <p>{stock} in stock</p>
         </div>
         <div className="item-control">
-          <button
+          <Button
+            variant="secondary"
             disabled={quantity === MIN_ITEM_QUANTITY}
             className="button primary"
             onClick={() => decrement(id, Number(quantity))}
           >
             -
-          </button>
+          </Button>
 
           <input
             onChange={(e) => {
@@ -99,15 +100,17 @@ export function CartItem({ item }) {
             }}
           />
 
-          <button
+          <Button
+            variant="secondary"
             disabled={quantity >= stock}
             className="button primary"
             onClick={() => increment(id, Number(rawQuantity))}
           >
             +
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="secondary"
             aria-label="Delete cart item"
             className="button primary delete"
             type="button"
@@ -116,7 +119,7 @@ export function CartItem({ item }) {
             }}
           >
             <i class="fa-solid fa-trash"></i>
-          </button>
+          </Button>
         </div>{' '}
         {error && <div className="error">{error}</div>}
       </article>

@@ -1,4 +1,5 @@
 import { useCart } from '../../hooks'
+import { Card } from '../elements/Card'
 import { CartItem } from './CartItem'
 import React from 'react'
 
@@ -16,7 +17,9 @@ export function CartList() {
   return (
     <ul aria-label="Your current cart items" className="cart-list">
       {cart?.items?.map((item) => (
-        <CartItem key={item.id ?? item.uuid} item={item} />
+        <Card variant="primary" className="rounded">
+          <CartItem key={item.id ?? item.uuid} item={item} />
+        </Card>
       ))}
     </ul>
   )

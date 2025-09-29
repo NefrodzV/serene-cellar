@@ -77,6 +77,11 @@ label, button, input {
    background-color: var(--primary-40l);
 }
 
+.button-secondary {
+  color: var(--text);
+  background-color: var(--secondary);
+}
+
 .button-neutral {
   color: white;
   background-color: transparent;
@@ -481,10 +486,11 @@ position: absolute;
 .card {
   box-sizing: inherit;
   padding: .5rem;
-  transition: box-shadow .5s ease;
+  transition: box-shadow .3s ease, transform  .5s ease var(--stagger)  , opacity .5s ease var(--stagger);
   color: var(--text);
   text-decoration: none;
 }
+
 .card-neutral {
   background-color: var(--background);
 }
@@ -581,13 +587,10 @@ position: absolute;
  .cart-item {
   padding: 1rem;
   margin-right: .2rem;
-  background-color: var(--surface-color);
-  border-radius: .5rem;
+  
 }
   
-.cart-item {
-  border: 1px solid var(--text);
-}
+
 .cart-item .product  {
   display: grid;
   grid-template-columns: 30% auto;
@@ -674,7 +677,7 @@ position: absolute;
 }
 
 .checkout {
-  border: 1px solid var(--text);
+  
   box-sizing: content-box;
   padding: 1rem;
   width: 300px;
@@ -701,7 +704,16 @@ position: absolute;
 }
 
 /* Helper classes */
+.from-left {
+  transform: translateX(-100%);
+  opacity: 0;
 
+}
+
+.slide-in {
+  transform: translateX(0);
+  opacity: 1;
+}
 .align-right {
   margin-inline:  auto 0;
 }
