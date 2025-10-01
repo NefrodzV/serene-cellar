@@ -1,13 +1,26 @@
 import { useMessages } from '../../hooks'
-import React from 'react'
-export function Message({ message }) {
-  const { removeMessage } = useMessages()
+import React, { useEffect } from 'react'
+export function Message({ message, removeMessage, updateAnimation }) {
   const messageType = {
     notify: '\u2139', // i
     error: '\u2716', // ✖
     success: '\u2714', // ✔
   }
   const isError = message.type === 'error'
+  useEffect(() => {
+    updateAnimation(message.id, true)
+    const id = setTimeout(() => {
+      updateAnimation(message.id, false)
+    }, 3000)
+    setTimeout(() => {
+      removeMessage(message.id)
+    }, 4000)
+
+    return () => {
+      clearTimeout(id)
+    }
+  }, [])
+  console.log(message)
   return (
     <div
       className="message"
