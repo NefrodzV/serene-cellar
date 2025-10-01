@@ -58,7 +58,6 @@ export function CartItem({ item }) {
           <Button
             variant="secondary"
             disabled={quantity === MIN_ITEM_QUANTITY}
-            className="button primary"
             onClick={() => decrement(id, Number(quantity))}
           >
             -
@@ -103,7 +102,6 @@ export function CartItem({ item }) {
           <Button
             variant="secondary"
             disabled={quantity >= stock}
-            className="button primary"
             onClick={() => increment(id, Number(rawQuantity))}
           >
             +
@@ -112,7 +110,6 @@ export function CartItem({ item }) {
           <Button
             variant="secondary"
             aria-label="Delete cart item"
-            className="button primary delete"
             type="button"
             onClick={() => {
               deleteItem(id)
