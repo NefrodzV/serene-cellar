@@ -109,7 +109,7 @@ export function MainLayout() {
           </NavLink>
         </nav>
       </header>
-      <main className={`main-layout `}>
+      <main className={`main-layout center-vertically`}>
         <Outlet />
         <MessageContainer />
       </main>
