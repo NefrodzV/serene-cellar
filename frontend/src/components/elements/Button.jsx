@@ -4,7 +4,7 @@ export function Button({
   children,
   onClick,
   className = '',
-  props,
+  ...props
 }) {
   const variants = {
     primary: 'button-primary',
