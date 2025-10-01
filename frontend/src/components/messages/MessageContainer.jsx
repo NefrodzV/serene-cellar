@@ -1,54 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMessages } from '../../hooks'
 import { Message } from './Message'
 import { Card } from '../elements/Card'
 import { Button } from '../elements/Button'
 
 export function MessageContainer() {
-  const { messages } = useMessages()
-
+  const { messages, removeMessage, updateAnimation } = useMessages()
   return (
     <ul className="message-container">
-      <Card as="li" className="rounded shadow3">
-        <div>
-          <Button variant="card">x</Button>
-        </div>
-        <Message
-          message={{
-            text: 'Item added to cart',
-            type: 'notify',
+      {messages?.map((message, i) => (
+        <Card
+          onTransitionEnd={(e) => {
+            if (message.animate) return
+            if (e.target.classList.contains('slide-in')) return
+            removeMessage(message.id)
           }}
-        />
-      </Card>
-      <Card as="li" className="rounded shadow3">
-        <div>
-          <Button variant="card">x</Button>
-        </div>
-        <Message
-          message={{
-            text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio, enim corrupti? A, illo explicabo! Impedit similique perferendis quod nulla beatae nobis sit rerum? Perferendis, ipsam assumenda. Recusandae tempora voluptates perspiciatis?',
-            type: 'error',
-          }}
-        />
-      </Card>
-      <Card as="li" className="rounded shadow3">
-        <div>
-          <Button variant="card">x</Button>
-        </div>
-        <Message
-          message={{
-            text: 'Item added to cart',
-            type: 'success',
-          }}
-        />
-      </Card>
-
-      {messages?.map((message) => (
-        <Card key={message.id} as="li" className="rounded shadow3">
+          key={message.id}
+          as="li"
+          className={`rounded shadow3 from-right ${message?.animate ? 'slide-in' : ''}`}
+        >
           <div>
-            <Button variant="card">x</Button>
+            <Button variant="card" onClick={() => removeMessage(message.id)}>
+              x
+            </Button>
           </div>
-          <Message message={message} />
+          <Message
+            message={{ message }}
+            removeMessage={removeMessage}
+            updateAnimation={updateAnimation}
+          />
         </Card>
       ))}
     </ul>

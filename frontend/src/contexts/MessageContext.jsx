@@ -11,20 +11,35 @@ export function MessageProvider({ children }) {
       id: uuidv4(),
       text,
       type,
+      animate: false,
     }
     setMessages((prev) => [...prev, message])
+
     /** This may need an improvement because this still runs when the user
      * has removed the message
      */
-    setTimeout(() => {
-      removeMessage(message.id)
-    }, 2000)
+    // setTimeout(() => {
+    //   removeMessage(message.id)
+    // }, 2000)
   }
 
+  function updateAnimation(id, animationVal) {
+    setMessages((prev) =>
+      prev.map((m) => {
+        if (m.id === id) {
+          const updatedMessage = { ...m, animate: animationVal }
+          return updatedMessage
+        }
+
+        return m
+      })
+    )
+  }
   function removeMessage(id) {
     setMessages((prev) => prev.filter((message) => !(message.id === id)))
   }
-  const value = { messages, sendMessage, removeMessage }
+
+  const value = { messages, sendMessage, removeMessage, updateAnimation }
 
   return (
     <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
