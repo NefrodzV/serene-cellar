@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
 import { Button } from '../elements/Button'
-export function CartItem({ item }) {
+export function CartItem({ item, onMount, ...props }) {
   const {
     id,
     name,
@@ -15,7 +15,6 @@ export function CartItem({ item }) {
     finalUnitPrice,
   } = item
 
-  console.log(item)
   const MIN_ITEM_QUANTITY = 1
   const { deleteItem, increment, decrement, updateItem } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
@@ -26,9 +25,14 @@ export function CartItem({ item }) {
     }
     setRawQuantity(String(quantity))
   }, [quantity])
+
+  useEffect(() => {
+    onMount ? onMount() : null
+  }, [])
+
   return (
-    <li className="cart-item">
-      <article className="product">
+    <article className="cart-item">
+      <div className="product">
         <div className="image">
           <img
             className="thumbnail"
@@ -119,7 +123,7 @@ export function CartItem({ item }) {
           </Button>
         </div>{' '}
         {error && <div className="error">{error}</div>}
-      </article>
-    </li>
+      </div>
+    </article>
   )
 }

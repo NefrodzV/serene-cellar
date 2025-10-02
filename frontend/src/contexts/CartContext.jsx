@@ -31,6 +31,7 @@ export function CartProvider({ children }) {
   // Update this to call the functions of the cartService
   const [cart, setCart] = useState(defaultCart)
 
+  console.log(cart.items)
   useEffect(() => {
     async function loadCart() {
       try {
@@ -52,7 +53,10 @@ export function CartProvider({ children }) {
         const items = await getLocalCart()
         const data = await validateLocalCartItems(items)
 
-        setCart(data.cart)
+        setCart({
+          ...data.cart,
+          items: data.cart.items.map((i) => ({ ...i, animate: false })),
+        })
       } catch (e) {
         console.error('Error loading cart snapshot:', e)
       }
@@ -128,6 +132,18 @@ export function CartProvider({ children }) {
       console.error(error)
     }
   }
+
+  function updateItemAnimation(id, animate) {
+    setCart((prev) => ({
+      ...prev,
+      items: prev.items.map((i) => {
+        if (i.id === id) {
+          return { ...i, animate: animate }
+        }
+        return i
+      }),
+    }))
+  }
   const value = {
     cart,
     addItem,
@@ -135,6 +151,7 @@ export function CartProvider({ children }) {
     updateItem,
     decrement,
     increment,
+    updateItemAnimation,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

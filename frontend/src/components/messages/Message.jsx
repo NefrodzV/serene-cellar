@@ -7,14 +7,17 @@ export function Message({ message, removeMessage, updateAnimation }) {
     success: '\u2714', // ✔
   }
   const isError = message.type === 'error'
+
+  const VISIBLE_MS = 3000
+  const REMOVE_MS = 4000
   useEffect(() => {
     updateAnimation(message.id, true)
     const id = setTimeout(() => {
       updateAnimation(message.id, false)
-    }, 3000)
+    }, VISIBLE_MS)
     setTimeout(() => {
       removeMessage(message.id)
-    }, 4000)
+    }, REMOVE_MS)
 
     return () => {
       clearTimeout(id)
