@@ -676,7 +676,6 @@ position: absolute;
 }
 
 .checkout {
-  
   box-sizing: content-box;
   padding: 1rem;
   width: 300px;
@@ -743,6 +742,10 @@ position: absolute;
 
 .center-vertically {
   margin-inline: auto;
+}
+
+.height-fit-content {
+  height: fit-content;
 }
 @media(max-width: 1080px) {
   .checkout {
@@ -833,10 +836,7 @@ position: absolute;
     overflow: hidden;
   }
 
-  .checkout {
-    width: auto;
-    
-  }
+
 
   .product-view {
     margin: 0;
