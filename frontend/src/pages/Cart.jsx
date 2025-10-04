@@ -6,7 +6,6 @@ import { Button } from '../components/elements/Button'
 export function CartPage() {
   const { cart } = useCart()
   const { isAuthenticated } = useUser()
-  console.log(cart)
 
   return (
     <div className="cart-page">
@@ -18,7 +17,7 @@ export function CartPage() {
         <CartList />
         {cart?.isEmpty ? null : (
           <Card variant="primary" className="height-fit-content rounded">
-            <div className="checkout">
+            <div className="checkout ">
               <h2>Checkout Summary</h2>
               <p>
                 Review your items and continue to payment to complete your
@@ -38,8 +37,8 @@ export function CartPage() {
               </p>
               <Button
                 variant="accent"
-                className="fullwidth"
                 aria-label="Proceed to payment"
+                className="fullwidth"
                 disabled={!isAuthenticated || !cart?.canCheckout}
                 type="button"
               >

@@ -55,8 +55,6 @@ export function CartItem({ item, onMount, ...props }) {
               </>
             )}
           </p>
-
-          <p>{stock} in stock</p>
         </div>
         <div className="item-control">
           <Button
@@ -110,7 +108,6 @@ export function CartItem({ item, onMount, ...props }) {
           >
             +
           </Button>
-
           <Button
             variant="secondary"
             aria-label="Delete cart item"
@@ -121,8 +118,10 @@ export function CartItem({ item, onMount, ...props }) {
           >
             <i class="fa-solid fa-trash"></i>
           </Button>
-        </div>{' '}
-        {error && <div className="error">{error}</div>}
+        </div>
+        <span className="cart-item-subtotal bold">
+          $ {item?.finalLineTotal}
+        </span>
       </div>
     </article>
   )
