@@ -84,13 +84,22 @@ export function CartProvider({ children }) {
     }
   }
 
+  console.log(cart.items)
   async function deleteItem(itemId) {
     try {
       const data = isAuthenticated
         ? await deleteItemFromRemoteCart(itemId)
         : await deleteItemFromLocalCart(itemId)
+      console.log(data)
 
-      setCart(data?.cart || defaultCart)
+      if (data?.cart) {
+        setCart({
+          ...data.cart,
+          items: data.cart.items.map((i) => ({ ...i, animate: true })),
+        })
+      } else {
+        setCart(defaultCart)
+      }
     } catch (error) {
       console.error('Error deleting item:', error)
     }
@@ -102,7 +111,10 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, quantity)
         : await updateItemFromLocalCart(itemId, quantity)
-      setCart(data.cart)
+      setCart({
+        ...data.cart,
+        items: data.cart.items.map((i) => ({ ...i, animate: true })),
+      })
     } catch (error) {
       console.error('Error updating item:', error)
     }
@@ -114,7 +126,10 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
         : await updateItemFromLocalCart(itemId, incrementedQuantity)
-      setCart(data.cart)
+      setCart({
+        ...data.cart,
+        items: data.cart.items.map((i) => ({ ...i, animate: true })),
+      })
     } catch (error) {
       console.error(error)
     }
@@ -127,7 +142,10 @@ export function CartProvider({ children }) {
         ? await updateItemFromRemoteCart(itemId, decreasedQuantity)
         : await updateItemFromLocalCart(itemId, decreasedQuantity) // Need to update the local functions
 
-      setCart(data?.cart)
+      setCart({
+        ...data.cart,
+        items: data.cart.items.map((i) => ({ ...i, animate: true })),
+      })
     } catch (error) {
       console.error(error)
     }
