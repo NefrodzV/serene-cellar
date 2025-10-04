@@ -342,10 +342,6 @@ label, button, input {
 }
 
 
-.add-cart {
-  width: auto;
-}
-
 .block {
   display: block;
 }
@@ -567,7 +563,7 @@ label, button, input {
 }
 
 .cart-item-subtotal {
-  margin: auto 0 auto auto;
+  margin: auto 0 0 auto;
 }
 
 .cart-item .image {
