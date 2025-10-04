@@ -311,19 +311,6 @@ label, button, input {
   
 }
 
-.cart {
-  position: relative;
-}
-
-.cart .total {
-  font-size: .5rem;
-
-right: -6px;
-top: -7px;
-
-position: absolute;
-}
-
 /* Product */
 .product-view {
   width: 100%;
@@ -570,26 +557,23 @@ position: absolute;
   padding: 0
 }
 
-
-
 .cart-item .product  {
   display: flex;
   gap: .2rem;
-  align-items: center;
   flex-wrap: wrap;
-  /* display: grid;
-  grid-template-columns: 30% auto;
-  grid-template-rows: auto auto; */
-  
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: auto auto;
 }
 
-.cart-item .product .error {
-  grid-column: 2 / 3;
-}
-.cart-item .product .image {
-  grid-row: 1 /3;
+.cart-item-subtotal {
+  margin: auto 0 auto auto;
 }
 
+.cart-item .image {
+  margin: auto;
+}
+.cart-item
 .image img {
   object-fit: cover;
   object-position: center;
@@ -633,6 +617,7 @@ position: absolute;
   flex-direction: column;
   margin: 0 auto;
   box-sizing: border-box;
+  overflow-y: auto;
   
 }
 
@@ -642,12 +627,11 @@ position: absolute;
   grid-template-columns: 1fr 30%;
   gap: .5rem;
   flex: 1;
-  overflow: hidden;
 }
 
-.cart-page .main .cart-list {
+.cart-list {
   margin: 0;
-  overflow-y: auto;
+  
 }
 
 .checkout {
@@ -719,22 +703,6 @@ position: absolute;
 
 .height-fit-content {
   height: fit-content;
-}
-
-@media(max-width: 1080px) {
-  .cart-item .content {
-    /* flex: 1; */
-    flex-grow: 1;
-    flex-shrink: 0;
-  }
-  .cart-item .item-control {
-    margin: 0;
-    flex-shrink: 0;
-  }
-
-  .cart-item-subtotal {
-    margin-inline: auto 0 ;
-  }
 }
 
 @media(max-width: 600px) {
@@ -816,16 +784,13 @@ position: absolute;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
 
   .product-view {
-    margin: 0;
-    
+    margin: 0;  
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows:  minmax(min-content, 3rem) minmax(auto, max-content) auto;
-  
 }
 
   .product-view .image {
@@ -843,9 +808,20 @@ position: absolute;
   .product-view .title {
     grid-row-start: 1;
   }
+  
   .cart-item .item-control {
-    margin: 0;
+    grid-column: 1 / 3;
+    margin-inline: 0 auto;
   }
+
+  .cart-item .product {
+    grid-template-columns: min-content auto auto;
+  }
+  .cart-item .product .content {
+    grid-column: 2 / 4
+  }
+
+
 }
 
 @media(max-width: 480px) {
