@@ -111,7 +111,6 @@ export function MainLayout() {
             >
               X
             </Button>
-            {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
             <NavLink className="link" href="#">
               <i className="fa-solid fa-home icon"></i> Home
             </NavLink>
@@ -128,11 +127,11 @@ export function MainLayout() {
               </NavLink>
             )}
             <NavLink className="link" to={'/cart'}>
-              <i className="cart fa-solid fa-cart-shopping">
-                <span className="total">{cart?.totalItems}</span>
-              </i>
+              <i className="cart fa-solid fa-cart-shopping"></i>
 
-              <span>Cart</span>
+              <span>
+                Cart {cart?.totalItems ? `(${cart?.totalItems})` : ''}
+              </span>
             </NavLink>
           </nav>
         </div>
