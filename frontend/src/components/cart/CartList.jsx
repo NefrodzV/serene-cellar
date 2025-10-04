@@ -28,7 +28,9 @@ export function CartList() {
             key={item.id ?? item.uuid}
             item={item}
             onMount={() => {
-              updateItemAnimation(item.id, true)
+              if (!item.animation) {
+                updateItemAnimation(item.id, true)
+              }
             }}
           />
         </Card>
