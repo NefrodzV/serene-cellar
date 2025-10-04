@@ -49,65 +49,93 @@ export function MainLayout() {
   return (
     <div className="app-layout">
       <header className="header">
-        <div className="logo">
-          <img src={logo} />
-        </div>
-
-        <Button
-          arial-lable="open navigation menu"
-          variant={'neutral'}
-          onClick={() => setOpen(!isOpen)}
-          className="hamburger"
-        >
-          <i className="fa-solid fa-bars" />
-        </Button>
-        <nav
-          className="drawer"
-          data-open={isOpen}
-          aria-hidden={!isOpen}
-          ref={drawerRef}
-          onClick={(e) => {
-            e.target.blur()
-            const anchor = 'A'
-            const button = 'BUTTON'
-            const nodeType = e.target.nodeName
-            if ((nodeType === anchor || nodeType === button) && smql.matches) {
-              setOpen(false)
-            }
-          }}
-        >
-          <Button
-            variant="neutral"
-            aria-label={'Close menu'}
-            onClick={() => setOpen(!isOpen)}
-            className="align-right close"
+        <div className="content">
+          <svg
+            aria-label="Serene Cellar"
+            className="logo"
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
           >
-            X
-          </Button>
-          {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
-          <NavLink className="link" href="#">
-            <i className="fa-solid fa-home icon"></i> Home
-          </NavLink>
-          <NavLink className="link" to={'/shop'}>
-            <i className="fa-solid fa-wine-glass icon"></i> Shop
-          </NavLink>
-          {isAuthenticated ? (
-            <NavLink className="link" to={'#'}>
-              <i className="fa-solid fa-user"></i> <span>Profile</span>
-            </NavLink>
-          ) : (
-            <NavLink className="link" to={'/login'}>
-              <span>Login </span>
-            </NavLink>
-          )}
-          <NavLink className="link" to={'/cart'}>
-            <i className="cart fa-solid fa-cart-shopping">
-              <span className="total">{cart?.totalItems}</span>
-            </i>
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="32" cy="32" r="28" />
+              <path d="M22 20c0 7 5.5 12 10 12s10-5 10-12H22z" />
+              <path
+                d="M24 22c2.5 3 6 5 8 5s5.5-2 8-5"
+                fill="currentColor"
+                stroke="none"
+                opacity=".9"
+              />
+              <path d="M32 32v12" />
+              <path d="M24 48h16" />
+            </g>
+          </svg>
 
-            <span>Cart</span>
-          </NavLink>
-        </nav>
+          <Button
+            arial-lable="open navigation menu"
+            variant={'neutral'}
+            onClick={() => setOpen(!isOpen)}
+            className="hamburger"
+          >
+            <i className="fa-solid fa-bars" />
+          </Button>
+          <nav
+            className="drawer"
+            data-open={isOpen}
+            aria-hidden={!isOpen}
+            ref={drawerRef}
+            onClick={(e) => {
+              e.target.blur()
+              const anchor = 'A'
+              const button = 'BUTTON'
+              const nodeType = e.target.nodeName
+              if (
+                (nodeType === anchor || nodeType === button) &&
+                smql.matches
+              ) {
+                setOpen(false)
+              }
+            }}
+          >
+            <Button
+              variant="neutral"
+              aria-label={'Close menu'}
+              onClick={() => setOpen(!isOpen)}
+              className="align-right close"
+            >
+              X
+            </Button>
+            {/* TODO: USE ELEMENTS HERE FOR NAVIGATION FROM REACT ROUTER */}
+            <NavLink className="link" href="#">
+              <i className="fa-solid fa-home icon"></i> Home
+            </NavLink>
+            <NavLink className="link" to={'/shop'}>
+              <i className="fa-solid fa-wine-glass icon"></i> Shop
+            </NavLink>
+            {isAuthenticated ? (
+              <NavLink className="link" to={'#'}>
+                <i className="fa-solid fa-user"></i> <span>Profile</span>
+              </NavLink>
+            ) : (
+              <NavLink className="link" to={'/login'}>
+                <span>Login </span>
+              </NavLink>
+            )}
+            <NavLink className="link" to={'/cart'}>
+              <i className="cart fa-solid fa-cart-shopping">
+                <span className="total">{cart?.totalItems}</span>
+              </i>
+
+              <span>Cart</span>
+            </NavLink>
+          </nav>
+        </div>
       </header>
       <main className={`main-layout center-vertically`}>
         <Outlet />
