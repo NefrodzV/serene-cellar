@@ -653,7 +653,25 @@ label, button, input {
   border-radius: .5rem;
   background-color: var(--surface-color);
 }
+/* Loader */
 
+.loader-container {
+  margin: auto;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  border: .3rem solid var(--primary);
+  border-bottom-color: transparent;
+  animation: rotate 1s linear infinite;
+}
 .line-through {
   text-decoration: line-through;
   color: var(--primary);
@@ -739,6 +757,15 @@ label, button, input {
   margin: auto;
 }
 
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media(max-width: 600px) {
   .hamburger {
     display: block;

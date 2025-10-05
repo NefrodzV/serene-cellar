@@ -3,6 +3,7 @@ import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
 import { Card } from '../elements/Card'
 import { Link } from 'react-router-dom'
+import { Loader } from '../Loader'
 export function ProductList() {
   const [products = [], isLoading] = useProducts()
   const [entered, setEntered] = useState(false)
@@ -14,7 +15,7 @@ export function ProductList() {
       setEntered(false)
     }
   }, [isLoading, products.length])
-  if (isLoading) return <div>Product List is loading...</div>
+  if (isLoading) return <Loader />
   return (
     <ul className="list">
       {products.map((product, i) => (
