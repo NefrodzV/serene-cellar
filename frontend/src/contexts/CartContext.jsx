@@ -138,24 +138,13 @@ export function CartProvider({ children }) {
     }
   }
 
-  function beginDeleteFlow(itemId) {
-    setCart((prev) => ({
-      ...prev,
-      items: prev.items.map((item) =>
-        item.id === itemId ? { ...item, delete: true } : item
-      ),
-    }))
-  }
   const value = {
     cart,
-    setCart,
     addItem,
     deleteItem,
     updateItem,
     decrement,
     increment,
-
-    beginDeleteFlow,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
