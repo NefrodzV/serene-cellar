@@ -19,7 +19,7 @@ export function MessageProvider({ children }) {
     setMessages((prev) => prev.filter((message) => !(message.id === id)))
   }
 
-  const value = { messages, sendMessage, removeMessage, updateAnimation }
+  const value = { messages, sendMessage, removeMessage }
 
   return (
     <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
