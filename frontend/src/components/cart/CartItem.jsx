@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
 import { Button } from '../elements/Button'
 import { Card } from '../elements/Card'
-export function CartItem({ index, item, onMount, ...props }) {
+export function CartItem({ index, item }) {
   const MIN_ITEM_QUANTITY = 1
   const DELETE_MS = 500
   const STAGGER_RATE_INCREASE = 0.2
@@ -103,7 +103,7 @@ export function CartItem({ index, item, onMount, ...props }) {
               min={MIN_ITEM_QUANTITY}
               max={stock}
               onBlur={(e) => {
-                setError('')
+                // setError('')
                 if (rawQuantity === '' || Number(rawQuantity) <= 0) {
                   setRawQuantity(String(quantity))
                   return
