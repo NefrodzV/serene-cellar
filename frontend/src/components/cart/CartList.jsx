@@ -1,10 +1,18 @@
 import { useCart } from '../../hooks'
 import { Card } from '../elements/Card'
 import { CartItem } from './CartItem'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export function CartList() {
-  const { cart, updateItemAnimation } = useCart()
+  const { cart, deleteItem } = useCart()
+
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => setHasMounted(true))
+    )
+  }, [])
 
   if (cart?.isEmpty) {
     return (
@@ -13,7 +21,6 @@ export function CartList() {
       </div>
     )
   }
-
   return (
     <ul aria-label="Your current cart items" className="cart-list">
       {cart?.items?.map((item, i) => (
@@ -22,17 +29,16 @@ export function CartList() {
           as="li"
           variant="primary"
           style={{ '--stagger': `${i * 0.2}s` }}
-          className={`rounded from-left ${item.animate ? 'slide-in' : ''}`}
+          className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${item.delete ? 'cart-item-delete' : ''}`}
+          onTransitionEnd={() => {
+            if (item.delete) {
+              setTimeout(() => {
+                deleteItem(item.id)
+              }, 500)
+            }
+          }}
         >
-          <CartItem
-            key={item.id ?? item.uuid}
-            item={item}
-            onMount={() => {
-              if (!item.animation) {
-                updateItemAnimation(item.id, true)
-              }
-            }}
-          />
+          <CartItem key={item.id ?? item.uuid} item={item} />
         </Card>
       ))}
     </ul>

@@ -16,19 +16,15 @@ export function CartItem({ item, onMount, ...props }) {
   } = item
 
   const MIN_ITEM_QUANTITY = 1
-  const { deleteItem, increment, decrement, updateItem } = useCart()
+  const { deleteItem, increment, decrement, updateItem, beginDeleteFlow } =
+    useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
-  const [error, setError] = useState('')
   useEffect(() => {
     if (!stock) {
       setError('Item is out of stock')
     }
     setRawQuantity(String(quantity))
   }, [quantity])
-
-  useEffect(() => {
-    onMount ? onMount() : null
-  }, [])
 
   return (
     <article className="cart-item">
@@ -47,7 +43,7 @@ export function CartItem({ item, onMount, ...props }) {
           <p>
             <span className={`${hasDiscount ? 'line-through' : ''}`}>
               ${price}
-            </span>{' '}
+            </span>
             {hasDiscount && (
               <>
                 <span>&#x27A1;</span> <span>${finalUnitPrice}</span>{' '}
@@ -113,7 +109,7 @@ export function CartItem({ item, onMount, ...props }) {
             aria-label="Delete cart item"
             type="button"
             onClick={() => {
-              deleteItem(id)
+              beginDeleteFlow(id)
             }}
           >
             <i class="fa-solid fa-trash"></i>
