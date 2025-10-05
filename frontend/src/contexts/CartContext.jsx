@@ -52,7 +52,7 @@ export function CartProvider({ children }) {
         const items = await getLocalCart()
         const data = await validateLocalCartItems(items)
 
-        setCart(createCart(data.cart))
+        setCart(data.cart)
       } catch (e) {
         console.error('Error loading cart snapshot:', e)
       }
@@ -107,7 +107,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, quantity)
         : await updateItemFromLocalCart(itemId, quantity)
-      setCart(createCart(data.cart))
+      setCart(data.cart)
     } catch (error) {
       console.error('Error updating item:', error)
     }
@@ -119,7 +119,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
         : await updateItemFromLocalCart(itemId, incrementedQuantity)
-      setCart(createCart(data.cart))
+      setCart(data.cart)
     } catch (error) {
       console.error(error)
     }
