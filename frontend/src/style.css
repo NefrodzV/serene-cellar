@@ -662,19 +662,26 @@ label, button, input {
 }
 
 .from-right {
+  opacity: 1;
   transform: translateX(calc(100% + .5rem + 3px));
 }
 
-
-
 .slide-in {
-  
   transform: translateX(0);
   opacity: 1;
 }
 .cart-item-delete {
   margin: 0;
   transform: translateX(calc(-100% + .5rem + 3px)) scale(.90);
+  max-height: 0;
+  padding: 0;
+  transition: opacity .3s ease , max-height .3s ease .3s,
+  padding .3s ease .3s, transform .3s ease;
+}
+
+.message-item-delete {
+  margin: 0;
+  transform: translateX(calc(100% + .5rem + 3px)) scale(.90);
   max-height: 0;
   padding: 0;
   transition: opacity .3s ease , max-height .3s ease .3s,
