@@ -312,16 +312,17 @@ label, button, input {
 }
 
 /* Product */
-.product-view {
+
+.product-detail {
   width: 100%;
-  margin-block: auto;
+  margin: auto;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: minmax(min-content, 3rem) minmax(auto , min-content);
   justify-content: center;
 }
 
-.product-view .image {
+.product-detail .image {
   max-height: 450px;
   width: 100%;
   grid-column-start: 1;
@@ -329,7 +330,7 @@ label, button, input {
   grid-row-end: 3;
 }
 
-.product-view .title {
+.product-detail .title {
   grid-row-start: 1;
 }
 
@@ -698,7 +699,10 @@ label, button, input {
 .align-right {
   margin-inline:  auto 0;
 }
-
+.product-detail-card {
+  margin: auto;
+  max-height: 100vh;
+}
 .bold {
   font-weight: bold;
 }
@@ -727,6 +731,14 @@ label, button, input {
   height: fit-content;
 }
 
+.flex {
+  display: flex;
+}
+
+.center {
+  margin: auto;
+}
+
 @media(max-width: 600px) {
   .hamburger {
     display: block;
@@ -746,6 +758,10 @@ label, button, input {
     transition: .5s;
   }
 
+  .product-detail-card {
+    margin: 0;
+  }
+
   .drawer[data-open=true] .close {
     display: block;
   }
@@ -756,6 +772,7 @@ label, button, input {
   }
  
   .select {
+    width: 100%;
     position: static;
   }
 
@@ -808,14 +825,14 @@ label, button, input {
     flex-direction: column;
   }
 
-  .product-view {
+  .product-detail {
     margin: 0;  
   display: grid;
-  grid-template-columns: 100%;
+  grid-template-columns: 1fr;
   grid-template-rows:  minmax(min-content, 3rem) minmax(auto, max-content) auto;
 }
 
-  .product-view .image {
+  .product-detail .image {
     margin-inline: auto;
     width: 50%;
     grid-row-start: 2;
@@ -827,12 +844,9 @@ label, button, input {
     flex-direction: column;
   }
 
-  .product-view .title {
+  .product-detail .title {
     grid-row-start: 1;
   }
-  
-
-
 
 }
 
