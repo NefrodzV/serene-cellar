@@ -559,9 +559,15 @@ label, button, input {
   gap: .2rem;
   flex-wrap: wrap;
   display: grid;
-  grid-template-columns: min-content auto;
+  grid-template-columns: min-content auto auto;
   grid-template-rows: auto auto;
 }
+
+.cart-item .product .content {
+    grid-column: 2 / 4
+  }
+
+
 
 .cart-item-subtotal {
   margin: auto 0 0 auto;
@@ -577,9 +583,11 @@ label, button, input {
 }
 
 .cart-item .item-control {
-  margin-inline: auto 0;
-  display: flex;
   gap: .2rem;
+  display: flex;
+  grid-column: 1 / 3;
+        margin-inline: 0 auto;
+    
 }
 
 
@@ -823,17 +831,7 @@ label, button, input {
     grid-row-start: 1;
   }
   
-  .cart-item .item-control {
-    grid-column: 1 / 3;
-    margin-inline: 0 auto;
-  }
 
-  .cart-item .product {
-    grid-template-columns: min-content auto auto;
-  }
-  .cart-item .product .content {
-    grid-column: 2 / 4
-  }
 
 
 }
