@@ -1,6 +1,6 @@
 import React from 'react'
 export function Button({
-  variant = 'primary',
+  variant = '',
   children,
   onClick,
   className = '',

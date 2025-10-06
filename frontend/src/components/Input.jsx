@@ -1,10 +1,23 @@
 import React from 'react'
-export function Input({ id, label, type, value, onChangeHandler, error }) {
+export function Input({
+  variant = 'primary',
+  id,
+  label,
+  type,
+  value,
+  onChangeHandler,
+  error,
+  children,
+  ...props
+}) {
+  const variants = {
+    primary: 'input input-primary',
+  }
   return (
-    <div className="input container">
+    <div className="input-container">
       {label && <label htmlFor={id}>{label}</label>}
       <input
-        className="input primary"
+        className={variants[variant]}
         id={id}
         value={value}
         onChange={onChangeHandler}
@@ -12,12 +25,14 @@ export function Input({ id, label, type, value, onChangeHandler, error }) {
         name={id}
         aria-invalid={!!error}
         aria-describedby={`error-${id}`}
+        {...props}
       />
       {error && (
         <div className="error" id={`error-${id}`}>
           {error}
         </div>
       )}
+      {children}
     </div>
   )
 }
