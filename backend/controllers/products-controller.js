@@ -3,6 +3,7 @@ import { validate } from '../middlewares/validationHandler.js'
 import {
   findProduct,
   findProducts,
+  getProductCategories,
 } from '../repositories/product-repository.js'
 
 const getProducts = async (req, res, next) => {
@@ -39,7 +40,17 @@ const getProduct = [
   },
 ]
 
+async function getCategories(req, res) {
+  try {
+    const categories = await getProductCategories()
+    return res.json({ categories })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export default {
   getProducts,
   getProduct,
+  getCategories,
 }

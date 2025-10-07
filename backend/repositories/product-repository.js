@@ -159,3 +159,9 @@ export async function findProduct(slug) {
 
   return camelize(rows[0]) || null
 }
+
+export async function getProductCategories() {
+  const { rows } = await db.query('SELECT DISTINCT category from products')
+  const categories = rows.map((r) => r.category)
+  return categories
+}

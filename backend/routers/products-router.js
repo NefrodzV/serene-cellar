@@ -3,6 +3,7 @@ import { productsController } from '../controllers/index.js'
 const router = express.Router()
 
 router.get('/', productsController.getProducts)
+router.get('/categories', productsController.getCategories)
 router.get('/:slug', productsController.getProduct)
 
 export default router
