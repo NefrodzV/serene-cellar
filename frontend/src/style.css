@@ -185,7 +185,6 @@ label, button, input {
   align-items: center;
 }
 
-
 .login-form, .register-form {
   margin-inline: .5rem;
   background-color: var(--surface-color);
@@ -205,15 +204,22 @@ label, button, input {
   flex-direction: column;
 }
 
-.products-container .input-container {
-  flex-shrink: 0;
-  width: 60%;
-  align-self: center;
-}
-
 .products-container .list {
   flex: 1;
   overflow-y: auto;
+  padding: .5rem;
+}
+
+.filters h2 {
+  
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.products-container .filters {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
 }
 .register-form {
   max-height: 80vh;
@@ -261,10 +267,11 @@ label, button, input {
 }
 
 .list {
+  box-sizing: border-box;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   justify-content: center;
   gap: 1rem;
   align-content: flex-start;
@@ -509,6 +516,28 @@ label, button, input {
 .card-primary-hover:hover {
   box-shadow: 0 0 12px var(--accent);
 }
+
+.card-secondary {
+  background-color:hsl(31, 43%, 70%);
+}
+
+.selectable-card {
+  display: flex;
+  position: relative;
+  transition: transform 1s ease;
+}
+
+.selectable-card input {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.selectable-card input:checked + .checkmark::after {
+  content: "✓";
+  font-size: 1rem;
+}
+
 
 .primary-bg {
   background-color: var(--primary5);

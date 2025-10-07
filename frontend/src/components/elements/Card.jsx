@@ -9,6 +9,7 @@ export function Card({
   const variants = {
     neutral: 'card-neutral',
     primary: 'card-primary',
+    secondary: 'card-secondary',
   }
   return (
     <Component className={`card ${variants[variant]} ${className}`} {...props}>

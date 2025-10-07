@@ -20,9 +20,26 @@ export function ProductList() {
   if (isLoading) return <Loader />
   return (
     <div className="products-container">
-      <Input type={'text'} placeholder="Search by product name...">
-        <Button className="clear-button">X</Button>
-      </Input>
+      <h1>Products</h1>
+      <aside className="filters">
+        <h2>Filters: </h2>
+        <Card
+          as="label"
+          variant="secondary"
+          className="selectable-card rounded"
+          htmlFor="cat1"
+        >
+          <input
+            id="cat1"
+            type="checkbox"
+            value={'beer'}
+            onChange={(e) => console.log(e.target.value)}
+          />
+          <span className="checkmark"></span>
+          <span>Beer</span>
+        </Card>
+      </aside>
+
       <ul className="list">
         {products.map((product, i) => (
           <Card
