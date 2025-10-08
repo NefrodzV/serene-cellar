@@ -11,13 +11,13 @@ export function Input({
   ...props
 }) {
   const variants = {
-    primary: 'input input-primary',
+    primary: 'input-primary',
   }
   return (
     <div className="input-container">
       {label && <label htmlFor={id}>{label}</label>}
       <input
-        className={variants[variant]}
+        className={`input ${variants[variant]}`}
         id={id}
         value={value}
         onChange={onChangeHandler}
