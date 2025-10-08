@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom'
 import { Loader } from '../Loader'
 import { Input } from '../Input'
 import { Button } from '../elements/Button'
+import { useCategories } from '../../hooks/useCategories'
 export function ProductList() {
   const [products = [], isLoading] = useProducts()
+  const { categories } = useCategories()
   const [entered, setEntered] = useState(false)
   useEffect(() => {
     if (!isLoading && products.length) {
@@ -22,21 +24,23 @@ export function ProductList() {
     <div className="products-container">
       <h1>Products</h1>
       <aside className="filters" aria-label="Product filters">
-        <Card
-          as="label"
-          variant="secondary"
-          className="selectable-card rounded"
-          htmlFor="cat1"
-        >
-          <input
-            id="cat1"
-            type="checkbox"
-            value={'beer'}
-            onChange={(e) => console.log(e.target.value)}
-          />
-          <span className="checkmark"></span>
-          <span>Beer</span>
-        </Card>
+        {categories.map((cat) => (
+          <Card
+            as="label"
+            variant="secondary"
+            className="selectable-card rounded"
+            htmlFor={`category-${cat}`}
+          >
+            <input
+              id={`category-${cat}`}
+              type="checkbox"
+              value={cat}
+              onChange={(e) => console.log(e.target.value)}
+            />
+            <span className="checkmark"></span>
+            <span>{cat}</span>
+          </Card>
+        ))}
       </aside>
 
       <ul className="list">
