@@ -202,10 +202,16 @@ label, button, input {
   overflow: hidden;
 }
 
+
+
 .products-container {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.products-container > * {
+  padding-inline: .5rem;
 }
 
 .products-container .list {
@@ -272,6 +278,7 @@ label, button, input {
 
 .list {
   box-sizing: border-box;
+  margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
@@ -303,7 +310,7 @@ label, button, input {
   display: flex;
   width: clamp(320px, 100%, 1080px); 
   overflow-y: auto;
-  padding: .5rem;
+  
   position: relative;
 }
 
@@ -716,6 +723,7 @@ label, button, input {
   justify-content: center;
   align-items: center;
   grid-column: 1 / 3;
+  flex: 1;
   flex-direction: column;
   border-radius: .5rem;
   background-color: var(--surface-color);

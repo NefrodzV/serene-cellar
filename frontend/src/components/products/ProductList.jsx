@@ -21,8 +21,7 @@ export function ProductList() {
   return (
     <div className="products-container">
       <h1>Products</h1>
-      <aside className="filters">
-        <h2>Filters: </h2>
+      <aside className="filters" aria-label="Product filters">
         <Card
           as="label"
           variant="secondary"
