@@ -51,7 +51,7 @@ body {
 label, button, input {
   cursor: pointer;
 }
-
+/* UI */
 /** Button styles */
 .button, .anchor {
   padding: .5rem 1rem;
@@ -170,6 +170,10 @@ label, button, input {
   padding-right: var(--control-height);
 }
 
+.title {
+  font-size: 1.1rem;
+}
+
 .logo {
   height: 100%;
 }
@@ -181,6 +185,7 @@ label, button, input {
 .empty-cart-icon {
   color: var(--text);
 }
+
 .center-screen {
   display: flex;
   min-height: 100vh;
@@ -388,9 +393,18 @@ label, button, input {
   align-items: center;
   text-decoration: none;
   color: var(--text);
+  gap: .5rem;
 }
-
-
+.price-tag {
+  display: flex;
+}
+.dollars {
+  font-size: 1rem;
+}
+.cents {
+  margin-block: 0 auto;
+  font-size: .8rem;
+}
 .block {
   display: block;
 }

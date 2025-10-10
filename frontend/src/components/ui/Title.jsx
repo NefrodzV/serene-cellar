@@ -1,4 +1,4 @@
 import React from 'react'
-export function Title({ text }) {
-  return <h2>{text}</h2>
+export function Title({ children }) {
+  return <h2 className="title">{children}</h2>
 }
