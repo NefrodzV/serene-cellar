@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
-import { Card } from '../elements/Card'
+import { Card } from '../ui/Card'
 import { Link } from 'react-router-dom'
-import { Loader } from '../Loader'
-import { Input } from '../Input'
-import { Button } from '../elements/Button'
+import { Loader } from '../ui/Loader'
 import { useCategories } from '../../hooks/useCategories'
 export function ProductList() {
-  const [products = [], isLoading] = useProducts()
+  const { products = [], isLoading } = useProducts()
   const { categories } = useCategories()
   const [entered, setEntered] = useState(false)
   useEffect(() => {

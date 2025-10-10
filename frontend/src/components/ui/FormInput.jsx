@@ -1,5 +1,5 @@
 import React from 'react'
-export function Input({
+export function FormInput({
   variant = 'primary',
   id,
   label,

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
-import { Button } from '../elements/Button'
-import { Card } from '../elements/Card'
+import { Button } from '../ui/Button'
+import { Card } from '../ui/Card'
 export function CartItem({ index, item }) {
   const MIN_ITEM_QUANTITY = 1
   const DELETE_MS = 500

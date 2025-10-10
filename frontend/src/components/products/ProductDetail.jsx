@@ -1,11 +1,11 @@
 import React from 'react'
 import { useCart, useProduct, useProductSelection } from '../../hooks'
 import { useParams } from 'react-router-dom'
-import { Select } from '../Select'
+import { Select } from '../ui/Select'
 import { Error } from '../ErrorMessage'
 import { ErrorsMessages } from '../../constants/ErrorMessages'
-import { Button } from '../elements/Button'
-import { Card } from '../elements/Card'
+import { Button } from '../ui/Button'
+import { Card } from '../ui/Card'
 export function ProductDetail() {
   const { slug } = useParams()
   const [product, isLoading] = useProduct(slug)

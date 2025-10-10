@@ -1,10 +1,9 @@
-import { GoogleLogin } from '@react-oauth/google'
 import React, { useState } from 'react'
-import { useGoogleAuth, useTwitterAuth, useUser } from '../hooks'
+import { useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
-import { Input } from '../components/Input'
-import { Button } from '../components/elements/Button'
+import { FormInput } from '../components/ui/FormInput'
+import { Button } from '../components/ui/Button'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -90,7 +89,7 @@ export function LoginPage() {
       >
         <h1>Login</h1>
 
-        <Input
+        <FormInput
           id={'email'}
           value={email}
           label={'Email'}
@@ -98,7 +97,7 @@ export function LoginPage() {
           onChangeHandler={onChangeHandler}
           error={errors.email}
         />
-        <Input
+        <FormInput
           id={'password'}
           type={'password'}
           label={'Password'}

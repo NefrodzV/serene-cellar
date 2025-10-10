@@ -1,8 +1,8 @@
 import { CartList } from '../components'
 import React from 'react'
 import { useCart, useUser } from '../hooks'
-import { Card } from '../components/elements/Card'
-import { Button } from '../components/elements/Button'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
 export function CartPage() {
   const { cart } = useCart()
   const { isAuthenticated } = useUser()

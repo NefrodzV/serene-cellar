@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button } from '../components/elements/Button'
+import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
-import { Input } from '../components/Input'
+import { FormInput } from '../components/ui/FormInput'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -160,7 +160,7 @@ export function RegisterPage() {
         setConfirmPassword(e.target.value)
         break
       default:
-        console.error('OnChangeHandler input name not handled')
+        console.error('OnChangeHandler FormInput name not handled')
         break
     }
   }
@@ -177,7 +177,7 @@ export function RegisterPage() {
         </div>
         <div className="body">
           <div>
-            <Input
+            <FormInput
               id={'firstName'}
               label={'First name'}
               onChangeHandler={onChangeHandler}
@@ -185,7 +185,7 @@ export function RegisterPage() {
               value={firstName}
               error={errors.firstName}
             />
-            <Input
+            <FormInput
               id={'lastName'}
               label={'Last name'}
               onChangeHandler={onChangeHandler}
@@ -194,7 +194,7 @@ export function RegisterPage() {
               error={errors.lastName}
             />
           </div>
-          <Input
+          <FormInput
             id={'username'}
             label={'Username'}
             onChangeHandler={onChangeHandler}
@@ -203,7 +203,7 @@ export function RegisterPage() {
             error={errors.username}
           />
 
-          <Input
+          <FormInput
             id={'email'}
             label={'Email'}
             onChangeHandler={onChangeHandler}
@@ -212,7 +212,7 @@ export function RegisterPage() {
             error={errors.email}
           />
 
-          <Input
+          <FormInput
             id={'password'}
             label={'Password'}
             onChangeHandler={onChangeHandler}
@@ -221,7 +221,7 @@ export function RegisterPage() {
             error={errors.password}
           />
 
-          <Input
+          <FormInput
             id={'confirmPassword'}
             label={'Confirm password'}
             onChangeHandler={onChangeHandler}

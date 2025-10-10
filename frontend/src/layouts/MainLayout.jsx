@@ -3,7 +3,7 @@ import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
 import logo from '../assets/logo-bg.png'
-import { Button } from '../components/elements/Button'
+import { Button } from '../components/ui/Button'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()

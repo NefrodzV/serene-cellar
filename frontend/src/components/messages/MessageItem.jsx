@@ -1,7 +1,7 @@
 import { useMessages } from '../../hooks'
 import React, { useEffect, useState } from 'react'
-import { Card } from '../elements/Card'
-import { Button } from '../elements/Button'
+import { Card } from '../ui/Card'
+import { Button } from '../ui/Button'
 export function MessageItem({ message, removeMessage, index }) {
   const VISIBLE_MS = 2000
   const DELETE_MS = 500
