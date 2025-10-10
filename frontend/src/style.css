@@ -397,6 +397,7 @@ label, button, input {
 }
 .price-tag {
   display: flex;
+  font-weight: bold;
 }
 .dollars {
   font-size: 1rem;
