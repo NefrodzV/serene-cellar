@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
-import { Card } from '../ui/Card'
 import { Link } from 'react-router-dom'
-import { Loader } from '../ui/Loader'
+import { Spinner, Card } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
 export function ProductList() {
   const { products = [], isLoading } = useProducts()
@@ -17,7 +16,7 @@ export function ProductList() {
       setEntered(false)
     }
   }, [isLoading, products.length])
-  if (isLoading) return <Loader />
+  if (isLoading) return <Spinner />
   return (
     <div className="products-container">
       <h1>Products</h1>
