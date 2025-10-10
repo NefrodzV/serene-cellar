@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
 import { Link } from 'react-router-dom'
-import { Spinner, Card } from '../ui'
+import { Spinner, Card, Tag } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
 export function ProductList() {
   const { products = [], isLoading } = useProducts()
@@ -22,21 +22,13 @@ export function ProductList() {
       <h1>Products</h1>
       <aside className="filters" aria-label="Product filters">
         {categories.map((cat) => (
-          <Card
-            as="label"
-            variant="secondary"
-            className="selectable-card rounded"
-            htmlFor={`category-${cat}`}
+          <Tag
+            id={`category-${cat}`}
+            value={cat}
+            onChange={(e) => console.log(e.target.value)}
           >
-            <input
-              id={`category-${cat}`}
-              type="checkbox"
-              value={cat}
-              onChange={(e) => console.log(e.target.value)}
-            />
-            <span className="checkmark"></span>
-            <span>{cat}</span>
-          </Card>
+            {cat}
+          </Tag>
         ))}
       </aside>
 
