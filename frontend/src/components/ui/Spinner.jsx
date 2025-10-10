@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function Loader() {
+export function Spinner() {
   return (
     <div className="loader-container">
       <div className="loader"></div>
