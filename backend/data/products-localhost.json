@@ -1,80 +1,407 @@
+
 [
-    {
-        "name": "Cold Forge",
-        "description": "Cold Forge is a bold craft beer inspired by the grit of the forge. Brewed with an industrial edge, it offers a refreshing taste with a crisp finish.",
-        "abv": 5.1,
-        "ml": 355,
-        "category": "Beer",
-        "pricing": { "6-pack": 15.99, "12-pack": 28.99, "24-pack": 52.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/cold_forge_phone.png",
-            "tablet": "http://localhost:3000/images/cold_forge_tablet.png",
-            "desktop": "http://localhost:3000/images/cold_forge_desktop.png"
-        }
-    },
-    {
-        "name": "Island Gold",
-        "description": "Island Gold is a smooth, tropical lager with light golden hues and subtle fruit notes, bringing you island vibes in every sip.",
-        "abv": 4.8,
-        "ml": 330,
-        "category": "Beer",
-        "pricing": { "6-pack": 13.99, "12-pack": 25.49, "24-pack": 47.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/island_gold_phone.png",
-            "tablet": "http://localhost:3000/images/island_gold_tablet.png",
-            "desktop": "http://localhost:3000/images/island_gold_desktop.png"
-        }
-    },
-    {
-        "name": "Night Haven",
-        "description": "A bold and mysterious dark beer with rich roasted flavors and a smooth finish. Night Haven invites you to discover the depth of its craft.",
-        "ml": 330,
-        "abv": 5.6,
-        "category": "Beer",
-        "pricing": { "6-pack": 10.99, "12-pack": 20.99, "24-pack": 38.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/night_haven_phone.png",
-            "tablet": "http://localhost:3000/images/night_haven_tablet.png",
-            "desktop": "http://localhost:3000/images/night_haven_desktop.png"
-        }
-    },
-    {
-        "name": "Iron Brew",
-        "description": "A robust and full-bodied beer forged with intensity. Iron Brew delivers bold malt flavor and a crisp, satisfying finish — crafted for those who crave strength in every sip.",
-        "ml": 330,
-        "abv": 6.2,
-        "category": "Beer",
-        "pricing": { "6-pack": 11.99, "12-pack": 22.99, "24-pack": 42.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/iron_brew_phone.png",
-            "tablet": "http://localhost:3000/images/iron_brew_tablet.png",
-            "desktop": "http://localhost:3000/images/iron_brew_desktop.png"
-        }
-    },
-    {
-        "name": "Borinquen Brew",
-        "description": "A refreshing tropical lager brewed with pride in Puerto Rico. Borinquen Brew features smooth malty notes and a crisp finish, inspired by the island’s natural beauty and vibrant culture.",
-        "ml": 330,
-        "abv": 5,
-        "category": "Beer",
-        "pricing": { "6_pack": 9.99, "12_pack": 18.99, "24_pack": 34.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/borinquen_brew_phone.png",
-            "tablet": "http://localhost:3000/images/borinquen_brew_tablet.png",
-            "desktop": "http://localhost:3000/images/borinquen_brew_desktop.png"
-        }
-    },
-    {
-        "name": "Liberty Ale",
-        "description": "A patriotic American ale brewed in celebration of freedom. Liberty Ale combines a balanced malt body with subtle hop bitterness, perfect for Independence Day and backyard barbecues.",
-        "ml": 355,
-        "abv": 5.7,
-        "category": "Beer",
-        "pricing": { "6_pack": 11.49, "12_pack": 21.99, "24_pack": 39.99 },
-        "images": {
-            "phone": "http://localhost:3000/images/liberty_ale_phone.png",
-            "tablet": "http://localhost:3000/images/liberty_ale_tablet.png",
-            "desktop": "http://localhost:3000/images/liberty_ale_desktop.png"
-        }
+  {
+    "name": "Cold Forge",
+    "description": "Cold Forge is a bold craft beer inspired by the grit of the forge. Brewed with an industrial edge, it offers a refreshing taste with a crisp finish.",
+    "abv": 5.1,
+    "ml": 355,
+    "category": "Beer",
+    "pricing": { "six_pack": 15.99, "twelve_pack": 28.99, "twenty_four_pack": 52.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/cold_forge_360.png",
+        "720": "http://localhost:3000/images/cold_forge_720.png",
+        "1080": "http://localhost:3000/images/cold_forge_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/cold_forge_thumb_150.png",
+        "300": "http://localhost:3000/images/cold_forge_thumb_300.png",
+        "450": "http://localhost:3000/images/cold_forge_thumb_450.png"
+      }
     }
+  },
+  {
+    "name": "Island Gold",
+    "description": "Island Gold is a smooth, tropical lager with light golden hues and subtle fruit notes, bringing you island vibes in every sip.",
+    "abv": 4.8,
+    "ml": 330,
+    "category": "Beer",
+    "pricing": { "six_pack": 13.99, "twelve_pack": 25.49, "twenty_four_pack": 47.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/island_gold_360.png",
+        "720": "http://localhost:3000/images/island_gold_720.png",
+        "1080": "http://localhost:3000/images/island_gold_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/island_gold_thumb_150.png",
+        "300": "http://localhost:3000/images/island_gold_thumb_300.png",
+        "450": "http://localhost:3000/images/island_gold_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Night Haven",
+    "description": "A bold and mysterious dark beer with rich roasted flavors and a smooth finish. Night Haven invites you to discover the depth of its craft.",
+    "abv": 5.6,
+    "ml": 330,
+    "category": "Beer",
+    "pricing": { "six_pack": 10.99, "twelve_pack": 20.99, "twenty_four_pack": 38.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/night_haven_360.png",
+        "720": "http://localhost:3000/images/night_haven_720.png",
+        "1080": "http://localhost:3000/images/night_haven_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/night_haven_thumb_150.png",
+        "300": "http://localhost:3000/images/night_haven_thumb_300.png",
+        "450": "http://localhost:3000/images/night_haven_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Iron Brew",
+    "description": "A robust and full-bodied beer forged with intensity. Iron Brew delivers bold malt flavor and a crisp, satisfying finish — crafted for those who crave strength in every sip.",
+    "abv": 6.2,
+    "ml": 330,
+    "category": "Beer",
+    "pricing": { "six_pack": 11.99, "twelve_pack": 22.99, "twenty_four_pack": 42.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/iron_brew_360.png",
+        "720": "http://localhost:3000/images/iron_brew_720.png",
+        "1080": "http://localhost:3000/images/iron_brew_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/iron_brew_thumb_150.png",
+        "300": "http://localhost:3000/images/iron_brew_thumb_300.png",
+        "450": "http://localhost:3000/images/iron_brew_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Liberty Ale",
+    "description": "A patriotic American ale brewed in celebration of freedom. Liberty Ale combines a balanced malt body with subtle hop bitterness, perfect for Independence Day and backyard barbecues.",
+    "abv": 5.7,
+    "ml": 355,
+    "category": "Beer",
+    "pricing": { "six_pack": 11.49, "twelve_pack": 21.99, "twenty_four_pack": 39.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/liberty_ale_360.png",
+        "720": "http://localhost:3000/images/liberty_ale_720.png",
+        "1080": "http://localhost:3000/images/liberty_ale_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/liberty_ale_thumb_150.png",
+        "300": "http://localhost:3000/images/liberty_ale_thumb_300.png",
+        "450": "http://localhost:3000/images/liberty_ale_thumb_450.png"
+      }
+    }
+  },
+
+  {
+    "name": "Borinquen Brew",
+    "description": "A refreshing tropical lager brewed with pride in Puerto Rico. Borinquen Brew features smooth malty notes and a crisp finish, inspired by the island’s natural beauty and vibrant culture.",
+    "ml": 330,
+    "abv": 5,
+    "category": "Beer",
+    "pricing": { "six_pack": 9.99, "twelve_pack": 18.99, "twenty_four_pack": 34.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/borinquen_brew_360.png",
+        "720": "http://localhost:3000/images/borinquen_brew_720.png",
+        "1080": "http://localhost:3000/images/borinquen_brew_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/borinquen_brew_thumb_150.png",
+        "300": "http://localhost:3000/images/borinquen_brew_thumb_300.png",
+        "450": "http://localhost:3000/images/borinquen_brew_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Isla Dorada Lager",
+    "description": "Golden and light-bodied, Isla Dorada Lager offers subtle sweetness with a crisp tropical finish — perfect for beach days and island sunsets.",
+    "ml": 330,
+    "abv": 4.8,
+    "category": "Beer",
+    "pricing": { "six_pack": 8.99, "twelve_pack": 16.99, "twenty_four_pack": 31.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/isla_dorada_360.png",
+        "720": "http://localhost:3000/images/isla_dorada_720.png",
+        "1080": "http://localhost:3000/images/isla_dorada_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/isla_dorada_thumb_150.png",
+        "300": "http://localhost:3000/images/isla_dorada_thumb_300.png",
+        "450": "http://localhost:3000/images/isla_dorada_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Taino Gold Ale",
+    "description": "Taino Gold Ale blends mild hop bitterness with a hint of honey malt for a balanced and flavorful island-inspired craft beer.",
+    "ml": 355,
+    "abv": 5.4,
+    "category": "Beer",
+    "pricing": { "six_pack": 10.49, "twelve_pack": 19.99, "twenty_four_pack": 37.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/taino_gold_360.png",
+        "720": "http://localhost:3000/images/taino_gold_720.png",
+        "1080": "http://localhost:3000/images/taino_gold_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/taino_gold_thumb_150.png",
+        "300": "http://localhost:3000/images/taino_gold_thumb_300.png",
+        "450": "http://localhost:3000/images/taino_gold_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Coquí Pale Ale",
+    "description": "A crisp and aromatic pale ale with citrusy hops and a malty backbone, named after Puerto Rico’s beloved coquí frog.",
+    "ml": 355,
+    "abv": 5.8,
+    "category": "Beer",
+    "pricing": { "six_pack": 10.99, "twelve_pack": 20.99, "twenty_four_pack": 39.49 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/coqui_pale_ale_360.png",
+        "720": "http://localhost:3000/images/coqui_pale_ale_720.png",
+        "1080": "http://localhost:3000/images/coqui_pale_ale_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/coqui_pale_ale_thumb_150.png",
+        "300": "http://localhost:3000/images/coqui_pale_ale_thumb_300.png",
+        "450": "http://localhost:3000/images/coqui_pale_ale_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "El Yunque IPA",
+    "description": "A tropical IPA brewed with passionfruit and mango notes, balanced by piney hops reminiscent of Puerto Rico’s lush rainforest.",
+    "ml": 355,
+    "abv": 6.5,
+    "category": "Beer",
+    "pricing": { "six_pack": 11.49, "twelve_pack": 21.99, "twenty_four_pack": 41.49 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/el_yunque_ipa_360.png",
+        "720": "http://localhost:3000/images/el_yunque_ipa_720.png",
+        "1080": "http://localhost:3000/images/el_yunque_ipa_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/el_yunque_ipa_thumb_150.png",
+        "300": "http://localhost:3000/images/el_yunque_ipa_thumb_300.png",
+        "450": "http://localhost:3000/images/el_yunque_ipa_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "San Juan Reserve",
+    "description": "Aged in Caribbean oak barrels, San Juan Reserve Whiskey delivers smooth vanilla, toasted caramel, and a hint of tropical spice.",
+    "ml": 760,
+    "abv": 40,
+    "category": "Whiskey",
+    "pricing": { "bottle": 39.99, "case": 229.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/san_juan_reserve_whiskey_360.png",
+        "720": "http://localhost:3000/images/san_juan_reserve_whiskey_720.png",
+        "1080": "http://localhost:3000/images/san_juan_reserve_whiskey_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_150.png",
+        "300": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_300.png",
+        "450": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Old Port Cask",
+    "description": "A full-bodied whiskey with deep oak character and subtle molasses sweetness, inspired by Puerto Rico’s rum heritage.",
+    "ml": 750,
+    "abv": 40,
+    "category": "Whiskey",
+    "pricing": { "bottle": 44.99, "case": 249.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/old_port_cask_360.png",
+        "720": "http://localhost:3000/images/old_port_cask_720.png",
+        "1080": "http://localhost:3000/images/old_port_cask_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/old_port_cask_thumb_150.png",
+        "300": "http://localhost:3000/images/old_port_cask_thumb_300.png",
+        "450": "http://localhost:3000/images/old_port_cask_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Taino Oak Blend",
+    "description": "An artisanal blend aged in ex-rum barrels, delivering bold spice notes, gentle smoke, and smooth tropical warmth.",
+    "ml": 750,
+    "abv": 45,
+    "category": "Whiskey",
+    "pricing": { "bottle": 49.99, "case": 269.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/taino_oak_blend_360.png",
+        "720": "http://localhost:3000/images/taino_oak_blend_720.png",
+        "1080": "http://localhost:3000/images/taino_oak_blend_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/taino_oak_blend_thumb_150.png",
+        "300": "http://localhost:3000/images/taino_oak_blend_thumb_300.png",
+        "450": "http://localhost:3000/images/taino_oak_blend_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Island Heritage 12",
+    "description": "A 12-year aged whiskey offering a rich bouquet of oak, vanilla, and caramel, with a lingering tropical fruit finish.",
+    "ml": 790,
+    "abv": 43,
+    "category": "Whiskey",
+    "pricing": { "bottle": 59.99, "case": 319.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/island_heritage_12_360.png",
+        "720": "http://localhost:3000/images/island_heritage_12_720.png",
+        "1080": "http://localhost:3000/images/island_heritage_12_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/island_heritage_12_thumb_150.png",
+        "300": "http://localhost:3000/images/island_heritage_12_thumb_300.png",
+        "450": "http://localhost:3000/images/island_heritage_12_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Coastal Barrel Select",
+    "description": "Small-batch whiskey aged near the sea for a gentle saline edge that complements its toffee and nutty notes.",
+    "ml": 700,
+    "abv": 40,
+    "category": "Whiskey",
+    "pricing": { "bottle": 47.99, "case": 259.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/coastal_barrel_select_360.png",
+        "720": "http://localhost:3000/images/coastal_barrel_select_720.png",
+        "1080": "http://localhost:3000/images/coastal_barrel_select_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/coastal_barrel_select_thumb_150.png",
+        "300": "http://localhost:3000/images/coastal_barrel_select_thumb_300.png",
+        "450": "http://localhost:3000/images/coastal_barrel_select_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Crystal Wave",
+    "description": "Ultra-smooth vodka distilled five times for purity and a clean, crisp taste perfect for cocktails or sipping neat.",
+    "ml": 700,
+    "abv": 40,
+    "category": "Vodka",
+    "pricing": { "bottle": 24.99, "case": 139.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/crystal_wave_vodka_360.png",
+        "720": "http://localhost:3000/images/crystal_wave_vodka_720.png",
+        "1080": "http://localhost:3000/images/crystal_wave_vodka_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/crystal_wave_vodka_thumb_150.png",
+        "300": "http://localhost:3000/images/crystal_wave_vodka_thumb_300.png",
+        "450": "http://localhost:3000/images/crystal_wave_vodka_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Isla Blanca",
+    "description": "A premium Caribbean vodka with subtle sugarcane notes and a silky smooth finish.",
+    "ml": 700,
+    "abv": 40,
+    "category": "Vodka",
+    "pricing": { "bottle": 26.99, "case": 149.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/isla_blanca_vodka_360.png",
+        "720": "http://localhost:3000/images/isla_blanca_vodka_720.png",
+        "1080": "http://localhost:3000/images/isla_blanca_vodka_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/isla_blanca_vodka_thumb_150.png",
+        "300": "http://localhost:3000/images/isla_blanca_vodka_thumb_300.png",
+        "450": "http://localhost:3000/images/isla_blanca_vodka_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Ocean Mist",
+    "description": "A crisp vodka infused with a hint of sea breeze essence for a refreshing coastal twist.",
+    "ml": 780,
+    "abv": 38,
+    "category": "Vodka",
+    "pricing": { "bottle": 27.49, "case": 154.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/ocean_mist_vodka_360.png",
+        "720": "http://localhost:3000/images/ocean_mist_vodka_720.png",
+        "1080": "http://localhost:3000/images/ocean_mist_vodka_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/ocean_mist_vodka_thumb_150.png",
+        "300": "http://localhost:3000/images/ocean_mist_vodka_thumb_300.png",
+        "450": "http://localhost:3000/images/ocean_mist_vodka_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Aurora Chill",
+    "description": "Distilled with local tropical botanicals, Aurora Chill Vodka delivers a bright, clean profile ideal for island-inspired cocktails.",
+    "ml": 700,
+    "abv": 40,
+    "category": "Vodka",
+    "pricing": { "bottle": 28.99, "case": 159.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/aurora_chill_vodka_360.png",
+        "720": "http://localhost:3000/images/aurora_chill_vodka_720.png",
+        "1080": "http://localhost:3000/images/aurora_chill_vodka_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/aurora_chill_vodka_thumb_150.png",
+        "300": "http://localhost:3000/images/aurora_chill_vodka_thumb_300.png",
+        "450": "http://localhost:3000/images/aurora_chill_vodka_thumb_450.png"
+      }
+    }
+  },
+  {
+    "name": "Laguna Frost",
+    "description": "A premium small-batch vodka crafted with island spring water, offering unmatched smoothness and clarity.",
+    "ml": 700,
+    "abv": 40,
+    "category": "Vodka",
+    "pricing": { "bottle": 29.49, "case": 169.99 },
+    "images": {
+      "gallery": {
+        "360": "http://localhost:3000/images/laguna_frost_360.png",
+        "720": "http://localhost:3000/images/laguna_frost_720.png",
+        "1080": "http://localhost:3000/images/laguna_frost_1080.png"
+      },
+      "thumbnail": {
+        "150": "http://localhost:3000/images/laguna_frost_thumb_150.png",
+        "300": "http://localhost:3000/images/laguna_frost_thumb_300.png",
+        "450": "http://localhost:3000/images/laguna_frost_thumb_450.png"
+      }
+    }
+  }
 ]
+
+
+
