@@ -4,40 +4,48 @@ import { getProducts } from '../services/productService'
 
 export function useProducts() {
   const [products, setProducts] = useState([])
-  const [productByCategory, setProductByCategory] = useState(new Map())
+  const [productsByCategory, setProductsByCategory] = useState(
+    new Map([['all', []]])
+  )
   const isLoading = useLoading(products)
-
+  const [category, setCategory] = useState('all')
   useEffect(() => {
+    const abortController = new AbortController()
     ;(async () => {
       try {
-        const products = await getProducts()
-        setProducts(products)
+        const products = await getProducts(abortController)
         // This is duplicating products in set
         for (let i = 0; i < products.length; i++) {
           const product = products[i]
-          setProductByCategory((prev) => {
-            const categoryExists = prev.has(product.category)
+          setProductsByCategory((prev) => {
+            const map = new Map(prev)
+            const categoryExists = map.has(product.category)
             if (categoryExists) {
               const existingCategorizedProducts =
-                prev.get(product.category) || []
-              existingCategorizedProducts.push(product)
-              prev.set(product.category, existingCategorizedProducts)
-              return prev
+                map.get(product.category) || []
+
+              map.set(product.category, [
+                ...existingCategorizedProducts,
+                product,
+              ])
             } else {
-              prev.set(product.category, [product])
-              return prev
+              map.set(product.category, [product])
             }
+            map.set('all', [...map.get('all'), product])
+            return map
           })
         }
       } catch (error) {
         console.error(error)
       }
     })()
+
+    return () => abortController.abort()
   }, [])
 
   useEffect(() => {
-    console.log(productByCategory)
-  })
+    setProducts(productsByCategory.get(category))
+  }, [category, productsByCategory])
 
-  return { products, isLoading }
+  return { products, isLoading, setCategory }
 }
