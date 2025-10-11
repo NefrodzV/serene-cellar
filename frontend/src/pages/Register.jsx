@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
-import { FormInput } from '../components/ui/FormInput'
+import { FormInput, Heading } from '../components/ui'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -172,9 +172,8 @@ export function RegisterPage() {
         noValidate
         onSubmit={validateForm}
       >
-        <div className="header">
-          <h1>Register</h1>
-        </div>
+        <Heading>Register</Heading>
+
         <div className="body">
           <div>
             <FormInput
@@ -232,12 +231,11 @@ export function RegisterPage() {
 
           {errors.global && <div>{errors.global}</div>}
         </div>
-        <div className="footer">
-          <Button variant="primary">Register</Button>
-          <Link className="center-flex" to={'/login'}>
-            Already have an account?
-          </Link>
-        </div>
+
+        <Button variant="primary">Register</Button>
+        <Link className="center-flex" to={'/login'}>
+          Already have an account?
+        </Link>
       </form>
     </div>
   )

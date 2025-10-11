@@ -1,3 +1,5 @@
+export { Heading } from './Heading'
+
 export { Tag } from './Tag'
 export { Button } from './Button'
 export { Spinner } from './Spinner'

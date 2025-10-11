@@ -4,9 +4,11 @@ import { useProducts } from '../../hooks'
 import { Link } from 'react-router-dom'
 import { Spinner, Card, Tag } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
+import { Heading } from '../ui/Heading'
 export function ProductList() {
-  const { products = [], isLoading } = useProducts()
   const { categories } = useCategories()
+  const { products = [], isLoading } = useProducts(categories)
+
   const [entered, setEntered] = useState(false)
   useEffect(() => {
     if (!isLoading && products.length) {
@@ -19,7 +21,7 @@ export function ProductList() {
   if (isLoading) return <Spinner />
   return (
     <div className="products-container">
-      <h1>Products</h1>
+      <Heading>Products</Heading>
       <aside className="filters" aria-label="Product filters">
         {categories.map((cat) => (
           <Tag

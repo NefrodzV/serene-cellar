@@ -395,6 +395,7 @@ label, button, input {
   color: var(--text);
   gap: .5rem;
 }
+/* Price tag */
 .price-tag {
   display: flex;
   font-weight: bold;
@@ -405,9 +406,6 @@ label, button, input {
 .cents {
   margin-block: 0 auto;
   font-size: .8rem;
-}
-.block {
-  display: block;
 }
 
 .select {
@@ -496,6 +494,9 @@ label, button, input {
   background-color: var(--secondary);
  }
 
+ .heading {
+  font-size: 1.8rem;
+ }
 
 /* Message Container */
 .message-container {

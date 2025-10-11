@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
 import { FormInput } from '../components/ui/FormInput'
 import { Button } from '../components/ui/Button'
+import { Heading } from '../components/ui/Heading'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -87,7 +88,7 @@ export function LoginPage() {
         onSubmit={validateForm}
         noValidate
       >
-        <h1>Login</h1>
+        <Heading>Login</Heading>
 
         <FormInput
           id={'email'}
