@@ -390,14 +390,14 @@
     "pricing": { "bottle": 29.49, "case": 169.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/laguna_frost_360.png",
-        "720": "http://localhost:3000/images/laguna_frost_720.png",
-        "1080": "http://localhost:3000/images/laguna_frost_1080.png"
+        "360": "http://localhost:3000/images/laguna_frost_vodka_360.png",
+        "720": "http://localhost:3000/images/laguna_frost_vodka_720.png",
+        "1080": "http://localhost:3000/images/laguna_frost_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/laguna_frost_thumb_150.png",
-        "300": "http://localhost:3000/images/laguna_frost_thumb_300.png",
-        "450": "http://localhost:3000/images/laguna_frost_thumb_450.png"
+        "150": "http://localhost:3000/images/laguna_frost_vodka_thumb_150.png",
+        "300": "http://localhost:3000/images/laguna_frost_vodka_thumb_300.png",
+        "450": "http://localhost:3000/images/laguna_frost_vodka_thumb_450.png"
       }
     }
   }
