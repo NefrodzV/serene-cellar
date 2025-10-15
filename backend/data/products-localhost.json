@@ -3,100 +3,100 @@
   {
     "name": "Cold Forge",
     "description": "Cold Forge is a bold craft beer inspired by the grit of the forge. Brewed with an industrial edge, it offers a refreshing taste with a crisp finish.",
-    "abv": 5.1,
+    "abv": 5,
     "ml": 355,
     "category": "Beer",
     "pricing": { "six_pack": 15.99, "twelve_pack": 28.99, "twenty_four_pack": 52.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/cold_forge_360.png",
-        "720": "http://localhost:3000/images/cold_forge_720.png",
-        "1080": "http://localhost:3000/images/cold_forge_1080.png"
+        "360": "cold_forge_360.png",
+        "720": "cold_forge_720.png",
+        "1080": "cold_forge_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/cold_forge_thumb_150.png",
-        "300": "http://localhost:3000/images/cold_forge_thumb_300.png",
-        "450": "http://localhost:3000/images/cold_forge_thumb_450.png"
+        "150": "cold_forge_thumb_150.png",
+        "300": "cold_forge_thumb_300.png",
+        "450": "cold_forge_thumb_450.png"
       }
     }
   },
   {
     "name": "Island Gold",
     "description": "Island Gold is a smooth, tropical lager with light golden hues and subtle fruit notes, bringing you island vibes in every sip.",
-    "abv": 4.8,
+    "abv": 4,
     "ml": 330,
     "category": "Beer",
     "pricing": { "six_pack": 13.99, "twelve_pack": 25.49, "twenty_four_pack": 47.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/island_gold_360.png",
-        "720": "http://localhost:3000/images/island_gold_720.png",
-        "1080": "http://localhost:3000/images/island_gold_1080.png"
+        "360": "island_gold_360.png",
+        "720": "island_gold_720.png",
+        "1080": "island_gold_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/island_gold_thumb_150.png",
-        "300": "http://localhost:3000/images/island_gold_thumb_300.png",
-        "450": "http://localhost:3000/images/island_gold_thumb_450.png"
+        "150": "island_gold_thumb_150.png",
+        "300": "island_gold_thumb_300.png",
+        "450": "island_gold_thumb_450.png"
       }
     }
   },
   {
     "name": "Night Haven",
     "description": "A bold and mysterious dark beer with rich roasted flavors and a smooth finish. Night Haven invites you to discover the depth of its craft.",
-    "abv": 5.6,
+    "abv": 5,
     "ml": 330,
     "category": "Beer",
     "pricing": { "six_pack": 10.99, "twelve_pack": 20.99, "twenty_four_pack": 38.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/night_haven_360.png",
-        "720": "http://localhost:3000/images/night_haven_720.png",
-        "1080": "http://localhost:3000/images/night_haven_1080.png"
+        "360": "night_haven_360.png",
+        "720": "night_haven_720.png",
+        "1080": "night_haven_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/night_haven_thumb_150.png",
-        "300": "http://localhost:3000/images/night_haven_thumb_300.png",
-        "450": "http://localhost:3000/images/night_haven_thumb_450.png"
+        "150": "night_haven_thumb_150.png",
+        "300": "night_haven_thumb_300.png",
+        "450": "night_haven_thumb_450.png"
       }
     }
   },
   {
     "name": "Iron Brew",
     "description": "A robust and full-bodied beer forged with intensity. Iron Brew delivers bold malt flavor and a crisp, satisfying finish — crafted for those who crave strength in every sip.",
-    "abv": 6.2,
+    "abv": 6,
     "ml": 330,
     "category": "Beer",
     "pricing": { "six_pack": 11.99, "twelve_pack": 22.99, "twenty_four_pack": 42.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/iron_brew_360.png",
-        "720": "http://localhost:3000/images/iron_brew_720.png",
-        "1080": "http://localhost:3000/images/iron_brew_1080.png"
+        "360": "iron_brew_360.png",
+        "720": "iron_brew_720.png",
+        "1080": "iron_brew_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/iron_brew_thumb_150.png",
-        "300": "http://localhost:3000/images/iron_brew_thumb_300.png",
-        "450": "http://localhost:3000/images/iron_brew_thumb_450.png"
+        "150": "iron_brew_thumb_150.png",
+        "300": "iron_brew_thumb_300.png",
+        "450": "iron_brew_thumb_450.png"
       }
     }
   },
   {
     "name": "Liberty Ale",
     "description": "A patriotic American ale brewed in celebration of freedom. Liberty Ale combines a balanced malt body with subtle hop bitterness, perfect for Independence Day and backyard barbecues.",
-    "abv": 5.7,
+    "abv": 5,
     "ml": 355,
     "category": "Beer",
     "pricing": { "six_pack": 11.49, "twelve_pack": 21.99, "twenty_four_pack": 39.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/liberty_ale_360.png",
-        "720": "http://localhost:3000/images/liberty_ale_720.png",
-        "1080": "http://localhost:3000/images/liberty_ale_1080.png"
+        "360": "liberty_ale_360.png",
+        "720": "liberty_ale_720.png",
+        "1080": "liberty_ale_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/liberty_ale_thumb_150.png",
-        "300": "http://localhost:3000/images/liberty_ale_thumb_300.png",
-        "450": "http://localhost:3000/images/liberty_ale_thumb_450.png"
+        "150": "liberty_ale_thumb_150.png",
+        "300": "liberty_ale_thumb_300.png",
+        "450": "liberty_ale_thumb_450.png"
       }
     }
   },
@@ -110,14 +110,14 @@
     "pricing": { "six_pack": 9.99, "twelve_pack": 18.99, "twenty_four_pack": 34.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/borinquen_brew_360.png",
-        "720": "http://localhost:3000/images/borinquen_brew_720.png",
-        "1080": "http://localhost:3000/images/borinquen_brew_1080.png"
+        "360": "borinquen_brew_360.png",
+        "720": "borinquen_brew_720.png",
+        "1080": "borinquen_brew_1024.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/borinquen_brew_thumb_150.png",
-        "300": "http://localhost:3000/images/borinquen_brew_thumb_300.png",
-        "450": "http://localhost:3000/images/borinquen_brew_thumb_450.png"
+        "150": "borinquen_brew_thumb_150.png",
+        "300": "borinquen_brew_thumb_300.png",
+        "450": "borinquen_brew_thumb_450.png"
       }
     }
   },
@@ -125,19 +125,19 @@
     "name": "Isla Dorada Lager",
     "description": "Golden and light-bodied, Isla Dorada Lager offers subtle sweetness with a crisp tropical finish — perfect for beach days and island sunsets.",
     "ml": 330,
-    "abv": 4.8,
+    "abv": 4,
     "category": "Beer",
     "pricing": { "six_pack": 8.99, "twelve_pack": 16.99, "twenty_four_pack": 31.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/isla_dorada_360.png",
-        "720": "http://localhost:3000/images/isla_dorada_720.png",
-        "1080": "http://localhost:3000/images/isla_dorada_1080.png"
+        "360": "isla_dorada_360.png",
+        "720": "isla_dorada_720.png",
+        "1080": "isla_dorada_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/isla_dorada_thumb_150.png",
-        "300": "http://localhost:3000/images/isla_dorada_thumb_300.png",
-        "450": "http://localhost:3000/images/isla_dorada_thumb_450.png"
+        "150": "isla_dorada_thumb_150.png",
+        "300": "isla_dorada_thumb_300.png",
+        "450": "isla_dorada_thumb_450.png"
       }
     }
   },
@@ -145,19 +145,19 @@
     "name": "Taino Gold Ale",
     "description": "Taino Gold Ale blends mild hop bitterness with a hint of honey malt for a balanced and flavorful island-inspired craft beer.",
     "ml": 355,
-    "abv": 5.4,
+    "abv": 5,
     "category": "Beer",
     "pricing": { "six_pack": 10.49, "twelve_pack": 19.99, "twenty_four_pack": 37.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/taino_gold_360.png",
-        "720": "http://localhost:3000/images/taino_gold_720.png",
-        "1080": "http://localhost:3000/images/taino_gold_1080.png"
+        "360": "taino_gold_360.png",
+        "720": "taino_gold_720.png",
+        "1080": "taino_gold_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/taino_gold_thumb_150.png",
-        "300": "http://localhost:3000/images/taino_gold_thumb_300.png",
-        "450": "http://localhost:3000/images/taino_gold_thumb_450.png"
+        "150": "taino_gold_thumb_150.png",
+        "300": "taino_gold_thumb_300.png",
+        "450": "taino_gold_thumb_450.png"
       }
     }
   },
@@ -165,19 +165,19 @@
     "name": "Coquí Pale Ale",
     "description": "A crisp and aromatic pale ale with citrusy hops and a malty backbone, named after Puerto Rico’s beloved coquí frog.",
     "ml": 355,
-    "abv": 5.8,
+    "abv": 5,
     "category": "Beer",
     "pricing": { "six_pack": 10.99, "twelve_pack": 20.99, "twenty_four_pack": 39.49 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/coqui_pale_ale_360.png",
-        "720": "http://localhost:3000/images/coqui_pale_ale_720.png",
-        "1080": "http://localhost:3000/images/coqui_pale_ale_1080.png"
+        "360": "coqui_pale_ale_360.png",
+        "720": "coqui_pale_ale_720.png",
+        "1080": "coqui_pale_ale_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/coqui_pale_ale_thumb_150.png",
-        "300": "http://localhost:3000/images/coqui_pale_ale_thumb_300.png",
-        "450": "http://localhost:3000/images/coqui_pale_ale_thumb_450.png"
+        "150": "coqui_pale_ale_thumb_150.png",
+        "300": "coqui_pale_ale_thumb_300.png",
+        "450": "coqui_pale_ale_thumb_450.png"
       }
     }
   },
@@ -185,19 +185,19 @@
     "name": "El Yunque IPA",
     "description": "A tropical IPA brewed with passionfruit and mango notes, balanced by piney hops reminiscent of Puerto Rico’s lush rainforest.",
     "ml": 355,
-    "abv": 6.5,
+    "abv": 6,
     "category": "Beer",
     "pricing": { "six_pack": 11.49, "twelve_pack": 21.99, "twenty_four_pack": 41.49 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/el_yunque_ipa_360.png",
-        "720": "http://localhost:3000/images/el_yunque_ipa_720.png",
-        "1080": "http://localhost:3000/images/el_yunque_ipa_1080.png"
+        "360": "el_yunque_ipa_360.png",
+        "720": "el_yunque_ipa_720.png",
+        "1080": "el_yunque_ipa_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/el_yunque_ipa_thumb_150.png",
-        "300": "http://localhost:3000/images/el_yunque_ipa_thumb_300.png",
-        "450": "http://localhost:3000/images/el_yunque_ipa_thumb_450.png"
+        "150": "el_yunque_ipa_thumb_150.png",
+        "300": "el_yunque_ipa_thumb_300.png",
+        "450": "el_yunque_ipa_thumb_450.png"
       }
     }
   },
@@ -210,14 +210,14 @@
     "pricing": { "bottle": 39.99, "case": 229.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/san_juan_reserve_whiskey_360.png",
-        "720": "http://localhost:3000/images/san_juan_reserve_whiskey_720.png",
-        "1080": "http://localhost:3000/images/san_juan_reserve_whiskey_1080.png"
+        "360": "san_juan_reserve_whiskey_360.png",
+        "720": "san_juan_reserve_whiskey_720.png",
+        "1080": "san_juan_reserve_whiskey_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_150.png",
-        "300": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_300.png",
-        "450": "http://localhost:3000/images/san_juan_reserve_whiskey_thumb_450.png"
+        "150": "san_juan_reserve_whiskey_thumb_150.png",
+        "300": "san_juan_reserve_whiskey_thumb_300.png",
+        "450": "san_juan_reserve_whiskey_thumb_450.png"
       }
     }
   },
@@ -230,14 +230,14 @@
     "pricing": { "bottle": 44.99, "case": 249.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/old_port_cask_360.png",
-        "720": "http://localhost:3000/images/old_port_cask_720.png",
-        "1080": "http://localhost:3000/images/old_port_cask_1080.png"
+        "360": "old_port_cask_360.png",
+        "720": "old_port_cask_720.png",
+        "1080": "old_port_cask_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/old_port_cask_thumb_150.png",
-        "300": "http://localhost:3000/images/old_port_cask_thumb_300.png",
-        "450": "http://localhost:3000/images/old_port_cask_thumb_450.png"
+        "150": "old_port_cask_thumb_150.png",
+        "300": "old_port_cask_thumb_300.png",
+        "450": "old_port_cask_thumb_450.png"
       }
     }
   },
@@ -250,14 +250,14 @@
     "pricing": { "bottle": 49.99, "case": 269.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/taino_oak_blend_360.png",
-        "720": "http://localhost:3000/images/taino_oak_blend_720.png",
-        "1080": "http://localhost:3000/images/taino_oak_blend_1080.png"
+        "360": "taino_oak_blend_360.png",
+        "720": "taino_oak_blend_720.png",
+        "1080": "taino_oak_blend_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/taino_oak_blend_thumb_150.png",
-        "300": "http://localhost:3000/images/taino_oak_blend_thumb_300.png",
-        "450": "http://localhost:3000/images/taino_oak_blend_thumb_450.png"
+        "150": "taino_oak_blend_thumb_150.png",
+        "300": "taino_oak_blend_thumb_300.png",
+        "450": "taino_oak_blend_thumb_450.png"
       }
     }
   },
@@ -270,14 +270,14 @@
     "pricing": { "bottle": 59.99, "case": 319.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/island_heritage_12_360.png",
-        "720": "http://localhost:3000/images/island_heritage_12_720.png",
-        "1080": "http://localhost:3000/images/island_heritage_12_1080.png"
+        "360": "island_heritage_12_360.png",
+        "720": "island_heritage_12_720.png",
+        "1080": "island_heritage_12_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/island_heritage_12_thumb_150.png",
-        "300": "http://localhost:3000/images/island_heritage_12_thumb_300.png",
-        "450": "http://localhost:3000/images/island_heritage_12_thumb_450.png"
+        "150": "island_heritage_12_thumb_150.png",
+        "300": "island_heritage_12_thumb_300.png",
+        "450": "island_heritage_12_thumb_450.png"
       }
     }
   },
@@ -290,14 +290,14 @@
     "pricing": { "bottle": 47.99, "case": 259.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/coastal_barrel_select_360.png",
-        "720": "http://localhost:3000/images/coastal_barrel_select_720.png",
-        "1080": "http://localhost:3000/images/coastal_barrel_select_1080.png"
+        "360": "coastal_barrel_select_360.png",
+        "720": "coastal_barrel_select_720.png",
+        "1080": "coastal_barrel_select_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/coastal_barrel_select_thumb_150.png",
-        "300": "http://localhost:3000/images/coastal_barrel_select_thumb_300.png",
-        "450": "http://localhost:3000/images/coastal_barrel_select_thumb_450.png"
+        "150": "coastal_barrel_select_thumb_150.png",
+        "300": "coastal_barrel_select_thumb_300.png",
+        "450": "coastal_barrel_select_thumb_450.png"
       }
     }
   },
@@ -310,14 +310,14 @@
     "pricing": { "bottle": 24.99, "case": 139.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/crystal_wave_vodka_360.png",
-        "720": "http://localhost:3000/images/crystal_wave_vodka_720.png",
-        "1080": "http://localhost:3000/images/crystal_wave_vodka_1080.png"
+        "360": "crystal_wave_vodka_360.png",
+        "720": "crystal_wave_vodka_720.png",
+        "1080": "crystal_wave_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/crystal_wave_vodka_thumb_150.png",
-        "300": "http://localhost:3000/images/crystal_wave_vodka_thumb_300.png",
-        "450": "http://localhost:3000/images/crystal_wave_vodka_thumb_450.png"
+        "150": "crystal_wave_vodka_thumb_150.png",
+        "300": "crystal_wave_vodka_thumb_300.png",
+        "450": "crystal_wave_vodka_thumb_450.png"
       }
     }
   },
@@ -330,14 +330,14 @@
     "pricing": { "bottle": 26.99, "case": 149.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/isla_blanca_vodka_360.png",
-        "720": "http://localhost:3000/images/isla_blanca_vodka_720.png",
-        "1080": "http://localhost:3000/images/isla_blanca_vodka_1080.png"
+        "360": "isla_blanca_vodka_360.png",
+        "720": "isla_blanca_vodka_720.png",
+        "1080": "isla_blanca_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/isla_blanca_vodka_thumb_150.png",
-        "300": "http://localhost:3000/images/isla_blanca_vodka_thumb_300.png",
-        "450": "http://localhost:3000/images/isla_blanca_vodka_thumb_450.png"
+        "150": "isla_blanca_vodka_thumb_150.png",
+        "300": "isla_blanca_vodka_thumb_300.png",
+        "450": "isla_blanca_vodka_thumb_450.png"
       }
     }
   },
@@ -350,14 +350,14 @@
     "pricing": { "bottle": 27.49, "case": 154.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/ocean_mist_vodka_360.png",
-        "720": "http://localhost:3000/images/ocean_mist_vodka_720.png",
-        "1080": "http://localhost:3000/images/ocean_mist_vodka_1080.png"
+        "360": "ocean_mist_vodka_360.png",
+        "720": "ocean_mist_vodka_720.png",
+        "1080": "ocean_mist_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/ocean_mist_vodka_thumb_150.png",
-        "300": "http://localhost:3000/images/ocean_mist_vodka_thumb_300.png",
-        "450": "http://localhost:3000/images/ocean_mist_vodka_thumb_450.png"
+        "150": "ocean_mist_vodka_thumb_150.png",
+        "300": "ocean_mist_vodka_thumb_300.png",
+        "450": "ocean_mist_vodka_thumb_450.png"
       }
     }
   },
@@ -370,14 +370,14 @@
     "pricing": { "bottle": 28.99, "case": 159.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/aurora_chill_vodka_360.png",
-        "720": "http://localhost:3000/images/aurora_chill_vodka_720.png",
-        "1080": "http://localhost:3000/images/aurora_chill_vodka_1080.png"
+        "360": "aurora_chill_vodka_360.png",
+        "720": "aurora_chill_vodka_720.png",
+        "1080": "aurora_chill_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/aurora_chill_vodka_thumb_150.png",
-        "300": "http://localhost:3000/images/aurora_chill_vodka_thumb_300.png",
-        "450": "http://localhost:3000/images/aurora_chill_vodka_thumb_450.png"
+        "150": "aurora_chill_vodka_thumb_150.png",
+        "300": "aurora_chill_vodka_thumb_300.png",
+        "450": "aurora_chill_vodka_thumb_450.png"
       }
     }
   },
@@ -390,14 +390,14 @@
     "pricing": { "bottle": 29.49, "case": 169.99 },
     "images": {
       "gallery": {
-        "360": "http://localhost:3000/images/laguna_frost_vodka_360.png",
-        "720": "http://localhost:3000/images/laguna_frost_vodka_720.png",
-        "1080": "http://localhost:3000/images/laguna_frost_vodka_1080.png"
+        "360": "laguna_frost_vodka_360.png",
+        "720": "laguna_frost_vodka_720.png",
+        "1080": "laguna_frost_vodka_1080.png"
       },
       "thumbnail": {
-        "150": "http://localhost:3000/images/laguna_frost_vodka_thumb_150.png",
-        "300": "http://localhost:3000/images/laguna_frost_vodka_thumb_300.png",
-        "450": "http://localhost:3000/images/laguna_frost_vodka_thumb_450.png"
+        "150": "laguna_frost_vodka_thumb_150.png",
+        "300": "laguna_frost_vodka_thumb_300.png",
+        "450": "laguna_frost_vodka_thumb_450.png"
       }
     }
   }
