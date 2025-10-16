@@ -11,7 +11,7 @@
       "gallery": {
         "360": "cold_forge_360.png",
         "720": "cold_forge_720.png",
-        "1080": "cold_forge_1024.png"
+        "1080": "cold_forge_1080.png"
       },
       "thumbnail": {
         "150": "cold_forge_thumb_150.png",
@@ -31,7 +31,7 @@
       "gallery": {
         "360": "island_gold_360.png",
         "720": "island_gold_720.png",
-        "1080": "island_gold_1024.png"
+        "1080": "island_gold_1080.png"
       },
       "thumbnail": {
         "150": "island_gold_thumb_150.png",
@@ -51,7 +51,7 @@
       "gallery": {
         "360": "night_haven_360.png",
         "720": "night_haven_720.png",
-        "1080": "night_haven_1024.png"
+        "1080": "night_haven_1080.png"
       },
       "thumbnail": {
         "150": "night_haven_thumb_150.png",
@@ -71,7 +71,7 @@
       "gallery": {
         "360": "iron_brew_360.png",
         "720": "iron_brew_720.png",
-        "1080": "iron_brew_1024.png"
+        "1080": "iron_brew_1080.png"
       },
       "thumbnail": {
         "150": "iron_brew_thumb_150.png",
@@ -91,7 +91,7 @@
       "gallery": {
         "360": "liberty_ale_360.png",
         "720": "liberty_ale_720.png",
-        "1080": "liberty_ale_1024.png"
+        "1080": "liberty_ale_1080.png"
       },
       "thumbnail": {
         "150": "liberty_ale_thumb_150.png",
@@ -112,7 +112,7 @@
       "gallery": {
         "360": "borinquen_brew_360.png",
         "720": "borinquen_brew_720.png",
-        "1080": "borinquen_brew_1024.png"
+        "1080": "borinquen_brew_1080.png"
       },
       "thumbnail": {
         "150": "borinquen_brew_thumb_150.png",
