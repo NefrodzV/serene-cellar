@@ -4,6 +4,6 @@ const router = express.Router()
 
 router.get('/', productsController.getProducts)
 router.get('/categories', productsController.getCategories)
-router.get('/:slug', productsController.getProduct)
+router.get('/:id', productsController.getProduct)
 
 export default router

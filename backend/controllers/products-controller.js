@@ -14,16 +14,18 @@ const getProducts = async (req, res, next) => {
 }
 
 const getProduct = [
-  param('slug')
+  param('id')
     .trim()
     .exists({ values: 'falsy' })
-    .withMessage('Product ID must be defined')
+    .withMessage('Product id must be defined')
+    .isInt()
+    .withMessage('id must be an integer')
     .bail(),
   validate,
   async (req, res, next) => {
-    const slug = req.params.slug
+    const id = req.params.id
     try {
-      const product = await findProduct(slug)
+      const product = await productRepository.getProductById(id)
       if (!product) {
         return res
           .status(400)
