@@ -1,16 +1,12 @@
 import { param } from 'express-validator'
 import { validate } from '../middlewares/validationHandler.js'
-import {
-  findProduct,
-  findProducts,
-  getProductCategories,
-} from '../repositories/product-repository.js'
+import * as productRepository from '../repositories/product-repository.js'
 
 const getProducts = async (req, res, next) => {
   // Getting all the products from database
   try {
     // TODO: probably need to update images having a white background
-    const products = await findProducts()
+    const products = await productRepository.getProducts()
     return res.json(products)
   } catch (err) {
     next(err)
