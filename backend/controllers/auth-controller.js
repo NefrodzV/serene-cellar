@@ -7,7 +7,7 @@ import { generateToken } from '../services/index.js'
 import { userRepository } from '../repositories/index.js'
 import { setCookieAndRespond } from '../utils/setCookieAndRespond.js'
 import { json } from 'express'
-import { createUserCart } from '../repositories/cart-repository.js'
+import * as cartRepository from '../repositories/cart-repository.js'
 configDotenv()
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -27,13 +27,13 @@ const register = [
     .trim()
     .notEmpty()
     .withMessage('Last Name cannot be empty'),
-  body('username')
-    .exists({ values: 'falsy' })
-    .withMessage('Username is required')
-    .bail()
-    .trim()
-    .notEmpty()
-    .withMessage('Username cannot be empty'),
+  // body('username')
+  //   .exists({ values: 'falsy' })
+  //   .withMessage('Username is required')
+  //   .bail()
+  //   .trim()
+  //   .notEmpty()
+  //   .withMessage('Username cannot be empty'),
   body('email')
     .exists({ values: 'falsy' })
     .withMessage('Email is required')
@@ -82,13 +82,12 @@ const register = [
       const encryptedPassword = await bcrypt.hash(data.password, 10)
       const user = await userRepository.createUserWithEmail({
         email: data.email,
-        username: data.username,
         password: encryptedPassword,
         firstName: data.firstName,
         lastName: data.lastName,
       })
       // Creating user cart
-      await createUserCart(user.id)
+      await cartRepository.createUserCart(user.id)
       const token = generateToken(user)
       req.user = user
       req.token = token
