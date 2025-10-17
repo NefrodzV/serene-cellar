@@ -1,18 +1,9 @@
 import { body, param, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import { validate } from '../middlewares/validationHandler.js'
-import {
-  createCartItem,
-  deleteCartItem,
-  getCartByUserId,
-  getItemsByUserId,
-  incrementCartItemQuantity,
-  setCartItemQuantity,
-  getCartItemByPriceId,
-  validateLocalCartItems,
-} from '../repositories/cart-repository.js'
+import * as cartRepository from '../repositories/cart-repository.js'
 
-/**
+/**W
  * Make the requests return the update cartItems
  */
 const getCart = [
@@ -20,8 +11,8 @@ const getCart = [
   validate,
   async (req, res, next) => {
     try {
-      const cart = await getCartByUserId(req.user.id)
-
+      const cart = await cartRepository.getCartByUserId(req.user.id)
+      console.log(cart)
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
       return res.json({ cart })
     } catch (error) {
@@ -43,8 +34,8 @@ const addItem = [
     const { productId, priceId, quantity } = matchedData(req)
 
     try {
-      await createCartItem(req.user.id, quantity, priceId)
-      const cart = await getCartByUserId(req.user.id)
+      await cartRepository.createCartItem(req.user.id, quantity, priceId)
+      const cart = await cartRepository.getCartByUserId(req.user.id)
       return res.json({ cart })
     } catch (error) {
       next(error)
@@ -63,8 +54,8 @@ const deleteItem = [
   async (req, res, next) => {
     const data = matchedData(req)
     try {
-      await deleteCartItem(data.itemId)
-      const cart = await getCartByUserId(req.user.id)
+      await cartRepository.deleteCartItem(data.itemId)
+      const cart = await cartRepository.getCartByUserId(req.user.id)
 
       return res.status(200).json({
         message: 'Cart item deleted',
@@ -95,8 +86,8 @@ const updateItem = [
     try {
       const { quantity, itemId } = matchedData(req)
 
-      await setCartItemQuantity(itemId, quantity)
-      const cart = await getCartByUserId(req.user.id)
+      await cartRepository.setCartItemQuantity(itemId, quantity)
+      const cart = await cartRepository.getCartByUserId(req.user.id)
 
       return res.json({
         message: 'Cart item updated',
@@ -121,7 +112,7 @@ const sync = [
   validate,
   async function (req, res, next) {
     const data = matchedData(req)
-    const existingItems = await getItemsByUserId(req.user.id)
+    const existingItems = await cartRepository.getItemsByUserId(req.user.id)
     const existingMap = new Map(
       existingItems.map((item) => [`${item.priceId}`, item])
     )
@@ -129,14 +120,21 @@ const sync = [
     for (const localItem of data.items) {
       const existingItem = existingMap.get(`${localItem.priceId}`)
       if (existingItem) {
-        await incrementCartItemQuantity(existingItem.id, localItem.quantity)
+        await cartRepository.incrementCartItemQuantity(
+          existingItem.id,
+          localItem.quantity
+        )
       } else {
-        await createCartItem(req.user.id, localItem.quantity, localItem.priceId)
+        await cartRepository.createCartItem(
+          req.user.id,
+          localItem.quantity,
+          localItem.priceId
+        )
       }
     }
 
     // Getting updated cart items
-    const cart = await getCartByUserId(req.user.id)
+    const cart = await cartRepository.getCartByUserId(req.user.id)
     return res.status(200).json({
       cart,
     })
@@ -159,7 +157,7 @@ const validateLocalCart = [
       return res.status(422).json({ error: 'There are no items in array' })
     }
     try {
-      const cart = await validateLocalCartItems(items)
+      const cart = await cartRepository.validateLocalCartItems(items)
 
       if (!cart) {
         return res
