@@ -10,16 +10,22 @@ export async function getCartByUserId(userId) {
       COALESCE(SUM(item.quantity), 0) = 0 AS is_empty,
       COALESCE(SUM(item.line_total),0) AS total,
       COALESCE(SUM(item.quantity), 0) AS total_items,
-      item.currency,
+      COALESCE(MAX(item.currency), 'USD') AS currency,
       COALESCE(json_agg(item), '[]'::json) AS items
       FROM (
         SELECT 
+        ci.id,
         ci.quantity,
         pv.stock,
         p.amount AS price,
         p.currency,
-        COALESCE(pv.stock, 0) > 0 AS purchasable,
+        COALESCE(pv.stock, 0) > 0 AND pv.stock >= ci.quantity AS purchasable,
         ROUND(ci.quantity * p.amount, 2) as line_total,
+        CASE
+          WHEN pv.stock = 0 THEN 'OUT_OF_STOCK'
+          WHEN ci.quantity > pv.stock THEN 'INSUFFICIENT_STOCK'
+          ELSE NULL
+        END AS error,
         (
           SELECT jsonb_object_agg(role, role_images) 
           FROM (
@@ -36,7 +42,7 @@ export async function getCartByUserId(userId) {
         INNER JOIN prices p ON p.id = ci.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
         WHERE cart_id = (SELECT id FROM carts WHERE user_id=$1)
-      ) item GROUP BY item.currency
+      ) item 
     `,
     [userId]
   )
