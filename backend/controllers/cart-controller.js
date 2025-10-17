@@ -41,25 +41,11 @@ const addItem = [
 
   async (req, res, next) => {
     const { productId, priceId, quantity } = matchedData(req)
-    console.log(productId, priceId, quantity)
+
     try {
-      const existingItem = await getCartItemByPriceId(req.user.id, priceId)
-      let status = null
-      let message = null
-
-      if (existingItem) {
-        await incrementCartItemQuantity(existingItem.id, quantity)
-        status = 200
-        message = 'Cart item updated'
-      } else {
-        await createCartItem(req.user.id, quantity, priceId)
-        status = 201
-        message = 'Cart item added'
-      }
-
-      // Getting updated cart items
+      await createCartItem(req.user.id, quantity, priceId)
       const cart = await getCartByUserId(req.user.id)
-      return res.status(status).json({ message, cart })
+      return res.json({ cart })
     } catch (error) {
       next(error)
     }

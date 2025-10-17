@@ -15,8 +15,22 @@ export async function getCartByUserId(userId) {
         SELECT 
         ci.quantity,
         pv.stock,
+        p.amount AS price,
+        p.currency,
         COALESCE(pv.stock, 0) > 0 AS purchasable,
-        ROUND(ci.quantity * p.amount, 2) as line_total
+        ROUND(ci.quantity * p.amount, 2) as line_total,
+        (
+          SELECT jsonb_object_agg(role, role_images) 
+          FROM (
+            SELECT
+            pi.role,
+            jsonb_object_agg(a.width, a.url) AS role_images
+            FROM product_images pi
+            INNER JOIN assets a ON a.id= pi.asset_id
+            WHERE pi.product_id = pv.product_id 
+            GROUP BY pi.role
+          ) grouped
+        ) AS images
         FROM cart_items ci
         INNER JOIN prices p ON p.id = ci.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
@@ -54,7 +68,7 @@ export async function getCartItemByPriceId(userId, priceId) {
     `
         SELECT id FROM cart_items
         WHERE price_id=$1 AND
-        cart_id=(SELECT id from cart WHERE user_id=$2)`,
+        cart_id=(SELECT id from carts WHERE user_id=$2)`,
     [priceId, userId]
   )
   return rows[0] || null
@@ -64,7 +78,7 @@ export async function createCartItem(userId, quantity, priceId) {
   await db.query(
     `INSERT INTO cart_items 
         (cart_id, quantity, price_id)
-        VALUES ((SELECT id from cart WHERE user_id=$1), $2, $3)`,
+        VALUES ((SELECT id from carts WHERE user_id=$1), $2, $3) ON CONFLICT(price_id) DO UPDATE SET quantity = EXCLUDED.quantity + cart_items.quantity`,
     [userId, quantity, priceId]
   )
 }
