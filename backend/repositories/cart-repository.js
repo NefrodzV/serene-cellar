@@ -10,6 +10,7 @@ export async function getCartByUserId(userId) {
       COALESCE(SUM(item.quantity), 0) = 0 AS is_empty,
       COALESCE(SUM(item.line_total),0) AS total,
       COALESCE(SUM(item.quantity), 0) AS total_items,
+      item.currency,
       COALESCE(json_agg(item), '[]'::json) AS items
       FROM (
         SELECT 
@@ -35,8 +36,7 @@ export async function getCartByUserId(userId) {
         INNER JOIN prices p ON p.id = ci.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
         WHERE cart_id = (SELECT id FROM carts WHERE user_id=$1)
-        
-      ) item
+      ) item GROUP BY item.currency
     `,
     [userId]
   )
