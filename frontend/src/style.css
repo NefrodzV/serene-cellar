@@ -136,10 +136,11 @@ label, button, input {
   height: var(--control-height);
   font-size: 1rem;
   padding-inline: .5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-primary {
-  
   border: 1px solid var(--text);
   border-radius: 8px;
 }
@@ -166,8 +167,35 @@ label, button, input {
   color: var(--primary);
 }
 
-.input-container:has(.clear-button) > .input {
+.input-wrapper:has(.clear-button) > .input {
   padding-right: var(--control-height);
+}
+
+.input-wrapper:has(.toggle-password-button) {
+  position: relative;
+  
+}
+
+.input-wrapper:has(.toggle-password-button) > .input {
+  position: relative;
+ padding-right: var(--control-height);
+  
+}
+
+.toggle-password-button {
+  height: var(--control-height);
+  width: var(--control-height);
+  font-size: 100%;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.toggle-password-button:active {
+  transition: none;
+  
 }
 
 .title {

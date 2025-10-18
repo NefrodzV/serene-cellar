@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
-import { FormInput, Heading } from '../components/ui'
+import { Input, Heading, PasswordInput } from '../components/ui'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -176,7 +176,7 @@ export function RegisterPage() {
 
         <div className="body">
           <div>
-            <FormInput
+            <Input
               id={'firstName'}
               label={'First name'}
               onChangeHandler={onChangeHandler}
@@ -184,7 +184,7 @@ export function RegisterPage() {
               value={firstName}
               error={errors.firstName}
             />
-            <FormInput
+            <Input
               id={'lastName'}
               label={'Last name'}
               onChangeHandler={onChangeHandler}
@@ -193,7 +193,7 @@ export function RegisterPage() {
               error={errors.lastName}
             />
           </div>
-          <FormInput
+          <Input
             id={'username'}
             label={'Username'}
             onChangeHandler={onChangeHandler}
@@ -202,30 +202,28 @@ export function RegisterPage() {
             error={errors.username}
           />
 
-          <FormInput
+          <Input
             id={'email'}
             label={'Email'}
-            onChangeHandler={onChangeHandler}
+            onChange={onChangeHandler}
             type={'text'}
             value={email}
             error={errors.email}
           />
 
-          <FormInput
+          <PasswordInput
             id={'password'}
             label={'Password'}
-            onChangeHandler={onChangeHandler}
-            type={'password'}
+            onChange={onChangeHandler}
             value={password}
             error={errors.password}
           />
 
-          <FormInput
+          <PasswordInput
             id={'confirmPassword'}
             label={'Confirm password'}
-            onChangeHandler={onChangeHandler}
-            type={'text'}
-            value={firstName}
+            onChange={onChangeHandler}
+            value={confirmPassword}
             error={errors.confirmPassword}
           />
 

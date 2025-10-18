@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
-import { FormInput } from '../components/ui/FormInput'
+import { Input } from '../components/ui/Input'
 import { Button } from '../components/ui/Button'
 import { Heading } from '../components/ui/Heading'
+import { Form, PasswordInput } from '../components/ui'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -82,7 +83,7 @@ export function LoginPage() {
   }
   return (
     <div className="center-screen bg-color">
-      <form
+      <Form
         className="login-form"
         method="post"
         onSubmit={validateForm}
@@ -90,19 +91,18 @@ export function LoginPage() {
       >
         <Heading>Login</Heading>
 
-        <FormInput
+        <Input
           id={'email'}
           value={email}
           label={'Email'}
           type={'email'}
-          onChangeHandler={onChangeHandler}
+          onChange={onChangeHandler}
           error={errors.email}
         />
-        <FormInput
+        <PasswordInput
           id={'password'}
-          type={'password'}
           label={'Password'}
-          onChangeHandler={onChangeHandler}
+          onChange={onChangeHandler}
           error={errors.password}
         />
         <div>{errors.global}</div>
@@ -113,7 +113,7 @@ export function LoginPage() {
         <p className="center-flex">
           Don't have an account? <Link to={'/register'}>Register here.</Link>
         </p>
-      </form>
+      </Form>
     </div>
   )
 }
