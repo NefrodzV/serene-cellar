@@ -88,23 +88,25 @@ try {
         'INSERT INTO prices (variant_id, amount) VALUES ($1, $2)',
         [variantId, value]
       )
-    }
 
-    for (const [key, value] of Object.entries(product.images)) {
-      for (const [imgKey, img] of Object.entries(value)) {
-        const imgRelativePath = `${dir}/${img}`
-        const url = backendUrl + imgRelativePath
-        const { height, width, type } = await imageSizeFromFile(imgRelativePath)
-        const createAssetRes = await client.query(
-          'INSERT INTO assets (storage_key, url, width, height, mime_type) VALUES($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING RETURNING id',
-          [imgRelativePath, url, width, height, type]
-        )
+      for (const [key, value] of Object.entries(product.images)) {
+        for (const [imgKey, img] of Object.entries(value)) {
+          const imgRelativePath = `${dir}/${img}`
+          const url = backendUrl + imgRelativePath
+          const { height, width, type } =
+            await imageSizeFromFile(imgRelativePath)
+          console.log(imgRelativePath)
+          const createAssetRes = await client.query(
+            'INSERT INTO assets (storage_key, url, width, height, mime_type) VALUES($1, $2, $3, $4, $5) ON CONFLICT(storage_key) DO UPDATE SET storage_key =EXCLUDED.storage_key RETURNING id',
+            [imgRelativePath, url, width, height, type]
+          )
 
-        const assetId = createAssetRes.rows[0].id
-        await client.query(
-          `INSERT INTO product_images (product_id, role, asset_id) VALUES ($1, $2, $3)`,
-          [productId, key, assetId]
-        )
+          const assetId = createAssetRes.rows[0].id
+          await client.query(
+            `INSERT INTO product_images (product_id, role, asset_id, variant_id) VALUES ($1, $2, $3, $4)`,
+            [productId, key, assetId, variantId]
+          )
+        }
       }
     }
   }
