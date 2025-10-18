@@ -10,7 +10,6 @@ export async function getCartByUserId(userId) {
       COALESCE(SUM(item.quantity), 0) = 0 AS is_empty,
       COALESCE(SUM(item.line_total),0) AS total,
       COALESCE(SUM(item.quantity), 0) AS total_items,
-      COALESCE(MAX(item.currency), 'USD') AS currency,
       COALESCE(json_agg(item), '[]'::json) AS items
       FROM (
         SELECT 
@@ -18,7 +17,6 @@ export async function getCartByUserId(userId) {
         ci.quantity,
         pv.stock,
         p.amount AS price,
-        p.currency,
         COALESCE(pv.stock, 0) > 0 AND pv.stock >= ci.quantity AS purchasable,
         ROUND(ci.quantity * p.amount, 2) as line_total,
         CASE
@@ -123,78 +121,50 @@ export async function createUserCart(userId) {
 export async function validateLocalCartItems(items) {
   console.log(items)
   const values = items
-    .map(
-      (_, i) =>
-        `(CAST($${i * 3 + 1} AS text),CAST($${i * 3 + 2} AS int), CAST($${i * 3 + 3} AS int))`
-    )
+    .map((_, i) => `(CAST($${i * 2 + 1} AS int),CAST($${i * 2 + 2} AS int))`)
     .join(',')
   const params = items
-    .map((item) => [
-      String(item.id),
-      Number(item.quantity),
-      Number(item.priceId),
-    ])
+    .map((item) => [Number(item.priceId), Number(item.quantity)])
     .flat()
   const { rows } = await db.query(
     `
       SELECT 
-      COALESCE(bool_and(item.purchasable), false) as can_checkout,
-      COALESCE(SUM(line_total), 0) as subtotal,
-      COALESCE(SUM(final_line_total), 0) as total,
-      COALESCE(json_agg(item), '[]') as items,
-      COALESCE(SUM(item.quantity), 0) as total_items
+      COALESCE(bool_and(item.purchasable), false) AS can_checkout,
+      COALESCE(ROUND(SUM(line_total), 2), 0) AS total,
+      COALESCE(SUM(item.quantity), 0) AS total_items
+      COALESCE(json_agg(item), '[]') AS items,
+      COALESCE(SUM(item.quantity), 0) = 0 AS is_empty,
       FROM 
       (
-        SELECT 
-        p.name,
-        lc.id,
+       SELECT 
         lc.price_id,
-        lc.quantity, 
-        pr.unit,
-        pr.value as price,
-        pr.stock_quantity as stock,
-        (pr.value * lc.quantity) as line_total,
-        (p.discount_percent <> 0 AND p.discount_percent IS NOT NULL) as has_discount,
-        ARRAY_REMOVE(ARRAY[
-            CASE WHEN 
-            pr.stock_quantity < lc.quantity THEN 'INSUFFICIENT_STOCK' END,
-            CASE WHEN pr.stock_quantity = 0 THEN 'OUT_OF_STOCK' END,
-            CASE WHEN p.status <> 'active' THEN 'PRODUCT_UNAVAILABLE' END], null)
-        AS errors,
-        CASE WHEN p.discount_percent <> 0
-            THEN ROUND(lc.quantity * (pr.value - (pr.value * p.discount_percent/100)), 2)
-            ELSE lc.quantity * pr.value
-        END as final_line_total,
+        pr.name,
+        lc.quantity,
+        ROUND(lc.quantity * p.amount, 2) AS line_total,
+        COALESCE(pv.stock, 0) > 0 AND pv.stock >= lc.quantity AS purchasable,
+        p.amount AS price,
+        CASE
+          WHEN pv.stock = 0 THEN 'OUT_OF_STOCK'
+          WHEN lc.quantity > pv.stock THEN 'INSUFFICIENT_STOCK'
+          ELSE NULL
+        END AS error,
         (
-            SELECT json_build_object(
-              'thumbnail', json_object_agg(
-                (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
-                pi.image_url
-              ) FILTER (WHERE pi.image_url ILIKE '%thumb%'),
-              'gallery', json_object_agg(
-                (regexp_match(pi.image_url, '([0-9]+)(?=\\.[A-Za-z0-9]+$)'))[1],
-                pi.image_url
-              ) FILTER (WHERE pi.image_url NOT ILIKE '%thumb%')
-
-            )
+          SELECT jsonb_object_agg(role, role_images) 
+          FROM (
+            SELECT
+            pi.role,
+            jsonb_object_agg(a.width, a.url) AS role_images
             FROM product_images pi
-            WHERE pi.product_id = p.id
-        ) AS images,
-        CASE
-            WHEN p.status <> 'active' THEN false
-            WHEN pr.stock_quantity  = 0 THEN false
-            WHEN lc.quantity > COALESCE(pr.stock_quantity ,0) THEN false
-            ELSE true
-        END AS purchasable,
-        CASE
-          WHEN p.discount_percent IS NOT NULL 
-          THEN ROUND(pr.value - (pr.value * p.discount_percent / 100), 2)
-          ELSE pr.value
-        END as final_unit_price
+            INNER JOIN assets a ON a.id= pi.asset_id
+            WHERE pi.product_id = pv.product_id 
+            GROUP BY pi.role
+          ) grouped
+        ) AS images
         FROM 
-        (VALUES ${values}) as lc(id, quantity, price_id)
-        JOIN prices pr ON pr.id = lc.price_id
-        JOIN products p ON p.id = pr.product_id
+        (VALUES ${values}) AS lc(price_id, quantity)
+        INNER JOIN prices p ON p.id = lc.price_id
+        INNER JOIN product_variants pv ON pv.id = p.variant_id
+        INNER JOIN products pr ON pr.id = pv.product_id
       ) item
     `,
     params
