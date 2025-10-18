@@ -1,5 +1,4 @@
 import db from '../db/index.js'
-import { validate } from '../middlewares/validationHandler.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function getCartByUserId(userId) {
