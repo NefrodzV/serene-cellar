@@ -130,9 +130,8 @@ export async function validateLocalCartItems(items) {
       SELECT 
       COALESCE(bool_and(item.purchasable), false) AS can_checkout,
       COALESCE(ROUND(SUM(line_total), 2), 0) AS total,
-      COALESCE(SUM(item.quantity), 0) AS total_items
-      COALESCE(json_agg(item), '[]') AS items,
-      COALESCE(SUM(item.quantity), 0) = 0 AS is_empty,
+      COALESCE(SUM(item.quantity), 0) AS total_items,
+      COALESCE(json_agg(item), '[]') AS items
       FROM 
       (
        SELECT 
