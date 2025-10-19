@@ -14,27 +14,7 @@ export function useProducts() {
     ;(async () => {
       try {
         const products = await getProducts(abortController)
-        // This is duplicating products in set
-        for (let i = 0; i < products.length; i++) {
-          const product = products[i]
-          setProductsByCategory((prev) => {
-            const map = new Map(prev)
-            const categoryExists = map.has(product.category)
-            if (categoryExists) {
-              const existingCategorizedProducts =
-                map.get(product.category) || []
-
-              map.set(product.category, [
-                ...existingCategorizedProducts,
-                product,
-              ])
-            } else {
-              map.set(product.category, [product])
-            }
-            map.set('all', [...map.get('all'), product])
-            return map
-          })
-        }
+        setProducts(products)
       } catch (error) {
         console.error(error)
       }
@@ -42,10 +22,6 @@ export function useProducts() {
 
     return () => abortController.abort()
   }, [])
-
-  useEffect(() => {
-    setProducts(productsByCategory.get(category))
-  }, [category, productsByCategory])
 
   return { products, isLoading, setCategory }
 }
