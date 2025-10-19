@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail } from '../../utils'
-import { Input } from '../components/ui/Input'
 import { Button } from '../components/ui/Button'
 import { Heading } from '../components/ui/Heading'
-import { Form, PasswordInput } from '../components/ui'
+import { Form, PasswordInput, TextInput } from '../components/ui'
 export function LoginPage() {
   // const { authenticate: twitterAuthenticate } = useTwitterAuth()
   // const { onSuccess, onError } = useGoogleAuth()
@@ -91,17 +90,17 @@ export function LoginPage() {
       >
         <Heading>Login</Heading>
 
-        <Input
+        <TextInput
           id={'email'}
           value={email}
           label={'Email'}
-          type={'email'}
           onChange={onChangeHandler}
           error={errors.email}
         />
         <PasswordInput
           id={'password'}
           label={'Password'}
+          value={password}
           onChange={onChangeHandler}
           error={errors.password}
         />

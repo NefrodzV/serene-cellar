@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { isEmail, isEmpty } from '../../utils'
 import { useUser } from '../hooks'
-import { Input, Heading, PasswordInput } from '../components/ui'
+import { TextInput, Heading, PasswordInput } from '../components/ui'
 
 export function RegisterPage() {
   const [firstName, setFirstName] = useState('')
@@ -160,7 +160,7 @@ export function RegisterPage() {
         setConfirmPassword(e.target.value)
         break
       default:
-        console.error('OnChangeHandler FormInput name not handled')
+        console.error('OnChangeHandler FormTextInput name not handled')
         break
     }
   }
@@ -176,37 +176,33 @@ export function RegisterPage() {
 
         <div className="body">
           <div>
-            <Input
+            <TextInput
               id={'firstName'}
               label={'First name'}
-              onChangeHandler={onChangeHandler}
-              type={'text'}
+              onChange={onChangeHandler}
               value={firstName}
               error={errors.firstName}
             />
-            <Input
+            <TextInput
               id={'lastName'}
               label={'Last name'}
-              onChangeHandler={onChangeHandler}
-              type={'text'}
+              onChange={onChangeHandler}
               value={lastName}
               error={errors.lastName}
             />
           </div>
-          <Input
+          <TextInput
             id={'username'}
             label={'Username'}
-            onChangeHandler={onChangeHandler}
-            type={'text'}
+            onChange={onChangeHandler}
             value={username}
             error={errors.username}
           />
 
-          <Input
+          <TextInput
             id={'email'}
             label={'Email'}
             onChange={onChangeHandler}
-            type={'text'}
             value={email}
             error={errors.email}
           />
