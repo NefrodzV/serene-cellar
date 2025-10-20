@@ -120,10 +120,64 @@ export async function getProductById(id) {
   return camelize(rows[0]) || null
 }
 
-export async function getProductCategories() {
+export async function getProductAlcoholTypes() {
   const { rows } = await db.query(
     'SELECT DISTINCT type_of_alcohol from products'
   )
 
   return rows.map((r) => r.type_of_alcohol)
+}
+
+export async function getProductsByAlcoholType(types) {
+  const filter = types.split(',')
+  const { rows } = await db.query(
+    `
+    SELECT 
+      p.id,
+      p.name,
+      p.description,
+      p.active,
+      p.type_of_alcohol,
+      p.abv,
+      COALESCE(
+        (
+          SELECT json_agg(
+            json_build_object(
+              'package', pkg.display_name,
+              'quantity_per_package', pkg.quantity_per_package,
+              'container_kind', c.kind,
+              'container_volume_ml', c.ml,
+              'price', pr.amount,
+              'priceId', pr.id,
+              'currency', pr.currency
+          ) ORDER BY pkg.quantity_per_package)
+           FROM product_variants pv
+           INNER JOIN packages pkg ON pkg.id = pv.package_id
+           INNER JOIN containers c ON c.id = pv.container_id
+           INNER JOIN prices pr ON pr.id = pv.id 
+           WHERE pv.product_id = p.id
+           
+        ), '[]'::json) AS variants,
+      COALESCE(
+        (
+          SELECT jsonb_object_agg(role, role_images) 
+          FROM (
+            SELECT
+            pi.role,
+            jsonb_object_agg(
+              a.width::text, a.url
+            ) AS role_images 
+            FROM product_images pi 
+            INNER JOIN assets a ON a.id = pi.asset_id
+            WHERE p.id = pi.product_id
+            GROUP BY role
+          ) grouped
+        ), '{}'::jsonb) as images
+      FROM products p WHERE type_of_alcohol = ANY($1)
+    `,
+    [filter]
+  )
+
+  console.log(rows)
+  return camelize(rows)
 }

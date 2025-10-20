@@ -1,17 +1,30 @@
-import { param } from 'express-validator'
+import { param, query, validationResult } from 'express-validator'
 import { validate } from '../middlewares/validationHandler.js'
 import * as productRepository from '../repositories/product-repository.js'
 
-const getProducts = async (req, res, next) => {
-  // Getting all the products from database
-  try {
-    // TODO: probably need to update images having a white background
-    const products = await productRepository.getProducts()
-    return res.json(products)
-  } catch (err) {
-    next(err)
-  }
-}
+const getProducts = [
+  async (req, res, next) => {
+    const { types } = req.query
+    if (types) return next()
+    try {
+      // TODO: probably need to update images having a white background
+      const products = await productRepository.getProducts()
+      return res.json(products)
+    } catch (err) {
+      next(err)
+    }
+  },
+  async (req, res, next) => {
+    const { types } = req.query
+    try {
+      const products = await productRepository.getProductsByAlcoholType(types)
+      return res.json(products)
+    } catch (err) {
+      console.error('Error getting products with alcoho type')
+      next(err)
+    }
+  },
+]
 
 const getProduct = [
   param('id')
@@ -21,9 +34,10 @@ const getProduct = [
     .isInt()
     .withMessage('id must be an integer')
     .bail(),
+
   validate,
   async (req, res, next) => {
-    const id = req.params.id
+    const { id } = validationResult(req)
     try {
       const product = await productRepository.getProductById(id)
       if (!product) {
@@ -40,7 +54,7 @@ const getProduct = [
 
 async function getCategories(req, res) {
   try {
-    const categories = await productRepository.getProductCategories()
+    const categories = await productRepository.getProductAlcoholTypes()
     return res.json({ categories })
   } catch (e) {
     console.error(e)
