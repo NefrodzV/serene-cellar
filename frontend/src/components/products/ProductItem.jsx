@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Title, Thumbnail, Tag, PriceTag } from '../ui'
+import { Title, Thumbnail, PriceTag } from '../ui'
 export function ProductItem({ product }) {
   const { images, name, variants } = product
   const smallestPrice = variants[0].price.toString()
