@@ -423,6 +423,10 @@ label, button, input {
   color: var(--text);
   gap: .5rem;
 }
+
+.product-item .title {
+  text-align: center;
+}
 /* Price tag */
 .price-tag {
   display: flex;
