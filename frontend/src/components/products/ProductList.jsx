@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { ProductItem } from './ProductItem'
 import { useProducts } from '../../hooks'
 import { Link } from 'react-router-dom'
-import { Spinner, Card, Tag } from '../ui'
+import { Spinner, Card, Tag, Form } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
 import { Heading } from '../ui/Heading'
 export function ProductList() {
-  const { categories } = useCategories()
-  const { products = [], isLoading } = useProducts(categories)
+  const { alcoholTypes } = useCategories()
+  const { products = [], isLoading, onFilterChange } = useProducts()
 
   const [entered, setEntered] = useState(false)
   useEffect(() => {
@@ -22,17 +22,13 @@ export function ProductList() {
   return (
     <div className="products-container">
       <Heading>Products</Heading>
-      <aside className="filters" aria-label="Product filters">
-        {categories.map((cat) => (
-          <Tag
-            id={`category-${cat}`}
-            value={cat}
-            onChange={(e) => console.log(e.target.value)}
-          >
-            {cat}
+      <Form className="filters" aria-label="Product filters">
+        {alcoholTypes.map((type) => (
+          <Tag id={`alcohol-${type}`} value={type} onChange={onFilterChange}>
+            {type}
           </Tag>
         ))}
-      </aside>
+      </Form>
 
       <ul className="list">
         {products.map((product, i) => (
