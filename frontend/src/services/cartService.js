@@ -154,7 +154,6 @@ export async function validateLocalCartItems(items) {
 
   const data = await res.json()
   if (!res.ok) {
-    consolelog(data)
     throw new Error(data.error)
   }
   return data ?? null
