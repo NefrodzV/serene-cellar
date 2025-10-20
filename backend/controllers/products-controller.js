@@ -40,7 +40,7 @@ const getProduct = [
 
 async function getCategories(req, res) {
   try {
-    const categories = await getProductCategories()
+    const categories = await productRepository.getProductCategories()
     return res.json({ categories })
   } catch (e) {
     console.error(e)

@@ -121,7 +121,9 @@ export async function getProductById(id) {
 }
 
 export async function getProductCategories() {
-  const { rows } = await db.query('SELECT DISTINCT category from products')
-  const categories = rows.map((r) => r.category)
-  return categories
+  const { rows } = await db.query(
+    'SELECT DISTINCT type_of_alcohol from products'
+  )
+
+  return rows.map((r) => r.type_of_alcohol)
 }
