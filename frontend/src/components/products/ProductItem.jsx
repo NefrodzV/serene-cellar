@@ -2,10 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Title, Thumbnail, Tag, PriceTag } from '../ui'
 export function ProductItem({ product }) {
-  const { images, id, name, prices, slug } = product
-  const smallestPrice = String(Object.entries(prices)[0][1].effectiveValue)
-  const [dollars, cents] = smallestPrice.split('.')
-
+  const { images, name, variants } = product
+  const smallestPrice = variants[0].price.toString()
+  const [dollars = 0, cents = 0] = smallestPrice?.split('.')
   return (
     <article className="product-item" state={{ product }}>
       <Thumbnail data={images?.thumbnail} />
