@@ -4,7 +4,7 @@ import { getProducts, getProductsWithFilter } from '../services/productService'
 
 export function useProducts() {
   const [products, setProducts] = useState([])
-  const isLoading = useLoading(products)
+  const [isLoading, setIsLoading] = useState(true)
   const [alcoholType, setAlcoholType] = useState([])
   useEffect(() => {
     const abortController = new AbortController()
@@ -18,6 +18,8 @@ export function useProducts() {
         setProducts(data)
       } catch (error) {
         console.error(error)
+      } finally {
+        setIsLoading(false)
       }
     })()
 
@@ -26,12 +28,15 @@ export function useProducts() {
 
   useEffect(() => {
     ;(async () => {
+      setIsLoading(true)
       try {
         const data = await getProductsWithFilter(alcoholType)
         console.log(`data with filters`, data)
         setProducts(data)
       } catch (e) {
         console.error(e)
+      } finally {
+        setIsLoading(false)
       }
     })()
   }, [alcoholType])

@@ -8,6 +8,7 @@
   --secondary: #C49A6C;
   --secondary40l:hsl(31, 43%, 40%);
   --background: #FDF6ED;
+  --background5v: hsl(34, 80%, 96%, .5);
   --text: #160303;
   --error: #8C1D1D;
   
@@ -244,10 +245,11 @@ label, button, input {
   padding-inline: .5rem;
 }
 
-.products-container .list {
+.products-container  {
   flex: 1;
   overflow-y: auto;
   padding: .5rem;
+  gap: .5rem;
 }
 
 .filters h2 {
@@ -306,7 +308,8 @@ label, button, input {
   color: var(--error);
 }
 
-.list {
+.product-grid {
+  position: relative;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -780,6 +783,8 @@ label, button, input {
 /* Loader */
 
 .loader-container {
+  z-index: 1;
+  background-color: var(--background5v);
   margin: auto;
   display: flex;
   width: 100%;
