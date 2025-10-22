@@ -5,13 +5,13 @@ import { getProducts, getProductsWithFilter } from '../services/productService'
 export function useProducts() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [alcoholType, setAlcoholType] = useState([])
+  const [filters, setFilters] = useState(new Set())
   useEffect(() => {
     const abortController = new AbortController()
     ;(async () => {
       try {
         let data = null
-        if (!alcoholType.length) {
+        if (!filters.length) {
           data = await getProducts(abortController)
         }
 
@@ -30,7 +30,7 @@ export function useProducts() {
     ;(async () => {
       setIsLoading(true)
       try {
-        const data = await getProductsWithFilter(alcoholType)
+        const data = await getProductsWithFilter(Array.from(filters).join(','))
         console.log(`data with filters`, data)
         setProducts(data)
       } catch (e) {
@@ -39,16 +39,17 @@ export function useProducts() {
         setIsLoading(false)
       }
     })()
-  }, [alcoholType])
+  }, [filters])
+
   function onFilterChange(e) {
-    setAlcoholType((t) => {
-      if (t.find((i) => i === e.target.value)) {
-        return t.filter((i) => i !== e.target.value)
-      } else {
-        return [...t, e.target.value]
-      }
+    const filter = e.target.value
+    setFilters((s) => {
+      const us = new Set(s)
+      if (us.has(filter)) us.delete(filter)
+      else us.add(filter)
+      return us
     })
   }
 
-  return { products, isLoading, onFilterChange }
+  return { products, isLoading, filters, onFilterChange }
 }

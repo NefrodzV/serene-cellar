@@ -826,6 +826,14 @@ label, button, input {
   transform: translateX(0);
   opacity: 1;
 }
+
+
+.slide-out {
+  transform: translateX(-100%);
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 .cart-item-delete {
   margin: 0;
   transform: translateX(calc(-100% + .5rem + 3px)) scale(.90);

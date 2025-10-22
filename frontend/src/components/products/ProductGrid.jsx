@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useProducts } from '../../hooks'
 import { Spinner, Card, Tag, Form } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
 import { Heading } from '../ui/Heading'
 import { ProductCard } from './ProductCard'
 
-export function ProductList() {
+export function ProductGrid() {
   const { alcoholTypes } = useCategories()
-  const { products = [], isLoading, onFilterChange } = useProducts()
+  const { products = [], isLoading, onFilterChange, filters } = useProducts()
 
   return (
     <div className="products-container">
@@ -29,9 +29,9 @@ export function ProductList() {
             }}
           />
         ) : null}
-        {products.map((product, i) => (
-          <ProductCard product={product} i={i} />
-        ))}
+        {products.map((product, i) => {
+          return <ProductCard product={product} i={i} />
+        })}
       </ul>
     </div>
   )

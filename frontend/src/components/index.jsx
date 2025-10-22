@@ -1,5 +1,5 @@
 export { default as TwitterCallback } from './authentication/TwitterCallback'
 export { default as TwitterAuth } from './authentication/TwitterAuth'
-export { ProductList } from './products/ProductList'
+export { ProductGrid } from './products/ProductGrid'
 export { ProductDetail } from './products/ProductDetail'
 export { CartList } from './cart/CartList'

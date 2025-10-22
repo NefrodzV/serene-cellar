@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 
 export function useCategories() {
-  const [categories, setCategories] = useState([])
+  const [alcoholTypes, setAlcoholTypes] = useState([])
 
   useEffect(() => {
+    console.log('running')
     ;(async () => {
-      if (!categories || categories.length === 0) {
-        const data = await getProductCategories()
-        setCategories(data.categories)
-      }
+      const data = await getProductCategories()
+      console.log('data')
+      console.log(data)
+      setAlcoholTypes(data.categories)
     })()
   }, [])
+
   async function getProductCategories() {
     try {
       const res = await fetch(`${API_URL}/products/categories`)
@@ -25,6 +27,6 @@ export function useCategories() {
   }
 
   return {
-    categories,
+    alcoholTypes,
   }
 }
