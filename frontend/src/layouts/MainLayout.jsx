@@ -111,9 +111,6 @@ export function MainLayout() {
             >
               X
             </Button>
-            <NavLink className="link" href="#">
-              <i className="fa-solid fa-home icon"></i> Home
-            </NavLink>
             <NavLink className="link" to={'/shop'}>
               <i className="fa-solid fa-wine-glass icon"></i> Shop
             </NavLink>
@@ -123,7 +120,8 @@ export function MainLayout() {
               </NavLink>
             ) : (
               <NavLink className="link" to={'/login'}>
-                <span>Login </span>
+                <i class="fa-solid fa-user"></i>
+                <span>Login</span>
               </NavLink>
             )}
             <NavLink className="link" to={'/cart'}>
