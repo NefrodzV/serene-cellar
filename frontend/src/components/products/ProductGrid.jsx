@@ -1,20 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useProducts } from '../../hooks'
-import { Spinner, Card, Tag, Form } from '../ui'
+import { Spinner, Tag, Form } from '../ui'
 import { useCategories } from '../../hooks/useCategories'
 import { Heading } from '../ui/Heading'
 import { ProductCard } from './ProductCard'
 
 export function ProductGrid() {
+  const filterProducts = (products, filters) => {
+    if (!products.length) return products
+    if (filters.size) {
+      return products.map((product) => {
+        if (filters.has(product.typeOfAlcohol)) {
+          return {
+            data: { ...product },
+            visible: true,
+            exit: false,
+          }
+        } else {
+          return { data: { ...product }, visible: true, exit: true }
+        }
+      })
+    }
+    return products.map((product) => ({
+      data: { ...product },
+      visible: true,
+      exit: false,
+    }))
+  }
   const { alcoholTypes } = useCategories()
-  const { products = [], isLoading, onFilterChange, filters } = useProducts()
+  const { products, isLoading, filters, onFilterChange, removeProduct } =
+    useProducts()
 
+  const visibleProducts = filterProducts(products, filters)
   return (
     <div className="products-container">
       <Heading>Products</Heading>
       <Form className="filters" aria-label="Product filters">
         {alcoholTypes.map((type) => (
-          <Tag id={`alcohol-${type}`} value={type} onChange={onFilterChange}>
+          <Tag
+            key={type}
+            id={`alcohol-${type}`}
+            value={type}
+            onChange={onFilterChange}
+          >
             {type}
           </Tag>
         ))}
@@ -29,8 +57,20 @@ export function ProductGrid() {
             }}
           />
         ) : null}
-        {products.map((product, i) => {
-          return <ProductCard product={product} i={i} />
+        {visibleProducts.map((visibleProduct, i) => {
+          return (
+            <ProductCard
+              key={visibleProduct.data.name}
+              product={visibleProduct.data}
+              shouldExit={visibleProduct.exit}
+              i={i}
+              onTransitionEnd={() => {
+                if (visibleProduct.exit) {
+                  removeProduct(visibleProduct.data.id)
+                }
+              }}
+            />
+          )
         })}
       </ul>
     </div>
