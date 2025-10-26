@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useLoading } from './useLoading'
 import { getProducts, getProductsWithFilter } from '../services/productService'
 
 export function useProducts() {
