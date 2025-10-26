@@ -200,7 +200,7 @@ label, button, input {
 }
 
 .title {
-  font-size: 1.1rem;
+  font-size: var(--font-size);
 }
 
 .logo {
@@ -235,34 +235,6 @@ label, button, input {
   overflow: hidden;
 }
 
-.products-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.products-container > * {
-  padding-inline: .5rem;
-}
-
-.products-container  {
-  flex: 1;
-  overflow-y: auto;
-  padding: .5rem;
-  gap: .5rem;
-}
-
-.filters h2 {
-  
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-.products-container .filters {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-}
 .register-form {
   max-height: 80vh;
 }
@@ -308,18 +280,54 @@ label, button, input {
   color: var(--error);
 }
 
+.products-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.products-container > * {
+  padding-inline: .5rem;
+}
+
+.products-container  {
+  flex: 1;
+  overflow-y: auto;
+  padding: .5rem;
+  gap: .5rem;
+}
+
+.products-container .filters {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
 .product-grid {
+  flex: 1;
+  overflow-y: auto;
   position: relative;
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: .5rem;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 25%, 250px), 1fr));
+  grid-auto-rows: max-content;
   justify-content: center;
   gap: 1rem;
-  align-content: flex-start;
+ 
   
+}
+
+.product-item {
+  --font-size: 1.5rem;
+  font-size: var(--font-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text);
+  gap: .5rem;
 }
 
 .app-layout {
@@ -328,7 +336,6 @@ label, button, input {
   height: 100vh;
   background-color: var(--background);
   height: 100dvh;
- 
 }
 
 .header, .footer {
@@ -418,15 +425,6 @@ label, button, input {
   grid-row-start: 1;
 }
 
-.product-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: var(--text);
-  gap: .5rem;
-}
-
 .product-item .title {
   text-align: center;
 }
@@ -434,13 +432,14 @@ label, button, input {
 .price-tag {
   display: flex;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 .dollars {
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 .cents {
   margin-block: 0 auto;
-  font-size: .8rem;
+  font-size: 1.2rem;
 }
 
 .select {
@@ -555,6 +554,7 @@ label, button, input {
 
 /* Card styles */
 .card {
+  
   max-height: 800px;
   --stagger: 0s;
   box-sizing: border-box;
@@ -815,6 +815,7 @@ label, button, input {
 .from-left {
   transform: translateX(calc(-100% + .5rem + 3px));
   opacity: 0;
+  
 }
 
 .from-right {
@@ -827,12 +828,12 @@ label, button, input {
   opacity: 1;
 }
 
-
 .slide-out {
-  transform: translateX(-100%);
+  max-height: 0;
   opacity: 0;
-  width: 0;
-  height: 0;
+  transform: translateX(-100%);
+  transition: opacity .3s ease , max-height .3s ease .3s, max-width .3s ease .3s, position .3s ease 2s,
+  padding .3s ease .3s, transform .3s ease;
 }
 .cart-item-delete {
   margin: 0;
