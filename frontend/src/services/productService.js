@@ -11,8 +11,10 @@ export async function getProducts(abortController) {
   return data
 }
 
-export async function getProductsWithFilter(types) {
-  const res = await fetch(`${apiUrl}/products?types=${types}`)
+export async function getProductsWithFilter(types, controller) {
+  const res = await fetch(`${apiUrl}/products?types=${types}`, {
+    signal: controller?.signal,
+  })
   const data = await res.json()
   if (!res.ok) throw new Error('Loading products with type failed')
   return data
