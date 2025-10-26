@@ -10,11 +10,7 @@ export function useProducts() {
     const abortController = new AbortController()
     ;(async () => {
       try {
-        let data = null
-        if (!filters.length) {
-          data = await getProducts(abortController)
-        }
-
+        const data = await getProducts(abortController)
         setProducts(data)
       } catch (error) {
         console.error(error)
@@ -27,18 +23,29 @@ export function useProducts() {
   }, [])
 
   useEffect(() => {
+    let updateTimeoutId = null
+    const time = filters.size ? 600 : 0
     ;(async () => {
-      setIsLoading(true)
       try {
-        const data = await getProductsWithFilter(Array.from(filters).join(','))
-        console.log(`data with filters`, data)
-        setProducts(data)
-      } catch (e) {
-        console.error(e)
+        setIsLoading(true)
+        let data = []
+        if (filters.size) {
+          data = await getProductsWithFilter(Array.from(filters).join(','))
+        } else {
+          data = await getProducts()
+        }
+
+        updateTimeoutId = setTimeout(() => setProducts(data), time)
+      } catch (error) {
+        console.error(error)
       } finally {
         setIsLoading(false)
       }
     })()
+
+    return () => {
+      clearTimeout(updateTimeoutId)
+    }
   }, [filters])
 
   function onFilterChange(e) {
@@ -51,5 +58,9 @@ export function useProducts() {
     })
   }
 
-  return { products, isLoading, filters, onFilterChange }
+  function removeProduct(id) {
+    setProducts((prev) => prev.filter((product) => product.id !== id))
+  }
+
+  return { products, isLoading, filters, onFilterChange, removeProduct }
 }
