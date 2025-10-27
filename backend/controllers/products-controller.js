@@ -37,7 +37,7 @@ const getProduct = [
 
   validate,
   async (req, res, next) => {
-    const { id } = validationResult(req)
+    const id = req.params.id
     try {
       const product = await productRepository.getProductById(id)
       if (!product) {
