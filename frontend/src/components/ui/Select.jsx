@@ -1,21 +1,32 @@
-import React, { useRef, useState } from 'react'
+import React, { Children, useState } from 'react'
 // Continue this custom select
-export function Select({ id, options, onChange, value, text, disabled }) {
+export function Select({ id, value, onChange, text, disabled, children }) {
   const [isFocus, setIsFocus] = useState(false)
 
-  function onClickHandler(e) {
-    const value = e.target.dataset.value
-    onChange(value)
+  // Need to update here when
+  function onClickHandler(value, disabled) {
+    console.log('click', value)
+    // const value = e.target.dataset.value
+    // onChange(value)
     setIsFocus(!isFocus)
   }
 
   function onChangeHandler(e) {
-    onChange(e.target.value)
+    console.log('change', e.target.dataset)
   }
 
   function onFocusHandler(e) {
     setIsFocus(!isFocus)
   }
+
+  const items = Children.toArray(children)
+    .filter((child) => child.type === Select.Option)
+    .map((child) => ({
+      value: child.props.value,
+      disabled: child.props.disabled,
+      label: child.props.label,
+      content: child.props.children,
+    }))
 
   return (
     <div className="select">
@@ -35,24 +46,24 @@ export function Select({ id, options, onChange, value, text, disabled }) {
       </button>
 
       <div className="select-items" data-open={isFocus} aria-hidden={true}>
-        {options.map((option) => (
+        {items.map((item) => (
           <div
             className={
-              option.disabled
+              item.disabled
                 ? 'disabled'
-                : value === option.value
+                : value === item.value
                   ? 'selected'
                   : ''
             }
             onFocus={onFocusHandler}
-            key={option.key}
-            onClick={option.disabled ? undefined : onClickHandler}
-            data-value={option.value}
+            key={item.value}
+            onClick={() => onClickHandler(item.value, item.disabled)}
           >
-            {option.text || option.value}
+            {item.content}
           </div>
         ))}
       </div>
+
       <select
         onChange={onChangeHandler}
         name={id}
@@ -60,12 +71,16 @@ export function Select({ id, options, onChange, value, text, disabled }) {
         onFocus={onFocusHandler}
         value={value}
       >
-        {options?.map((option) => (
-          <option key={option.key} value={option.value}>
-            {option.text || option.value}
+        {items?.map((item) => (
+          <option key={item.value} value={item.value}>
+            {item.label}
           </option>
         ))}
       </select>
     </div>
   )
+}
+
+Select.Option = function Option({ children }) {
+  return <>{children}</>
 }
