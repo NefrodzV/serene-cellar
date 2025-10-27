@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useLoading } from './useLoading'
 import { API_URL } from '../config'
-export function useProduct(slug) {
+export function useProduct(id) {
   const [product, setProduct] = useState(null)
   const isLoading = useLoading(product)
 
   useEffect(() => {
     async function getProductWithSlug() {
       try {
-        const response = await fetch(`${API_URL}/products/${slug.trim()}`)
+        const response = await fetch(`${API_URL}/products/${id}`)
         const data = await response.json()
 
         if (!response.ok) {
@@ -21,7 +21,7 @@ export function useProduct(slug) {
     }
 
     if (!product) getProductWithSlug()
-  }, [slug])
+  }, [])
 
   return [product, isLoading]
 }
