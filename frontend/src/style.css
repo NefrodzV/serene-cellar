@@ -425,6 +425,16 @@ label, button, input {
   grid-row-start: 1;
 }
 
+.product-detail .selection {
+  display: flex;
+  flex: 1;
+}
+
+.product-detail .selection > *{
+  
+  flex: 1;
+}
+
 .product-item .title {
   text-align: center;
 }
@@ -444,7 +454,7 @@ label, button, input {
 
 .select {
   position: relative;
-  width: 200px;
+  
   height: fit-content;
 }
 
@@ -486,7 +496,7 @@ label, button, input {
   overflow-y: auto;
   border-radius: 8px;
   top: 100%;
-  width: inherit;
+  width: 100%;
   position: absolute;
   color: var(--text);
   background-color: var(--background);
