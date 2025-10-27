@@ -2,22 +2,25 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Button } from '../ui'
 import { NavLink } from 'react-router-dom'
 export function Drawer({ navItems = [] }) {
-  const mql = window.matchMedia('(min-width: 600px)')
-  const smql = window.matchMedia('(max-width: 600px)')
+  const mql = useRef(window.matchMedia('(min-width: 600px)'))
+  const smql = useRef(window.matchMedia('(max-width: 600px)'))
   const drawerRef = useRef(null)
   let timer
   const [isOpen, setOpen] = useState(() => {
-    const isBigScreen = mql.matches
-    const isSmallScreen = smql.matches
+    const isBigScreen = mql.current.matches
+    const isSmallScreen = smql.current.matches
     if (isBigScreen) return true
     if (isSmallScreen) return false
   })
   useEffect(() => {
-    mql.addEventListener('change', handleMediaQueryChange)
-    smql.addEventListener('change', handleSmallScreenMediaQueryChange)
+    mql.current.addEventListener('change', handleMediaQueryChange)
+    smql.current.addEventListener('change', handleSmallScreenMediaQueryChange)
     return () => {
-      mql.removeEventListener('change', handleMediaQueryChange)
-      smql.removeEventListener('change', handleSmallScreenMediaQueryChange)
+      mql.current.removeEventListener('change', handleMediaQueryChange)
+      smql.current.removeEventListener(
+        'change',
+        handleSmallScreenMediaQueryChange
+      )
       clearTimeout(timer)
     }
   }, [])
@@ -79,25 +82,6 @@ export function Drawer({ navItems = [] }) {
             <span>{item.text}</span>
           </NavLink>
         ))}
-        {/* <NavLink className="link" to={'/shop'}>
-          <i className="fa-solid fa-wine-glass icon"></i> Shop
-        </NavLink> */}
-        {/*{isAuthenticated ? (
-          <NavLink className="link" to={'#'}>
-            <i className="fa-solid fa-user"></i> <span>Profile</span>
-          </NavLink>
-        ) : (
-          <NavLink className="link" to={'/login'}>
-            <i class="fa-solid fa-user"></i>
-            <span>Login</span>
-          </NavLink>
-        )}
-        
-        <NavLink className="link" to={'/cart'}>
-          <i className="cart fa-solid fa-cart-shopping"></i>
-
-          <span>Cart {cart?.totalItems ? `(${cart?.totalItems})` : ''}</span>
-        </NavLink> */}
       </nav>
     </>
   )
