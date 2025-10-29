@@ -5,9 +5,8 @@ export function Select({ id, value, onChange, text, disabled, children }) {
 
   // Need to update here when
   function onClickHandler(value, disabled) {
-    console.log('click', value)
-    // const value = e.target.dataset.value
-    // onChange(value)
+    if (disabled) return
+    onChange(value, id)
     setIsFocus(!isFocus)
   }
 
@@ -48,13 +47,13 @@ export function Select({ id, value, onChange, text, disabled, children }) {
       <div className="select-items" data-open={isFocus} aria-hidden={true}>
         {items.map((item) => (
           <div
-            className={
+            className={`item ${
               item.disabled
                 ? 'disabled'
                 : value === item.value
                   ? 'selected'
                   : ''
-            }
+            }`}
             onFocus={onFocusHandler}
             key={item.value}
             onClick={() => onClickHandler(item.value, item.disabled)}

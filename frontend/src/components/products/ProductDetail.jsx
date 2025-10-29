@@ -7,12 +7,27 @@ import { ErrorsMessages } from '../../constants/ErrorMessages'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { PriceTag, Spinner } from '../ui'
+import { useState } from 'react'
 export function ProductDetail() {
   const { id } = useParams()
   const [product, isLoading] = useProduct(id)
-  const { variant, quantity, packSizeHandler, quantityHandler, total } =
-    useProductSelection(product?.prices)
+  const [variant, setVariant] = useState(null)
+  const [quantity, setQuantity] = useState(1)
   const { addItem } = useCart()
+  const onSelection = (value, name) => {
+    switch (name) {
+      case 'variant':
+        const selectedVariant = product.variants.find(
+          (variant) => variant.priceId === value
+        )
+        return setVariant(selectedVariant)
+      case 'quantity':
+        return setQuantity(value)
+      default:
+        throw new Error('onSelection case not defined')
+    }
+  }
+
   return (
     <>
       {isLoading ? (
@@ -32,36 +47,16 @@ export function ProductDetail() {
                 <>
                   <div className="selection flex-1rem">
                     <div>
-                      <label htmlFor="packSize">
-                        <b>Pack Size</b>
-                      </label>
-                      {/* <Select
-                        options={Object.entries(prices).map(
-                          ([key, { unit, value, purchasable }]) => ({
-                            key,
-                            value: key,
-                            text: `${unit} - $${value} ${ErrorsMessages.SELECT[errors[0]] || ''}`,
-                            disabled: purchasable === false,
-                          })
-                        )}
-                        value={packSize || ''}
-                        text={
-                          packSize
-                            ? `${prices[packSize].unit} - $${prices[packSize].value}`
-                            : null
-                        }
-                        onChange={packSizeHandler}
-                      /> */}
-                    </div>
-
-                    <div>
-                      <label htmlFor="quantity">
-                        <b>Quantity</b>
-                      </label>
                       <Select
-                        value={variant}
-                        text={'Select product variant'}
-                        onChange={(e) => console.log('Seleciton changed', e)}
+                        aria-label="Product selection"
+                        id={'variant'}
+                        value={variant?.priceId || ''}
+                        text={
+                          variant
+                            ? `$${variant.price} ${variant.package} ${variant.containerKind} ${variant.containerVolumeMl} mL`
+                            : 'Select product'
+                        }
+                        onChange={onSelection}
                       >
                         {product.variants.map((variant) => (
                           <Select.Option
@@ -81,32 +76,32 @@ export function ProductDetail() {
                           </Select.Option>
                         ))}
                       </Select>
+                    </div>
 
-                      {/* <Select
-                        options={[...(Array(prices[packSize]?.stock) || 0)].map(
-                          (_, i) => ({
-                            key: i + 1,
-                            value: i + 1,
-                          })
-                        )}
-                        onChange={quantityHandler}
+                    <div>
+                      <Select
+                        aria-label="Quantity selection"
+                        id={'quantity'}
                         value={quantity}
-                        disabled={prices[packSize]?.purchasable === false}
-                      /> */}
+                        text={variant ? quantity : 'Select a product first'}
+                        onChange={onSelection}
+                        disabled={variant === null || !variant.purchasable}
+                      >
+                        {[...Array(10).keys()].map((val, i) => (
+                          <Select.Option key={i} value={i + 1} label={i + 1}>
+                            <span>{val + 1}</span>
+                          </Select.Option>
+                        ))}
+                      </Select>
                     </div>
                   </div>
                   <p>
                     <b className="block">Total:</b>
-                    {`$${total}`}
+                    {variant
+                      ? ` $${(variant.price * quantity).toFixed(2)}`
+                      : ' No product select to calculate total'}
                   </p>
-                  <Button
-                    variant="accent"
-                    className="fullwidth"
-                    onClick={() => {
-                      // addItem(quantity, prices[packSize].id)
-                    }}
-                    // disabled={prices[packSize]?.errors.length > 0}
-                  >
+                  <Button variant="accent" className="fullwidth">
                     <i className="fa-solid fa-cart-plus"></i>
                     Add to cart
                   </Button>

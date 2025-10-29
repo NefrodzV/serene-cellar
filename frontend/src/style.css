@@ -428,6 +428,7 @@ label, button, input {
 .product-detail .selection {
   display: flex;
   flex: 1;
+  gap: .5rem;
 }
 
 .product-detail .selection > *{
@@ -510,9 +511,12 @@ label, button, input {
 }
 
 .select-items > *  {
+  font-weight: bold;
   display: flex;
   align-items: center;
   height: var(--control-height);
+  gap: .5rem;
+  text-transform: capitalize;
 }
 
 .select-items:last-child {
