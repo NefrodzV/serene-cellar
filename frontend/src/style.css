@@ -427,8 +427,29 @@ label, button, input {
 
 .product-detail .selection {
   display: flex;
-  flex: 1;
+  /* flex: 1; */
   gap: .5rem;
+}
+
+.product-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.product-detail-content > * {
+  height: min-content;
+  padding: 0;
+  margin: 0;
+}
+
+.product-detail-footer {
+  margin-top: auto;
+}
+
+.product-detail .title {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .product-detail .selection > *{
@@ -439,6 +460,11 @@ label, button, input {
 .product-item .title {
   text-align: center;
 }
+
+/* .total, .add-to-cart {
+  margin-top: auto;
+  margin-bottom: 0;
+} */
 /* Price tag */
 .price-tag {
   display: flex;
