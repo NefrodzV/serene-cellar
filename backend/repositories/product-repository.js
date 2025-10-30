@@ -20,7 +20,8 @@ export async function getProducts() {
               'container_volume_ml', c.ml,
               'price', pr.amount,
               'priceId', pr.id,
-              'currency', pr.currency
+              'currency', pr.currency,
+              'stock', pv.stock
           ) ORDER BY pkg.quantity_per_package)
            FROM product_variants pv
            INNER JOIN packages pkg ON pkg.id = pv.package_id
@@ -88,7 +89,8 @@ export async function getProductById(id) {
               'purchasable', 
               CASE WHEN pv.stock > 0 THEN true ELSE false END,
               'error', 
-              CASE WHEN pv.stock = 0 THEN 'OUT_OF_STOCK' ELSE null END
+              CASE WHEN pv.stock = 0 THEN 'OUT_OF_STOCK' ELSE null END,
+              'stock', pv.stock
           ) ORDER BY pkg.quantity_per_package)
            FROM product_variants pv
            INNER JOIN packages pkg ON pkg.id = pv.package_id
