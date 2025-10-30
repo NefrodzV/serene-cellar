@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCart, useProduct, useProductSelection } from '../../hooks'
+import { useCart, useProduct } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Select } from '../ui/Select'
 import { Error } from '../ErrorMessage'
@@ -35,7 +35,7 @@ export function ProductDetail() {
       ) : (
         <Card variant="primary" className="product-detail-card rounded flex">
           <div className="product-detail">
-            <div>
+            <div className="product-detail-content">
               <p>{product.description}</p>
               <p>
                 <b>Spirit:</b> {product.typeOfAlcohol}
@@ -87,7 +87,7 @@ export function ProductDetail() {
                         onChange={onSelection}
                         disabled={variant === null || !variant.purchasable}
                       >
-                        {[...Array(10).keys()].map((val, i) => (
+                        {[...Array(variant?.stock).keys()].map((val, i) => (
                           <Select.Option key={i} value={i + 1} label={i + 1}>
                             <span>{val + 1}</span>
                           </Select.Option>
@@ -95,19 +95,25 @@ export function ProductDetail() {
                       </Select>
                     </div>
                   </div>
-                  <p>
-                    <b className="block">Total:</b>
-                    {variant
-                      ? ` $${(variant.price * quantity).toFixed(2)}`
-                      : ' No product select to calculate total'}
-                  </p>
-                  <Button variant="accent" className="fullwidth">
-                    <i className="fa-solid fa-cart-plus"></i>
-                    Add to cart
-                  </Button>
+                  <div className="product-detail-footer">
+                    {variant && (
+                      <p className="total">
+                        <b className="block">Total:</b>
+                        {`$${(variant.price * quantity).toFixed(2)}`}
+                      </p>
+                    )}
+                    <Button
+                      disabled={!variant}
+                      variant="accent"
+                      className="fullwidth add-to-cart"
+                    >
+                      <i className="fa-solid fa-cart-plus"></i>
+                      Add to cart
+                    </Button>
+                  </div>
                 </>
               ) : (
-                <Error text={ErrorsMessages[errors[0]]} />
+                <Error text={product.error} />
               )}
             </div>
             <img
