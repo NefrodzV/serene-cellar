@@ -57,7 +57,7 @@ export function getLocalCart() {
   return JSON.parse(localStorage.getItem(CART_KEY)) || []
 }
 
-export function localCartHasItems() {
+export function hasItems() {
   const items = localStorage.getItem(CART_KEY) || []
   return items.length > 0
 }

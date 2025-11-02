@@ -1,20 +1,9 @@
 import { createContext, useEffect, useState } from 'react'
 import { useMessages, useUser } from '../hooks'
 import * as localCartService from '../services/localCartService'
+
+import * as authCartService from '../services/authCartService'
 import React from 'react'
-import {
-  addItemToLocalCart,
-  addItemToRemoteCart,
-  deleteItemFromLocalCart,
-  deleteItemFromRemoteCart,
-  updateItemFromLocalCart,
-  updateItemFromRemoteCart,
-  fetchCart,
-  localCartHasItems,
-  syncCart,
-  validateLocalCartItems,
-  getLocalCart,
-} from '../services/cartService'
 
 export const CartContext = createContext()
 
@@ -36,10 +25,10 @@ export function CartProvider({ children }) {
     async function loadCart() {
       try {
         let data = null
-        if (localCartHasItems()) {
-          data = await syncCart()
+        if (localCartService.hasItems()) {
+          data = await authCartService.syncCart()
         } else {
-          data = await fetchCart()
+          data = await authCartService.fetchCart()
         }
         setCart(data.cart)
       } catch (e) {
@@ -49,8 +38,8 @@ export function CartProvider({ children }) {
 
     async function getCartSnapshot() {
       try {
-        const items = await getLocalCart()
-        const data = await validateLocalCartItems(items)
+        const items = await authCartService.getLocalCart()
+        const data = await authCartService.validateLocalCartItems(items)
 
         setCart(data.cart)
       } catch (e) {
@@ -60,7 +49,7 @@ export function CartProvider({ children }) {
 
     if (isAuthenticated) {
       loadCart()
-    } else if (localCartHasItems()) {
+    } else if (localCartService.hasItems()) {
       getCartSnapshot()
     }
   }, [isAuthenticated])
@@ -69,7 +58,7 @@ export function CartProvider({ children }) {
     try {
       console.log('item', item, quantity)
       const data = isAuthenticated
-        ? await addItemToRemoteCart(priceId, Number(quantity))
+        ? await authCartService.addItem(priceId, Number(quantity))
         : await localCartService.addItem(item, quantity)
       sendMessage('Item has been added to cart')
       setCart(data?.cart)
@@ -81,7 +70,7 @@ export function CartProvider({ children }) {
   async function deleteItem(item) {
     try {
       const data = isAuthenticated
-        ? await deleteItemFromRemoteCart(item.id)
+        ? await authCartService.deleteItem(item.id)
         : await localCartService.deleteItem(item.priceId)
       console.log(data)
 
@@ -105,7 +94,7 @@ export function CartProvider({ children }) {
     console.log(quantity)
     try {
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(item.id, quantity)
+        ? await authCartService.updateItem(item.id, quantity)
         : await localCartService.updateItem(item.priceId, quantity)
       setCart(data.cart)
     } catch (error) {
@@ -117,7 +106,7 @@ export function CartProvider({ children }) {
     try {
       const incrementedQuantity = quantity + 1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(item.id, incrementedQuantity)
+        ? await authCartService.updateItem(item.id, incrementedQuantity)
         : await localCartService.updateItem(item.priceId, incrementedQuantity)
       setCart(data.cart)
     } catch (error) {
@@ -129,7 +118,7 @@ export function CartProvider({ children }) {
     try {
       const decreasedQuantity = quantity + -1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(item.id, decreasedQuantity)
+        ? await authCartService.updateItem(item.id, decreasedQuantity)
         : await localCartService.updateItem(item.priceId, decreasedQuantity) // Need to update the local functions
 
       setCart(data.cart)
