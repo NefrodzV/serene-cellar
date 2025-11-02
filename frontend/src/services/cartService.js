@@ -1,7 +1,6 @@
 import { API_URL } from '../config'
 import { v4 as uuidv4 } from 'uuid'
-const CART_KEY = 'cart'
-
+import { CART_KEY } from '../config'
 export async function fetchCart() {
   const res = await fetch(`${API_URL}/me/cart`, {
     credentials: 'include',

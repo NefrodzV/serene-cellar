@@ -106,6 +106,7 @@ export function ProductDetail() {
                       disabled={!variant}
                       variant="accent"
                       className="fullwidth add-to-cart"
+                      onClick={() => addItem(variant, quantity)}
                     >
                       <i className="fa-solid fa-cart-plus"></i>
                       Add to cart

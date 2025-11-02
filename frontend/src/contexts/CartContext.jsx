@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useMessages, useUser } from '../hooks'
+import * as localCartService from '../services/localCartService'
 import React from 'react'
 import {
   addItemToLocalCart,
@@ -40,7 +41,6 @@ export function CartProvider({ children }) {
         } else {
           data = await fetchCart()
         }
-
         setCart(data.cart)
       } catch (e) {
         console.error('Error loading cart:', e)
@@ -65,14 +65,14 @@ export function CartProvider({ children }) {
     }
   }, [isAuthenticated])
 
-  async function addItem(quantity, priceId) {
+  async function addItem(item, quantity) {
     try {
+      console.log('item', item, quantity)
       const data = isAuthenticated
         ? await addItemToRemoteCart(priceId, Number(quantity))
-        : await addItemToLocalCart(priceId, quantity)
-
-      setCart(data?.cart)
+        : await localCartService.addItem(item, quantity)
       sendMessage('Item has been added to cart')
+      setCart(data?.cart)
     } catch (error) {
       console.error('Error adding item:', error)
     }
