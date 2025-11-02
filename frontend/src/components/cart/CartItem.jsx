@@ -86,14 +86,14 @@ export function CartItem({ index, item }) {
             </Button>
 
             <input
-              onChange={(e) => {
-                // setError('')
-                const value = e.target.value.replace(/\D/g, '')
-                if (Number(value) > stock) {
-                  // setError('Quantity unavailable')
-                }
-                setRawQuantity(value)
-              }}
+              // onChange={(e) => {
+              //   // setError('')
+              //   const value = e.target.value.replace(/\D/g, '')
+              //   if (Number(value) > stock) {
+              //     // setError('Quantity unavailable')
+              //   }
+              //   setRawQuantity(value)
+              // }}
               name="quantity"
               style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
               value={rawQuantity}
@@ -103,20 +103,21 @@ export function CartItem({ index, item }) {
               pattern="[0-9]*"
               min={MIN_ITEM_QUANTITY}
               max={stock}
-              onBlur={(e) => {
-                // setError('')
-                if (rawQuantity === '' || Number(rawQuantity) <= 0) {
-                  setRawQuantity(String(quantity))
-                  return
-                }
-                const val = rawQuantity.replace(/^0+(?!$)/g, '')
-                setRawQuantity(val)
-                if (val > stock) {
-                  setRawQuantity(String(quantity))
-                  return
-                }
-                updateItem(item, Number(rawQuantity))
-              }}
+              readOnly
+              // onBlur={(e) => {
+              //   // setError('')
+              //   if (rawQuantity === '' || Number(rawQuantity) <= 0) {
+              //     setRawQuantity(String(quantity))
+              //     return
+              //   }
+              //   const val = rawQuantity.replace(/^0+(?!$)/g, '')
+              //   setRawQuantity(val)
+              //   if (val > stock) {
+              //     setRawQuantity(String(quantity))
+              //     return
+              //   }
+              //   updateItem(item, Number(rawQuantity))
+              // }}
             />
 
             <Button
