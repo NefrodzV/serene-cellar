@@ -7,43 +7,46 @@ export function CartItem({ index, item }) {
   const DELETE_MS = 500
   const STAGGER_RATE_INCREASE = 0.2
   const {
-    id,
+    priceId,
     name,
     images,
     quantity,
     price,
-    unit,
+    package: unit,
     stock,
     hasDiscount,
-    discountPercent,
-    finalUnitPrice,
+    lineTotal,
   } = item
+
   const [hasMounted, setHasMounted] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { increment, decrement, updateItem, deleteItem } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
   useEffect(() => {
-    if (!stock) {
-      setError('Item is out of stock')
-    }
+    // if (!stock) {
+    //   setError('Item is out of stock')
+    // }
+    console.log(`setting raw qty`, quantity)
     setRawQuantity(String(quantity))
   }, [quantity])
-
+  console.log('elength', rawQuantity.length)
   useEffect(() => {
     requestAnimationFrame(() => setHasMounted(true))
   }, [])
 
   return (
     <Card
-      key={item.id}
+      key={item.priceId}
       as="li"
       variant="primary"
       style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
       className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'cart-item-delete' : ''}`}
-      onTransitionEnd={() => {
+      onTransitionEnd={(e) => {
+        if (e.target !== e.currentTarget) return
         if (isDeleting) {
           setTimeout(() => {
-            deleteItem(item.id)
+            console.log(item)
+            deleteItem(item)
           }, DELETE_MS)
         }
       }}
@@ -65,19 +68,19 @@ export function CartItem({ index, item }) {
               <span className={`${hasDiscount ? 'line-through' : ''}`}>
                 ${price}
               </span>
-              {hasDiscount && (
+              {/* {hasDiscount && (
                 <>
                   <span>&#x27A1;</span> <span>${finalUnitPrice}</span>{' '}
                   <span className="green bold">{discountPercent}% OFF</span>
                 </>
-              )}
+              )} */}
             </p>
           </div>
           <div className="item-control">
             <Button
               variant="secondary"
               disabled={quantity === MIN_ITEM_QUANTITY}
-              onClick={() => decrement(id, Number(quantity))}
+              onClick={() => decrement(item, Number(quantity))}
             >
               -
             </Button>
@@ -92,9 +95,7 @@ export function CartItem({ index, item }) {
                 setRawQuantity(value)
               }}
               name="quantity"
-              style={{
-                width: `${rawQuantity.length}ch`,
-              }}
+              style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
               value={rawQuantity}
               className="input primary quantity"
               type="text"
@@ -114,14 +115,14 @@ export function CartItem({ index, item }) {
                   setRawQuantity(String(quantity))
                   return
                 }
-                updateItem(id, Number(rawQuantity))
+                updateItem(item, Number(rawQuantity))
               }}
             />
 
             <Button
               variant="secondary"
               disabled={quantity >= stock}
-              onClick={() => increment(id, Number(rawQuantity))}
+              onClick={() => increment(item, Number(rawQuantity))}
             >
               +
             </Button>
@@ -136,9 +137,7 @@ export function CartItem({ index, item }) {
               <i class="fa-solid fa-trash"></i>
             </Button>
           </div>
-          <span className="cart-item-subtotal bold">
-            $ {item?.finalLineTotal}
-          </span>
+          <span className="cart-item-subtotal bold">$ {item?.lineTotal}</span>
         </div>
       </article>
     </Card>

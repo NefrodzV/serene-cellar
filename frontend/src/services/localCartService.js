@@ -25,9 +25,11 @@ export async function addItem(item, quantity) {
   return validatedCart
 }
 
-export async function deleteItem(itemId) {
+export async function deleteItem(priceId) {
   const items = getLocalCart()
-  const itemsUpdated = items.filter((i) => !(i.id === itemId))
+  const itemsUpdated = items.filter((i) => !(i.priceId === priceId))
+
+  console.log('updated', itemsUpdated)
   localStorage.setItem(CART_KEY, JSON.stringify(itemsUpdated))
 
   if (itemsUpdated.length) {
@@ -38,9 +40,9 @@ export async function deleteItem(itemId) {
   }
 }
 
-export async function updateItem(itemId, quantity) {
+export async function updateItem(priceId, quantity) {
   const items = getLocalCart()
-  const itemIndex = items.findIndex((i) => i.id === itemId)
+  const itemIndex = items.findIndex((i) => i.priceId === priceId)
   if (itemIndex === -1)
     throw new Error('No index found for this item in local storage')
   const itemFound = items[itemIndex]

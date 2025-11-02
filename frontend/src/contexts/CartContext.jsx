@@ -78,11 +78,11 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function deleteItem(itemId) {
+  async function deleteItem(item) {
     try {
       const data = isAuthenticated
-        ? await deleteItemFromRemoteCart(itemId)
-        : await deleteItemFromLocalCart(itemId)
+        ? await deleteItemFromRemoteCart(item.id)
+        : await localCartService.deleteItem(item.priceId)
       console.log(data)
 
       if (data?.cart) {
@@ -101,36 +101,36 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function updateItem(itemId, quantity) {
+  async function updateItem(item, quantity) {
     console.log(quantity)
     try {
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(itemId, quantity)
-        : await updateItemFromLocalCart(itemId, quantity)
+        ? await updateItemFromRemoteCart(item.id, quantity)
+        : await localCartService.updateItem(item.priceId, quantity)
       setCart(data.cart)
     } catch (error) {
       console.error('Error updating item:', error)
     }
   }
 
-  async function increment(itemId, quantity) {
+  async function increment(item, quantity) {
     try {
       const incrementedQuantity = quantity + 1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(itemId, incrementedQuantity)
-        : await updateItemFromLocalCart(itemId, incrementedQuantity)
+        ? await updateItemFromRemoteCart(item.id, incrementedQuantity)
+        : await localCartService.updateItem(item.priceId, incrementedQuantity)
       setCart(data.cart)
     } catch (error) {
       console.error(error)
     }
   }
 
-  async function decrement(itemId, quantity) {
+  async function decrement(item, quantity) {
     try {
       const decreasedQuantity = quantity + -1
       const data = isAuthenticated
-        ? await updateItemFromRemoteCart(itemId, decreasedQuantity)
-        : await updateItemFromLocalCart(itemId, decreasedQuantity) // Need to update the local functions
+        ? await updateItemFromRemoteCart(item.id, decreasedQuantity)
+        : await localCartService.updateItem(item.priceId, decreasedQuantity) // Need to update the local functions
 
       setCart(data.cart)
     } catch (error) {

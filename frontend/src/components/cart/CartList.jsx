@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 export function CartList() {
   const { cart, deleteItem } = useCart()
-
+  console.log(cart)
   const [hasMounted, setHasMounted] = useState(false)
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export function CartList() {
   return (
     <ul aria-label="Your current cart items" className="cart-list">
       {cart?.items?.map((item, i) => (
-        <CartItem item={item} key={item.id ?? item.uuid} index={i} />
+        <CartItem item={item} key={item.priceId ?? item.uuid} index={i} />
       ))}
     </ul>
   )
