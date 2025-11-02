@@ -542,7 +542,7 @@ label, button, input {
   align-items: center;
   height: var(--control-height);
   gap: .5rem;
-  text-transform: capitalize;
+  
 }
 
 .select-items:last-child {
