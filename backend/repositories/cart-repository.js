@@ -138,6 +138,9 @@ export async function validateLocalCartItems(items) {
         lc.price_id,
         pr.name,
         lc.quantity,
+        pkg.display_name as package,
+        c.kind as container, 
+        c.ml,
         ROUND(lc.quantity * p.amount, 2) AS line_total,
         COALESCE(pv.stock, 0) > 0 AND pv.stock >= lc.quantity AS purchasable,
         p.amount AS price,
@@ -163,6 +166,8 @@ export async function validateLocalCartItems(items) {
         INNER JOIN prices p ON p.id = lc.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
         INNER JOIN products pr ON pr.id = pv.product_id
+        INNER JOIN packages pkg ON pkg.id = pv.package_id
+        INNER JOIN containers c ON c.id = pv.container_id
       ) item
     `,
     params
