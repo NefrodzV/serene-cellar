@@ -38,8 +38,8 @@ export function CartProvider({ children }) {
 
     async function getCartSnapshot() {
       try {
-        const items = await authCartService.getLocalCart()
-        const data = await authCartService.validateLocalCartItems(items)
+        const items = await localCartService.getLocalCart()
+        const data = await localCartService.validateLocalCartItems(items)
 
         setCart(data.cart)
       } catch (e) {
