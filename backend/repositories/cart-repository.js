@@ -11,11 +11,15 @@ export async function getCartByUserId(userId) {
       COALESCE(SUM(item.quantity), 0) AS total_items,
       COALESCE(json_agg(item), '[]'::json) AS items
       FROM (
-        SELECT 
+        SELECT
+        prod.name,
         ci.id,
         ci.quantity,
         pv.stock,
         p.amount AS price,
+        pkg.display_name as package,
+        c.ml,
+        c.kind as container,
         COALESCE(pv.stock, 0) > 0 AND pv.stock >= ci.quantity AS purchasable,
         ROUND(ci.quantity * p.amount, 2) as line_total,
         CASE
@@ -38,6 +42,9 @@ export async function getCartByUserId(userId) {
         FROM cart_items ci
         INNER JOIN prices p ON p.id = ci.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
+        INNER JOIN products prod ON prod.id = pv.product_id
+        INNER JOIN packages pkg ON pkg.id = pv.package_id
+        INNER JOIN containers c ON c.id = pv.container_id
         WHERE cart_id = (SELECT id FROM carts WHERE user_id=$1)
       ) item 
     `,
@@ -100,8 +107,10 @@ export async function getItemsByUserId(userId) {
         SELECT 
         product_id,
         price_id 
-        FROM cart_items 
-        WHERE cart_id=(SELECT id from cart WHERE user_id=$1)`,
+        FROM cart_items ci
+        INNER JOIN prices p ON p.id= ci.price_id
+        INNER JOIN product_variants pv ON pv.id = p.variant_id
+        WHERE cart_id=(SELECT id from carts WHERE user_id=$1)`,
     [userId]
   )
 
@@ -118,7 +127,6 @@ export async function createUserCart(userId) {
 }
 
 export async function validateLocalCartItems(items) {
-  console.log(items)
   const values = items
     .map((_, i) => `(CAST($${i * 2 + 1} AS int),CAST($${i * 2 + 2} AS int))`)
     .join(',')
@@ -173,6 +181,5 @@ export async function validateLocalCartItems(items) {
     params
   )
 
-  console.dir(rows, { depth: null })
   return camelize(rows[0]) || null
 }
