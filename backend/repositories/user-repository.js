@@ -67,4 +67,15 @@ export const userRepository = {
     )
     return rows[0]
   },
+
+  async getUserById(id) {
+    const { rows } = await db.query('SELECT * FROM users WHERE id=$1', [id])
+    return camelize(rows[0])
+  },
+  async updateUserCustomerId(id, value) {
+    await db.query(`UPDATE users SET customer_id=$1 WHERE user_id=$2`, [
+      value,
+      id,
+    ])
+  },
 }
