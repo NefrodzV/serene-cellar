@@ -45,7 +45,6 @@ export function CartItem({ index, item }) {
         if (e.target !== e.currentTarget) return
         if (isDeleting) {
           setTimeout(() => {
-            console.log(item)
             deleteItem(item)
           }, DELETE_MS)
         }
