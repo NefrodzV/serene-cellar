@@ -199,10 +199,6 @@ label, button, input {
   
 }
 
-.title {
-  font-size: var(--font-size);
-}
-
 .logo {
   height: 100%;
 }
@@ -328,6 +324,9 @@ label, button, input {
   text-decoration: none;
   color: var(--text);
   gap: .5rem;
+}
+.product-item .title {
+  font-size: 1.5rem;
 }
 
 .app-layout {
@@ -457,8 +456,9 @@ label, button, input {
   flex: 1;
 }
 
-.product-item .title {
+.product-item .product-name {
   text-align: center;
+  font-size: 1.5rem;
 }
 
 /* .total, .add-to-cart {
