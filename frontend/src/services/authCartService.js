@@ -1,5 +1,6 @@
 import { API_URL } from '../config'
 import { CART_KEY } from '../config'
+import { getLocalCart } from './localCartService'
 export async function fetchCart() {
   const res = await fetch(`${API_URL}/me/cart`, {
     credentials: 'include',
@@ -23,7 +24,7 @@ export async function addItem(priceId, quantity) {
 
     body: JSON.stringify({ priceId, quantity }),
   }
-  const res = await fetch(`${API_URL}/me/cart`, options)
+  const res = await fetch(`${API_URL}/me/cart/items`, options)
   const data = await res.json()
   if (!res.ok) {
     throw new Error(data || 'Failed to add item to remote cart')
@@ -33,7 +34,7 @@ export async function addItem(priceId, quantity) {
 }
 
 export async function deleteItem(itemId) {
-  const res = await fetch(`${API_URL}/me/cart/${itemId}`, {
+  const res = await fetch(`${API_URL}/me/cart/items/${itemId}`, {
     method: 'DELETE',
     credentials: 'include',
   })
@@ -53,7 +54,7 @@ export async function updateItem(itemId, quantity) {
     credentials: 'include',
     body: JSON.stringify({ quantity }),
   }
-  const res = await fetch(`${API_URL}/me/cart/${itemId}`, options)
+  const res = await fetch(`${API_URL}/me/cart/items/${itemId}`, options)
   const data = await res.json()
   if (!res.ok) {
     throw new Error(data || 'Failed to update item from remote cart')
