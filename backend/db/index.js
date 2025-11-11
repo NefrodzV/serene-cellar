@@ -1,1 +1,1 @@
-export { default } from './pool.js'
+export * as db from './pool.js'
