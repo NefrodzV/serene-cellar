@@ -19,13 +19,14 @@ export const pool = new Pool(poolConfig)
 
 export async function withTransaction(func) {
   const client = await pool.connect()
-  await client.query('BEGIN')
-  await func(client)
-  await client.query('COMMIT')
   try {
+    await client.query('BEGIN')
+    const result = await func(client)
+    await client.query('COMMIT')
+    return result
   } catch (error) {
     await client.query('ROLLBACK')
-    console.error('Error with transaction')
+    console.error('Error with transaction', error)
   } finally {
     client.release()
   }
