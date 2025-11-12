@@ -58,7 +58,7 @@ export function CartProvider({ children }) {
     try {
       console.log('item', item, quantity)
       const data = isAuthenticated
-        ? await authCartService.addItem(priceId, Number(quantity))
+        ? await authCartService.addItem(item.priceId, Number(quantity))
         : await localCartService.addItem(item, quantity)
       sendMessage('Item has been added to cart')
       setCart(data?.cart)
@@ -72,16 +72,9 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await authCartService.deleteItem(item.id)
         : await localCartService.deleteItem(item.priceId)
-      console.log(data)
 
       if (data?.cart) {
-        setCart({
-          ...data.cart,
-          items: data.cart.items.map((item) => ({
-            ...item,
-            delete: false,
-          })),
-        })
+        setCart(data.cart)
       } else {
         setCart(defaultCart)
       }
