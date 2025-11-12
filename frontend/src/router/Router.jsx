@@ -31,6 +31,16 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <CartPage />,
       },
+
+      {
+        path: '/checkout/success',
+        element: <p>Payment was a success!</p>,
+      },
+
+      {
+        path: '/checkout/cancel',
+        element: <p>Payment was cancelled!</p>,
+      },
     ],
   },
 
