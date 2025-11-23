@@ -1,4 +1,5 @@
-const apiUrl = import.meta.env.VITE_SERENE_CELLAR_API_URL
+const apiUrl = import.meta.env.VITE_SERENE_BACKEND
+
 export async function getProducts(abortController) {
   const response = await fetch(apiUrl + '/products', {
     credentials: 'include',
