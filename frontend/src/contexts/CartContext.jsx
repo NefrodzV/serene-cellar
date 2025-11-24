@@ -11,14 +11,14 @@ export function CartProvider({ children }) {
   const { isAuthenticated } = useUser()
   const { sendMessage } = useMessages()
 
-  const defaultCart = {
-    items: [],
-    isEmpty: true,
-    total: 0,
-    subtotal: 0,
-    canCheckout: false,
-  }
-  // Update this to call the functions of the cartService
+      const defaultCart = {
+        items: [],
+        isEmpty: true,
+        total: 0,
+        subtotal: 0,
+            canCheckout: false,
+      }
+      // Update this to call the functions of the cartService
   const [cart, setCart] = useState(defaultCart)
 
   useEffect(() => {

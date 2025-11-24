@@ -1,4 +1,4 @@
-const sereneApiUrl = import.meta.env.VITE_SERENE_CELLAR_API_URL
+const sereneApiUrl = import.meta.env.VITE_SERENE_BACKEND
 const requestOptions = {
   headers: {
     'Content-Type': 'application/json',
