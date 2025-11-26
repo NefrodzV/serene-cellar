@@ -3,9 +3,29 @@ import React from 'react'
 import { useCart, useUser } from '../hooks'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { API_URL } from '../config'
+import { href } from 'react-router-dom'
+
 export function CartPage() {
   const { cart } = useCart()
   const { isAuthenticated } = useUser()
+
+  async function checkoutHandler() {
+    try {
+      const res = await fetch(`${API_URL}/checkout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await res.json()
+      window.location.href = data.url
+    } catch (error) {
+      console.error('Checkout error:', error)
+    }
+  }
 
   return (
     <div className="cart-page">
@@ -26,12 +46,6 @@ export function CartPage() {
               <p>
                 <strong>
                   {' '}
-                  Subtotal ({`${cart.totalItems} items`}): ${cart?.subtotal}
-                </strong>
-              </p>
-              <p>
-                <strong>
-                  {' '}
                   Total ({`${cart.totalItems} items`}): ${cart?.total}
                 </strong>
               </p>
@@ -41,6 +55,7 @@ export function CartPage() {
                 className="fullwidth"
                 disabled={!isAuthenticated || !cart?.canCheckout}
                 type="button"
+                onClick={checkoutHandler}
               >
                 Continue to Payment
               </Button>
