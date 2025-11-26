@@ -40,7 +40,7 @@ export const userRepository = {
     return camelize(rows[0])
   },
   async updateUserCustomerId(id, value) {
-    await db.pool.query(`UPDATE users SET customer_id=$1 WHERE user_id=$2`, [
+    await db.pool.query(`UPDATE users SET customer_id=$1 WHERE id=$2`, [
       value,
       id,
     ])
