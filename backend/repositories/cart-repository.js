@@ -184,4 +184,23 @@ export async function validateLocalCartItems(items) {
   return camelize(rows[0]) || null
 }
 
-async function getItems() {}
+export async function getItemsForStripe(userId) {
+  const { rows } = await db.pool.query(
+    `
+      SELECT 
+        pr.amount, 
+        ci.quantity,
+        pkg.display_name,
+        prod.name
+      FROM  cart_items ci
+      INNER JOIN prices pr ON pr.id = ci.price_id
+      INNER JOIN product_variants pv ON pv.id = pr.variant_id
+      INNER JOIN packages pkg ON pkg.id = pv.package_id
+      INNER JOIN products prod ON prod.id = pv.product_id
+      WHERE cart_id=(SELECT id from carts WHERE user_id=$1)
+    `,
+    [userId]
+  )
+
+  return camelize(rows)
+}
