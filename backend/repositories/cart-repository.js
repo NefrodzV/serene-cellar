@@ -187,7 +187,8 @@ export async function validateLocalCartItems(items) {
 export async function getItemsForStripe(userId) {
   const { rows } = await db.pool.query(
     `
-      SELECT 
+      SELECT
+        pv.id as variant_id,
         pr.amount, 
         ci.quantity,
         pkg.display_name,
