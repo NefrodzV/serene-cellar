@@ -639,7 +639,6 @@ label, button, input {
   font-size: 1rem;
 }
 
-
 .primary-bg {
   background-color: var(--primary5);
 }
@@ -691,7 +690,68 @@ label, button, input {
   
 }
 
+/* Checkout page */ 
+.checkout-page {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.success-icon, .cancel-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  border-radius: 50px;
+}
 
+.success-icon {
+  background-color: #e8f9f0;
+  color: #2ecc71;
+}
+
+.cancel-icon {
+  background-color: #fff3f3;
+  color: #ff6b6b;
+}
+
+.checkout-page .title, .checkout-page summary, .checkout-page .subtitle {
+  text-align: center;
+}
+
+.checkout-page .subtitle {
+  color: #666;
+}
+.checkout-page .rows {
+  display: flex;
+  justify-content: space-between;
+}
+.checkout-page .container {
+  max-width: 90%;
+  
+}
+.checkout {
+  box-shadow: 0 0 3px rgba(0, 0, 0, .5);
+  padding: 2rem;
+  background-color: white;
+  gap: .4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+  gap: .5rem;
+}
+
+.actions > * {
+  flex: 1;
+  text-align: center;
+}
 /* Drawer */
 .drawer[data-open="false"] {
   width: 0;
@@ -801,11 +861,6 @@ label, button, input {
 .cart-list {
   margin: 0;
   
-}
-
-.checkout {
-  box-sizing: border-box;
-  background-color: var(--surface-color);
 }
 
 .empty-list-message {

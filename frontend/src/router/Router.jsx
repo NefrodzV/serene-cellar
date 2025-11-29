@@ -6,6 +6,8 @@ import {
   ProductPage,
   ShopPage,
   RegisterPage,
+  CheckoutSuccess,
+  CheckoutCancel,
 } from '../pages'
 import { TwitterCallback, TwitterAuth } from '../components'
 import { MainLayout } from '../layouts/MainLayout'
@@ -34,12 +36,12 @@ const router = createBrowserRouter([
 
       {
         path: '/checkout/success',
-        element: <p>Payment was a success!</p>,
+        element: <CheckoutSuccess />,
       },
 
       {
         path: '/checkout/cancel',
-        element: <p>Payment was cancelled!</p>,
+        element: <CheckoutCancel />,
       },
     ],
   },
