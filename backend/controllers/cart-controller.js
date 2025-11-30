@@ -12,7 +12,7 @@ const getCart = [
   async (req, res, next) => {
     try {
       const cart = await cartRepository.getCartByUserId(req.user.id)
-      console.log(cart)
+
       if (!cart) return res.status(404).json({ message: 'Cart not found' })
       return res.json({ cart })
     } catch (error) {
