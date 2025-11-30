@@ -20,23 +20,9 @@ const stripe = new Stripe(stripeSecret)
 export const createSession = [
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const user = await userRepository.getUserById(req.user.id)
-    let customerId = user?.customerId
-    let customer
-    if (!customerId) {
-      customer = await stripe.customers.create({
-        name: `${user.name} ${user.lastName}`,
-        email: user.email,
-      })
-
-      await userRepository.updateUserCustomerId(user.id, customer.id)
-      customerId = customer.id
-    }
-
     const cartItems = await getItemsForStripe(req.user.id)
 
     const session = await stripe.checkout.sessions.create({
-      customer: customerId,
       line_items: cartItems.map((item) => ({
         quantity: item.quantity,
         price_data: {
@@ -68,7 +54,6 @@ export const hook = [
     let event
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret)
-
       if (event.type === 'checkout.session.completed') {
         const session = event.data.object
         const lineItems = await stripe.checkout.sessions.listLineItems(
