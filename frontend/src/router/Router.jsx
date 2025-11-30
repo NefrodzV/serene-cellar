@@ -8,8 +8,8 @@ import {
   RegisterPage,
   CheckoutSuccess,
   CheckoutCancel,
+  ProfilePage,
 } from '../pages'
-import { TwitterCallback, TwitterAuth } from '../components'
 import { MainLayout } from '../layouts/MainLayout'
 const router = createBrowserRouter([
   {
@@ -42,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/checkout/cancel',
         element: <CheckoutCancel />,
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage />,
       },
     ],
   },

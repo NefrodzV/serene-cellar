@@ -48,7 +48,7 @@ export function MainLayout() {
                 icon: <i className="fa-solid fa-wine-glass icon"></i>,
               },
               {
-                link: isAuthenticated ? '#' : '/login',
+                link: isAuthenticated ? '/profile' : '/login',
                 text: isAuthenticated ? 'profile' : 'login',
                 icon: <i className="fa-solid fa-user"></i>,
               },
