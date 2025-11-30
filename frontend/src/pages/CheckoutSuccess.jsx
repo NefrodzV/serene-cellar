@@ -13,7 +13,7 @@ export function CheckoutSuccess() {
           <p className="subtitle">
             Thank you for your purchase. Your order is now being prepared.
           </p>
-
+          {/* 
           <h2 className="title">Summary</h2>
           <div className="rows">
             <span>Order ID</span>
@@ -30,7 +30,7 @@ export function CheckoutSuccess() {
           <details>
             <summary>Items</summary>
             order items ul
-          </details>
+          </details> */}
           <div className="actions">
             <Link className="button button-primary">View order</Link>
             <Link className="button button-primary" to={'/shop'}>
