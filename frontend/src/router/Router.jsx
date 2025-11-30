@@ -55,14 +55,6 @@ const router = createBrowserRouter([
     path: '/register',
     element: <RegisterPage />,
   },
-  {
-    path: '/twitter/callback',
-    element: <TwitterCallback />,
-  },
-  {
-    path: '/twitter/auth',
-    element: <TwitterAuth />,
-  },
 ])
 
 export default router
