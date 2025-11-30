@@ -4,7 +4,6 @@ import { useCart, useUser } from '../hooks'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { API_URL } from '../config'
-import { href } from 'react-router-dom'
 
 export function CartPage() {
   const { cart } = useCart()
@@ -36,7 +35,7 @@ export function CartPage() {
       <div className="main">
         <CartList />
         {cart?.isEmpty ? null : (
-          <Card variant="primary" className="height-fit-content rounded">
+          <div className="height-fit-content rounded">
             <div className="checkout ">
               <h2>Checkout Summary</h2>
               <p>
@@ -61,7 +60,7 @@ export function CartPage() {
               </Button>
               <p>Your payment will be processed securely.</p>
             </div>
-          </Card>
+          </div>
         )}
       </div>
     </div>
