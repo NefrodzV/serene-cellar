@@ -1,8 +1,8 @@
-import { db } from '../db/index.js'
+import { pool } from '../db/pool.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function getCartByUserId(userId) {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
       SELECT 
       COALESCE(bool_and(item.purchasable), false) as can_checkout,
@@ -54,7 +54,7 @@ export async function getCartByUserId(userId) {
 }
 
 export async function setCartItemQuantity(itemId, quantity) {
-  await db.pool.query(
+  await pool.query(
     `
       UPDATE cart_items
       SET quantity=$1
@@ -63,7 +63,7 @@ export async function setCartItemQuantity(itemId, quantity) {
   )
 }
 export async function incrementCartItemQuantity(itemId, quantity) {
-  await db.pool.query(
+  await pool.query(
     `
         UPDATE cart_items
         SET quantity = GREATEST(quantity + $1, 0)
@@ -74,7 +74,7 @@ export async function incrementCartItemQuantity(itemId, quantity) {
 }
 
 export async function getCartItemByPriceId(userId, priceId) {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
         SELECT id FROM cart_items
         WHERE price_id=$1 AND
@@ -85,7 +85,7 @@ export async function getCartItemByPriceId(userId, priceId) {
 }
 
 export async function createCartItem(userId, quantity, priceId) {
-  await db.pool.query(
+  await pool.query(
     `INSERT INTO cart_items 
         (cart_id, quantity, price_id)
         VALUES ((SELECT id from carts WHERE user_id=$1), $2, $3) ON CONFLICT(price_id) DO UPDATE SET quantity = EXCLUDED.quantity + cart_items.quantity`,
@@ -94,7 +94,7 @@ export async function createCartItem(userId, quantity, priceId) {
 }
 
 export async function deleteCartItem(itemId) {
-  await db.pool.query(
+  await pool.query(
     `DELETE FROM cart_items 
         WHERE id=$1`,
     [itemId]
@@ -102,7 +102,7 @@ export async function deleteCartItem(itemId) {
 }
 
 export async function getItemsByUserId(userId) {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
         SELECT 
         product_id,
@@ -118,7 +118,7 @@ export async function getItemsByUserId(userId) {
 }
 
 export async function createUserCart(userId) {
-  await db.pool.query(
+  await pool.query(
     `
         INSERT INTO carts
         (user_id) VALUES ($1)`,
@@ -133,7 +133,7 @@ export async function validateLocalCartItems(items) {
   const params = items
     .map((item) => [Number(item.priceId), Number(item.quantity)])
     .flat()
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
       SELECT 
       COALESCE(bool_and(item.purchasable), false) AS can_checkout,
@@ -185,7 +185,7 @@ export async function validateLocalCartItems(items) {
 }
 
 export async function getItemsForStripe(userId) {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
       SELECT
         pv.id as variant_id,

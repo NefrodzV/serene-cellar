@@ -1,8 +1,8 @@
-import { db } from '../db/index.js'
+import { pool } from '../db/pool.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function getProducts() {
-  const { rows } = await db.pool.query(`
+  const { rows } = await pool.query(`
     SELECT 
       p.id,
       p.name,
@@ -52,7 +52,7 @@ export async function getProducts() {
 }
 
 export async function getProductById(id) {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
     SELECT 
       p.id,
@@ -123,7 +123,7 @@ export async function getProductById(id) {
 }
 
 export async function getProductAlcoholTypes() {
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     'SELECT DISTINCT type_of_alcohol from products'
   )
 
@@ -132,7 +132,7 @@ export async function getProductAlcoholTypes() {
 
 export async function getProductsByAlcoholType(types) {
   const filter = types.split(',')
-  const { rows } = await db.pool.query(
+  const { rows } = await pool.query(
     `
     SELECT 
       p.id,

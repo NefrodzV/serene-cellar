@@ -1,7 +1,7 @@
 import passport from 'passport'
 import passportJwt from 'passport-jwt'
-import { db } from '../db/index.js'
 import { configDotenv } from 'dotenv'
+import { pool } from '../db/pool.js'
 configDotenv()
 
 const JwtStrategy = passportJwt.Strategy
@@ -22,10 +22,9 @@ passport.use(
     async (jwt_payload, done) => {
       try {
         const { userId } = jwt_payload
-        const { rows } = await db.pool.query(
-          'SELECT * FROM users WHERE id=$1',
-          [userId]
-        )
+        const { rows } = await pool.query('SELECT * FROM users WHERE id=$1', [
+          userId,
+        ])
         if (rows.length === 0) return done(null, false)
         const user = rows[0]
         return done(null, user)
