@@ -50,5 +50,5 @@ export async function getOrdersByUserId(userId) {
     [userId]
   )
 
-  return camelize(rows[0])
+  return camelize(rows)
 }
