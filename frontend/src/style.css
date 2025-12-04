@@ -911,7 +911,10 @@ label, button, input {
 }
 
 .profile-user-details {
+  display: flex;
   font-size: 2rem;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .user-image-wrapper {
