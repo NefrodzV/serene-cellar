@@ -24,6 +24,8 @@ export async function getOrdersByUserId(userId) {
       o.id,
       o.date::text,
       SUM(oi.price * oi.quantity) FILTER (WHERE oi.id IS NOT NULL) AS order_total,
+      o.status,
+      SUM(oi.quantity) FILTER (WHERE oi.id IS NOT NULL) AS total_items,
       json_agg(
           json_build_object(
               'order_item_id', oi.id,
