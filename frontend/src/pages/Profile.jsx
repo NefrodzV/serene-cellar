@@ -4,77 +4,14 @@ import React, { useEffect, useState } from 'react'
 API_URL
 export function ProfilePage() {
   const { user } = useUser()
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      date: '2025/25/12',
-      items: [
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-      ],
-      boughtItems: 3,
-      total: 20.75,
-    },
-    {
-      id: 2,
-      date: '2025/25/12',
-      items: [
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-      ],
-      boughtItems: 3,
-      total: 20.75,
-    },
-    {
-      id: 3,
-      date: '2025/25/12',
-      items: [
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-        {
-          name: 'item name 1',
-          quantity: 2,
-          price: 8.12,
-        },
-      ],
-      boughtItems: 3,
-      total: 20.75,
-    },
-  ])
+
+  const [orders, setOrders] = useState([])
+
+  const status = {
+    PLACED: 'ORDER PLACED',
+    SHIPPED: 'ORDER SHIPPED',
+    DELIVERED: 'DELIVERED',
+  }
 
   useEffect(() => {
     async function getOrders() {
@@ -87,6 +24,7 @@ export function ProfilePage() {
           throw new Error('GET orders status: ', res.status, res.statusText)
         }
         console.log('orders', data)
+        console.log(data)
         setOrders(data.orders)
       } catch (error) {
         console.error(error)
@@ -104,27 +42,26 @@ export function ProfilePage() {
         </span>
         <div className="profile-user-details">
           <div className="profile-username">
-            {user?.name}||user name placeholder
+            {`${user?.first_name} ${user?.last_name}`}
           </div>
-          <div>user email</div>
+          <div>{`${user?.email}`}</div>
         </div>
       </section>
       <section className="orders">
         <h2>Order History</h2>
         <ul className="order-list">
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <li key={order.id} className="order-item">
               <div className="order-item-header">
                 <span className="order-item-date">Date: {order.date}</span>
-                <span className="order-item-total-items">
-                  Items bought: {order.boughtItems}
-                </span>
-                <span className="order-item-total">
-                  Total spent: $ {order.total}
-                </span>
+                <span className="order-item-total">{status[order.status]}</span>
               </div>
               <details>
-                <summary>Items bought</summary>
+                <summary>Items {`(${order.totalItems})`}</summary>
+
+                <div>
+                  <b>Order total: $ {order.orderTotal}</b>
+                </div>
                 <ul className="bought-items-list">
                   {order.items.map((item) => (
                     <li className="bought-item">
@@ -136,9 +73,9 @@ export function ProfilePage() {
                         )}
                       </div>
                       <div className="bought-item-details">
-                        <span>{item.name}</span>
+                        <span>{`${item.productName} (${item.package})`}</span>
                         <span>Bought: {item.quantity}</span>
-                        <span>Price: $ {item.price} ea</span>
+                        <span>Price: $ {item.unitPrice} ea</span>
                       </div>
                     </li>
                   ))}
