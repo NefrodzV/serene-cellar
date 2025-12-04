@@ -21,10 +21,8 @@ export function ProfilePage() {
         })
         const data = await res.json()
         if (!res.ok) {
-          throw new Error('GET orders status: ', res.status, res.statusText)
+          throw new Error('GET orders response: ', res.status, res.statusText)
         }
-        console.log('orders', data)
-        console.log(data)
         setOrders(data.orders)
       } catch (error) {
         console.error(error)
