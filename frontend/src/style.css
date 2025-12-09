@@ -20,7 +20,7 @@
   /** Dimensions */
   --header-footer-height: 60px;
   --control-height: 44px;
-  --border-radius: 8px;
+  --border-radius: 12px;
 }
 
 
@@ -327,6 +327,7 @@ label, button, input {
 }
 .product-item .title {
   font-size: 1.5rem;
+  text-align: center;
 }
 
 .app-layout {
@@ -402,6 +403,11 @@ label, button, input {
 }
 
 /* Product */
+.product-detail-page {
+  padding: .5rem;
+  flex: 1;
+  display: flex;
+}
 
 .product-detail {
   width: 100%;
@@ -426,7 +432,6 @@ label, button, input {
 
 .product-detail .selection {
   display: flex;
-  /* flex: 1; */
   gap: .5rem;
 }
 
@@ -461,10 +466,6 @@ label, button, input {
   font-size: 1.5rem;
 }
 
-/* .total, .add-to-cart {
-  margin-top: auto;
-  margin-bottom: 0;
-} */
 /* Price tag */
 .price-tag {
   display: flex;
@@ -497,7 +498,7 @@ label, button, input {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: var(--background);
+  background-color: transparent;
 }
 
 .select .button:disabled {
@@ -521,12 +522,12 @@ label, button, input {
 .select-items {
   height: 132px;
   overflow-y: auto;
-  border-radius: 8px;
+  border-radius:var(--border-radius);
   top: 100%;
   width: 100%;
   position: absolute;
   color: var(--text);
-  background-color: var(--background);
+  background-color: #fff;
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
@@ -594,7 +595,6 @@ label, button, input {
 
 /* Card styles */
 .card {
-  
   max-height: 800px;
   --stagger: 0s;
   box-sizing: border-box;
@@ -602,6 +602,8 @@ label, button, input {
   transition: box-shadow .3s ease, height .3s ease, transform  .3s ease var(--stagger)  , opacity .5s ease var(--stagger);
   color: var(--text);
   text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 
 .card-neutral {
@@ -841,6 +843,7 @@ label, button, input {
 
 /* Cart Page */
 .cart-page {
+  padding: .5rem;
   flex: 1;
   display: flex;
   flex-direction: column;

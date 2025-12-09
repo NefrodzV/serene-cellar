@@ -1,7 +1,7 @@
 import React from 'react'
 export function Card({
   as: Component = 'div',
-  variant = 'neutral',
+  variant,
   className = '',
   children,
   ...props

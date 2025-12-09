@@ -29,11 +29,11 @@ export function ProductDetail() {
   }
 
   return (
-    <>
+    <div className="product-detail-page">
       {isLoading ? (
         <Spinner />
       ) : (
-        <Card variant="primary" className="product-detail-card rounded flex">
+        <Card className="product-detail-card rounded flex">
           <div className="product-detail">
             <div className="product-detail-content">
               <p>{product.description}</p>
@@ -126,6 +126,6 @@ export function ProductDetail() {
           </div>
         </Card>
       )}
-    </>
+    </div>
   )
 }

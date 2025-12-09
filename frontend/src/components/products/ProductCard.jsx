@@ -13,7 +13,6 @@ export function ProductCard({ product, i, shouldExit = false, ...props }) {
     <Card
       as={Link}
       to={`/shop/${product?.id}`}
-      variant="primary"
       className={`rounded card-primary-hover from-left ${entered ? 'slide-in' : ''} ${shouldExit ? 'slide-out' : ''}`}
       // style={{ '--stagger': `${delay}s` }}
       {...props}
