@@ -38,7 +38,6 @@ export function CartItem({ index, item }) {
     <Card
       key={item.priceId}
       as="li"
-      variant="primary"
       style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
       className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'cart-item-delete' : ''}`}
       onTransitionEnd={(e) => {

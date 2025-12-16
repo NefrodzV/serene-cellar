@@ -35,8 +35,8 @@ export function CartPage() {
       <div className="main">
         <CartList />
         {cart?.isEmpty ? null : (
-          <div className="height-fit-content rounded">
-            <div className="checkout ">
+          <Card className="height-fit-content rounded">
+            <div className="checkout">
               <h2>Checkout Summary</h2>
               <p>
                 Review your items and continue to payment to complete your
@@ -60,7 +60,7 @@ export function CartPage() {
               </Button>
               <p>Your payment will be processed securely.</p>
             </div>
-          </div>
+          </Card>
         )}
       </div>
     </div>
