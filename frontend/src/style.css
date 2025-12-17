@@ -816,28 +816,16 @@ label, button, input {
     
 }
 
-
-
-.cart-item .input.quantity {
-  
+.cart-item-quantity {
   text-align: center;
   display: flex;
   justify-content: center;
-}
-
-.cart-item .input.quantity:focus {
-  border-width: 1px;
-}
-
-.cart-item .input.quantity::-webkit-inner-spin-button,
-.cart-item .input.quantity::-webkit-outer-spin-button {
-  appearance: none;
-  display: none;
-  margin: 0;
-  padding :.5rem 1rem;
-  border-radius: .5rem;
+  border-radius: var(--border-radius);
   border: 1px solid var(--primary);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+}
+
+.cart-item-quantity:focus {
+  outline-color: var(--primary);
 }
 
 

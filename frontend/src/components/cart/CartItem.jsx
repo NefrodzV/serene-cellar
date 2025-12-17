@@ -95,7 +95,7 @@ export function CartItem({ index, item }) {
               name="quantity"
               style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
               value={rawQuantity}
-              className="input primary quantity"
+              className="cart-item-quantity"
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
