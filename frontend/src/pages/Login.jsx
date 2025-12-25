@@ -6,9 +6,6 @@ import { Button } from '../components/ui/Button'
 import { Heading } from '../components/ui/Heading'
 import { Form, PasswordInput, TextInput } from '../components/ui'
 export function LoginPage() {
-  // const { authenticate: twitterAuthenticate } = useTwitterAuth()
-  // const { onSuccess, onError } = useGoogleAuth()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({ email: '', password: '', global: '' })

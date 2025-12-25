@@ -1,3 +1,5 @@
+import { API_URL } from '../config'
+
 const sereneApiUrl = import.meta.env.VITE_SERENE_BACKEND
 const requestOptions = {
   headers: {
@@ -58,7 +60,6 @@ export async function register(
     }),
   })
   const data = await res.json()
-  console.log(data)
   if (!res.ok) {
     const error = new Error(data.message || 'Register failed')
     error.status = res.status
@@ -66,4 +67,14 @@ export async function register(
     throw error
   }
   return data.user
+}
+
+export async function logout() {
+  const res = await fetch(`${API_URL}/me/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+  if (!res.ok) {
+    throw new Error('Error logging out')
+  }
 }

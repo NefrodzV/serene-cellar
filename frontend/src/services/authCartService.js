@@ -1,5 +1,4 @@
-import { API_URL } from '../config'
-import { CART_KEY } from '../config'
+import { API_URL, CART_KEY } from '../config'
 import { getLocalCart } from './localCartService'
 export async function fetchCart() {
   const res = await fetch(`${API_URL}/me/cart`, {

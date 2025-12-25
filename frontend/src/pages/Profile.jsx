@@ -1,10 +1,11 @@
 import { API_URL } from '../config'
 import { useUser } from '../hooks'
+import { Button } from '../components/ui/Button'
 import React, { useEffect, useState } from 'react'
-API_URL
+import { useNavigate } from 'react-router'
 export function ProfilePage() {
-  const { user } = useUser()
-
+  const { user, logout } = useUser()
+  const navigate = useNavigate()
   const [orders, setOrders] = useState([])
 
   const status = {
@@ -31,6 +32,12 @@ export function ProfilePage() {
     getOrders()
   }, [])
 
+  async function handleLogout() {
+    const hasLoggedOut = await logout()
+    if (hasLoggedOut) {
+      navigate('/login', { replace: true })
+    }
+  }
   return (
     <div className="profile-page">
       <h1>Profile</h1>
@@ -43,6 +50,9 @@ export function ProfilePage() {
             {`${user?.first_name} ${user?.last_name}`}
           </div>
           <div>{`${user?.email}`}</div>
+          <Button onClick={handleLogout} variant="primary">
+            Log out
+          </Button>
         </div>
       </section>
       <section className="orders">
