@@ -615,7 +615,7 @@ label, button, input {
 }
 
 .card-primary-hover:hover {
-  box-shadow: 0 0 12px var(--accent);
+  box-shadow: 0 0 6px var(--accent);
 }
 
 .card-secondary {
@@ -654,7 +654,7 @@ label, button, input {
 }
 
 .shadow3:hover {
-  box-shadow: 0 0 6px var(--accent);
+  box-shadow: 0 0 3px var(--accent);
 }
 
 /* Message */
