@@ -1122,7 +1122,6 @@ label, button, input {
 @media(max-width: 600px) {
 
   .login, .register {
-    display: block;
     box-sizing: content-box;
     padding: .5rem;
   }
@@ -1186,7 +1185,6 @@ label, button, input {
   
   .register-form, .login-form {
     box-shadow: none;
-    height: 100%;
     border-radius: 0;
     margin: 0;
     flex: 1;
