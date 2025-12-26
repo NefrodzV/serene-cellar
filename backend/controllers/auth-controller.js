@@ -137,6 +137,11 @@ const login = [
 
 const logout = (req, res) => {
   res.clearCookie('serene')
+  res.set({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+    Pragma: 'no-cache',
+    Expires: '0',
+  })
   return res.sendStatus(204)
 }
 
