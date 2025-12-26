@@ -105,8 +105,8 @@ export async function getItemsByUserId(userId) {
   const { rows } = await pool.query(
     `
         SELECT 
-        product_id,
-        price_id 
+        pv.product_id,
+        ci.price_id 
         FROM cart_items ci
         INNER JOIN prices p ON p.id= ci.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
