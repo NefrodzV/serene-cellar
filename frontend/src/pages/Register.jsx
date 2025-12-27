@@ -165,7 +165,7 @@ export function RegisterPage() {
     }
   }
   return (
-    <div className="center-screen bg-color">
+    <div className="register">
       <form
         className="register-form"
         method="post"

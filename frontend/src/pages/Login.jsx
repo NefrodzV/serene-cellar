@@ -78,7 +78,7 @@ export function LoginPage() {
     }
   }
   return (
-    <div className="center-screen bg-color">
+    <div className="login">
       <Form
         className="login-form"
         method="post"
