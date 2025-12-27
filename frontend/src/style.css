@@ -411,8 +411,8 @@ label, button, input {
 /* Product */
 .product-detail-page {
   padding: .5rem;
-  flex: 1;
   display: flex;
+  
 }
 
 .product-detail {
@@ -424,12 +424,16 @@ label, button, input {
   justify-content: center;
 }
 
-.product-detail .image {
-  max-height: 450px;
-  width: 100%;
+.product-detail .image-container {
+  overflow: hidden;
+  max-height: 300px;
   grid-column-start: 1;
   grid-row-start: 1;
   grid-row-end: 3;
+}
+
+.product-detail-image {
+height: 100%;
 }
 
 .product-detail .title {
@@ -601,7 +605,6 @@ label, button, input {
 
 /* Card styles */
 .card {
-  max-height: 800px;
   --stagger: 0s;
   box-sizing: border-box;
   padding: .5rem;
@@ -1064,9 +1067,12 @@ label, button, input {
   margin-inline:  auto 0;
 }
 .product-detail-card {
-  margin: auto;
-  max-height: 100vh;
+  /* overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box; */
 }
+
+
 .bold {
   font-weight: bold;
 }
@@ -1144,9 +1150,7 @@ label, button, input {
     transition: .5s;
   }
 
-  .product-detail-card {
-    margin: 0;
-  }
+  
 
   .drawer[data-open=true] .close {
     display: block;
@@ -1182,7 +1186,6 @@ label, button, input {
     transform: translate(-50%, -50%);
   }
 
-  
   .register-form, .login-form {
     box-shadow: none;
     border-radius: 0;
@@ -1210,6 +1213,9 @@ label, button, input {
     flex-direction: column;
   }
 
+  .product-detail-page {
+    overflow-y: auto;
+  }
   .product-detail {
     margin: 0;  
   display: grid;
@@ -1217,9 +1223,10 @@ label, button, input {
   grid-template-rows:  minmax(min-content, 3rem) minmax(auto, max-content) auto;
 }
 
-  .product-detail .image {
+  .product-detail .image-container{
+    
     margin-inline: auto;
-    width: 50%;
+   
     grid-row-start: 2;
     grid-row-end: 3;
     
