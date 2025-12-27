@@ -30,6 +30,9 @@ export function ProfilePage() {
       }
     }
     getOrders()
+    if (!user) {
+      navigate('/shop', { replace: true })
+    }
   }, [])
 
   async function handleLogout() {
