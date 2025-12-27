@@ -117,11 +117,14 @@ export function ProductDetail() {
                 <Error text={product.error} />
               )}
             </div>
-            <img
-              className="image"
-              srcSet={`${product.images.gallery[360]} 360w, ${product.images.gallery[720]} 720w, ${product.images.gallery[1080]} 1024w`}
-              sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1024px`}
-            />
+            <div className="image-container">
+              <img
+                className="product-detail-image"
+                srcSet={`${product.images.gallery[360]} 360w, ${product.images.gallery[720]} 720w, ${product.images.gallery[1080]} 1024w`}
+                sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1024px`}
+              />
+            </div>
+
             <h1 className="title">{product.name}</h1>
           </div>
         </Card>
