@@ -28,9 +28,9 @@ export function CartPage() {
 
   return (
     <div className="cart-page">
-      <h2 className="title">
+      <h1 className="heading">
         <i className="fa-solid fa-cart-shopping"></i> Shopping Cart
-      </h2>
+      </h1>
 
       <div className="main">
         <CartList />

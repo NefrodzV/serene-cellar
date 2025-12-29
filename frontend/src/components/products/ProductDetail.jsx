@@ -125,7 +125,7 @@ export function ProductDetail() {
               />
             </div>
 
-            <h1 className="title">{product.name}</h1>
+            <h1 className="heading">{product.name}</h1>
           </div>
         </Card>
       )}
