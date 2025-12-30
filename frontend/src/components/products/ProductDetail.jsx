@@ -33,7 +33,7 @@ export function ProductDetail() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <Card className="product-detail-card rounded flex">
+        <Card className="product-detail-card rounded">
           <div className="product-detail">
             <div className="product-detail-content">
               <p>{product.description}</p>
