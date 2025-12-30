@@ -43,7 +43,7 @@ export function ProfilePage() {
   }
   return (
     <div className="profile-page">
-      <h1>Profile</h1>
+      <h1 className="heading">Profile</h1>
       <section className="profile-user">
         <span className="user-image-wrapper">
           <i className="fa-solid fa-user"></i>
@@ -52,8 +52,12 @@ export function ProfilePage() {
           <div className="profile-username">
             {`${user?.first_name} ${user?.last_name}`}
           </div>
-          <div>{`${user?.email}`}</div>
-          <Button onClick={handleLogout} variant="primary">
+          <div className="profile-email">{`${user?.email}`}</div>
+          <Button
+            onClick={handleLogout}
+            variant="primary"
+            className="wrap-content"
+          >
             Log out
           </Button>
         </div>

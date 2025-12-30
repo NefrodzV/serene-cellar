@@ -890,6 +890,7 @@ label, button, input {
 .profile-page {
   width: 100%;
   padding-inline: .5rem;
+  overflow-y: auto;
 }
 .profile-user {
   border: 1px solid #ddd;
@@ -898,6 +899,7 @@ label, button, input {
   display: flex;
   padding:.5rem;
   gap: 0.5rem;
+  
 }
 
 .profile-user-details {
@@ -1006,6 +1008,9 @@ label, button, input {
 .line-through {
   text-decoration: line-through;
   color: var(--primary);
+}
+.wrap-content {
+  width: max-content;
 }
 
 .green {
@@ -1135,6 +1140,19 @@ label, button, input {
 }
 
 @media(max-width: 600px) {
+
+  .user-image-wrapper {
+    width: 75px;
+    height: 75px;
+  }
+
+  .profile-username {
+    font-size: 1.3rem;
+  }
+
+  .profile-email {
+    font-size: 1.1rem;
+  }
   .heading {
     font-size: 1.5rem;
   }
@@ -1321,7 +1339,22 @@ label, button, input {
   .product-item .title {
     font-size: 1.2rem;
   }
+
+  .profile-username {
+    font-size: 1.3rem;
+  }
+
+  .profile-email {
+    font-size: 1.1rem;
+  }
+
+  .user-image-wrapper {
+    width: 75px;
+    height: 75px;
+  }
+
   
+
   .products-container {
     padding: 0;
   }
