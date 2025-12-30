@@ -569,6 +569,10 @@ label, button, input {
   font-size: 1.8rem;
  }
 
+ .subtitle {
+  font-size: 1.5rem;
+ }
+
 /* Message Container */
 .message-container {
   margin: 0;
@@ -1294,6 +1298,10 @@ label, button, input {
   .heading {
     font-size: 1.5rem;
   }
+
+  .subtitle {
+    font-size: 1.3rem;
+  }
   .login {
     align-items: stretch;
   }
@@ -1313,7 +1321,7 @@ label, button, input {
   .product-item .title {
     font-size: 1.2rem;
   }
-
+  
   .products-container {
     padding: 0;
   }
@@ -1323,5 +1331,9 @@ label, button, input {
 
   .product-grid {
     grid-template-columns: repeat(auto-fit, 150px);
+  }
+
+  .cart-page .main {
+    grid-template-columns: 1fr 40%;
   }
 }

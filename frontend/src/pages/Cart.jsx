@@ -37,7 +37,7 @@ export function CartPage() {
         {cart?.isEmpty ? null : (
           <Card className="height-fit-content rounded">
             <div className="checkout">
-              <h2>Checkout Summary</h2>
+              <h2 className="subtitle">Checkout Summary</h2>
               <p>
                 Review your items and continue to payment to complete your
                 purchase.
