@@ -33,7 +33,8 @@ export async function getOrdersByUserId(userId) {
               'unit_price', oi.price,
               'variant_id', pv.id,
               'package', pkg.display_name,
-              'product_name', p.name
+              'product_name', p.name,
+              'image', img.image_json
           )
       ) FILTER (WHERE oi.id IS NOT NULL) AS items
     FROM orders o
@@ -45,12 +46,25 @@ export async function getOrdersByUserId(userId) {
         ON p.id = pv.product_id
     LEFT JOIN packages pkg
         ON pkg.id = pv.package_id
+    LEFT JOIN LATERAL (
+      SELECT json_build_object(
+      'image_id', i.id,
+      'asset_id', a.id,
+      'url', a.url
+      ) AS image_json
+      FROM product_images i 
+      JOIN assets a
+        ON a.id = i.asset_id
+      WHERE i.product_id = p.id AND a.width = 150
+      LIMIT 1
+    ) img ON TRUE
     WHERE o.user_id = $1
-    GROUP BY o.id,  o.date
+    GROUP BY o.id,  o.date, o.status
     ORDER BY o.date DESC;
     `,
     [userId]
   )
 
+  console.log(rows[0].items)
   return camelize(rows)
 }

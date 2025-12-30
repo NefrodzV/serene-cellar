@@ -21,6 +21,7 @@ export function ProfilePage() {
           credentials: 'include',
         })
         const data = await res.json()
+        console.log()
         if (!res.ok) {
           throw new Error('GET orders response: ', res.status, res.statusText)
         }
@@ -81,8 +82,8 @@ export function ProfilePage() {
                   {order.items.map((item) => (
                     <li className="bought-item">
                       <div className="bought-item-image-container">
-                        {item.imageUrl ? (
-                          <img src={item?.imageUrl} alt="Bought item image" />
+                        {item?.image?.url ? (
+                          <img src={item?.image?.url} alt="Bought item image" />
                         ) : (
                           <i className="bought-item-image-placeholder fa-regular fa-image"></i>
                         )}
