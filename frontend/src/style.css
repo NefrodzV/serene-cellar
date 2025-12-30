@@ -384,6 +384,7 @@ label, button, input {
   align-items: center;
   gap: .3rem;
   height: var(--control-height);
+  text-transform: capitalize;
   color: white;
   text-decoration: none;
   transition: background-color .3s;
