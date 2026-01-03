@@ -12,7 +12,7 @@ import { errorHandler } from './middlewares/errorHandler.js'
 import { checkoutController } from './controllers/index.js'
 2
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const corsOptions = {
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
