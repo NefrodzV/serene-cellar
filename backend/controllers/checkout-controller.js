@@ -15,6 +15,7 @@ const webhookSecret = process.env.WEBHOOK_SECRET
 const frontendDomain = process.env.FRONTEND_DOMAIN
 const stripeSecret = process.env.STRIPE_SECRET
 
+if (!stripeSecret) throw new Error('STRIPE_SECRET is undefined')
 const stripe = new Stripe(stripeSecret)
 
 export const createSession = [
