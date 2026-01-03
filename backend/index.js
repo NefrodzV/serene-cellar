@@ -35,5 +35,5 @@ app.get('/', (req, res) => {
 })
 app.use(errorHandler)
 app.listen(port, () => {
-  console.log('App server started at http://localhost:3000')
+  console.log('App server started at http://localhost:' + port)
 })
