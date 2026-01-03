@@ -1370,4 +1370,28 @@ label, button, input {
   .cart-page .main {
     grid-template-columns: 1fr 40%;
   }
+
+  .overlay[data-open=true] {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: .5;
+    background-color: #2F2F2F;
+  }
+
+  .select-items {
+
+    box-sizing: border-box;
+    position: fixed;
+    overflow-y: auto;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  
 }

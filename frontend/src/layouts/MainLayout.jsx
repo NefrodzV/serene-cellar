@@ -8,6 +8,7 @@ import { Drawer } from '../components'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
+  console.log(cart)
 
   return (
     <div className="app-layout">
@@ -54,7 +55,10 @@ export function MainLayout() {
               },
               {
                 link: '/cart',
-                text: cart?.totalItems ? `cart(${cart?.totalItems})` : 'cart',
+                text:
+                  cart?.totalItems != '0'
+                    ? `cart(${cart?.totalItems})`
+                    : 'cart',
                 icon: <i className="cart fa-solid fa-cart-shopping"></i>,
               },
             ]}
