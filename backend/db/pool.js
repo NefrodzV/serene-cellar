@@ -4,6 +4,8 @@ configDotenv()
 const { Pool } = pg
 
 const nodeEnv = process.env.NODE_ENV
+
+console.log('NODE ENV', nodeEnv)
 const postgresUrl = process.env.POSTGRES_URL
 const pgConfig =
   nodeEnv === 'production'
