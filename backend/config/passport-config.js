@@ -4,8 +4,11 @@ import { configDotenv } from 'dotenv'
 import { pool } from '../db/pool.js'
 configDotenv()
 
+const secret = process.env.JWT_SECRET
+
+if (!secret) throw new Error('JWT secret is undefined')
+
 const JwtStrategy = passportJwt.Strategy
-const ExtractJwt = passportJwt.ExtractJwt
 
 passport.use(
   new JwtStrategy(
@@ -17,7 +20,7 @@ passport.use(
         }
         return token
       },
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: secret,
     },
     async (jwt_payload, done) => {
       try {
