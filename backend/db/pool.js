@@ -5,15 +5,16 @@ const { Pool } = pg
 
 const nodeEnv = process.env.NODE_ENV
 const postgresDb = process.env.POSTGRES_DB
-const postgressConnection = nodeEnv
-  ? { connectionString: postgresDb }
-  : {
-      host: process.env.DB_HOST,
-      user: process.env.ROLE_NAME,
-      database: process.env.DATABASE,
-      password: process.env.ROLE_PASSWORD,
-      port: 5432,
-    }
+const postgressConnection =
+  nodeEnv === 'production'
+    ? { connectionString: postgresDb }
+    : {
+        host: process.env.DB_HOST,
+        user: process.env.ROLE_NAME,
+        database: process.env.DATABASE,
+        password: process.env.ROLE_PASSWORD,
+        port: 5432,
+      }
 
 export const pool = new Pool(postgressConnection)
 
