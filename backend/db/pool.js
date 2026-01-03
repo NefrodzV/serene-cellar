@@ -2,15 +2,20 @@ import pg from 'pg'
 import { configDotenv } from 'dotenv'
 configDotenv()
 const { Pool } = pg
-const poolConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.ROLE_NAME,
-  database: process.env.DATABASE,
-  password: process.env.ROLE_PASSWORD,
-  port: 5432,
-}
 
-export const pool = new Pool(poolConfig)
+const nodeEnv = process.env.NODE_ENV
+const postgresDb = process.env.POSTGRES_DB
+const postgressConnection = nodeEnv
+  ? { connectionString: postgresDb }
+  : {
+      host: process.env.DB_HOST,
+      user: process.env.ROLE_NAME,
+      database: process.env.DATABASE,
+      password: process.env.ROLE_PASSWORD,
+      port: 5432,
+    }
+
+export const pool = new Pool(postgressConnection)
 
 export async function withTransaction(func) {
   const client = await pool.connect()
