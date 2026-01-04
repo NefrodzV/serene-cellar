@@ -37,7 +37,7 @@ export async function getProducts() {
             SELECT
             pi.role,
             jsonb_object_agg(
-              a.width::text, a.url
+              a.width::text, a.storage_key
             ) AS role_images 
             FROM product_images pi 
             INNER JOIN assets a ON a.id = pi.asset_id
@@ -106,7 +106,7 @@ export async function getProductById(id) {
             SELECT
             pi.role,
             jsonb_object_agg(
-              a.width::text, a.url
+              a.width::text, a.storage_key
             ) AS role_images 
             FROM product_images pi 
             INNER JOIN assets a ON a.id = pi.asset_id
@@ -167,7 +167,7 @@ export async function getProductsByAlcoholType(types) {
             SELECT
             pi.role,
             jsonb_object_agg(
-              a.width::text, a.url
+              a.width::text, a.storage_key
             ) AS role_images 
             FROM product_images pi 
             INNER JOIN assets a ON a.id = pi.asset_id

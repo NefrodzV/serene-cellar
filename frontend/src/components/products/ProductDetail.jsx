@@ -8,9 +8,11 @@ import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { PriceTag, Spinner } from '../ui'
 import { useState } from 'react'
+import { API_URL } from '../../config'
 export function ProductDetail() {
   const { id } = useParams()
   const [product, isLoading] = useProduct(id)
+  console.log(product)
   const [variant, setVariant] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const { addItem } = useCart()
@@ -120,7 +122,7 @@ export function ProductDetail() {
             <div className="image-container">
               <img
                 className="product-detail-image"
-                srcSet={`${product.images.gallery[360]} 360w, ${product.images.gallery[720]} 720w, ${product.images.gallery[1080]} 1024w`}
+                srcSet={`${API_URL}/${product.images.gallery[360]} 360w, ${API_URL}/${product.images.gallery[720]} 720w, ${API_URL}/${product.images.gallery[1080]} 1024w`}
                 sizes={`(max-width: 600px) 360px, (max-width: 1024px) 720px, 1024px`}
               />
             </div>
