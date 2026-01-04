@@ -21,6 +21,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   credentials: true,
 }
+const app = express()
 app.post('/webhook', checkoutController.hook)
 app.use(cors(corsOptions))
 app.use(cookieParser())
