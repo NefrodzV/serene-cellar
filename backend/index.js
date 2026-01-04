@@ -10,11 +10,13 @@ import {
 import cookieParser from 'cookie-parser'
 import { errorHandler } from './middlewares/errorHandler.js'
 import { checkoutController } from './controllers/index.js'
-2
-const app = express()
+import { configDotenv } from 'dotenv'
+configDotenv()
+const frontendDomain = process.env.FRONTEND_DOMAIN
+if (!frontendDomain) throw new Error('FRONTEND_DOMAIN IS UNDEFINED')
 const port = process.env.PORT || 3000
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: frontendDomain,
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   optionsSuccessStatus: 200,
   credentials: true,
