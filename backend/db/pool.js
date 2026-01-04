@@ -7,6 +7,7 @@ const nodeEnv = process.env.NODE_ENV
 
 console.log('NODE ENV', nodeEnv)
 const postgresUrl = process.env.POSTGRES_URL
+if (!postgresUrl) throw new Error('Postgres database url is undefined')
 const pgConfig =
   nodeEnv === 'production'
     ? { connectionString: postgresUrl }
