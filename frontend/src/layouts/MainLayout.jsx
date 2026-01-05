@@ -56,7 +56,7 @@ export function MainLayout() {
               {
                 link: '/cart',
                 text:
-                  cart?.totalItems != '0'
+                  cart?.totalItems && cart?.totalItems != '0'
                     ? `cart(${cart?.totalItems})`
                     : 'cart',
                 icon: <i className="cart fa-solid fa-cart-shopping"></i>,
