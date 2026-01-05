@@ -32,7 +32,7 @@ export function ProductDetail() {
 
   return (
     <div className="product-detail-page">
-      {true ? (
+      {isLoading ? (
         <Spinner
           style={{
             position: 'absolute',
