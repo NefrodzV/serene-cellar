@@ -11,6 +11,10 @@ const getProducts = [
       const products = await productRepository.getProducts()
       return res.json(products)
     } catch (err) {
+      const code = err?.code
+      const isSleeping =
+        code === 'ETIMEDOUT' || 'ECONNREFUSED' || err?.name === 'AggregateError'
+      if (isSleeping) return res.sendStatus(503)
       next(err)
     }
   },
@@ -20,7 +24,7 @@ const getProducts = [
       const products = await productRepository.getProductsByAlcoholType(types)
       return res.json(products)
     } catch (err) {
-      console.error('Error getting products with alcoho type')
+      console.error('Error getting products with alcohol type')
       next(err)
     }
   },
