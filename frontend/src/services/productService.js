@@ -7,7 +7,7 @@ export async function getProducts(abortController) {
   })
 
   if (!response.ok) {
-    throw new Error('Loading products failed')
+    throw new Error('Loading products failed STATUS' + response.status)
   }
   const data = await response.json()
   return data
