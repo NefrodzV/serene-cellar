@@ -5,10 +5,11 @@ export async function getProducts(abortController) {
     credentials: 'include',
     signal: abortController?.signal,
   })
-  const data = await response.json()
+
   if (!response.ok) {
-    throw new Error('Loading products failed:', data)
+    throw new Error('Loading products failed')
   }
+  const data = await response.json()
   return data
 }
 
