@@ -1345,6 +1345,12 @@ label, button, input {
   }
 }
 @media(orientation:landscape) and (max-height: 480px){
+
+  .thumbnail {
+    width: 100px;
+    object-fit: contain;
+  }
+  
   .products-container .heading {
     display: none;
   }
