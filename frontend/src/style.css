@@ -402,6 +402,7 @@ label, button, input {
 
 /* Product */
 .product-detail-page {
+  position: relative;
   padding: .5rem;
   display: flex;
   overflow-y: auto;
@@ -1350,7 +1351,7 @@ label, button, input {
     width: 100px;
     object-fit: contain;
   }
-  
+
   .products-container .heading {
     display: none;
   }

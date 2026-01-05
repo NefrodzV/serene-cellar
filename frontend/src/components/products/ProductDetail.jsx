@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { API_URL } from '../../config'
 export function ProductDetail() {
   const { id } = useParams()
-  const [product, isLoading] = useProduct(id)
+  const [product, isLoading = true] = useProduct(id)
   console.log(product)
   const [variant, setVariant] = useState(null)
   const [quantity, setQuantity] = useState(1)
@@ -33,7 +33,12 @@ export function ProductDetail() {
   return (
     <div className="product-detail-page">
       {isLoading ? (
-        <Spinner />
+        <Spinner
+          style={{
+            position: 'absolute',
+            inset: 0,
+          }}
+        />
       ) : (
         <Card className="product-detail-card rounded">
           <div className="product-detail">
