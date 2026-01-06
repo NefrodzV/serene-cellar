@@ -28,8 +28,14 @@ export function ProductGrid() {
     }))
   }
   const { alcoholTypes } = useCategories()
-  const { products, isLoading, filters, onFilterChange, removeProduct } =
-    useProducts()
+  const {
+    products,
+    isLoading,
+    filters,
+    message,
+    onFilterChange,
+    removeProduct,
+  } = useProducts()
 
   const visibleProducts = filterProducts(products, filters)
   return (
@@ -55,6 +61,7 @@ export function ProductGrid() {
               position: 'absolute',
               inset: 0,
             }}
+            message={message}
           />
         ) : null}
         {visibleProducts.map((visibleProduct, i) => {

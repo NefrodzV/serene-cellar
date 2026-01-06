@@ -1,30 +1,46 @@
 import { useEffect, useState } from 'react'
 import { getProducts, getProductsWithFilter } from '../services/productService'
-
+import { fetchWithRetries } from '../../utils'
 export function useProducts() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [filters, setFilters] = useState(new Set())
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     const controller = new AbortController()
+    console.log('Thus us running')
     ;(async () => {
       try {
         setIsLoading(true)
-        let data = []
-        if (filters.size) {
-          data = await getProductsWithFilter(
-            Array.from(filters).join(','),
-            controller
-          )
-        } else {
-          data = await getProducts(controller)
-        }
+        const data = await fetchWithRetries(
+          () => {
+            if (filters?.size) {
+              return getProductsWithFilter(
+                Array.from(filters).join(','),
+                controller.signal
+              )
+            } else {
+              return getProducts(controller.signal)
+            }
+          },
+          {
+            signal: controller.signal,
+            onRetry: (attempts) => {
+              if (attempts >= 1) {
+                setMessage('Waking up server...')
+              }
+
+              console.log('Attemps: ', attempts)
+            },
+          }
+        )
         setProducts(data)
-      } catch (error) {
-        console.error(error)
+      } catch (e) {
+        if (e.name !== 'AbortError') console.error(e)
+        setProducts([])
       } finally {
-        setIsLoading(false)
+        if (!controller.signal.aborted) setIsLoading(false)
       }
     })()
     return () => {
@@ -46,5 +62,12 @@ export function useProducts() {
     setProducts((prev) => prev.filter((product) => product.id !== id))
   }
 
-  return { products, isLoading, filters, onFilterChange, removeProduct }
+  return {
+    products,
+    message,
+    isLoading,
+    filters,
+    onFilterChange,
+    removeProduct,
+  }
 }
