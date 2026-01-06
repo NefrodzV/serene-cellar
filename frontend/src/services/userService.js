@@ -35,7 +35,7 @@ export async function getCurrentUser() {
   if (!res.status === 401) return null
   if (!res.ok) {
     const error = new Error(
-      'Unkown server error occurred with status:',
+      'Unknown server error occurred with status:',
       res.status
     )
     error.status = res.status
