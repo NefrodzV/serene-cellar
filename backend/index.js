@@ -17,7 +17,7 @@ console.log('Frotend', frontendDomain)
 if (!frontendDomain) throw new Error('FRONTEND_DOMAIN IS UNDEFINED')
 const port = process.env.PORT || 3000
 const corsOptions = {
-  origin: frontendDomain,
+  origin: [frontendDomain, 'http://localhost:5173'],
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   optionsSuccessStatus: 200,
   credentials: true,
