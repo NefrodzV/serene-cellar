@@ -30,7 +30,8 @@ export function CartProvider({ children }) {
         } else {
           data = await authCartService.fetchCart()
         }
-        setCart(data.cart)
+        if (!data?.cart) return
+        setCart(data?.cart)
       } catch (e) {
         console.error('Error loading cart:', e)
       }
