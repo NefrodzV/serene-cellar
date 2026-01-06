@@ -27,7 +27,7 @@ export function ProductGrid() {
       exit: false,
     }))
   }
-  const { alcoholTypes } = useCategories()
+  const { categories } = useCategories()
   const {
     products,
     isLoading,
@@ -42,7 +42,7 @@ export function ProductGrid() {
     <div className="products-container">
       <Heading>Products</Heading>
       <Form className="filters" aria-label="Product filters">
-        {alcoholTypes.map((type) => (
+        {categories.map((type) => (
           <Tag
             key={type}
             id={`alcohol-${type}`}
