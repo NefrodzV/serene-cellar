@@ -77,7 +77,7 @@ export function Drawer({ navItems = [] }) {
           X
         </Button>
         {navItems.map((item) => (
-          <NavLink className="link" to={item.link}>
+          <NavLink key={item.link} className="link" to={item.link}>
             {item.icon}
             <span>{item.text}</span>
           </NavLink>

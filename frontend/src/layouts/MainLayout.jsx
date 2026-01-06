@@ -22,9 +22,9 @@ export function MainLayout() {
             <g
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <circle cx="32" cy="32" r="28" />
               <path d="M22 20c0 7 5.5 12 10 12s10-5 10-12H22z" />
