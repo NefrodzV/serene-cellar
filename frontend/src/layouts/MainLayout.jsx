@@ -8,8 +8,6 @@ import { Drawer } from '../components'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
-  console.log(cart)
-
   return (
     <div className="app-layout">
       <header className="header">

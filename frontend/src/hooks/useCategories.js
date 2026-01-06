@@ -5,11 +5,8 @@ export function useCategories() {
   const [alcoholTypes, setAlcoholTypes] = useState([])
 
   useEffect(() => {
-    console.log('running')
     ;(async () => {
       const data = await getProductCategories()
-      console.log('data')
-      console.log(data)
       setAlcoholTypes(data.categories)
     })()
   }, [])

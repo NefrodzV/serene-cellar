@@ -13,7 +13,6 @@ import { checkoutController } from './controllers/index.js'
 import { configDotenv } from 'dotenv'
 configDotenv()
 const frontendDomain = process.env.FRONTEND_DOMAIN
-console.log('Frotend', frontendDomain)
 if (!frontendDomain) throw new Error('FRONTEND_DOMAIN IS UNDEFINED')
 const port = process.env.PORT || 3000
 const corsOptions = {
