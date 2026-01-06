@@ -5,11 +5,21 @@ export function useProducts() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [filters, setFilters] = useState(new Set())
+
   useEffect(() => {
-    const abortController = new AbortController()
+    const controller = new AbortController()
     ;(async () => {
       try {
-        const data = await getProducts(abortController)
+        setIsLoading(true)
+        let data = []
+        if (filters.size) {
+          data = await getProductsWithFilter(
+            Array.from(filters).join(','),
+            controller
+          )
+        } else {
+          data = await getProducts(controller)
+        }
         setProducts(data)
       } catch (error) {
         console.error(error)
@@ -17,33 +27,8 @@ export function useProducts() {
         setIsLoading(false)
       }
     })()
-
-    return () => abortController.abort()
-  }, [])
-
-  useEffect(() => {
-    let updateTimeoutId = null
-    const time = filters.size ? 600 : 0
-    ;(async () => {
-      try {
-        setIsLoading(true)
-        let data = []
-        if (filters.size) {
-          data = await getProductsWithFilter(Array.from(filters).join(','))
-        } else {
-          data = await getProducts()
-        }
-
-        updateTimeoutId = setTimeout(() => setProducts(data), time)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    })()
-
     return () => {
-      clearTimeout(updateTimeoutId)
+      controller.abort()
     }
   }, [filters])
 
