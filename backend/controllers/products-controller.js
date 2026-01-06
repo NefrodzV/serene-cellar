@@ -14,6 +14,8 @@ const getProducts = [
       const code = err?.code
       const isSleeping =
         code === 'ETIMEDOUT' || 'ECONNREFUSED' || err?.name === 'AggregateError'
+
+      console.log('Sleeping is running value is:', isSleeping)
       if (isSleeping) return res.sendStatus(503)
       next(err)
     }
