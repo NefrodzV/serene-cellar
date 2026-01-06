@@ -6,6 +6,8 @@ export async function getProducts(abortController) {
     signal: abortController?.signal,
   })
 
+  console.log('response object')
+  console.log(response)
   if (!response.ok) {
     const error = new Error(
       'Loading products failed status code:' + response.status

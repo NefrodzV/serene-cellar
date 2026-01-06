@@ -32,8 +32,14 @@ export async function getCurrentUser() {
     credentials: 'include',
   })
 
+  if (!res.status === 401) return null
   if (!res.ok) {
-    throw new Error('Loading current authenticated user failed')
+    const error = new Error(
+      'Unkown server error occurred with status:',
+      res.status
+    )
+    error.status = res.status
+    return error
   }
   const data = await res.json()
   return data.user

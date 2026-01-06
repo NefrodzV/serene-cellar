@@ -4,12 +4,12 @@ export async function fetchCart() {
   const res = await fetch(`${API_URL}/me/cart`, {
     credentials: 'include',
   })
-  const data = await res.json()
 
+  if (res.status === 401) return null
   if (!res.ok) {
     throw new Error(data || 'Fetch cart failed')
   }
-
+  const data = await res.json()
   return data
 }
 
