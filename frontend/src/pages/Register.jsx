@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router-dom'
-import { isEmail, isEmpty } from '../../utils'
+import { isEmail, isEmpty } from '../utils'
 import { useUser } from '../hooks'
 import { TextInput, Heading, PasswordInput } from '../components/ui'
 

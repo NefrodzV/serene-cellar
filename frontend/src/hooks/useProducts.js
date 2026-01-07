@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProducts, getProductsWithFilter } from '../services/productService'
-import { fetchWithRetries } from '../../utils'
+import { fetchWithRetries } from '../utils'
 export function useProducts() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)

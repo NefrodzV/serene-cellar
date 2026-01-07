@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { API_URL } from '../config'
-import { fetchWithRetries } from '../../utils'
+import { fetchWithRetries } from '../utils'
 
 export function useCategories() {
   const [categories, setCategories] = useState([])

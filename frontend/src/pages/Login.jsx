@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useUser } from '../hooks'
 import { Link, useNavigate } from 'react-router-dom'
-import { isEmail } from '../../utils'
+import { isEmail } from '../utils'
 import { Button } from '../components/ui/Button'
 import { Heading } from '../components/ui/Heading'
 import { Form, PasswordInput, TextInput } from '../components/ui'
