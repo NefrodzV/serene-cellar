@@ -62,18 +62,23 @@ export function hasItems() {
   return items.length > 0
 }
 
-export async function validateLocalCartItems(items) {
+export async function validateLocalCartItems(items, signal) {
   const res = await fetch(`${API_URL}/me/cart/validate`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
     },
+    signal,
     body: JSON.stringify({ items }),
   })
 
-  const data = await res.json()
   if (!res.ok) {
-    throw new Error(data.error)
+    const error = new Error(
+      'Local cart validation failed with status:' + res.status
+    )
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
   return data ?? null
 }

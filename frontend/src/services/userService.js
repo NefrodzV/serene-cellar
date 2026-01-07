@@ -27,9 +27,10 @@ export async function login(email, password) {
   return data.user
 }
 
-export async function getCurrentUser() {
+export async function getCurrentUser(signal) {
   const res = await fetch(sereneApiUrl + '/me', {
     credentials: 'include',
+    signal,
   })
 
   if (!res.status === 401) return null

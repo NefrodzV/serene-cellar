@@ -1,7 +1,6 @@
-import { createContext, useEffect, useState } from 'react'
-import React from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import * as userService from '../services/userService'
-
+import { fetchWithRetries } from '../utils/index'
 export const UserContext = createContext()
 
 export function UserProvider({ children }) {
@@ -9,10 +8,24 @@ export function UserProvider({ children }) {
   const isAuthenticated = !!user
 
   useEffect(() => {
-    userService
-      .getCurrentUser()
-      .then((data) => setUser(data))
-      .catch((error) => console.error(error))
+    const controller = new AbortController()
+    ;(async () => {
+      try {
+        const data = await fetchWithRetries(
+          () => userService.getCurrentUser(controller.signal),
+          {
+            signal: controller.signal,
+          }
+        )
+        setUser(data)
+      } catch (e) {
+        setUser(null)
+      }
+    })()
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
   async function loginWithEmailAndPassword(email, password) {

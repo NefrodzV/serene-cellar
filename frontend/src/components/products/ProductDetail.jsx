@@ -1,18 +1,16 @@
-import React from 'react'
 import { useCart, useProduct } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Select } from '../ui/Select'
 import { Error } from '../ErrorMessage'
-import { ErrorsMessages } from '../../constants/ErrorMessages'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
-import { PriceTag, Spinner } from '../ui'
-import { useState } from 'react'
+import { Spinner } from '../ui'
+import React, { useState } from 'react'
 import { API_URL } from '../../config'
+
 export function ProductDetail() {
   const { id } = useParams()
-  const [product, isLoading = true] = useProduct(id)
-  console.log(product)
+  const { product, isLoading, message } = useProduct(id)
   const [variant, setVariant] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const { addItem } = useCart()
@@ -38,6 +36,7 @@ export function ProductDetail() {
             position: 'absolute',
             inset: 0,
           }}
+          message={message}
         />
       ) : (
         <Card className="product-detail-card rounded">

@@ -1,13 +1,16 @@
 import { API_URL, CART_KEY } from '../config'
 import { getLocalCart } from './localCartService'
-export async function fetchCart() {
+export async function fetchCart(signal) {
   const res = await fetch(`${API_URL}/me/cart`, {
     credentials: 'include',
+    signal,
   })
 
   if (res.status === 401) return null
   if (!res.ok) {
-    throw new Error(data || 'Fetch cart failed')
+    const error = new Error('Fetch cart failed with status:' + res.status)
+    error.status = res.status
+    throw error
   }
   const data = await res.json()
   return data
@@ -20,7 +23,6 @@ export async function addItem(priceId, quantity) {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-
     body: JSON.stringify({ priceId, quantity }),
   }
   const res = await fetch(`${API_URL}/me/cart/items`, options)
@@ -61,7 +63,7 @@ export async function updateItem(itemId, quantity) {
   return data
 }
 
-export async function syncCart() {
+export async function syncCart(signal) {
   const items = await getLocalCart()
   if (items.length === 0) {
     return null
@@ -73,6 +75,7 @@ export async function syncCart() {
     headers: {
       'Content-Type': 'application/json',
     },
+    signal: signal,
     body: JSON.stringify({
       // On pass the fields I need
       items: items.map((it) => ({
@@ -81,11 +84,16 @@ export async function syncCart() {
       })),
     }),
   })
-  const data = await res.json()
-
+  if (res.status === 401) return null
   if (!res.ok) {
-    throw new Error(data.errors || 'Failed to syncronize cart')
+    const error = new Error(
+      'Failed to syncronize cart with status:',
+      res.status
+    )
+    error.status = res.arrayBuffer.status
+    throw error
   }
+  const data = await res.json()
   // Remove the local items
   localStorage.removeItem(CART_KEY)
   return data ?? null

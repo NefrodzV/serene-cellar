@@ -4,6 +4,7 @@ import * as localCartService from '../services/localCartService'
 
 import * as authCartService from '../services/authCartService'
 import React from 'react'
+import { fetchWithRetries } from '../utils'
 
 export const CartContext = createContext()
 
@@ -22,15 +23,23 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(defaultCart)
 
   useEffect(() => {
+    const controller = new AbortController()
     async function loadCart() {
       try {
-        let data = null
-        if (localCartService.hasItems()) {
-          data = await authCartService.syncCart()
-        } else {
-          data = await authCartService.fetchCart()
-        }
+        let data = await fetchWithRetries(
+          () => {
+            if (localCartService.hasItems()) {
+              return authCartService.syncCart(controller.signal)
+            } else {
+              return authCartService.fetchCart(controller.signal)
+            }
+          },
+          {
+            signal: controller.signal,
+          }
+        )
         if (!data?.cart) return
+
         setCart(data?.cart)
       } catch (e) {
         console.error('Error loading cart:', e)
@@ -40,11 +49,18 @@ export function CartProvider({ children }) {
     async function getCartSnapshot() {
       try {
         const items = await localCartService.getLocalCart()
-        const data = await localCartService.validateLocalCartItems(items)
 
-        setCart(data.cart)
+        const data = await fetchWithRetries(
+          () =>
+            localCartService.validateLocalCartItems(items, controller.signal),
+          {
+            signal: controller.signal,
+          }
+        )
+
+        setCart(data?.cart)
       } catch (e) {
-        console.error('Error loading cart snapshot:', e)
+        console.error(e)
       }
     }
 
@@ -54,6 +70,10 @@ export function CartProvider({ children }) {
       getCartSnapshot()
     } else {
       setCart(defaultCart)
+    }
+
+    return () => {
+      controller.abort()
     }
   }, [isAuthenticated])
 
