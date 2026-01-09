@@ -62,8 +62,12 @@ export async function setCartItemQuantity(itemId, quantity) {
     [quantity, itemId]
   )
 }
-export async function incrementCartItemQuantity(itemId, quantity) {
-  await pool.query(
+export async function incrementCartItemQuantity(
+  itemId,
+  quantity,
+  client = pool
+) {
+  await client.query(
     `
         UPDATE cart_items
         SET quantity = GREATEST(quantity + $1, 0)
@@ -84,8 +88,8 @@ export async function getCartItemByPriceId(userId, priceId) {
   return rows[0] || null
 }
 
-export async function createCartItem(userId, quantity, priceId) {
-  await pool.query(
+export async function createCartItem(userId, quantity, priceId, client = pool) {
+  await client.query(
     `INSERT INTO cart_items 
         (cart_id, quantity, price_id)
         VALUES ((SELECT id from carts WHERE user_id=$1), $2, $3) ON CONFLICT(price_id) DO UPDATE SET quantity = EXCLUDED.quantity + cart_items.quantity`,

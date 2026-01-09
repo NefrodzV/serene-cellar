@@ -6,11 +6,8 @@ import { OAuth2Client } from 'google-auth-library'
 import { generateToken } from '../services/index.js'
 import { userRepository } from '../repositories/index.js'
 import { setCookieAndRespond } from '../utils/setCookieAndRespond.js'
-import { json } from 'express'
 import * as cartRepository from '../repositories/cart-repository.js'
 configDotenv()
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 const register = [
   body('firstName')
@@ -128,7 +125,6 @@ const login = [
       req.user = user
       next()
     } catch (error) {
-      console.error(error)
       next(error)
     }
   },

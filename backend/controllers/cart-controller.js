@@ -2,10 +2,8 @@ import { body, param, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import { validate } from '../middlewares/validationHandler.js'
 import * as cartRepository from '../repositories/cart-repository.js'
+import { withTransaction } from '../db/pool.js'
 
-/**W
- * Make the requests return the update cartItems
- */
 const getCart = [
   passport.authenticate('jwt', { session: false }),
   validate,
@@ -20,8 +18,6 @@ const getCart = [
     }
   },
 ]
-/**TODO: Update the other function to remove the id param
- * and add functions to the repository*/
 const addItem = [
   passport.authenticate('jwt', { session: false }),
   body('priceId').exists({ values: 'falsy' }).withMessage('No priceId defined'),
@@ -117,21 +113,25 @@ const sync = [
       existingItems.map((item) => [`${item.priceId}`, item])
     )
 
-    for (const localItem of data.items) {
-      const existingItem = existingMap.get(`${localItem.priceId}`)
-      if (existingItem) {
-        await cartRepository.incrementCartItemQuantity(
-          existingItem.id,
-          localItem.quantity
-        )
-      } else {
-        await cartRepository.createCartItem(
-          req.user.id,
-          localItem.quantity,
-          localItem.priceId
-        )
+    withTransaction(async (client) => {
+      for (const localItem of data.items) {
+        const existingItem = existingMap.get(`${localItem.priceId}`)
+        if (existingItem) {
+          await cartRepository.incrementCartItemQuantity(
+            existingItem.id,
+            localItem.quantity,
+            client
+          )
+        } else {
+          await cartRepository.createCartItem(
+            req.user.id,
+            localItem.quantity,
+            localItem.priceId,
+            client
+          )
+        }
       }
-    }
+    })
 
     // Getting updated cart items
     const cart = await cartRepository.getCartByUserId(req.user.id)
