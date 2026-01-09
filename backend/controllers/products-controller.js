@@ -56,7 +56,7 @@ async function getCategories(req, res) {
     const categories = await productRepository.getProductAlcoholTypes()
     return res.json({ categories })
   } catch (e) {
-    console.error(e)
+    next(e)
   }
 }
 
