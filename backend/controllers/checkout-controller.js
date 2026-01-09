@@ -50,7 +50,7 @@ export const createSession = [
 ]
 export const hook = [
   express.raw({ type: 'application/json' }),
-  async (req, res) => {
+  async (req, res, next) => {
     const sig = req.headers['stripe-signature']
     let event
     try {
@@ -77,8 +77,7 @@ export const hook = [
         })
       }
     } catch (err) {
-      console.log('Stripe hook error:', err)
-      return res.sendStatus(400)
+      next(err)
     }
     // console.log('Event type:', event.type)
     return res.sendStatus(200)

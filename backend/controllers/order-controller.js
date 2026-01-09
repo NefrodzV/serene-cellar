@@ -9,8 +9,7 @@ export const getOrders = [
       const orders = await getOrdersByUserId(userId)
       return res.json({ orders })
     } catch (error) {
-      console.error(error)
-      return res.status(500).json({ error: 'Internal server error' })
+      next(error)
     }
   },
 ]
