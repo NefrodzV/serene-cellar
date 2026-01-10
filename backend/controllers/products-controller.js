@@ -51,7 +51,7 @@ const getProduct = [
   },
 ]
 
-async function getCategories(req, res) {
+async function getCategories(req, res, next) {
   try {
     const categories = await productRepository.getProductAlcoholTypes()
     return res.json({ categories })

@@ -5,8 +5,10 @@ export const errorHandler = (err, req, res, next) => {
 
   console.log('Sleeping is running value is:', isSleeping)
   if (isSleeping) return res.sendStatus(503)
+
+  if (res.headerSent) return next(err)
   console.error('Unexpected error happened', err.stack)
-  return res.status(500).json({
+  return res.status(err.status || 500).json({
     message: 'An unexpected error happened when processing the request.',
   })
 }
