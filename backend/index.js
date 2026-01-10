@@ -14,9 +14,27 @@ import { configDotenv } from 'dotenv'
 configDotenv()
 const frontendDomain = process.env.FRONTEND_DOMAIN
 if (!frontendDomain) throw new Error('FRONTEND_DOMAIN IS UNDEFINED')
+
+const normalizeOrigin = (o) => (o ? o.replace(/\/$/, '').trim() : o)
+
+const allowedOrigins = [
+  normalizeOrigin(process.env.FRONTEND_DOMAIN),
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+].filter(Boolean)
+console.log('Frotend domain', frontendDomain)
+console.log('Allowed origins', allowedOrigins)
 const port = process.env.PORT || 3000
+
 const corsOptions = {
-  origin: [frontendDomain, 'http://localhost:5173'],
+  origin: (origin, cb) => {
+    if (!origin) {
+      return cb(null, true)
+    }
+    const o = normalizeOrigin(origin)
+    if (allowedOrigins.includes(o)) return cb(null, true)
+    return cb(new Error(`CORS blocked for origin: ${origin}`))
+  },
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   optionsSuccessStatus: 200,
   credentials: true,
@@ -24,6 +42,7 @@ const corsOptions = {
 const app = express()
 app.post('/webhook', checkoutController.hook)
 app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
