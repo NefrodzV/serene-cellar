@@ -33,7 +33,7 @@ export async function getCurrentUser(signal) {
     signal,
   })
 
-  if (!res.status === 401) return null
+  if (res.status === 401) return null
   if (!res.ok) {
     const error = new Error(
       'Unknown server error occurred with status:',
@@ -43,7 +43,7 @@ export async function getCurrentUser(signal) {
     return error
   }
   const data = await res.json()
-  return data.user
+  return data?.user
 }
 
 export async function register(
