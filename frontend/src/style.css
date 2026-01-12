@@ -411,6 +411,7 @@ label, button, input {
 }
 
 .product-detail {
+  height: 450px;
   width: 100%;
   margin: auto;
   display: grid;
@@ -454,7 +455,14 @@ label, button, input {
 }
 
 .product-detail-footer {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
   margin-top: auto;
+}
+
+.total {
+  margin: 0;
 }
 
 .product-detail .title {
@@ -794,9 +802,7 @@ label, button, input {
 
 .cart-item .product .content {
     grid-column: 2 / 4
-  }
-
-
+}
 
 .cart-item-subtotal {
   margin: auto 0 0 auto;
@@ -1129,11 +1135,6 @@ label, button, input {
 
 @media(max-width: 800px) {
 
-  
-  .total {
-    margin: .5rem;
-  }
-
   .product-item .title {
     font-size: 18px;
   }
@@ -1304,14 +1305,6 @@ label, button, input {
   .login {
     align-items: center;
   }
-
-  .total {
-    margin: 0;
-  }
-
-  
-
-  
 }
 
 @media(orientation:landscape) and (max-width: 100px) {
@@ -1321,12 +1314,14 @@ label, button, input {
 }
 
 @media(orientation:landscape) and (max-height: 600px){
+  .main-layout {
+    width: clamp(320px, 100%, 500px);
+  }
   .product-detail .heading {
     grid-row-start: 1;
   }
 
   .product-detail .image-container{
-    
     margin-inline: auto;
     grid-row-start: 2;
     grid-row-end: 3;
