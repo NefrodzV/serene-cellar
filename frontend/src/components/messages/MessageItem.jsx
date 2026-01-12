@@ -5,9 +5,11 @@ import { Button } from '../ui/Button'
 export function MessageItem({ message, removeMessage, index }) {
   const VISIBLE_MS = 2000
   const DELETE_MS = 500
+  const SHRINKING_MS = 500
 
   const [hasMounted, setHasMounted] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isShrinking, setIsShrinking] = useState(false)
   const messageType = {
     notify: '\u2139', // i
     error: '\u2716', // ✖
@@ -30,12 +32,19 @@ export function MessageItem({ message, removeMessage, index }) {
     <Card
       key={message.id}
       as="li"
-      className={`rounded shadow3 from-right ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'message-item-delete' : ''}`}
+      className={`rounded shadow3 from-right ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'message-item-slide-out' : ''} ${isShrinking ? 'shrink' : ''}`}
       onTransitionEnd={() => {
         if (isDeleting) {
           setTimeout(() => {
-            removeMessage(message.id)
+            setIsShrinking(true)
+            // removeMessage(message.id)
           }, DELETE_MS)
+        }
+        if (isShrinking) {
+          setTimeout(() => {
+            // setIsShrinking(true)
+            removeMessage(message.id)
+          }, SHRINKING_MS)
         }
       }}
     >

@@ -1064,13 +1064,15 @@ label, button, input {
   padding .3s ease .3s, transform .3s ease;
 }
 
-.message-item-delete {
-  margin: 0;
-  transform: translateX(calc(100% + .5rem + 3px)) scale(.90);
-  max-height: 0;
+.message-item-slide-out {
+  transform: translateX(calc(100% + .5rem + 3px));
+  transition: transform .3s ease;
+}
+
+.shrink {
+  height: 0;
   padding: 0;
-  transition: opacity .3s ease , max-height .3s ease .3s,
-  padding .3s ease .3s, transform .3s ease;
+  transition: all .3s ease;
 }
 .align-right {
   margin-inline:  auto 0;
