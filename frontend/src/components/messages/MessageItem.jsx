@@ -37,12 +37,10 @@ export function MessageItem({ message, removeMessage, index }) {
         if (isDeleting) {
           setTimeout(() => {
             setIsShrinking(true)
-            // removeMessage(message.id)
           }, DELETE_MS)
         }
         if (isShrinking) {
           setTimeout(() => {
-            // setIsShrinking(true)
             removeMessage(message.id)
           }, SHRINKING_MS)
         }
