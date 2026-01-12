@@ -1317,7 +1317,7 @@ label, button, input {
 
 @media(orientation:landscape) and (max-height: 600px){
   .main-layout {
-    width: clamp(320px, 100%, 500px);
+    width: clamp(320px, 100%, 700px);
   }
   .product-detail .heading {
     grid-row-start: 1;
