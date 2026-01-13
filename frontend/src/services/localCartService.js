@@ -58,7 +58,7 @@ export function getLocalCart() {
 }
 
 export function hasItems() {
-  const items = localStorage.getItem(CART_KEY) || []
+  const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
   return items.length > 0
 }
 

@@ -9,7 +9,6 @@ export function useProducts() {
 
   useEffect(() => {
     const controller = new AbortController()
-    console.log('Thus us running')
     ;(async () => {
       try {
         setIsLoading(true)
@@ -30,8 +29,6 @@ export function useProducts() {
               if (attempts >= 1) {
                 setMessage('Waking up server...')
               }
-
-              console.log('Attemps: ', attempts)
             },
           }
         )
