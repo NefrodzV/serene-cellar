@@ -34,7 +34,7 @@ export function useProducts() {
         )
         setProducts(data)
       } catch (e) {
-        if (e.name !== 'AbortError') console.error(e)
+        if (e.name !== 'AbortError') return console.error(e)
         setProducts([])
       } finally {
         if (!controller.signal.aborted) setIsLoading(false)
