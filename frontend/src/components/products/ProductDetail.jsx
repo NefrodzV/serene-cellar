@@ -83,23 +83,24 @@ export function ProductDetail() {
                         ))}
                       </Select>
                     </div>
-
-                    <div>
-                      <Select
-                        aria-label="Quantity selection"
-                        id={'quantity'}
-                        value={quantity}
-                        text={variant ? quantity : 'Select a product first'}
-                        onChange={onSelection}
-                        disabled={variant === null || !variant.purchasable}
-                      >
-                        {[...Array(variant?.stock).keys()].map((val, i) => (
-                          <Select.Option key={i} value={i + 1} label={i + 1}>
-                            <span>{val + 1}</span>
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </div>
+                    {variant ? (
+                      <div>
+                        <Select
+                          aria-label="Quantity selection"
+                          id={'quantity'}
+                          value={quantity}
+                          text={variant ? quantity : 'Quantity'}
+                          onChange={onSelection}
+                          disabled={variant === null || !variant.purchasable}
+                        >
+                          {[...Array(variant?.stock).keys()].map((val, i) => (
+                            <Select.Option key={i} value={i + 1} label={i + 1}>
+                              <span>{val + 1}</span>
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      </div>
+                    ) : null}
                   </div>
                   <div className="product-detail-footer">
                     {variant && (
