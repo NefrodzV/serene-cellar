@@ -4,7 +4,10 @@ export const errorHandler = (err, req, res, next) => {
     code === 'ETIMEDOUT' || 'ECONNREFUSED' || err?.name === 'AggregateError'
 
   console.log('Sleeping is running value is:', isSleeping)
-  if (isSleeping) return res.sendStatus(503)
+  if (isSleeping) {
+    console.log('Sleeping sending 503')
+    return res.sendStatus(503)
+  }
 
   if (res.headerSent) return next(err)
   console.error('Unexpected error happened', err.stack)

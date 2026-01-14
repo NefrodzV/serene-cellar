@@ -42,7 +42,7 @@ const getProduct = [
       if (!product) {
         return res
           .status(400)
-          .json({ message: 'No product exists with this slug' })
+          .json({ message: 'No product exist with this id' })
       }
       return res.status(200).json(product)
     } catch (error) {
