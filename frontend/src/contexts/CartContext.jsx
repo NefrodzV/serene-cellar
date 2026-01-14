@@ -39,7 +39,6 @@ export function CartProvider({ children }) {
           }
         )
         if (!data?.cart) return
-
         setCart(data?.cart)
       } catch (e) {
         console.error('Error loading cart:', e)
@@ -60,6 +59,8 @@ export function CartProvider({ children }) {
 
         setCart(data?.cart)
       } catch (e) {
+        if (e.name === 'AbortError') return
+        console.error('Error getting localcart snapshot')
         console.error(e)
       }
     }
@@ -67,6 +68,7 @@ export function CartProvider({ children }) {
     if (isAuthenticated) {
       loadCart()
     } else if (localCartService.hasItems()) {
+      // Just calculate here the total items for localcart and disable this
       getCartSnapshot()
     } else {
       setCart(defaultCart)
@@ -107,7 +109,6 @@ export function CartProvider({ children }) {
   }
 
   async function updateItem(item, quantity) {
-    console.log(quantity)
     try {
       const data = isAuthenticated
         ? await authCartService.updateItem(item.id, quantity)
