@@ -420,6 +420,10 @@ label, button, input {
   justify-content: center;
 }
 
+.product-select-container {
+  flex: 1;
+}
+
 .product-detail .image-container {
   overflow: hidden;
   grid-column: 1 / 2;
@@ -1361,6 +1365,9 @@ label, button, input {
     font-size: 1.2rem;
   }
 
+  .product-select-container {
+    flex: none;
+  }
   .profile-username {
     font-size: 1.3rem;
   }
