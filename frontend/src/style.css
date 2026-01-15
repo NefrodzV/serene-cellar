@@ -420,10 +420,6 @@ label, button, input {
   justify-content: center;
 }
 
-.product-select-container {
-  flex: 1;
-}
-
 .product-detail .image-container {
   overflow: hidden;
   grid-column: 1 / 2;
@@ -510,6 +506,7 @@ label, button, input {
   display: flex;
   padding: .5rem;
   justify-content: space-between;
+  text-transform: uppercase;
   background-color: transparent;
 }
 
@@ -537,12 +534,12 @@ label, button, input {
   border-radius:var(--border-radius);
   top: 100%;
   width: 100%;
-  /* position: absolute; */
   color: var(--text);
   background-color: #fff;
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
+
 .select-items  .disabled, .select-items  .disabled:hover {
   background-color: lightgray;
   color: var(--error);
@@ -552,22 +549,33 @@ label, button, input {
 .select-items > *  {
   font-weight: bold;
   display: flex;
-  align-items: center;
   height: var(--control-height);
+}
+
+.select-items .item {
+  padding: 0 .5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  height: var(--control-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.select-item-header {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  display: flex;
   gap: .5rem;
-  
 }
 
 .select-items:last-child {
   border-bottom: 1px solid black;
 }
+
 .select-items[data-open=false] {
   height: 0;
   overflow: hidden;
-}
-
-.select-items div {
-  padding-inline: 1rem;
 }
 
 .select-items div:hover {
@@ -1283,6 +1291,15 @@ label, button, input {
   .product-detail .heading {
     grid-row-start: 1;
   }
+
+  .product-select-container {
+  flex: 1;
+}
+
+.quantity-selection {
+  display: flex;
+  justify-content: center;
+}
 }
 
 @media(max-width: 480px) {

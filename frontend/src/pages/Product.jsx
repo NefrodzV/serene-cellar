@@ -54,7 +54,7 @@ export function ProductPage() {
                         value={variant?.priceId || ''}
                         text={
                           variant
-                            ? `$${variant.price} ${variant.package} ${variant.containerKind} ${variant.containerVolumeMl} mL`
+                            ? `${variant.package} ${variant.containerKind} ${variant.containerVolumeMl} mL`
                             : 'Select product'
                         }
                         onChange={onSelection}
@@ -66,14 +66,16 @@ export function ProductPage() {
                             label={`${variant.price} ${variant.package} ${variant.containerKind} ${variant.containerVolumeMl} mL`}
                             disabled={!variant.purchasable}
                           >
-                            <span>${variant.price}</span>
-                            <span className="pack">{variant.package}</span>
-                            <span className="container">
-                              {variant.containerKind}
-                            </span>
-                            <span className="volume">
-                              {variant.containerVolumeMl} mL
-                            </span>
+                            <div className="select-item-header">
+                              <span className="pack">{variant.package}</span>
+                              <span className="container">
+                                {variant.containerKind}
+                              </span>
+                              <span className="volume">
+                                {variant.containerVolumeMl} mL
+                              </span>
+                            </div>
+                            <div className="price">$ {variant.price}</div>
                           </Select.Option>
                         ))}
                       </Select>
@@ -90,7 +92,9 @@ export function ProductPage() {
                         >
                           {[...Array(variant?.stock).keys()].map((val, i) => (
                             <Select.Option key={i} value={i + 1} label={i + 1}>
-                              <span>{val + 1}</span>
+                              <span className="quantity-selection">
+                                {val + 1}
+                              </span>
                             </Select.Option>
                           ))}
                         </Select>
