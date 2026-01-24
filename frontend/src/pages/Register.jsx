@@ -227,7 +227,7 @@ export function RegisterPage() {
         </div>
 
         <Button variant="primary">Register</Button>
-        <Link className="center-flex" to={'/login'}>
+        <Link className="anchor center-flex" to={'/login'}>
           Already have an account?
         </Link>
       </form>

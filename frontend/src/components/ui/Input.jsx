@@ -1,12 +1,5 @@
 import React from 'react'
-export function Input({
-  variant = 'primary',
-  children,
-  id,
-  label,
-  error,
-  ...props
-}) {
+export function Input({ children, id, label, error, ...props }) {
   const variants = {
     primary: 'input-primary',
   }
@@ -15,7 +8,7 @@ export function Input({
       {label && <label htmlFor={id}>{label}</label>}
       <div className="input-wrapper">
         <input
-          className={`input ${variants[variant]}`}
+          className={`input`}
           id={id}
           name={id}
           aria-invalid={!!error}

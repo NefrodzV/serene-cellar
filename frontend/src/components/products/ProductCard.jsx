@@ -10,13 +10,7 @@ export function ProductCard({ product, i, shouldExit = false, ...props }) {
   }, [])
 
   return (
-    <Card
-      as={Link}
-      to={`/shop/${product?.id}`}
-      className={`rounded card-primary-hover from-left ${entered ? 'slide-in' : ''} ${shouldExit ? 'slide-out' : ''}`}
-      // style={{ '--stagger': `${delay}s` }}
-      {...props}
-    >
+    <Card as={Link} to={`/shop/${product?.id}`} {...props}>
       <ProductItem product={product} />
     </Card>
   )

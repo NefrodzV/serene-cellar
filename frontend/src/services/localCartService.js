@@ -79,6 +79,8 @@ export async function validateLocalCartItems(items, signal) {
     error.status = res.status
     throw error
   }
+
   const data = await res.json()
+
   return data ?? null
 }

@@ -103,11 +103,14 @@ export function LoginPage() {
         />
         <div>{errors.global}</div>
         <Button variant="primary">Login</Button>
-        <Link className="push-right" href="#">
+        <Link className="anchor push-right" href="#">
           Forgot password?
         </Link>
         <p className="center-flex">
-          Don't have an account? <Link to={'/register'}>Register here.</Link>
+          Don't have an account?{' '}
+          <Link className="anchor" to={'/register'}>
+            Register here.
+          </Link>
         </p>
       </Form>
     </div>

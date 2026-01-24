@@ -1,27 +1,14 @@
 :root {
   /* Colors */
-  --primary: #581C1C;
-  --primary-40l: hsl(0, 52%, 40%);
-  --primary5: hsl(0, 52%, 23%, 5%);
-  --accent: rgb(62, 39, 35);
-  --accent5:rgb(62, 39, 35, 80%);
-  --secondary: #C49A6C;
-  --secondary40l:hsl(31, 43%, 40%);
-  --background: #FDF6ED;
-  --background5v: hsl(34, 80%, 96%, .5);
-  --text: #160303;
-  --error: #8C1D1D;
-  
-  /* https://www.realtimecolors.com/?colors=160303-FDF6ED-591c1c-C49A6C-3E2723&fonts=Inter-Inter */
-  
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --bbackground-clr: white;
+  --text-clr: #111;
+  --accent-clr: #2563EB;
+  --font: 'Inter', sans-serif;
 
   /** Dimensions */
-  --header-footer-height: 40px;
+  --header-footer-height: 56px;
   --control-height: 44px;
-  --border-radius: 12px;
-
+  --border-radius: 6px;
   --small-space: .5rem
 }
 
@@ -38,14 +25,17 @@ h1, h2, h3 {
   background-color: var(--primary);
 }
 
+.header {
+  box-shadow: 0 3px 6px hsl(0, 0%, 7%, .1);
+}
 
 html {
   font-size: 100%;
 }
 
-body,.button, .input {
+body, .button, .input {
   color: var(--text);
-  font-family: var(--font-body);
+  font-family: var(--font);
 }
 body {
   color: var(--text);
@@ -58,7 +48,7 @@ label, button, input {
 }
 /* UI */
 /** Button styles */
-.button, .anchor {
+.button {
   padding: .5rem 1rem;
   pointer-events: all;
   cursor: pointer;
@@ -72,67 +62,28 @@ label, button, input {
   border-radius: var(--border-radius);
   transition: background-color .3s, transform .1s ;
   gap: .5rem;
-  
 }
 
-.button-primary, .anchor-primary {
-  background-color: var(--primary);
-  color: white;
+.button {
+  height: var(--control-height);
+  display: flex;
+  align-items: center;
+  background-color: var(--accent-clr);
+}
+
+.button:hover  {
+  opacity: .9;
+}
+
+.anchor {
+  color: var(--accent-clr);
   text-decoration: none;
 }
 
-.button-primary:hover, .anchor-primary:hover  {
-   background-color: var(--primary-40l);
+.anchor:hover {
+  text-decoration: underline;
 }
 
-.button-secondary {
-  color: var(--text);
-  background-color: var(--secondary);
-}
-
-.button-secondary:hover {
-  background-color: var(--secondary40l);
-}
-
-.button-neutral {
-  color: white;
-  background-color: transparent;
-}
-
-.button-neutral:hover {
-  color: white;
-  background-color: hsl(0, 0%, 0%, .5);
-}
-
-.button-card{
-  color: var(--text);
-  margin-inline: auto 0;
-  background-color: transparent;
-}
-
-.button-card:hover {
-  background-color: hsl(0, 0%, 0%, .2);
-}
-
-.button:active{
-  transform: scale(.9);
-}
-
-.button:disabled, .button:disabled:hover {
-  background-color: lightgray;
-  cursor: not-allowed;
- 
-}
-
-.button-accent {
-  background-color: var(--accent);
-  color: white;
-}
-
-.button-accent:hover {
-  background-color: var(--accent5);
-  
-}
 .fullwidth {
   width: 100%;
 }
@@ -143,15 +94,11 @@ label, button, input {
   padding-inline: .5rem;
   width: 100%;
   box-sizing: border-box;
+  border-radius: var(--border-radius);
 }
 
-.input-primary {
-  border: 1px solid var(--text);
-  border-radius: 8px;
-}
-
-.input-primary:focus{
-  outline-color: var(--primary);
+.input:focus {
+  outline-color: var(--accent-clr);
 }
 
 .input-container {
@@ -204,6 +151,7 @@ label, button, input {
 }
 
 .logo {
+  color: #2563EB;
   height: 100%;
 }
 
@@ -224,7 +172,6 @@ label, button, input {
 }
 
 .login-form, .register-form {
-  background-color: var(--surface-color);
   max-width: 400px;
   width: 100%;
   display: flex;
@@ -256,17 +203,8 @@ label, button, input {
   align-items: center;
 }
 
-.login-form p, .login-form a, .register-form a {
+.login-form p, .register-form p, .login-form .anchor, .register-form .anchor{
   font-size: .875rem;
-}
-
-.login-form a, .register-form a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
-.login-form a:hover, .register-form a:hover {
-  text-decoration: underline;
 }
 
 .login-form label {
@@ -281,7 +219,7 @@ label, button, input {
 }
 
 .error {
-  color: var(--error);
+  color: red;
 }
 
 .products-container {
@@ -302,7 +240,7 @@ label, button, input {
   gap: .5rem;
   align-items: center;
 }
-.product-grid {
+.products-grid {
   flex: 1;
   overflow-y: auto;
   position: relative;
@@ -335,25 +273,18 @@ label, button, input {
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--background);
-  height: 100dvh;
 }
+
 
 .main-layout {
   box-sizing: border-box;
-  flex: 1;
   display: flex;
   width: clamp(320px, 100%, 1080px); 
-  overflow-y: hidden;
-  height: calc(100svh - 76px);
   position: relative;
-  min-height: 0;
+  flex: 1;
 }
-
-/* .main-layout.no-scroll {
-  overflow-y: hidden;
-} */
 
 .header .content {
   margin: auto;
@@ -361,9 +292,6 @@ label, button, input {
   height: 100%;
 }
 
-.logo {
-  color: white;
-}
 .header .content, .drawer{
   display: flex;
   justify-content: space-between;
@@ -380,14 +308,15 @@ label, button, input {
 }
 
 .drawer .link {
+  
   display: flex;
   align-items: center;
   gap: .3rem;
   height: var(--control-height);
   text-transform: capitalize;
-  color: white;
+  color: var(--text-clr);
   text-decoration: none;
-  transition: background-color .3s;
+  transition: color .3s;
   padding-inline: .5rem;
   border-radius: var(--border-radius);
 }
@@ -396,65 +325,72 @@ label, button, input {
 }
 
 .drawer .link:hover {
-  background-color: rgba(0, 0, 0, .5);
+  color: var(--accent-clr);
   
 }
 
 /* Product */
-.product-detail-page {
-  flex: 1;
+.product-page {
+  
+
   position: relative;
   padding: .5rem;
-  display: flex;
+  
   overflow-y: auto;
   
 }
 
-.product-detail {
-  height: 450px;
+.product-grid {
+  box-sizing: border-box;
+  box-shadow: 0 0 6px hsl(0, 0%, 7%, .3);
+  padding: 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background: #fff;
   width: 100%;
-  margin: auto;
   display: grid;
   grid-template-columns: 300px auto;
   grid-template-rows: 2rem auto;
   justify-content: center;
 }
 
-.product-detail .image-container {
+.product-grid .image-container {
   overflow: hidden;
   grid-column: 1 / 2;
-  grid-row-start: 1;
+  grid-row-start: 2;
   grid-row-end: 3;
 }
 
-.product-detail-image {
+.product-grid-image {
   display: block;
   height: 100%;
   width: 100%;
 }
 
-.product-detail .heading {
+.product-grid .heading {
+  text-align: center;
+  grid-column: 1 / 3;
   grid-row-start: 1;
 }
 
-.product-detail .selection {
+.product-grid .selection {
   display: flex;
   gap: .5rem;
 }
 
-.product-detail-content {
+.product-grid-content {
   display: flex;
   flex-direction: column;
   gap: .5rem;
 }
 
-.product-detail-content > * {
+.product-grid-content > * {
   height: min-content;
   padding: 0;
   margin: 0;
 }
 
-.product-detail-footer {
+.product-grid-footer {
   display: flex;
   flex-direction: column;
   gap: .5rem;
@@ -465,14 +401,6 @@ label, button, input {
   margin: 0;
 }
 
-.product-detail .title {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-/* .product-detail .selection > :first-child{
-  flex: 1;
-} */
 
 /* Price tag */
 .price-tag {
@@ -501,7 +429,7 @@ label, button, input {
 }
 
 .select .button {
-  border: 1px solid var(--primary);
+  border: 1px solid black;
   width: 100%;
   display: flex;
   padding: .5rem;
@@ -516,14 +444,10 @@ label, button, input {
 }
 
 .select .button[data-open=true] {
-  border: 2px solid var(--primary);
+  border: 2px solid var(--accent-clr);
 }
 
-.button {
-  height: var(--control-height);
-  display: flex;
-  align-items: center;
-}
+
 .select .button i {
   color: var(--primary);
 }
@@ -535,7 +459,7 @@ label, button, input {
   top: 100%;
   width: 100%;
   color: var(--text);
-  background-color: #fff;
+  background-color: var(--bbackground-clr);
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   z-index: 2;
   }
@@ -581,12 +505,12 @@ label, button, input {
 .select-items div:hover {
   cursor: pointer;
   color: white;
-  background-color: var(--primary);
+  background-color: var(--accent-clr);
  }
 
  .selected {
   color: var(--text);
-  background-color: var(--secondary);
+  background-color: var(--accent-clr);
  }
 
  .heading {
@@ -619,30 +543,15 @@ label, button, input {
 
 /* Card styles */
 .card {
+  box-shadow: 0 0 12px hsl(0, 0%, 7%, .1);
+  border-radius: 6px;
   --stagger: 0s;
   box-sizing: border-box;
   padding: .5rem;
-  transition: box-shadow .3s ease, height .3s ease, transform  .3s ease var(--stagger)  , opacity .5s ease var(--stagger);
   color: var(--text);
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
-}
-
-.card-neutral {
-  background-color: var(--background);
-}
-
-.card-primary {
-  background-color: var(--primary5);
-}
-
-.card-primary-hover:hover {
-  box-shadow: 0 0 6px var(--accent);
-}
-
-.card-secondary {
-  background-color:hsl(31, 43%, 70%);
 }
 
 .selectable-card {
@@ -672,14 +581,10 @@ label, button, input {
   border-radius: var(--border-radius);
 }
 
-.shadow3 {
-  box-shadow: 0 0 3px var(--accent);
+.shadow {
+  box-shadow: 0 0px 6px hsl(0, 0%, 7%, .1);;
 }
-
-.shadow3:hover {
-  box-shadow: 0 0 3px var(--accent);
-}
-
+s
 /* Message */
 .message {
   box-sizing: border-box;
@@ -1088,11 +993,6 @@ label, button, input {
 .align-right {
   margin-inline:  auto 0;
 }
-.product-detail-card {
-  margin: auto;
- 
-}
-
 
 .bold {
   font-weight: bold;
@@ -1266,14 +1166,14 @@ label, button, input {
     flex-direction: column;
   }
 
-  .product-detail-card {
-    margin: 0;
-  }
-  .product-detail-page {
+  .product-page {
     overflow-y: auto;
     display: flex;
   }
-  .product-detail {
+  .product-grid {
+    border: none;
+    box-shadow: none;
+    padding: 0;
     overflow: hidden;
     height: 100%;
     margin: 0;  
@@ -1282,15 +1182,21 @@ label, button, input {
   grid-template-rows:  min-content 1fr min-content;
 }
 
-  .product-detail .image-container{
+  .product-grid .image-container{
     margin-inline: auto;
     grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-end: 2;
   }
 
-  .product-detail .heading {
+  .product-grid .heading {
     grid-row-start: 1;
   }
+
+  .product-grid-content {
+    grid-row-start: 3;
+  }
+
+
 
   .product-select-container {
   flex: 1;
@@ -1402,7 +1308,7 @@ label, button, input {
     align-items: stretch;
   }
 
-  .product-grid {
+  .products-grid {
     grid-template-columns: repeat(auto-fit, 150px);
   }
 

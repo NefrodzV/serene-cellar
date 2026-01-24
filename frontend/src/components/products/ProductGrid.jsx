@@ -54,7 +54,7 @@ export function ProductGrid() {
         ))}
       </Form>
 
-      <ul className="product-grid">
+      <ul className="products-grid">
         {isLoading ? (
           <Spinner
             style={{
