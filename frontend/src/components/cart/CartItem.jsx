@@ -53,21 +53,23 @@ export function CartItem({ index, item }) {
     >
       <article className="cart-item">
         <div className="product">
-          <div className="image">
+          <div className="cart-item-image">
             <img
               className="thumbnail"
               alt={name}
               srcSet={`${API_URL + '/' + images?.thumbnail[150]} 1x, ${API_URL + '/' + images?.thumbnail[300]} 2x, ${API_URL + '/' + images?.thumbnail[450]} 3x`}
             />
           </div>
+
           <div className="content">
-            <h3>
+            <h3 className="product-name">
               {name} ({unit})
             </h3>
             <p>
               <span className={`${hasDiscount ? 'line-through' : ''}`}>
                 ${price}
               </span>
+
               {/* {hasDiscount && (
                 <>
                   <span>&#x27A1;</span> <span>${finalUnitPrice}</span>{' '}
@@ -75,8 +77,11 @@ export function CartItem({ index, item }) {
                 </>
               )} */}
             </p>
+            <span className="cart-item-subtotal bold">
+              Subtotal : $ {item?.lineTotal}
+            </span>
           </div>
-          <div className="item-control">
+          {/* <div className="item-control">
             <Button
               variant="secondary"
               disabled={quantity === MIN_ITEM_QUANTITY}
@@ -137,8 +142,7 @@ export function CartItem({ index, item }) {
             >
               <i class="fa-solid fa-trash"></i>
             </Button>
-          </div>
-          <span className="cart-item-subtotal bold">$ {item?.lineTotal}</span>
+          </div> */}
         </div>
       </article>
     </Card>
