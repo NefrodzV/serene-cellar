@@ -32,7 +32,7 @@ export async function getCartByUserId(userId) {
           FROM (
             SELECT
             pi.role,
-            jsonb_object_agg(a.width, a.url) AS role_images
+            jsonb_object_agg(a.width, a.storage_key) AS role_images
             FROM product_images pi
             INNER JOIN assets a ON a.id= pi.asset_id
             WHERE pi.product_id = pv.product_id 
@@ -166,7 +166,7 @@ export async function validateLocalCartItems(items) {
           FROM (
             SELECT
             pi.role,
-            jsonb_object_agg(a.width, a.url) AS role_images
+            jsonb_object_agg(a.width, a.storage_key) AS role_images
             FROM product_images pi
             INNER JOIN assets a ON a.id= pi.asset_id
             WHERE pi.product_id = pv.product_id 
