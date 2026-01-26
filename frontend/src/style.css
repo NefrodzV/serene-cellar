@@ -381,6 +381,7 @@ label, button, input {
 }
 
 .product-grid-image {
+  aspect-ratio:  3 / 4;
   display: block;
   height: 100%;
   width: 100%;
@@ -1202,13 +1203,11 @@ s
     margin: 0;  
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows:  min-content 1fr min-content;
+  grid-template-rows:  min-content min-content min-content;
 }
 
   .product-grid .image-container{
     margin-inline: auto;
-    grid-row-start: 2;
-    grid-row-end: 2;
   }
 
   .product-grid .heading {
