@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useCart } from '../../hooks'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
+import { API_URL } from '../../config'
 export function CartItem({ index, item }) {
   const MIN_ITEM_QUANTITY = 1
   const DELETE_MS = 500
   const STAGGER_RATE_INCREASE = 0.2
   const {
+    id,
     priceId,
     name,
     images,
@@ -26,17 +28,17 @@ export function CartItem({ index, item }) {
     // if (!stock) {
     //   setError('Item is out of stock')
     // }
-    console.log(`setting raw qty`, quantity)
+
     setRawQuantity(String(quantity))
   }, [quantity])
-  console.log('elength', rawQuantity.length)
+
   useEffect(() => {
     requestAnimationFrame(() => setHasMounted(true))
   }, [])
 
   return (
     <Card
-      key={item.priceId}
+      key={item?.priceId}
       as="li"
       style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
       className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'cart-item-delete' : ''}`}
@@ -55,7 +57,7 @@ export function CartItem({ index, item }) {
             <img
               className="thumbnail"
               alt={name}
-              srcSet={`${images?.thumbnail[150]} 1x, ${images?.thumbnail[300]} 2x, ${images?.thumbnail[450]} 3x`}
+              srcSet={`${API_URL + '/' + images?.thumbnail[150]} 1x, ${API_URL + '/' + images?.thumbnail[300]} 2x, ${API_URL + '/' + images?.thumbnail[450]} 3x`}
             />
           </div>
           <div className="content">

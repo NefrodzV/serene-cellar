@@ -64,7 +64,7 @@ export function CartList() {
   return (
     <ul aria-label="Your current cart items" className="cart-list">
       {cart?.items?.map((item, i) => (
-        <CartItem item={item} key={`cart-item-${item.id}`} index={i} />
+        <CartItem item={item} key={`cart-item-${item?.priceId}`} index={i} />
       ))}
     </ul>
   )
