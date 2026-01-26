@@ -26,7 +26,7 @@ h1, h2, h3 {
 }
 
 .header {
-  box-shadow: 0 3px 6px hsl(0, 0%, 7%, .1);
+  box-shadow: 0 3px 3px hsl(0, 0%, 7%, .1);
 }
 
 html {
@@ -304,12 +304,30 @@ label, button, input {
 }
 
 .drawer {
+  box-sizing: border-box;
   align-items: center;
   gap: 1rem;
 }
 
+.drawer .image-container {
+  width: 40%;
+  align-self: center;
+}
+
+.drawer hr {
+  width: 100%;
+  opacity: .5;
+}
+.drawer .image-container {
+  aspect-ratio: 1 / 1;
+}
+
+.drawer .image-container, .drawer hr {
+  display: none;
+}
+
+
 .drawer .link {
-  
   display: flex;
   align-items: center;
   gap: .3rem;
@@ -432,6 +450,7 @@ label, button, input {
 .select .button {
   border: 1px solid black;
   width: 100%;
+  color: var(--text-clr);
   display: flex;
   padding: .5rem;
   justify-content: space-between;
@@ -456,6 +475,7 @@ label, button, input {
 .select-items {
   height: 132px;
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius:var(--border-radius);
   top: 100%;
   width: 100%;
@@ -544,7 +564,7 @@ label, button, input {
 
 /* Card styles */
 .card {
-  box-shadow: 0 0 12px hsl(0, 0%, 7%, .1);
+  box-shadow: 3px 3px  hsl(0, 0%, 7%, .1);
   border-radius: 6px;
   --stagger: 0s;
   box-sizing: border-box;
@@ -685,9 +705,7 @@ s
 }
 /* Drawer */
 .drawer[data-open="false"] {
-  width: 0;
-  padding: 0;
-  opacity: 0;
+  transform: translateX(100%);
   pointer-events: none;   
 }
 
@@ -813,7 +831,7 @@ s
   border-radius: 50%;
   height: 50px;
   width: 50px;
-  border: .3rem solid var(--primary);
+  border: .3rem solid var(--accent-clr);
   border-bottom-color: transparent;
   animation: rotate 1s linear infinite;
 }
@@ -1090,8 +1108,9 @@ s
   }
   
   .drawer {
+    width: 70%;
     overflow: hidden;
-    padding: .5rem;
+    padding: 1rem;
     z-index: 2;
     position: fixed;
     flex-direction: column;
@@ -1100,19 +1119,22 @@ s
     top: 0;
     height: 100%;
     right: 0;
-    background-color: var(--primary);
-    transition: .5s;
+    transform: translateX(0);
+    background-color: var(--bbackground-clr);
+    transition: transform .3s;
   }
 
+  .drawer .image-container, .drawer hr  {
+    display: block;
+  }
   
-
   .drawer[data-open=true] .close {
     display: block;
   }
 
   .drawer[data-open=true] {
-    width: 70%;
     pointer-events: auto;
+    box-shadow: -3px 0 3px hsl(0, 0%, 7%, .1);
   }
  
   .select {

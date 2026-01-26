@@ -76,6 +76,35 @@ export function Drawer({ navItems = [] }) {
         >
           X
         </Button>
+        <div className="image-container">
+          <svg
+            aria-label="Serene Cellar"
+            className="logo"
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="32" cy="32" r="28" />
+              <path d="M22 20c0 7 5.5 12 10 12s10-5 10-12H22z" />
+              <path
+                d="M24 22c2.5 3 6 5 8 5s5.5-2 8-5"
+                fill="currentColor"
+                stroke="none"
+                opacity=".9"
+              />
+              <path d="M32 32v12" />
+              <path d="M24 48h16" />
+            </g>
+          </svg>
+        </div>
+        <hr />
         {navItems.map((item) => (
           <NavLink key={item.link} className="link" to={item.link}>
             {item.icon}
