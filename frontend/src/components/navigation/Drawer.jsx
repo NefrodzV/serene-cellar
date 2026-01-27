@@ -47,7 +47,6 @@ export function Drawer({ navItems = [] }) {
     <>
       <Button
         arial-lable="open navigation menu"
-        variant={'neutral'}
         onClick={() => setOpen(!isOpen)}
         className="hamburger"
       >
@@ -59,11 +58,15 @@ export function Drawer({ navItems = [] }) {
         aria-hidden={!isOpen}
         ref={drawerRef}
         onClick={(e) => {
+          console.log(e)
           e.target.blur()
           const anchor = 'A'
           const button = 'BUTTON'
           const nodeType = e.target.nodeName
-          if ((nodeType === anchor || nodeType === button) && smql.matches) {
+          if (
+            (nodeType === anchor || nodeType === button) &&
+            smql.current.matches
+          ) {
             setOpen(false)
           }
         }}

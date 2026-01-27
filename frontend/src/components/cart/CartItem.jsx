@@ -53,6 +53,11 @@ export function CartItem({ index, item }) {
     >
       <article className="cart-item">
         <div className="product">
+          {/* <Button className="cart-item-button">
+            <div className="icon-container">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+          </Button> */}
           <div className="cart-item-image">
             <img
               className="thumbnail"
@@ -62,9 +67,14 @@ export function CartItem({ index, item }) {
           </div>
 
           <div className="content">
-            <h3 className="product-name">
-              {name} ({unit})
-            </h3>
+            <div className="cart-item-header">
+              <h3 className="cart-item-product-name">{name}</h3>
+              <Button className="cart-item-button">
+                <div className="icon-container">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </div>
+              </Button>
+            </div>
             <p>
               <span className={`${hasDiscount ? 'line-through' : ''}`}>
                 ${price}
