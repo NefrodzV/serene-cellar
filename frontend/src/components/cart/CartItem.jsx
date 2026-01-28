@@ -90,69 +90,75 @@ export function CartItem({ index, item }) {
             <span className="cart-item-subtotal bold">
               Subtotal : $ {item?.lineTotal}
             </span>
+            <div className="item-control">
+              <Button
+                variant="secondary"
+                disabled={quantity === MIN_ITEM_QUANTITY}
+                onClick={() => decrement(item, Number(quantity))}
+              >
+                -
+              </Button>
+
+              <div
+                className="cart-item-quantity"
+                style={{ width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)` }}
+              >
+                {rawQuantity}
+              </div>
+              {/* <input
+                // onChange={(e) => {
+                //   // setError('')
+                //   const value = e.target.value.replace(/\D/g, '')
+                //   if (Number(value) > stock) {
+                //     // setError('Quantity unavailable')
+                //   }
+                //   setRawQuantity(value)
+                // }}
+                name="quantity"
+                // style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
+                value={rawQuantity}
+                className="cart-item-quantity"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                min={MIN_ITEM_QUANTITY}
+                max={stock}
+                readOnly
+                // onBlur={(e) => {
+                //   // setError('')
+                //   if (rawQuantity === '' || Number(rawQuantity) <= 0) {
+                //     setRawQuantity(String(quantity))
+                //     return
+                //   }
+                //   const val = rawQuantity.replace(/^0+(?!$)/g, '')
+                //   setRawQuantity(val)
+                //   if (val > stock) {
+                //     setRawQuantity(String(quantity))
+                //     return
+                //   }
+                //   updateItem(item, Number(rawQuantity))
+                // }}
+              /> */}
+
+              <Button
+                variant="secondary"
+                disabled={quantity >= stock}
+                onClick={() => increment(item, Number(rawQuantity))}
+              >
+                +
+              </Button>
+              <Button
+                variant="secondary"
+                aria-label="Delete cart item"
+                type="button"
+                onClick={() => {
+                  setIsDeleting(true)
+                }}
+              >
+                <i class="fa-solid fa-trash"></i>
+              </Button>
+            </div>
           </div>
-          {/* <div className="item-control">
-            <Button
-              variant="secondary"
-              disabled={quantity === MIN_ITEM_QUANTITY}
-              onClick={() => decrement(item, Number(quantity))}
-            >
-              -
-            </Button>
-
-            <input
-              // onChange={(e) => {
-              //   // setError('')
-              //   const value = e.target.value.replace(/\D/g, '')
-              //   if (Number(value) > stock) {
-              //     // setError('Quantity unavailable')
-              //   }
-              //   setRawQuantity(value)
-              // }}
-              name="quantity"
-              style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
-              value={rawQuantity}
-              className="cart-item-quantity"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              min={MIN_ITEM_QUANTITY}
-              max={stock}
-              readOnly
-              // onBlur={(e) => {
-              //   // setError('')
-              //   if (rawQuantity === '' || Number(rawQuantity) <= 0) {
-              //     setRawQuantity(String(quantity))
-              //     return
-              //   }
-              //   const val = rawQuantity.replace(/^0+(?!$)/g, '')
-              //   setRawQuantity(val)
-              //   if (val > stock) {
-              //     setRawQuantity(String(quantity))
-              //     return
-              //   }
-              //   updateItem(item, Number(rawQuantity))
-              // }}
-            />
-
-            <Button
-              variant="secondary"
-              disabled={quantity >= stock}
-              onClick={() => increment(item, Number(rawQuantity))}
-            >
-              +
-            </Button>
-            <Button
-              variant="secondary"
-              aria-label="Delete cart item"
-              type="button"
-              onClick={() => {
-                setIsDeleting(true)
-              }}
-            >
-              <i class="fa-solid fa-trash"></i>
-            </Button>
-          </div> */}
         </div>
       </article>
     </Card>
