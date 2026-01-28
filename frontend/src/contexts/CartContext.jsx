@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useMessages, useUser } from '../hooks'
 import * as localCartService from '../services/localCartService'
-
 import * as authCartService from '../services/authCartService'
 import React from 'react'
 import { fetchWithRetries } from '../utils'
@@ -11,7 +10,7 @@ export const CartContext = createContext()
 export function CartProvider({ children }) {
   const { isAuthenticated } = useUser()
   const { sendMessage } = useMessages()
-
+  const [isLoading, setIsLoading] = useState(true)
   const defaultCart = {
     items: [],
     isEmpty: true,
@@ -41,7 +40,10 @@ export function CartProvider({ children }) {
         if (!data?.cart) return
         setCart(data?.cart)
       } catch (e) {
+        if (e.name === 'AbortError') retrun
         console.error('Error loading cart:', e)
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false)
       }
     }
 
@@ -62,6 +64,8 @@ export function CartProvider({ children }) {
         if (e.name === 'AbortError') return
         console.error('Error getting localcart snapshot')
         console.error(e)
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false)
       }
     }
 
@@ -81,7 +85,6 @@ export function CartProvider({ children }) {
 
   async function addItem(item, quantity) {
     try {
-      console.log('item', item, quantity)
       const data = isAuthenticated
         ? await authCartService.addItem(item.priceId, Number(quantity))
         : await localCartService.addItem(item, quantity)
@@ -146,6 +149,7 @@ export function CartProvider({ children }) {
 
   const value = {
     cart,
+    isLoading,
     addItem,
     deleteItem,
     updateItem,
