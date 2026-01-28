@@ -42,7 +42,7 @@ export function ProductGrid() {
     <div className="products-container">
       <Heading>Products</Heading>
       <Form className="filters" aria-label="Product filters">
-        {categories.map((type) => (
+        {categories?.map((type) => (
           <Tag
             key={type}
             id={`alcohol-${type}`}
