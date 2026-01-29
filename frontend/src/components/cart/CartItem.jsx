@@ -92,18 +92,20 @@ export function CartItem({ index, item }) {
             </span>
             <div className="item-control">
               <Button
-                variant="secondary"
+                className="transparent-button"
                 disabled={quantity === MIN_ITEM_QUANTITY}
                 onClick={() => decrement(item, Number(quantity))}
               >
-                -
+                <div className="button-icon-container">-</div>
               </Button>
 
-              <div
-                className="cart-item-quantity"
-                style={{ width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)` }}
-              >
-                {rawQuantity}
+              <div className="cart-item-quantity">
+                <div
+                  className="quantity-container"
+                  style={{ width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)` }}
+                >
+                  {rawQuantity}
+                </div>
               </div>
               {/* <input
                 // onChange={(e) => {
@@ -141,21 +143,23 @@ export function CartItem({ index, item }) {
               /> */}
 
               <Button
-                variant="secondary"
+                className="transparent-button"
                 disabled={quantity >= stock}
                 onClick={() => increment(item, Number(rawQuantity))}
               >
-                +
+                <div className="button-icon-container">+</div>
               </Button>
               <Button
-                variant="secondary"
+                className="transparent-button"
                 aria-label="Delete cart item"
                 type="button"
                 onClick={() => {
                   setIsDeleting(true)
                 }}
               >
-                <i class="fa-solid fa-trash"></i>
+                <div className="button-icon-container">
+                  <i class="fa-solid fa-trash"></i>
+                </div>
               </Button>
             </div>
           </div>

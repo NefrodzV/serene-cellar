@@ -60,7 +60,7 @@ label, button, input {
   justify-content: center;
   align-items: center;
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 6px;
   transition: background-color .3s, transform .1s ;
   gap: .5rem;
 }
@@ -71,11 +71,25 @@ label, button, input {
   background-color: var(--accent-clr);
 }
 
-.button:hover  {
-  opacity: .9;
+.transparent-button {
+  padding: 0;
+  background-color: transparent;
+}
+
+.button-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80%;
+  min-width: 80%;
+  background-color: var(--accent-clr);
+  border-radius: 6px;
 }
 
 
+.button:hover  {
+  opacity: .9;
+}
 
 .anchor {
   color: var(--accent-clr);
@@ -798,16 +812,23 @@ s
 } 
 
 .cart-item-quantity {
-  padding-inline: .5rem;
-  outline: none;
-  pointer-events: none;
-  text-align: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  border: 1px solid black;
 } 
+.quantity-container {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  min-height: 80%;
+  min-width: 80%;
+  border: 1px solid black;
+}
 
 
 
