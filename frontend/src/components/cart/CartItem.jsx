@@ -16,22 +16,23 @@ export function CartItem({ index, item }) {
     price,
     package: unit,
     stock,
+    ml,
     hasDiscount,
     lineTotal,
+    container,
+    purchasable,
   } = item
 
   const [hasMounted, setHasMounted] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { increment, decrement, updateItem, deleteItem } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
-  useEffect(() => {
-    // if (!stock) {
-    //   setError('Item is out of stock')
-    // }
 
+  useEffect(() => {
     setRawQuantity(String(quantity))
   }, [quantity])
 
+  console.log(item)
   useEffect(() => {
     requestAnimationFrame(() => setHasMounted(true))
   }, [])
@@ -53,11 +54,6 @@ export function CartItem({ index, item }) {
     >
       <article className="cart-item">
         <div className="product">
-          {/* <Button className="cart-item-button">
-            <div className="icon-container">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-          </Button> */}
           <div className="cart-item-image">
             <img
               className="thumbnail"
@@ -69,98 +65,99 @@ export function CartItem({ index, item }) {
           <div className="content">
             <div className="cart-item-header">
               <h3 className="cart-item-product-name">{name}</h3>
-              <Button className="cart-item-button">
-                <div className="icon-container">
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </div>
-              </Button>
             </div>
-            <p>
-              <span className={`${hasDiscount ? 'line-through' : ''}`}>
-                ${price}
+            {purchasable ? (
+              <span className="cart-item-in-stock cart-item-content-row">
+                In stock
               </span>
+            ) : (
+              <span className="cart-item-out-of-stock cart-item-content-row">
+                Out of stock
+              </span>
+            )}
 
-              {/* {hasDiscount && (
-                <>
-                  <span>&#x27A1;</span> <span>${finalUnitPrice}</span>{' '}
-                  <span className="green bold">{discountPercent}% OFF</span>
-                </>
-              )} */}
-            </p>
+            <div className="cart-item-content-row">
+              <span>${price} each</span>
+            </div>
+            <div className="cart-item-content-row">
+              <span className="cart-item-label">Package: </span>
+              {unit}
+            </div>
+            <div className="cart-item-content-row">
+              <span className="cart-item-label">Volume: </span>
+              {ml}mL
+            </div>
+            <div className="cart-item-content-row">
+              <span className="cart-item-label">Container: </span>
+              {container}
+            </div>
+
             <span className="cart-item-subtotal bold">
-              Subtotal : $ {item?.lineTotal}
+              Subtotal: ${item?.lineTotal}
             </span>
-            <div className="item-control">
-              <Button
-                className="transparent-button"
-                disabled={quantity === MIN_ITEM_QUANTITY}
-                onClick={() => decrement(item, Number(quantity))}
-              >
-                <div className="button-icon-container">-</div>
-              </Button>
+            <div className="control-container">
+              <div className="item-control">
+                {quantity === 1 ? (
+                  <Button
+                    variant="transparent"
+                    aria-label="Delete cart item"
+                    type="button"
+                    onClick={() => {
+                      setIsDeleting(true)
+                    }}
+                  >
+                    <div className="button-icon-container">
+                      <i class="fa-solid fa-trash"></i>
+                    </div>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="transparent"
+                    disabled={quantity === MIN_ITEM_QUANTITY}
+                    onClick={() => decrement(item, Number(quantity))}
+                  >
+                    <div className="button-icon-container">
+                      <i class="fa-solid fa-arrow-down"></i>
+                    </div>
+                  </Button>
+                )}
 
-              <div className="cart-item-quantity">
-                <div
-                  className="quantity-container"
-                  style={{ width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)` }}
+                <div className="cart-item-quantity">
+                  <div
+                    className="quantity-container"
+                    style={{
+                      width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)`,
+                    }}
+                  >
+                    {rawQuantity}
+                  </div>
+                </div>
+
+                <Button
+                  variant="transparent"
+                  disabled={quantity >= stock}
+                  onClick={() => increment(item, Number(rawQuantity))}
                 >
-                  {rawQuantity}
-                </div>
+                  <div className="button-icon-container">
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </div>
+                </Button>
               </div>
-              {/* <input
-                // onChange={(e) => {
-                //   // setError('')
-                //   const value = e.target.value.replace(/\D/g, '')
-                //   if (Number(value) > stock) {
-                //     // setError('Quantity unavailable')
-                //   }
-                //   setRawQuantity(value)
-                // }}
-                name="quantity"
-                // style={{ width: `clamp(4ch, ${rawQuantity.length}ch, 10ch)` }}
-                value={rawQuantity}
-                className="cart-item-quantity"
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                min={MIN_ITEM_QUANTITY}
-                max={stock}
-                readOnly
-                // onBlur={(e) => {
-                //   // setError('')
-                //   if (rawQuantity === '' || Number(rawQuantity) <= 0) {
-                //     setRawQuantity(String(quantity))
-                //     return
-                //   }
-                //   const val = rawQuantity.replace(/^0+(?!$)/g, '')
-                //   setRawQuantity(val)
-                //   if (val > stock) {
-                //     setRawQuantity(String(quantity))
-                //     return
-                //   }
-                //   updateItem(item, Number(rawQuantity))
-                // }}
-              /> */}
 
-              <Button
-                className="transparent-button"
-                disabled={quantity >= stock}
-                onClick={() => increment(item, Number(rawQuantity))}
-              >
-                <div className="button-icon-container">+</div>
-              </Button>
-              <Button
-                className="transparent-button"
-                aria-label="Delete cart item"
-                type="button"
-                onClick={() => {
-                  setIsDeleting(true)
-                }}
-              >
-                <div className="button-icon-container">
-                  <i class="fa-solid fa-trash"></i>
-                </div>
-              </Button>
+              {quantity > 1 ? (
+                <Button
+                  variant="transparent"
+                  aria-label="Delete cart item"
+                  type="button"
+                  onClick={() => {
+                    setIsDeleting(true)
+                  }}
+                >
+                  <div className="button-icon-container delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>

@@ -1,22 +1,18 @@
 import React from 'react'
 export function Button({
-  variant = '',
+  variant = 'primary',
   children,
   onClick,
   className = '',
   ...props
 }) {
   const variants = {
-    primary: 'button-primary',
-    card: 'button-card',
-    neutral: 'button-neutral',
-    secondary: 'button-secondary',
-    accent: 'button-accent',
+    transparent: 'transparent',
   }
 
   return (
     <button
-      className={`button ${variants[variant]} ${className}`}
+      className={`button ${variants[variant] ?? ''} ${className ?? ''}`}
       onClick={onClick}
       {...props}
     >

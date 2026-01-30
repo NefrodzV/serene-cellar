@@ -24,6 +24,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     const controller = new AbortController()
     async function loadCart() {
+      console.log('Loading cart')
       try {
         let data = await fetchWithRetries(
           () => {
@@ -40,7 +41,7 @@ export function CartProvider({ children }) {
         if (!data?.cart) return
         setCart(data?.cart)
       } catch (e) {
-        if (e.name === 'AbortError') retrun
+        if (e.name === 'AbortError') return
         console.error('Error loading cart:', e)
       } finally {
         if (!controller.signal.aborted) setIsLoading(false)
@@ -75,6 +76,7 @@ export function CartProvider({ children }) {
       // Just calculate here the total items for localcart and disable this
       getCartSnapshot()
     } else {
+      setIsLoading(false)
       setCart(defaultCart)
     }
 
