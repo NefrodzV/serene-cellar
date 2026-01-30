@@ -32,7 +32,6 @@ export function CartItem({ index, item }) {
     setRawQuantity(String(quantity))
   }, [quantity])
 
-  console.log(item)
   useEffect(() => {
     requestAnimationFrame(() => setHasMounted(true))
   }, [])
@@ -42,7 +41,7 @@ export function CartItem({ index, item }) {
       key={item?.priceId}
       as="li"
       style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
-      className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'cart-item-delete' : ''}`}
+      className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'is-deleting' : ''}`}
       onTransitionEnd={(e) => {
         if (e.target !== e.currentTarget) return
         if (isDeleting) {
