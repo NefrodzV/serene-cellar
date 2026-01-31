@@ -17,6 +17,7 @@ export function ProductContent({
   minQuantity,
   selectedVariant,
   onVariantSelected,
+  onAddToCart,
 }) {
   return (
     <section className="product-content">
@@ -49,7 +50,7 @@ export function ProductContent({
       </div>
 
       {subtotal && <ProductSubtotal subtotal={subtotal} />}
-      <Button>Add to cart</Button>
+      <Button onClick={onAddToCart}>Add to cart</Button>
     </section>
   )
 }

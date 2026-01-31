@@ -10,6 +10,7 @@ export function ProductHeader({
   onIncrement,
   onDecrement,
   onVariantSelected,
+  onAddToCart,
 }) {
   return (
     <div className="product-header">
@@ -27,6 +28,7 @@ export function ProductHeader({
         onIncrement={onIncrement}
         onDecrement={onDecrement}
         onVariantSelected={onVariantSelected}
+        onAddToCart={onAddToCart}
       />
     </div>
   )
