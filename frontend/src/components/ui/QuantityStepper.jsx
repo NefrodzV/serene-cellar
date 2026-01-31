@@ -5,17 +5,17 @@ export function QuantityStepper({
   min,
   max,
   onIncrement,
-  OnDecrement,
+  onDecrement,
 }) {
   return (
     <div className="quantity-stepper">
       <Button
         variant="transparent"
         disabled={quantity <= min}
-        onClick={OnDecrement}
+        onClick={onDecrement}
       >
         <div className="button-icon-container">
-          <i class="fa-solid fa-arrow-down"></i>
+          <i className="fa-solid fa-arrow-down"></i>
         </div>
       </Button>
 
@@ -23,7 +23,7 @@ export function QuantityStepper({
         <div
           className="quantity-container"
           style={{
-            width: `clamp(2ch, ${quantity.length}ch, 7ch)`,
+            width: `clamp(2ch, ${quantity?.length}ch, 7ch)`,
           }}
         >
           {quantity}
@@ -36,7 +36,7 @@ export function QuantityStepper({
         onClick={onIncrement}
       >
         <div className="button-icon-container">
-          <i class="fa-solid fa-arrow-up"></i>
+          <i className="fa-solid fa-arrow-up"></i>
         </div>
       </Button>
     </div>

@@ -1,6 +1,6 @@
 export { LoginPage } from './Login'
 export { ShopPage } from './Shop'
-export { ProductPage } from './Product'
+export { ProductPage } from './ProductPage'
 export { CartPage } from './Cart'
 export { RegisterPage } from './Register'
 export { CheckoutSuccess } from './CheckoutSuccess'

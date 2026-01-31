@@ -250,7 +250,7 @@ label, button, input {
   color: red;
 }
 
-.products-container {
+.product-container {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -259,16 +259,16 @@ label, button, input {
   gap: .5rem;
 }
 
-.products-container > * {
+.product-container > * {
   padding-inline: .5rem;
 }
 
-.products-container .filters {
+.product-container .filters {
   display: flex;
   gap: .5rem;
   align-items: center;
 }
-.products-grid {
+.product-grid {
   flex: 1;
   overflow-y: auto;
   position: relative;
@@ -375,76 +375,94 @@ label, button, input {
   
 }
 
-/* Product */
+.card {
+  box-shadow: 3px 3px  hsl(0, 0%, 7%, .1);
+  border-radius: 6px;
+  --stagger: 0s;
+  box-sizing: border-box;
+  padding: .5rem;
+  color: var(--text);
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Product Page*/
 .product-page {
+  
   position: relative;
   padding: .5rem;
   width: 100%;
-  overflow-y: auto;
 }
 
-.product-grid {
-  box-sizing: border-box;
-  box-shadow: 0 0 6px hsl(0, 0%, 7%, .3);
-  padding: 1rem;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  background: #fff;
-  width: 100%;
+.product-header {
   display: grid;
-  grid-template-columns: 300px auto;
-  grid-template-rows: 2rem auto;
-  justify-content: center;
+  grid-template-columns: min-content 1fr;
 }
 
-.product-grid .image-container {
-  overflow: hidden;
-  grid-column: 1 / 2;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-
-.product-grid-image {
-  aspect-ratio:  3 / 4;
+.product-media {
+  max-width: 450px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   display: block;
-  height: 100%;
-  width: 100%;
 }
 
-.product-grid .heading {
-  text-align: center;
-  grid-column: 1 / 3;
-  grid-row-start: 1;
-}
-
-.product-grid .selection {
+.product-meta {
   display: flex;
   gap: .5rem;
+  font-weight: bold;
+  opacity: .5;
 }
 
-.product-grid-content {
+.meta-item {
+  text-transform: capitalize;
+}
+
+.meta-spacer {
+  font-weight: bolder;
+}
+
+.option-label {
+  font-weight: bold;
+  font-size: .9rem;
+}
+
+.variant-group {
   display: flex;
-  flex-direction: column;
   gap: .5rem;
+  flex-wrap: wrap;
 }
 
-.product-grid-content > * {
-  height: min-content;
-  padding: 0;
-  margin: 0;
+.product-option {
+  margin: 1rem 0 1rem 0;
 }
 
-.product-grid-footer {
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  margin-top: auto;
+.option-label {
+  margin: 0 0 .2rem 0;
+}
+.variant-card {
+  font-size: 1rem;
+  border-width: 2px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-style: italic;
+  box-sizing: content-box;
+  transition: all .5s ease;
+}
+.variant-card:hover {
+  border: 2px solid rgba(37, 99, 235, .5);
 }
 
-.total {
-  margin: 0;
+.variant-card[data-selected=true] {
+  background-color: rgba(37, 99, 235, .5);
 }
 
+.product-subtotal {
+  letter-spacing: .025rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
+}
 
 /* Price tag */
 .price-tag {
@@ -588,17 +606,7 @@ label, button, input {
 }
 
 /* Card styles */
-.card {
-  box-shadow: 3px 3px  hsl(0, 0%, 7%, .1);
-  border-radius: 6px;
-  --stagger: 0s;
-  box-sizing: border-box;
-  padding: .5rem;
-  color: var(--text);
-  text-decoration: none;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
+
 
 .selectable-card {
   display: flex;
@@ -1309,18 +1317,9 @@ s
   .product-page {
     overflow-y: auto;
     display: flex;
+    
+
   }
-  .product-grid {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-    margin: 0;  
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows:  min-content min-content min-content;
-}
 
   .product-grid .image-container{
     margin-inline: auto;
@@ -1415,11 +1414,11 @@ s
     object-fit: contain;
   }
 
-  .products-container .heading {
+  .product-container .heading {
     display: none;
   }
 
-  .products-container  {
+  .product-container  {
     padding: .5rem;
   }
   .product-item .title {
@@ -1446,7 +1445,7 @@ s
     align-items: stretch;
   }
 
-  .products-grid {
+  .product-grid {
     grid-template-columns: repeat(auto-fit, 150px);
   }
 

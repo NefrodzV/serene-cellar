@@ -1,0 +1,55 @@
+import React from 'react'
+import {
+  ProductMeta,
+  ProductTitle,
+  VariantSelector,
+  ProductDescription,
+  ProductSubtotal,
+} from './index.js'
+import { QuantityStepper } from '../ui/QuantityStepper.jsx'
+import { Button } from '../ui/Button.jsx'
+export function ProductContent({
+  product,
+  quantity,
+  subtotal,
+  onIncrement,
+  onDecrement,
+  minQuantity,
+  selectedVariant,
+  onVariantSelected,
+}) {
+  return (
+    <section className="product-content">
+      <ProductTitle text={product?.name} />
+      <ProductMeta
+        spirit={product?.typeOfAlcohol}
+        ml={product?.ml}
+        abv={product?.abv}
+        container={product?.container}
+      />
+      <hr />
+      <ProductDescription text={product?.description} />
+      <div className="product-option">
+        <div className="option-label">Size</div>
+        <VariantSelector
+          selectedVariant={selectedVariant}
+          variants={product?.variants}
+          onVariantSelected={onVariantSelected}
+        />
+      </div>
+
+      <div className="product-option">
+        <div className="option-label">Quantity</div>
+        <QuantityStepper
+          min={minQuantity}
+          quantity={quantity}
+          onIncrement={onIncrement}
+          onDecrement={onDecrement}
+        />
+      </div>
+
+      {subtotal && <ProductSubtotal subtotal={subtotal} />}
+      <Button>Add to cart</Button>
+    </section>
+  )
+}

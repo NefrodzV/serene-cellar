@@ -79,6 +79,7 @@ export async function getProductById(id) {
         (
           SELECT json_agg(
             json_build_object(
+              'id', pv.id,
               'package', pkg.display_name,
               'quantity_per_package', pkg.quantity_per_package,
               'container_kind', c.kind,

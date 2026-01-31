@@ -39,7 +39,7 @@ export function ProductGrid() {
 
   const visibleProducts = filterProducts(products, filters)
   return (
-    <div className="products-container">
+    <section className="product-container">
       <Heading>Products</Heading>
       <Form className="filters" aria-label="Product filters">
         {categories?.map((type) => (
@@ -54,7 +54,7 @@ export function ProductGrid() {
         ))}
       </Form>
 
-      <ul className="products-grid">
+      <ul className="product-grid">
         {isLoading ? (
           <Spinner
             style={{
@@ -80,6 +80,6 @@ export function ProductGrid() {
           )
         })}
       </ul>
-    </div>
+    </section>
   )
 }
