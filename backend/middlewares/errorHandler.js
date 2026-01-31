@@ -5,6 +5,7 @@ export const errorHandler = (err, req, res, next) => {
 
   if (isSleeping) {
     console.log('Sleeping sending 503')
+    console.error(err)
     return res.sendStatus(503)
   }
 
