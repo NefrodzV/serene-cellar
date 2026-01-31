@@ -45,15 +45,6 @@ export function CartItem({ index, item }) {
       as="li"
       style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
       className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'is-deleting' : ''}`}
-      onTransitionEnd={(e) => {
-        if (e.target !== e.currentTarget) return
-        if (isDeleting) {
-          // deleteItem(item)
-          // setTimeout(() => {
-          //   deleteItem(item)
-          // }, DELETE_MS)
-        }
-      }}
     >
       <article className="cart-item">
         <div className="product">
@@ -154,6 +145,7 @@ export function CartItem({ index, item }) {
                   type="button"
                   onClick={() => {
                     setIsDeleting(true)
+                    deleteItem(id)
                   }}
                 >
                   <div className="button-icon-container delete">
