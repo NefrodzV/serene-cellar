@@ -3,7 +3,8 @@ import { useCart } from '../../hooks'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { API_URL } from '../../config'
-import { Spinner } from '../ui'
+import { Spinner, QuantityStepper } from '../ui'
+
 export function CartItem({ index, item }) {
   const MIN_ITEM_QUANTITY = 1
   const DELETE_MS = 500
@@ -27,13 +28,8 @@ export function CartItem({ index, item }) {
   const [hasMounted, setHasMounted] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { increment, decrement, updateItem, deleteItem, isItemBusy } = useCart()
-  const [rawQuantity, setRawQuantity] = useState(String(quantity))
 
   const isBusy = isItemBusy(id)
-
-  useEffect(() => {
-    setRawQuantity(String(quantity))
-  }, [quantity])
 
   useEffect(() => {
     requestAnimationFrame(() => setHasMounted(true))
@@ -90,69 +86,30 @@ export function CartItem({ index, item }) {
               Subtotal: ${item?.lineTotal}
             </span>
             <div className="control-container">
-              <div className="item-control">
-                {quantity === 1 ? (
-                  <Button
-                    variant="transparent"
-                    aria-label="Delete cart item"
-                    type="button"
-                    onClick={() => {
-                      setIsDeleting(true)
-                    }}
-                  >
-                    <div className="button-icon-container delete">
-                      <i class="fa-solid fa-trash"></i>
-                    </div>
-                  </Button>
-                ) : (
-                  <Button
-                    variant="transparent"
-                    disabled={quantity === MIN_ITEM_QUANTITY}
-                    onClick={() => decrement(item, Number(quantity))}
-                  >
-                    <div className="button-icon-container">
-                      <i class="fa-solid fa-arrow-down"></i>
-                    </div>
-                  </Button>
-                )}
-
-                <div className="cart-item-quantity">
-                  <div
-                    className="quantity-container"
-                    style={{
-                      width: `clamp(2ch, ${rawQuantity.length}ch, 7ch)`,
-                    }}
-                  >
-                    {rawQuantity}
-                  </div>
+              <QuantityStepper
+                quantity={quantity}
+                min={MIN_ITEM_QUANTITY}
+                max={stock}
+                onIncrement={() => {
+                  increment(item, Number(quantity))
+                }}
+                OnDecrement={() => {
+                  decrement(item, Number(quantity))
+                }}
+              />
+              <Button
+                variant="transparent"
+                aria-label="Delete cart item"
+                type="button"
+                onClick={() => {
+                  setIsDeleting(true)
+                  deleteItem(id)
+                }}
+              >
+                <div className="button-icon-container delete">
+                  <i class="fa-solid fa-trash"></i>
                 </div>
-
-                <Button
-                  variant="transparent"
-                  disabled={quantity >= stock}
-                  onClick={() => increment(item, Number(rawQuantity))}
-                >
-                  <div className="button-icon-container">
-                    <i class="fa-solid fa-arrow-up"></i>
-                  </div>
-                </Button>
-              </div>
-
-              {quantity > 1 ? (
-                <Button
-                  variant="transparent"
-                  aria-label="Delete cart item"
-                  type="button"
-                  onClick={() => {
-                    setIsDeleting(true)
-                    deleteItem(id)
-                  }}
-                >
-                  <div className="button-icon-container delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </div>
-                </Button>
-              ) : null}
+              </Button>
             </div>
           </div>
         </div>

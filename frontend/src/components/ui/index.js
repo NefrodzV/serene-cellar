@@ -1,3 +1,5 @@
+export { QuantityStepper } from './QuantityStepper'
+
 export { Heading } from './Heading'
 export { Tag } from './Tag'
 export { Button } from './Button'
