@@ -5,7 +5,7 @@ export async function addItem(item, quantity) {
   const localCartItems = getLocalCart()
 
   // Finding if item already exists and updating the quantity
-  const itemIndex = localCartItems.findIndex((i) => i.priceId === item.priceId)
+  const itemIndex = localCartItems.findIndex((i) => i.id === item.id)
   if (itemIndex !== -1) {
     const itemFound = localCartItems[itemIndex]
     localCartItems[itemIndex] = {
@@ -27,7 +27,7 @@ export async function addItem(item, quantity) {
 
 export async function deleteItem(priceId) {
   const items = getLocalCart()
-  const itemsUpdated = items.filter((i) => !(i.priceId === priceId))
+  const itemsUpdated = items.filter((i) => !(i.id === id))
 
   console.log('updated', itemsUpdated)
   localStorage.setItem(CART_KEY, JSON.stringify(itemsUpdated))
@@ -40,9 +40,9 @@ export async function deleteItem(priceId) {
   }
 }
 
-export async function updateItem(priceId, quantity) {
+export async function updateItem(id, quantity) {
   const items = getLocalCart()
-  const itemIndex = items.findIndex((i) => i.priceId === priceId)
+  const itemIndex = items.findIndex((i) => i.id === id)
   if (itemIndex === -1)
     throw new Error('No index found for this item in local storage')
   const itemFound = items[itemIndex]
