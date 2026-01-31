@@ -766,6 +766,12 @@ s
   position: relative;
 }
 
+.cart-item .loader-container {
+  background-color: rgb(255, 255, 255, .5);
+  position: absolute;
+  inset: 0;
+}
+
 .cart-item-header {
   position: relative;
   justify-content: space-between;

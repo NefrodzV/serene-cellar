@@ -3,6 +3,7 @@ import { useCart } from '../../hooks'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { API_URL } from '../../config'
+import { Spinner } from '../ui'
 export function CartItem({ index, item }) {
   const MIN_ITEM_QUANTITY = 1
   const DELETE_MS = 500
@@ -25,8 +26,10 @@ export function CartItem({ index, item }) {
 
   const [hasMounted, setHasMounted] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
-  const { increment, decrement, updateItem, deleteItem } = useCart()
+  const { increment, decrement, updateItem, deleteItem, isItemBusy } = useCart()
   const [rawQuantity, setRawQuantity] = useState(String(quantity))
+
+  const isBusy = isItemBusy(id)
 
   useEffect(() => {
     setRawQuantity(String(quantity))
@@ -45,9 +48,10 @@ export function CartItem({ index, item }) {
       onTransitionEnd={(e) => {
         if (e.target !== e.currentTarget) return
         if (isDeleting) {
-          setTimeout(() => {
-            deleteItem(item)
-          }, DELETE_MS)
+          // deleteItem(item)
+          // setTimeout(() => {
+          //   deleteItem(item)
+          // }, DELETE_MS)
         }
       }}
     >
@@ -105,7 +109,7 @@ export function CartItem({ index, item }) {
                       setIsDeleting(true)
                     }}
                   >
-                    <div className="button-icon-container">
+                    <div className="button-icon-container delete">
                       <i class="fa-solid fa-trash"></i>
                     </div>
                   </Button>
@@ -160,6 +164,8 @@ export function CartItem({ index, item }) {
             </div>
           </div>
         </div>
+        {isBusy && <Spinner />}
+        {/* <div className="overlay" data-open={isBusy}></div> */}
       </article>
     </Card>
   )

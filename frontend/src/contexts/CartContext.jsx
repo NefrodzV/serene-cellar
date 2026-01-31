@@ -4,6 +4,7 @@ import * as localCartService from '../services/localCartService'
 import * as authCartService from '../services/authCartService'
 import React from 'react'
 import { fetchWithRetries } from '../utils'
+import { v4 as uuid } from 'uuid'
 
 export const CartContext = createContext()
 
@@ -20,7 +21,8 @@ export function CartProvider({ children }) {
   }
   // Update this to call the functions of the cartService
   const [cart, setCart] = useState(defaultCart)
-
+  // Items are busy updating or deleting
+  const [busy, setBusy] = useState({})
   useEffect(() => {
     const controller = new AbortController()
     async function loadCart() {
@@ -115,22 +117,22 @@ export function CartProvider({ children }) {
 
   async function updateItem(item, quantity) {
     try {
+      setBusy((prev) => ({ ...prev, [item.id]: true }))
       const data = isAuthenticated
         ? await authCartService.updateItem(item.id, quantity)
-        : await localCartService.updateItem(item.priceId, quantity)
+        : await localCartService.updateItem(item.id, quantity)
       setCart(data.cart)
     } catch (error) {
       console.error('Error updating item:', error)
+    } finally {
+      setBusy((prev) => ({ ...prev, [item.id]: false }))
     }
   }
 
   async function increment(item, quantity) {
     try {
       const incrementedQuantity = quantity + 1
-      const data = isAuthenticated
-        ? await authCartService.updateItem(item.id, incrementedQuantity)
-        : await localCartService.updateItem(item.priceId, incrementedQuantity)
-      setCart(data.cart)
+      await updateItem(item, incrementedQuantity)
     } catch (error) {
       console.error(error)
     }
@@ -139,16 +141,15 @@ export function CartProvider({ children }) {
   async function decrement(item, quantity) {
     try {
       const decreasedQuantity = quantity + -1
-      const data = isAuthenticated
-        ? await authCartService.updateItem(item.id, decreasedQuantity)
-        : await localCartService.updateItem(item.priceId, decreasedQuantity) // Need to update the local functions
-
-      setCart(data.cart)
+      const data = await updateItem(item, decreasedQuantity) // Need to update the local functions
     } catch (error) {
       console.error(error)
     }
   }
 
+  function isItemBusy(id) {
+    return !!busy[id]
+  }
   const value = {
     cart,
     isLoading,
@@ -157,6 +158,7 @@ export function CartProvider({ children }) {
     updateItem,
     decrement,
     increment,
+    isItemBusy,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
