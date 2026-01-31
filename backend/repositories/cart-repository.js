@@ -131,11 +131,15 @@ export async function createUserCart(userId) {
 }
 
 export async function validateLocalCartItems(items) {
+  console.log('this is getting called')
   const values = items
-    .map((_, i) => `(CAST($${i * 2 + 1} AS int),CAST($${i * 2 + 2} AS int))`)
+    .map(
+      (_, i) =>
+        `(CAST($${i * 3 + 1} as uuid),CAST($${i * 3 + 2} AS int),CAST($${i * 3 + 3} AS int))`
+    )
     .join(',')
   const params = items
-    .map((item) => [Number(item.priceId), Number(item.quantity)])
+    .map((item) => [item.id, Number(item.priceId), Number(item.quantity)])
     .flat()
   const { rows } = await pool.query(
     `
@@ -146,7 +150,8 @@ export async function validateLocalCartItems(items) {
       COALESCE(json_agg(item), '[]') AS items
       FROM 
       (
-       SELECT 
+       SELECT
+        lc.id,
         lc.price_id,
         pr.name,
         lc.quantity,
@@ -174,7 +179,7 @@ export async function validateLocalCartItems(items) {
           ) grouped
         ) AS images
         FROM 
-        (VALUES ${values}) AS lc(price_id, quantity)
+        (VALUES ${values}) AS lc(id, price_id, quantity)
         INNER JOIN prices p ON p.id = lc.price_id
         INNER JOIN product_variants pv ON pv.id = p.variant_id
         INNER JOIN products pr ON pr.id = pv.product_id
@@ -185,6 +190,7 @@ export async function validateLocalCartItems(items) {
     params
   )
 
+  console.log(rows[0].items)
   return camelize(rows[0]) || null
 }
 
