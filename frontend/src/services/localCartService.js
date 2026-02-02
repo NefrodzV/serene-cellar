@@ -26,6 +26,7 @@ export async function addItem(item, quantity) {
 }
 
 export async function deleteItem(id) {
+  console.log('delete item running')
   const items = getLocalCart()
   const itemsUpdated = items.filter((i) => !(i.id === id))
 

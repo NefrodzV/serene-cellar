@@ -99,11 +99,11 @@ export function CartProvider({ children }) {
     }
   }
 
-  async function deleteItem(item) {
+  async function deleteItem(id) {
     try {
       const data = isAuthenticated
-        ? await authCartService.deleteItem(item.id)
-        : await localCartService.deleteItem(item.id)
+        ? await authCartService.deleteItem(id)
+        : await localCartService.deleteItem(id)
 
       if (data?.cart) {
         setCart(data.cart)
