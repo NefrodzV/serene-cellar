@@ -1,6 +1,6 @@
 import { useCart, useProduct } from '../hooks'
 import { useParams } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProductHeader } from '../components/product'
 export function ProductPage() {
   const MIN_QUANTITY = 1
@@ -13,6 +13,10 @@ export function ProductPage() {
     ? (quantity * selectedVariant?.price).toFixed(2)
     : null
 
+  useEffect(() => {
+    setSelectedVariant(product?.variants[0])
+  }, [product])
+
   return (
     <div className="product-page">
       <ProductHeader
@@ -21,6 +25,7 @@ export function ProductPage() {
         subtotal={subtotal}
         minQuantity={MIN_QUANTITY}
         onIncrement={() => {
+          if (quantity >= selectedVariant?.stock) return
           setQuantity((prev) => prev + 1)
         }}
         onDecrement={() => {
@@ -34,6 +39,7 @@ export function ProductPage() {
         }}
         onAddToCart={() => console.log('Add Item')}
       />
+      <hr />
     </div>
   )
 }
