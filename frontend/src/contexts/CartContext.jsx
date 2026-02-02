@@ -103,7 +103,7 @@ export function CartProvider({ children }) {
     try {
       const data = isAuthenticated
         ? await authCartService.deleteItem(item.id)
-        : await localCartService.deleteItem(item.priceId)
+        : await localCartService.deleteItem(item.id)
 
       if (data?.cart) {
         setCart(data.cart)
@@ -140,8 +140,8 @@ export function CartProvider({ children }) {
 
   async function decrement(item, quantity) {
     try {
-      const decreasedQuantity = quantity + -1
-      const data = await updateItem(item, decreasedQuantity) // Need to update the local functions
+      const decreasedQuantity = quantity - 1
+      await updateItem(item, decreasedQuantity) // Need to update the local functions
     } catch (error) {
       console.error(error)
     }
