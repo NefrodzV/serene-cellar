@@ -1,5 +1,6 @@
 import { Card } from '../ui'
 import React from 'react'
+
 export function VariantSelector({
   variants,
   selectedVariant,
@@ -20,7 +21,6 @@ export function VariantSelector({
 }
 
 function VariantCard({ variant, isSelected, onChange }) {
-  console.log(isSelected)
   return (
     <Card
       role="radio"

@@ -28,7 +28,7 @@ export function ProductContent({
         abv={product?.abv}
         container={product?.container}
       />
-      <hr />
+
       <ProductDescription text={product?.description} />
       <div className="product-option">
         <div className="option-label">Size</div>
@@ -50,7 +50,9 @@ export function ProductContent({
       </div>
 
       {subtotal && <ProductSubtotal subtotal={subtotal} />}
-      <Button onClick={onAddToCart}>Add to cart</Button>
+      <Button onClick={onAddToCart}>
+        <i className="fa-solid fa-cart-shopping"></i>Add to cart
+      </Button>
     </section>
   )
 }
