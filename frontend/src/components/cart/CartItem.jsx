@@ -93,7 +93,7 @@ export function CartItem({ index, item }) {
                 onIncrement={() => {
                   increment(item, Number(quantity))
                 }}
-                OnDecrement={() => {
+                onDecrement={() => {
                   decrement(item, Number(quantity))
                 }}
               />
