@@ -16,7 +16,7 @@ export function ProductHeader({
     <div className="product-header">
       <ProductMedia
         src={`${API_URL + '/' + product?.images?.thumbnail[450]}`}
-        srcSet={`${API_URL + '/' + product?.images?.thumbnail[150]} 150vw,  ${API_URL + '/' + product?.images?.thumbnail[300]} 300vw, ${API_URL + '/' + product?.images?.thumbnail[450]} 450vw`}
+        srcSet={`${API_URL + '/' + product?.images?.thumbnail[150]} 150w,  ${API_URL + '/' + product?.images?.thumbnail[300]} 300w, ${API_URL + '/' + product?.images?.thumbnail[450]} 450w`}
         sizes="(max-width: 768px) 100vw, 420px"
       />
       <ProductContent

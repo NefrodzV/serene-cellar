@@ -458,9 +458,10 @@ label, button, input {
 }
 
 .product-subtotal {
-  letter-spacing: .025rem;
+  
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: .9rem;
+  opacity: .7;
   margin: 0 0 1rem 0;
 }
 
