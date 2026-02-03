@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { Title, Thumbnail, PriceTag } from '../ui'
 import { API_URL } from '../../config'
 import { ProductTitle } from '../product/ProductTitle'
+import { ProductPrice } from '../product/ProductPrice'
 
 export function ProductItem({ product }) {
   const smallestPrice = product?.variants[0].price.toString()
-  const [dollars = 0, cents = 0] = smallestPrice?.split('.')
   return (
     <article className="product-item">
       <Thumbnail
@@ -17,8 +17,10 @@ export function ProductItem({ product }) {
         }}
         alt={`${product.name} thumbnail`}
       />
-      <ProductTitle text={product?.name} />
-      <PriceTag dollars={dollars} cents={cents} />
+      <ProductTitle as="h2" classes={'text-center'} variant="card">
+        {product.name}
+      </ProductTitle>
+      <ProductPrice price={smallestPrice} />
     </article>
   )
 }

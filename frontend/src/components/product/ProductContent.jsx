@@ -21,7 +21,7 @@ export function ProductContent({
 }) {
   return (
     <section className="product-content">
-      <ProductTitle text={product?.name} />
+      <ProductTitle>{product?.name}</ProductTitle>
       <ProductMeta
         spirit={product?.typeOfAlcohol}
         ml={product?.ml}

@@ -389,7 +389,6 @@ label, button, input {
 
 /* Product Page*/
 .product-page {
-  
   position: relative;
   padding: .5rem;
   width: 100%;
@@ -398,6 +397,10 @@ label, button, input {
 .product-header {
   display: grid;
   grid-template-columns: min-content 1fr;
+}
+
+.product-title--card {
+  font-size: 1.2rem;
 }
 
 .product-media {
@@ -458,7 +461,6 @@ label, button, input {
 }
 
 .product-subtotal {
-  
   font-weight: bold;
   font-size: .9rem;
   opacity: .7;
@@ -466,10 +468,9 @@ label, button, input {
 }
 
 /* Price tag */
-.price-tag {
-  display: flex;
-  font-weight: bold;
-  font-size: 1.5rem;
+.product-price--card {
+  font-weight: 600;
+  font-size: 1rem;
 }
 .dollars {
   font-size: 1.5rem;
@@ -861,7 +862,6 @@ s
 
 
 .
-
 .cart-item-out-of-stock {
   color: red;
 }
@@ -1170,6 +1170,10 @@ s
 
 .center {
   margin: auto;
+}
+
+.text-center {
+  text-align: center;
 }
 
 @keyframes rotate {
