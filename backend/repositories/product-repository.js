@@ -209,7 +209,7 @@ export async function getRelatedProducts(productId) {
       WHERE pi.role = 'thumbnail'
       GROUP BY pi.product_id
     ) img ON img.product_id = p.id
-    WHERE type_of_alcohol = (SELECT type_of_alcohol FROM products p WHERE p.id = 1) 
+    WHERE type_of_alcohol = (SELECT type_of_alcohol FROM products p WHERE p.id =$1) 
     `,
     [productId]
   )
