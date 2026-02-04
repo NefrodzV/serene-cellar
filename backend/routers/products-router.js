@@ -5,5 +5,6 @@ const router = express.Router()
 router.get('/', productsController.getProducts)
 router.get('/categories', productsController.getCategories)
 router.get('/:id', productsController.getProduct)
+router.get('/:id/related', productsController.getRelatedProducts)
 
 export default router

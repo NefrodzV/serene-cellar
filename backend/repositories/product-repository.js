@@ -58,7 +58,7 @@ export async function getProductById(id) {
       p.id,
       p.name,
       p.description,
-      p.active,
+   amount    p.active,
       p.type_of_alcohol,
       p.abv,
       EXISTS(
@@ -181,5 +181,37 @@ export async function getProductsByAlcoholType(types) {
     [filter]
   )
 
+  return camelize(rows)
+}
+
+export async function getRelatedProducts(productId) {
+  const { rows } = await pool.query(
+    `
+    SELECT         
+      p.id,
+      p.name,
+      vp.price,
+      COALESCE(img.thumbs, '{}'::json) AS images
+    FROM products p
+    INNER JOIN (
+      SELECT
+        pv.product_id,
+        MIN(pr.amount) as price
+      FROM product_variants pv 
+      INNER JOIN prices pr ON pr.id = pv.price_id 
+      GROUP BY pv.product_id
+    ) vp ON vp.product_id = p.id
+    INNER JOIN (
+      SELECT pi.product_id,
+      json_object_agg(DISTINCT a.width::text, a.storage_key) as thumbs
+      FROM product_images pi
+      INNER JOIN assets a ON a.id = pi.asset_id
+      WHERE pi.role = 'thumbnail'
+      GROUP BY pi.product_id
+    ) img ON img.product_id = p.id
+    WHERE type_of_alcohol = (SELECT type_of_alcohol FROM products p WHERE p.id = 1) 
+    `,
+    [productId]
+  )
   return camelize(rows)
 }

@@ -60,8 +60,28 @@ async function getCategories(req, res, next) {
   }
 }
 
+const getRelatedProducts = [
+  param('id')
+    .trim()
+    .exists({ values: 'falsy' })
+    .withMessage('Product id must be defined')
+    .isInt()
+    .withMessage('id must be an integer')
+    .bail(),
+  async (req, res, next) => {
+    const id = req.params.id
+    try {
+      const relatedProducts = await productRepository.getRelatedProducts(id)
+      return res.json({ products: relatedProducts })
+    } catch (e) {
+      next(e)
+    }
+  },
+]
+
 export default {
   getProducts,
   getProduct,
   getCategories,
+  getRelatedProducts,
 }
