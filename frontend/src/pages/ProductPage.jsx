@@ -1,7 +1,7 @@
-import { useCart, useProduct } from '../hooks'
+import { useCart, useProduct, useProducts } from '../hooks'
 import { useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { ProductHeader } from '../components/product'
+import { ProductHeader, RelatedProducts } from '../components/product'
 export function ProductPage() {
   const MIN_QUANTITY = 1
   const { id } = useParams()
@@ -13,7 +13,12 @@ export function ProductPage() {
     ? (quantity * selectedVariant?.price).toFixed(2)
     : null
 
+  const { products, updateFilter } = useProducts()
+  console.log(products)
   useEffect(() => {
+    if (!product) return
+    console.log('product changed', product.name, product.typeOfAlcohol)
+    updateFilter(product?.typeOfAlcohol)
     setSelectedVariant(product?.variants[0])
   }, [product])
 
@@ -40,6 +45,9 @@ export function ProductPage() {
         onAddToCart={() => console.log('Add Item')}
       />
       <hr />
+      <RelatedProducts
+        products={products.filter((p) => !(p.id === product.id))}
+      />
     </div>
   )
 }

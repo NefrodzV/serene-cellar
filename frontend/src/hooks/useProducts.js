@@ -45,8 +45,7 @@ export function useProducts() {
     }
   }, [filters])
 
-  function onFilterChange(e) {
-    const filter = e.target.value
+  function updateFilter(filter) {
     setFilters((s) => {
       const us = new Set(s)
       if (us.has(filter)) us.delete(filter)
@@ -64,7 +63,7 @@ export function useProducts() {
     message,
     isLoading,
     filters,
-    onFilterChange,
+    updateFilter,
     removeProduct,
   }
 }

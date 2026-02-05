@@ -28,14 +28,8 @@ export function ProductGrid() {
     }))
   }
   const { categories } = useCategories()
-  const {
-    products,
-    isLoading,
-    filters,
-    message,
-    onFilterChange,
-    removeProduct,
-  } = useProducts()
+  const { products, isLoading, filters, message, updateFilter, removeProduct } =
+    useProducts()
 
   const visibleProducts = filterProducts(products, filters)
   return (
@@ -47,7 +41,9 @@ export function ProductGrid() {
             key={type}
             id={`alcohol-${type}`}
             value={type}
-            onChange={onFilterChange}
+            onChange={(e) => {
+              updateFilter(e.target.value)
+            }}
           >
             {type}
           </Tag>
