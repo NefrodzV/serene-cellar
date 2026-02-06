@@ -26,7 +26,7 @@ export async function getProducts() {
            FROM product_variants pv
            INNER JOIN packages pkg ON pkg.id = pv.package_id
            INNER JOIN containers c ON c.id = pv.container_id
-           INNER JOIN prices pr ON pr.id = pv.id 
+           INNER JOIN prices pr ON pr.id = pv.price_id
            WHERE pv.product_id = p.id
            
         ), '[]'::json) AS variants,
@@ -58,7 +58,7 @@ export async function getProductById(id) {
       p.id,
       p.name,
       p.description,
-   amount    p.active,
+      p.active,
       p.type_of_alcohol,
       p.abv,
       EXISTS(
@@ -96,7 +96,7 @@ export async function getProductById(id) {
            FROM product_variants pv
            INNER JOIN packages pkg ON pkg.id = pv.package_id
            INNER JOIN containers c ON c.id = pv.container_id
-           INNER JOIN prices pr ON pr.id = pv.id 
+           INNER JOIN prices pr ON pr.id = pv.price_id
            WHERE pv.product_id = p.id
            
         ), '[]'::json) AS variants,
@@ -157,7 +157,7 @@ export async function getProductsByAlcoholType(types) {
            FROM product_variants pv
            INNER JOIN packages pkg ON pkg.id = pv.package_id
            INNER JOIN containers c ON c.id = pv.container_id
-           INNER JOIN prices pr ON pr.id = pv.id 
+           INNER JOIN prices pr ON pr.id = pv.price_id
            WHERE pv.product_id = p.id
            
         ), '[]'::json) AS variants,
