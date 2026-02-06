@@ -1,4 +1,4 @@
-import { useCart, useProduct, useProducts } from '../hooks'
+import { useCart, useProduct, useProducts, useRelatedProducts } from '../hooks'
 import { useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { ProductHeader, RelatedProducts } from '../components/product'
@@ -13,12 +13,12 @@ export function ProductPage() {
     ? (quantity * selectedVariant?.price).toFixed(2)
     : null
 
-  const { products, updateFilter } = useProducts()
-  console.log(products)
+  const { relatedProducts } = useRelatedProducts(id)
+
   useEffect(() => {
     if (!product) return
     console.log('product changed', product.name, product.typeOfAlcohol)
-    updateFilter(product?.typeOfAlcohol)
+
     setSelectedVariant(product?.variants[0])
   }, [product])
 
@@ -45,9 +45,7 @@ export function ProductPage() {
         onAddToCart={() => console.log('Add Item')}
       />
       <hr />
-      <RelatedProducts
-        products={products.filter((p) => !(p.id === product.id))}
-      />
+      <RelatedProducts products={relatedProducts} />
     </div>
   )
 }

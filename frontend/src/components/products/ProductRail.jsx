@@ -1,11 +1,19 @@
 import React from 'react'
 import { ProductCard } from './ProductCard'
 import { Link } from 'react-router-dom'
+import { Card } from '../ui'
+import { ProductItem } from './ProductItem'
 export function ProductRail({ products }) {
   return (
     <ul className="product-rail">
       {products?.map((p) => (
-        <ProductCard as={Link} product={p} key={p.id} />
+        <Card as={Link} to={`/shop/${p?.id}`}>
+          <ProductItem
+            productName={p?.name}
+            price={p?.price}
+            images={p?.images}
+          />
+        </Card>
       ))}
     </ul>
   )
