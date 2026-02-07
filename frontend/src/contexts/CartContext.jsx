@@ -92,7 +92,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await authCartService.addItem(item.priceId, Number(quantity))
         : await localCartService.addItem(item, quantity)
-      sendMessage('Item has been added to cart')
+      sendMessage('Item added', 'Item has been added to cart', 'success')
       setCart(data?.cart)
     } catch (error) {
       console.error('Error adding item:', error)

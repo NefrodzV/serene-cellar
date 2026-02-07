@@ -2,14 +2,7 @@ import { useMessages } from '../../hooks'
 import React, { useEffect, useState } from 'react'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
-export function MessageItem({ message, removeMessage, index }) {
-  const VISIBLE_MS = 2000
-  const DELETE_MS = 500
-  const SHRINKING_MS = 500
-
-  const [hasMounted, setHasMounted] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [isShrinking, setIsShrinking] = useState(false)
+export function MessageItem({ message, onDelete, onExit }) {
   const messageType = {
     notify: '\u2139', // i
     error: '\u2716', // ✖
@@ -17,59 +10,42 @@ export function MessageItem({ message, removeMessage, index }) {
   }
   const isError = message.type === 'error'
 
-  let timeoutId = null
-  useEffect(() => {
-    setHasMounted(true)
-    timeoutId = setTimeout(() => {
-      setIsDeleting(true)
-    }, VISIBLE_MS)
-
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [])
   return (
     <Card
-      key={message.id}
       as="li"
-      className={`rounded shadow3 from-right ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'message-item-slide-out' : ''} ${isShrinking ? 'shrink' : ''}`}
+      className={`message ${message.status ?? 'idle'}`}
       onTransitionEnd={() => {
-        if (isDeleting) {
-          setTimeout(() => {
-            setIsShrinking(true)
-          }, DELETE_MS)
-        }
-        if (isShrinking) {
-          setTimeout(() => {
-            removeMessage(message.id)
-          }, SHRINKING_MS)
+        if (message.status === 'exit') {
+          onExit(message.id)
         }
       }}
     >
-      <div>
-        <Button variant="card" onClick={() => removeMessage(message.id)}>
-          x
-        </Button>
+      <div className="msg-icon-wrapper">
+        <div className={`msg-icon msg-icon--${message?.type}`} aria-hidden>
+          {messageType[message?.type]}
+        </div>
       </div>
       <div
-        className="message"
+        className="message-content"
         aria-live={isError ? 'assertive' : 'polite'}
         aria-atomic="true"
         role={isError ? 'alert' : 'status'}
         onKeyDown={(e) => {
-          if (e.key === 'Escape') removeMessage(message.id)
+          if (e.key === 'Escape') onDelete(message.id)
         }}
       >
-        <div className="content">
-          <div className="icon-container">
-            <div className={`icon message-${message?.type}`} aria-hidden>
-              {messageType[message?.type]}
-            </div>
-          </div>
+        <div className="message-title">{message.title}</div>
 
-          <p className="text">{message.text}</p>
-        </div>
+        <p className="message-text">{message.text}</p>
       </div>
+
+      <Button
+        className=" align-right align-top"
+        variant="transparent"
+        onClick={() => onDelete(message.id)}
+      >
+        <div className="button-icon-container">x</div>
+      </Button>
     </Card>
   )
 }
