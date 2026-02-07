@@ -312,13 +312,17 @@ label, button, input {
   background-color: var(--background);
 }
 
-
-.main-layout {
+.main {
+  margin-inline: auto;
   box-sizing: border-box;
   display: flex;
   width: clamp(320px, 100%, 1080px); 
   position: relative;
   padding-bottom: 64px;
+}
+
+.main--fill {
+  flex: 1;
 }
 
 .header .content {
@@ -1412,7 +1416,7 @@ s
 }
 
 @media(orientation:landscape) and (max-height: 600px){
-  .main-layout {
+.main {
     width: clamp(320px, 100%, 700px);
   }
   .product-detail .heading {

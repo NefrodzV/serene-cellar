@@ -8,6 +8,10 @@ import { Drawer } from '../components'
 export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
+  const location = useLocation()
+  const classes = ['main', location.pathname === '/login' ? 'main--fill' : '']
+    .filter(Boolean)
+    .join(' ')
   return (
     <div className="app-layout">
       <header className="header">
@@ -63,7 +67,7 @@ export function MainLayout() {
           />
         </div>
       </header>
-      <main className={`main-layout center-vertically`}>
+      <main className={classes}>
         <Outlet />
         <MessageContainer />
       </main>
