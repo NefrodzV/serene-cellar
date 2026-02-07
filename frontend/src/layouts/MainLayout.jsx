@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
+import React from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useCart, useUser } from '../hooks'
 import { MessageContainer } from '../components/messages/MessageContainer'
-import logo from '../assets/logo-bg.png'
-import { Button } from '../components/ui/Button'
 import { Drawer } from '../components'
 export function MainLayout() {
   const { cart } = useCart()
