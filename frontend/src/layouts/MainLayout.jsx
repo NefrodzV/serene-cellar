@@ -9,7 +9,10 @@ export function MainLayout() {
   const { cart } = useCart()
   const { isAuthenticated, user } = useUser()
   const location = useLocation()
-  const classes = ['main', location.pathname === '/login' ? 'main--fill' : '']
+  const isFilled =
+    location.pathname === '/login' ||
+    (location.pathname === '/cart' && cart?.isEmpty)
+  const classes = ['main', isFilled ? 'main--fill' : '']
     .filter(Boolean)
     .join(' ')
   return (
