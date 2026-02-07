@@ -4,7 +4,6 @@ import * as localCartService from '../services/localCartService'
 import * as authCartService from '../services/authCartService'
 import React from 'react'
 import { fetchWithRetries } from '../utils'
-import { v4 as uuid } from 'uuid'
 
 export const CartContext = createContext()
 
@@ -19,6 +18,7 @@ export function CartProvider({ children }) {
     subtotal: 0,
     canCheckout: false,
   }
+
   // Update this to call the functions of the cartService
   const [cart, setCart] = useState(defaultCart)
   // Items are busy updating or deleting
