@@ -5,17 +5,21 @@ export function useRelatedProducts(productId) {
   const [products, setProducts] = useState([])
   useEffect(() => {
     if (!productId) return
+    const controller = new AbortController()
     ;(async () => {
       try {
-        const data = await getRelatedProducts(productId)
+        const data = await getRelatedProducts(productId, controller.signal)
         setProducts(data.products)
       } catch (e) {
+        if (e.name === 'AbortError') return
         console.error(e)
       }
     })()
+    return () => {
+      controller.abort()
+    }
   }, [productId])
 
-  console.log(products)
   return {
     relatedProducts: products,
   }

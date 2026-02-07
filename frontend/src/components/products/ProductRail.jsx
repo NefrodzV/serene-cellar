@@ -7,7 +7,7 @@ export function ProductRail({ products }) {
   return (
     <ul className="product-rail">
       {products?.map((p) => (
-        <Card as={Link} to={`/shop/${p?.id}`}>
+        <Card key={p?.id} as={Link} to={`/shop/${p?.id}`}>
           <ProductItem
             productName={p?.name}
             price={p?.price}

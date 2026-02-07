@@ -24,8 +24,10 @@ export async function getProductsWithFilter(types, signal) {
   return data
 }
 
-export async function getRelatedProducts(productId) {
-  const res = await fetch(`${API_URL}/products/${productId}/related`)
+export async function getRelatedProducts(productId, signal) {
+  const res = await fetch(`${API_URL}/products/${productId}/related`, {
+    signal,
+  })
   if (!res.ok) {
     const error = new Error('Error loading related products')
     error.status = res.status
