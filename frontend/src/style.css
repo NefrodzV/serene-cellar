@@ -18,12 +18,19 @@ h1, h2, h3 {
   padding: 0;
 }
 
-.header, .footer {
+.header {
   height: var(--header-footer-height);
   padding: 8px 1rem;
   flex-shrink: 0;
   background-color: var(--primary);
 }
+
+.footer {
+  background: #f3f4f6;
+  padding: 24px;
+  flex: 0;
+}
+
 
 .header {
   box-shadow: 0 3px 3px hsl(0, 0%, 7%, .1);
@@ -311,7 +318,7 @@ label, button, input {
   display: flex;
   width: clamp(320px, 100%, 1080px); 
   position: relative;
-  flex: 1;
+  padding-bottom: 64px;
 }
 
 .header .content {
@@ -425,6 +432,10 @@ label, button, input {
   font-weight: bolder;
 }
 
+.product-description {
+  color: #6b7280; 
+}
+
 .option-label {
   font-weight: bold;
   font-size: .9rem;
@@ -449,6 +460,7 @@ label, button, input {
   text-transform: capitalize;
   font-weight: bold;
   font-style: italic;
+  text-align: start;
   box-sizing: content-box;
   transition: all .5s ease;
 }
@@ -460,10 +472,14 @@ label, button, input {
   background-color: rgba(37, 99, 235, .5);
 }
 
+.variant-title {
+  font-size: 1.5rem;
+}
+
 .product-subtotal {
   font-weight: bold;
   font-size: .9rem;
-  opacity: .7;
+  
   margin: 0 0 1rem 0;
 }
 
@@ -473,6 +489,13 @@ label, button, input {
   font-size: 1rem;
 }
 
+.related-products {
+  margin-top: 50px;
+}
+
+.section-title {
+  margin-bottom: 25px;
+}
 .product-rail {
   margin: 0;
   padding: 0;

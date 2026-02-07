@@ -44,7 +44,7 @@ export function ProductPage() {
         }}
         onAddToCart={() => console.log('Add Item')}
       />
-      <hr />
+
       <RelatedProducts products={relatedProducts} />
     </div>
   )

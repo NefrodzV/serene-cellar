@@ -28,8 +28,6 @@ export function ProductContent({
         abv={product?.abv}
         container={product?.container}
       />
-
-      <ProductDescription text={product?.description} />
       <div className="product-option">
         <div className="option-label">Size</div>
         <VariantSelector
@@ -53,6 +51,8 @@ export function ProductContent({
       <Button onClick={onAddToCart}>
         <i className="fa-solid fa-cart-shopping"></i>Add to cart
       </Button>
+
+      <ProductDescription text={product?.description} />
     </section>
   )
 }
