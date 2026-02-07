@@ -675,28 +675,67 @@ label, button, input {
 .shadow {
   box-shadow: 0 0px 6px hsl(0, 0%, 7%, .1);;
 }
-s
+
 /* Message */
 .message {
   box-sizing: border-box;
   pointer-events: all;
   display: flex;
-  flex-direction: column;
+  gap: .5rem
+}
+
+.message-title {
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  font-size: 1.3rem
+}
+
+.message.enter, .message.exit, .message.idle {
+  transition: all .2s ease;
+}
+.message.idle {
+  transform: translate(0);
+}
+.message.enter {
+  transform: translate(100%);
+  transition: all 5s ease;
+}
+
+.message.exit {
+  transform: translate(100%);
 }
 
 .message .icon-container {
   display: flex;
 }
 
-.message .icon {
-  height: 50px;
+.msg-icon-wrapper {
   width: 50px;
+  height: 50px;
+}
+
+.msg-icon {
+  height: 100%;
+  width: 100%;
   font-size: 1.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  color: var(--bbackground-clr);
+}
+.msg-icon--success {
+  background-color: #2ecc71;
+  
+}
+.msg-icon--error {
+  background-color: red;
+ 
+}
+.msg-icon--notify {
+  background-color:#2563EB;
 }
 
 .message-error ,.message-notify, .message-success {
@@ -895,8 +934,6 @@ s
   
 } 
 
-
-.
 .cart-item-out-of-stock {
   color: red;
 }
@@ -1169,6 +1206,10 @@ s
 }
 .align-right {
   margin-inline:  auto 0;
+}
+
+.align-top {
+  margin-block: 0 auto;
 }
 
 .bold {
