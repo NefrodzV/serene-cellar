@@ -42,7 +42,7 @@ export function ProductPage() {
           const variant = product.variants.find((v) => v.id === id)
           setSelectedVariant(variant)
         }}
-        onAddToCart={() => console.log('Add Item')}
+        onAddToCart={() => addItem(selectedVariant, quantity)}
       />
 
       <RelatedProducts products={relatedProducts} />
