@@ -21,6 +21,8 @@ const allowedOrigins = [
   normalizeOrigin(process.env.FRONTEND_DOMAIN),
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:4173',
 ].filter(Boolean)
 console.log('Frotend domain', frontendDomain)
 console.log('Allowed origins', allowedOrigins)
