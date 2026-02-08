@@ -1,6 +1,7 @@
 import { useCart, useProduct, useProducts, useRelatedProducts } from '../hooks'
-import { useParams } from 'react-router-dom'
+import { useOutlet, useOutletContext, useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
+import { Spinner } from '../components/ui'
 import { ProductHeader, RelatedProducts } from '../components/product'
 export function ProductPage() {
   const MIN_QUANTITY = 1
@@ -24,28 +25,34 @@ export function ProductPage() {
 
   return (
     <div className="product-page">
-      <ProductHeader
-        product={product}
-        quantity={quantity}
-        subtotal={subtotal}
-        minQuantity={MIN_QUANTITY}
-        onIncrement={() => {
-          if (quantity >= selectedVariant?.stock) return
-          setQuantity((prev) => prev + 1)
-        }}
-        onDecrement={() => {
-          if (quantity <= MIN_QUANTITY) return
-          setQuantity((prev) => prev - 1)
-        }}
-        selectedVariant={selectedVariant}
-        onVariantSelected={(id) => {
-          const variant = product.variants.find((v) => v.id === id)
-          setSelectedVariant(variant)
-        }}
-        onAddToCart={() => addItem(selectedVariant, quantity)}
-      />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <ProductHeader
+            product={product}
+            quantity={quantity}
+            subtotal={subtotal}
+            minQuantity={MIN_QUANTITY}
+            onIncrement={() => {
+              if (quantity >= selectedVariant?.stock) return
+              setQuantity((prev) => prev + 1)
+            }}
+            onDecrement={() => {
+              if (quantity <= MIN_QUANTITY) return
+              setQuantity((prev) => prev - 1)
+            }}
+            selectedVariant={selectedVariant}
+            onVariantSelected={(id) => {
+              const variant = product.variants.find((v) => v.id === id)
+              setSelectedVariant(variant)
+            }}
+            onAddToCart={() => addItem(selectedVariant, quantity)}
+          />
 
-      <RelatedProducts products={relatedProducts} />
+          <RelatedProducts products={relatedProducts} />
+        </>
+      )}
     </div>
   )
 }
