@@ -490,7 +490,9 @@ label, button, input {
   
   margin: 0 0 1rem 0;
 }
-
+.add-to-cart {
+  text-transform: uppercase;
+}
 /* Price tag */
 .product-price--card {
   font-weight: 600;
@@ -1432,6 +1434,10 @@ label, button, input {
     width: 100%;
     box-sizing: border-box;
     grid-column: 1 / -1;
+  }
+
+  .add-to-cart {
+    width: 100%;
   }
 }
 

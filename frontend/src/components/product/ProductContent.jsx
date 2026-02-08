@@ -48,7 +48,7 @@ export function ProductContent({
       </div>
 
       {subtotal && <ProductSubtotal subtotal={subtotal} />}
-      <Button className="button--fullwidth" onClick={onAddToCart}>
+      <Button className="add-to-cart" onClick={onAddToCart}>
         <i className="fa-solid fa-cart-shopping"></i>Add to cart
       </Button>
 
