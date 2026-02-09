@@ -401,6 +401,19 @@ label, button, input {
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
+  transition: all .5s ease;
+}
+
+.card.enter {
+  transform: translateX(-100%);
+}
+
+.card.idle {
+  transform: translate(0);
+}
+
+.card.exit {
+  transform: translate(-100%);
 }
 
 /* Product Page*/

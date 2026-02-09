@@ -4,15 +4,8 @@ import { CartItem } from './CartItem'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 export function CartList() {
-  const { cart, deleteItem } = useCart()
-  console.log(cart)
-  const [hasMounted, setHasMounted] = useState(false)
-
-  useEffect(() => {
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => setHasMounted(true))
-    )
-  }, [])
+  const { cart, onDelete, deleteItem, isItemBusy, increment, decrement } =
+    useCart()
 
   if (cart?.isEmpty) {
     return (
@@ -64,7 +57,15 @@ export function CartList() {
   return (
     <ul aria-label="Your current cart items" className="cart-list">
       {cart?.items?.map((item, i) => (
-        <CartItem item={item} key={`${item?.id}`} index={i} />
+        <CartItem
+          item={item}
+          isItemBusy={isItemBusy}
+          key={`${item?.id}`}
+          onDelete={onDelete}
+          increment={increment}
+          decrement={decrement}
+          deleteItem={deleteItem}
+        />
       ))}
     </ul>
   )

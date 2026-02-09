@@ -44,7 +44,7 @@ export function MessageProvider({ children }) {
 
   // When exited delete the data
   function onExit(id) {
-    // clearTimeout(timeouts.current.get(id))
+    clearTimeout(timeouts.current.get(id))
     setMessages((prev) => prev.filter((message) => !(message.id === id)))
   }
 

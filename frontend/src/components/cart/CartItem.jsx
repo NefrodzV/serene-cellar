@@ -5,10 +5,15 @@ import { Card } from '../ui/Card'
 import { API_URL } from '../../config'
 import { Spinner, QuantityStepper } from '../ui'
 
-export function CartItem({ index, item }) {
+export function CartItem({
+  item,
+  isItemBusy,
+  onDelete,
+  deleteItem,
+  increment,
+  decrement,
+}) {
   const MIN_ITEM_QUANTITY = 1
-  const DELETE_MS = 500
-  const STAGGER_RATE_INCREASE = 0.2
   const {
     id,
     priceId,
@@ -25,22 +30,18 @@ export function CartItem({ index, item }) {
     purchasable,
   } = item
 
-  const [hasMounted, setHasMounted] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const { increment, decrement, updateItem, deleteItem, isItemBusy } = useCart()
-
   const isBusy = isItemBusy(id)
-
-  useEffect(() => {
-    requestAnimationFrame(() => setHasMounted(true))
-  }, [])
 
   return (
     <Card
-      key={item?.priceId}
+      className={`${item?.status}`}
       as="li"
-      style={{ '--stagger': `${index * STAGGER_RATE_INCREASE}s` }}
-      className={`rounded from-left ${hasMounted ? 'slide-in' : ''} ${isDeleting ? 'is-deleting' : ''}`}
+      onTransitionEnd={(e) => {
+        if (e.target !== e.currentTarget) return
+        if (item.status === 'exit') {
+          deleteItem(item.id)
+        }
+      }}
     >
       <article className="cart-item">
         <div className="product">
@@ -102,8 +103,8 @@ export function CartItem({ index, item }) {
                 aria-label="Delete cart item"
                 type="button"
                 onClick={() => {
-                  setIsDeleting(true)
-                  deleteItem(id)
+                  console.log('delete')
+                  onDelete(item.id)
                 }}
               >
                 <div className="button-icon-container delete">

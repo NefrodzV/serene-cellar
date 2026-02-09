@@ -26,7 +26,6 @@ export function CartProvider({ children }) {
   useEffect(() => {
     const controller = new AbortController()
     async function loadCart() {
-      console.log('Loading cart')
       try {
         let data = await fetchWithRetries(
           () => {
@@ -41,7 +40,12 @@ export function CartProvider({ children }) {
           }
         )
         if (!data?.cart) return
-        setCart(data?.cart)
+        const formatedItems = data?.cart.items.map((i) => ({
+          ...i,
+          status: 'enter',
+        }))
+        const formattedCart = { ...data?.cart, items: formatedItems }
+        setCart(formattedCart)
       } catch (e) {
         if (e.name === 'AbortError') return
         console.error('Error loading cart:', e)
@@ -62,7 +66,23 @@ export function CartProvider({ children }) {
           }
         )
 
-        setCart(data?.cart)
+        const formatedItems = data?.cart.items.map((i) => ({
+          ...i,
+          status: 'enter',
+        }))
+        const formattedCart = { ...data?.cart, items: formatedItems }
+        setCart(formattedCart)
+
+        // Enter items later
+        requestAnimationFrame(() => {
+          setCart((prev) => {
+            const updtateItemsToIdle = prev.items.map((i) => ({
+              ...i,
+              status: 'idle',
+            }))
+            return { ...prev, items: updtateItemsToIdle }
+          })
+        })
       } catch (e) {
         if (e.name === 'AbortError') return
         console.error('Error getting localcart snapshot')
@@ -92,7 +112,7 @@ export function CartProvider({ children }) {
       const data = isAuthenticated
         ? await authCartService.addItem(item.priceId, Number(quantity))
         : await localCartService.addItem(item, quantity)
-      sendMessage('Item added', 'Item has been added to cart', 'success')
+      sendMessage('Item added', 'Item has been added to cart.', 'success')
       setCart(data?.cart)
     } catch (error) {
       console.error('Error adding item:', error)
@@ -100,7 +120,21 @@ export function CartProvider({ children }) {
   }
 
   async function deleteItem(id) {
+    let item
+    // Delete the item in ui
+    setCart((prev) => {
+      const items = cart.items.filter((i) => {
+        if (!(i.id === id)) {
+          return i
+        }
+        item = i
+      })
+
+      return { ...prev, isEmpty: items.length === 0, items: items }
+    })
+
     try {
+      // throw new Error('Item couldnt be deleted')
       const data = isAuthenticated
         ? await authCartService.deleteItem(id)
         : await localCartService.deleteItem(id)
@@ -110,7 +144,18 @@ export function CartProvider({ children }) {
       } else {
         setCart(defaultCart)
       }
+      sendMessage('Delete item', 'Item was deleted successfully.', 'success')
     } catch (error) {
+      sendMessage(
+        'Delete item',
+        'Item couldnt be deleted. Please try again later.',
+        'error'
+      )
+      // Undo delete
+      setCart((prev) => {
+        const items = [...prev.items, { ...item, status: 'idle' }]
+        return { ...prev, isEmpty: items.length === 0, items: items }
+      })
       console.error('Error deleting item:', error)
     }
   }
@@ -150,9 +195,20 @@ export function CartProvider({ children }) {
   function isItemBusy(id) {
     return !!busy[id]
   }
+
+  function onDelete(id) {
+    setCart((prev) => {
+      const items = prev.items.map((i) =>
+        i.id === id ? { ...i, status: 'exit' } : i
+      )
+      return { ...prev, items }
+    })
+  }
+
   const value = {
     cart,
     isLoading,
+    onDelete,
     addItem,
     deleteItem,
     updateItem,
