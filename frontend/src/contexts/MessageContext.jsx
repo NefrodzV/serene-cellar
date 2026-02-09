@@ -18,11 +18,13 @@ export function MessageProvider({ children }) {
     setMessages((prev) => [...prev, message])
 
     requestAnimationFrame(() => {
-      setMessages((messages) =>
-        messages.map((msg) =>
-          msg.id === message.id ? { ...msg, status: 'idle' } : msg
+      requestAnimationFrame(() => {
+        setMessages((messages) =>
+          messages.map((msg) =>
+            msg.id === message.id ? { ...msg, status: 'idle' } : msg
+          )
         )
-      )
+      })
     })
 
     const t = setTimeout(() => {
