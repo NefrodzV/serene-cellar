@@ -38,6 +38,7 @@ export function CartItem({
             as="li"
             onTransitionEnd={(e) => {
                 if (e.target !== e.currentTarget) return
+                if (e.propertyName !== 'opacity') return
                 if (item.status === 'exit') {
                     deleteItem(item.id)
                 }
