@@ -430,6 +430,11 @@ input {
 .shop-page {
     width: 100%;
 }
+
+.filter-text {
+    font-weight: 500;
+    text-transform: capitalize;
+}
 /* Product Page*/
 .product-page {
     flex: 1;

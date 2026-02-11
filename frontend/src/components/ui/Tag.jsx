@@ -12,7 +12,7 @@ export function Tag({ id, value, onChange, children, isActive }) {
                     onChange={onChange}
                 />
                 <span className="checkmark"></span>
-                <span>{children}</span>
+                <span className="filter-text">{children}</span>
             </Card>
         )
     }
