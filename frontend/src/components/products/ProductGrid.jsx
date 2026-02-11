@@ -3,7 +3,13 @@ import { Tag, Form } from '../ui'
 import { Heading } from '../ui/Heading'
 import { ProductCard } from './ProductCard'
 
-export function ProductGrid({ products, categories, onFilter }) {
+export function ProductGrid({
+    products,
+    categories,
+    filter,
+    onFilter,
+    onExit,
+}) {
     return (
         <section className="product-container">
             <Heading>Products</Heading>
@@ -13,6 +19,7 @@ export function ProductGrid({ products, categories, onFilter }) {
                         key={type}
                         id={`alcohol-${type}`}
                         value={type}
+                        isActive={type === filter}
                         onChange={(e) => {
                             onFilter(e.target.value)
                         }}
@@ -24,7 +31,9 @@ export function ProductGrid({ products, categories, onFilter }) {
 
             <ul className="product-grid">
                 {products.map((p) => {
-                    return <ProductCard key={p.id} product={p} />
+                    return (
+                        <ProductCard key={p.id} product={p} onExit={onExit} />
+                    )
                 })}
             </ul>
         </section>
