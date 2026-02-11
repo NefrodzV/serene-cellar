@@ -87,9 +87,15 @@ export function useProducts() {
     }
 
     function onExit(id) {
+        itemsExiting?.current.delete(id)
+            ? console.log('Filtered out item with id: ', id)
+            : null
+        setProducts((prev) => prev.filter((product) => product.id !== id))
+
         if (itemsExiting?.current.size === 0) {
             // If all items have exited append the new list
             const newProducts = pendingRef.current
+            if (!newProducts) return
             // Check items existence and append new one
             setProducts((prev) =>
                 newProducts.map((p) => {
@@ -98,8 +104,7 @@ export function useProducts() {
                 })
             )
 
-            // Then begin the idle transition
-
+            // Then begin the idle transition needs to be
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     setProducts((prev) =>
@@ -111,11 +116,6 @@ export function useProducts() {
             })
 
             pendingRef.current = null
-        } else {
-            itemsExiting?.current.delete(id)
-                ? console.log('Filtered out item with id: ', id)
-                : null
-            setProducts((prev) => prev.filter((product) => product.id !== id))
         }
     }
 
