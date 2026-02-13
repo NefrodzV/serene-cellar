@@ -332,12 +332,8 @@ input {
     display: flex;
     width: clamp(320px, 100%, 1080px);
     position: relative;
-    padding-bottom: 64px;
+    padding: 0.8rem 0.5rem 0.8rem;
 }
-
-/* .main--fill {
-  flex: 1;
-} */
 
 .header .content {
     margin: auto;
@@ -441,7 +437,7 @@ input {
 .product-page {
     flex: 1;
     position: relative;
-    padding: 0.5rem;
+
     width: 100%;
 }
 
@@ -1345,6 +1341,12 @@ input {
         display: block;
     }
 
+    .variant-group > * {
+        flex: 1;
+    }
+    .product-meta {
+        justify-content: center;
+    }
     .drawer {
         width: 70%;
         overflow: hidden;
@@ -1427,10 +1429,6 @@ input {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-    }
-
-    .main {
-        padding-bottom: 2rem;
     }
 
     /* Product page  */
