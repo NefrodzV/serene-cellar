@@ -3,6 +3,10 @@ import { Card } from '../ui'
 import { Link } from 'react-router-dom'
 import { ProductItem } from './ProductItem'
 export function ProductCard({ product, onExit }) {
+    const minPrice = Math.min(
+        ...product.variants.map((variant) => variant.price)
+    )
+
     return (
         <Card
             className={product.status}
@@ -15,7 +19,7 @@ export function ProductCard({ product, onExit }) {
         >
             <ProductItem
                 productName={product?.name}
-                price={product?.variants?.[0].price}
+                price={minPrice}
                 images={product?.images?.thumbnail}
             />
         </Card>
