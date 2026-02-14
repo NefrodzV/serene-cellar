@@ -8,19 +8,32 @@ export function QuantityStepper({
     onIncrement,
     onDecrement,
     isLoading,
+    onDelete,
 }) {
     return (
         <div className="quantity-stepper">
-            <Button
-                variant="transparent"
-                disabled={quantity <= min}
-                onClick={onDecrement}
-            >
-                <div className="button-icon-container">
-                    <i className="fa-solid fa-arrow-down"></i>
-                </div>
-            </Button>
-
+            {onDelete && quantity === min ? (
+                <Button
+                    variant="transparent"
+                    aria-label="Delete cart item"
+                    type="button"
+                    onClick={onDelete}
+                >
+                    <div className="button-icon-container delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+                </Button>
+            ) : (
+                <Button
+                    variant="transparent"
+                    disabled={quantity <= min}
+                    onClick={onDecrement}
+                >
+                    <div className="button-icon-container">
+                        <i className="fa-solid fa-arrow-down"></i>
+                    </div>
+                </Button>
+            )}
             <div className="cart-item-quantity">
                 <div
                     className="quantity-container"
