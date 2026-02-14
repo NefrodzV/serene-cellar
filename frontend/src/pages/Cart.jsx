@@ -84,6 +84,7 @@ export function CartPage() {
                                 <div className="flex-row">
                                     <p>Card: 4242 4242 4242</p>
                                     <Button
+                                        aria-label="Copy test card number"
                                         variant="test-card"
                                         onClick={() =>
                                             copy(
@@ -98,6 +99,7 @@ export function CartPage() {
                                 <div className="flex-row">
                                     <p>Exp date: 12/34 </p>
                                     <Button
+                                        aria-label="Copy card expiration date"
                                         variant="test-card"
                                         onClick={() =>
                                             copy('12/34', 'Expiration date')
@@ -109,6 +111,7 @@ export function CartPage() {
                                 <div className="flex-row">
                                     <p>CVC: 123</p>
                                     <Button
+                                        aria-label="Copy card cvc"
                                         variant="test-card"
                                         onClick={() => copy('123', 'CVC')}
                                     >
@@ -118,6 +121,7 @@ export function CartPage() {
                                 <div className="flex-row">
                                     <p>Area Code: 10001</p>
                                     <Button
+                                        aria-label="Copy card area code"
                                         variant="test-card"
                                         onClick={() =>
                                             copy('10001', 'Area Code')
