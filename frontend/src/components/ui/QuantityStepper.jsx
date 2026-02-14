@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from './Button'
 import { Spinner } from './Spinner'
+import { createClassName } from '../../utils'
 export function QuantityStepper({
     quantity,
     min,
@@ -9,12 +10,13 @@ export function QuantityStepper({
     onDecrement,
     isLoading,
     onDelete,
+    variant,
 }) {
     return (
-        <div className="quantity-stepper">
+        <div className={createClassName('quantity-stepper', variant)}>
             {onDelete && quantity === min ? (
                 <Button
-                    variant="transparent"
+                    variant="stepper"
                     aria-label="Delete cart item"
                     type="button"
                     onClick={onDelete}
@@ -25,7 +27,7 @@ export function QuantityStepper({
                 </Button>
             ) : (
                 <Button
-                    variant="transparent"
+                    variant="stepper"
                     disabled={quantity <= min}
                     onClick={onDecrement}
                 >
@@ -46,7 +48,7 @@ export function QuantityStepper({
             </div>
 
             <Button
-                variant="transparent"
+                variant="stepper"
                 disabled={quantity >= max}
                 onClick={onIncrement}
             >

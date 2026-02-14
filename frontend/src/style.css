@@ -85,6 +85,12 @@ input {
     background-color: var(--accent-clr);
 }
 
+.button--stepper {
+    min-height: 28px;
+    min-width: 28px;
+    background-color: transparent;
+}
+
 .button.transparent {
     padding: 0;
     background-color: transparent;
@@ -843,14 +849,19 @@ input {
 .quantity-stepper {
     grid: stepper;
     display: flex;
+    align-items: center;
     width: fit-content;
     border-radius: 6px;
     border: 3px solid var(--accent-clr);
 }
 
+.quantity-stepper--pdp {
+    min-height: 44px;
+}
+
 .cart-item-quantity {
     box-sizing: border-box;
-    min-height: 44px;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -864,8 +875,6 @@ input {
     justify-content: center;
     align-items: center;
     border-radius: 6px;
-    min-height: 80%;
-    min-width: 80%;
 }
 
 .quantity-container > .loader-container > .loader {
