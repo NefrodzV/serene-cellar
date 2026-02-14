@@ -46,6 +46,15 @@ export function CartProvider({ children }) {
                 }))
                 const formattedCart = { ...data?.cart, items: formatedItems }
                 setCart(formattedCart)
+                requestAnimationFrame(() => {
+                    setCart((prev) => {
+                        const updtateItemsToIdle = prev.items.map((i) => ({
+                            ...i,
+                            status: 'idle',
+                        }))
+                        return { ...prev, items: updtateItemsToIdle }
+                    })
+                })
             } catch (e) {
                 if (e.name === 'AbortError') return
                 console.error('Error loading cart:', e)
