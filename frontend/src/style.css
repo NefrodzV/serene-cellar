@@ -831,6 +831,10 @@ input {
     opacity: 0.7;
 }
 
+.subtotal-label--pdp {
+    font-size: 1.275rem;
+}
+
 .subtotal-value {
     font-weight: 600;
     font-size: 1rem;
