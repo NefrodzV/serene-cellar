@@ -34,7 +34,7 @@ export async function fetchWithRetries(fn, { signal, retries = 4, onRetry }) {
 }
 
 export function createClassName(parent, variant, classes) {
-    const array = [parent, `${parent}--${variant}`, classes]
+    const array = [parent, variant ? `${parent}--${variant}` : '', classes]
         .filter(Boolean)
         .join(' ')
     return array
