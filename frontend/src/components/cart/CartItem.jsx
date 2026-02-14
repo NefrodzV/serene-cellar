@@ -3,7 +3,7 @@ import { useCart } from '../../hooks'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { API_URL } from '../../config'
-import { Metadata, QuantityStepper, Title } from '../ui'
+import { QuantityStepper, Title } from '../ui'
 
 export function CartItem({
     item,
