@@ -15,22 +15,26 @@ export function ProfilePage() {
     }
 
     useEffect(() => {
-        // async function getOrders() {
-        //   try {
-        //     const res = await fetch(`${API_URL}/me/orders`, {
-        //       credentials: 'include',
-        //     })
-        //     const data = await res.json()
-        //     console.log()
-        //     if (!res.ok) {
-        //       throw new Error('GET orders response: ', res.status, res.statusText)
-        //     }
-        //     setOrders(data.orders)
-        //   } catch (error) {
-        //     console.error(error)
-        //   }
-        // }
-        // getOrders()
+        async function getOrders() {
+            try {
+                const res = await fetch(`${API_URL}/me/orders`, {
+                    credentials: 'include',
+                })
+                const data = await res.json()
+                console.log()
+                if (!res.ok) {
+                    throw new Error(
+                        'GET orders response: ',
+                        res.status,
+                        res.statusText
+                    )
+                }
+                setOrders(data.orders)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        getOrders()
         if (!user) {
             navigate('/shop', { replace: true })
         }
