@@ -2,24 +2,24 @@ import { pool } from '../db/pool.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function createOrder(client = pool, userId, checkoutSessionId) {
-  const { rows } = await client.query(
-    `INSERT INTO orders (user_id, checkout_session_id) VALUES ($1, $2) RETURNING id`,
-    [userId, checkoutSessionId]
-  )
-  return camelize(rows[0])
+    const { rows } = await client.query(
+        `INSERT INTO orders (user_id, checkout_session_id) VALUES ($1, $2) RETURNING id`,
+        [userId, checkoutSessionId]
+    )
+    return camelize(rows[0])
 }
 
 export async function createOrderItem(client = pool, orderId, item) {
-  const { rows } = await client.query(
-    `INSERT INTO order_items (order_id, variant_id, price, quantity)
+    const { rows } = await client.query(
+        `INSERT INTO order_items (order_id, variant_id, price, quantity)
      VALUES ($1, $2, $3, $4)`,
-    [orderId, item.variantId, item.price, item.quantity]
-  )
+        [orderId, item.variantId, item.price, item.quantity]
+    )
 }
 
 export async function getOrdersByUserId(userId) {
-  const { rows } = await pool.query(
-    `
+    const { rows } = await pool.query(
+        `
     SELECT 
       o.id,
       o.date::text,
@@ -62,9 +62,9 @@ export async function getOrdersByUserId(userId) {
     GROUP BY o.id,  o.date, o.status
     ORDER BY o.date DESC;
     `,
-    [userId]
-  )
+        [userId]
+    )
 
-  console.log(rows[0].items)
-  return camelize(rows)
+    console.log(rows[0].items)
+    return camelize(rows)
 }

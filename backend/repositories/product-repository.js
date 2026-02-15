@@ -2,7 +2,7 @@ import { pool } from '../db/pool.js'
 import { camelize } from '../utils/camelize.js'
 
 export async function getProducts() {
-  const { rows } = await pool.query(`
+    const { rows } = await pool.query(`
     SELECT 
       p.id,
       p.name,
@@ -48,12 +48,12 @@ export async function getProducts() {
       FROM products p
     `)
 
-  return camelize(rows)
+    return camelize(rows)
 }
 
 export async function getProductById(id) {
-  const { rows } = await pool.query(
-    `
+    const { rows } = await pool.query(
+        `
     SELECT 
       p.id,
       p.name,
@@ -117,24 +117,24 @@ export async function getProductById(id) {
         ), '{}'::jsonb) as images
       FROM products p WHERE p.id = $1
     `,
-    [id]
-  )
+        [id]
+    )
 
-  return camelize(rows[0]) || null
+    return camelize(rows[0]) || null
 }
 
 export async function getProductAlcoholTypes() {
-  const { rows } = await pool.query(
-    'SELECT DISTINCT type_of_alcohol from products'
-  )
+    const { rows } = await pool.query(
+        'SELECT DISTINCT type_of_alcohol from products'
+    )
 
-  return rows.map((r) => r.type_of_alcohol)
+    return rows.map((r) => r.type_of_alcohol)
 }
 
 export async function getProductsByAlcoholType(types) {
-  const filter = types.split(',')
-  const { rows } = await pool.query(
-    `
+    const filter = types.split(',')
+    const { rows } = await pool.query(
+        `
     SELECT 
       p.id,
       p.name,
@@ -178,15 +178,15 @@ export async function getProductsByAlcoholType(types) {
         ), '{}'::jsonb) as images
       FROM products p WHERE type_of_alcohol = ANY($1)
     `,
-    [filter]
-  )
+        [filter]
+    )
 
-  return camelize(rows)
+    return camelize(rows)
 }
 
 export async function getRelatedProducts(productId) {
-  const { rows } = await pool.query(
-    `
+    const { rows } = await pool.query(
+        `
     SELECT         
       p.id,
       p.name,
@@ -211,7 +211,7 @@ export async function getRelatedProducts(productId) {
     ) img ON img.product_id = p.id
     WHERE type_of_alcohol = (SELECT type_of_alcohol FROM products p WHERE p.id =$1) 
     `,
-    [productId]
-  )
-  return camelize(rows)
+        [productId]
+    )
+    return camelize(rows)
 }

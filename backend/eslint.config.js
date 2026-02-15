@@ -1,7 +1,7 @@
 export default [
-  {
-    rules: {
-      "no-unused-vars": "warn",
+    {
+        rules: {
+            'no-unused-vars': 'warn',
+        },
     },
-  },
-];
+]

@@ -1,8 +1,8 @@
 import express from 'express'
 import {
-  orderController,
-  userController,
-  authController,
+    orderController,
+    userController,
+    authController,
 } from '../controllers/index.js'
 const router = express.Router()
 
