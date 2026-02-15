@@ -6,6 +6,7 @@ export const UserContext = createContext()
 export function UserProvider({ children }) {
     const [user, setUser] = useState(null)
     const isAuthenticated = !!user
+    const [isAuthReady, setIsAuthReady] = useState(false)
 
     useEffect(() => {
         const controller = new AbortController()
@@ -20,6 +21,8 @@ export function UserProvider({ children }) {
                 setUser(data)
             } catch (e) {
                 setUser(null)
+            } finally {
+                setIsAuthReady(true)
             }
         })()
 
@@ -66,6 +69,7 @@ export function UserProvider({ children }) {
     const value = {
         user,
         isAuthenticated,
+        isAuthReady,
         loginWithEmailAndPassword,
         registerWithEmailAndPassword,
         logout,

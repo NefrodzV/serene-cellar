@@ -59,7 +59,17 @@ input {
     cursor: pointer;
 }
 /* UI */
+
+.anchor {
+    color: var(--accent-clr);
+    text-decoration: none;
+}
+
+.anchor:hover {
+    text-decoration: underline;
+}
 /** Button styles */
+
 .button {
     color: var(--bbackground-clr);
     pointer-events: all;
@@ -69,6 +79,7 @@ input {
     min-height: 44px;
     display: flex;
     justify-content: center;
+    text-decoration: none;
     align-items: center;
     border: none;
     border-radius: 6px;
@@ -97,6 +108,10 @@ input {
     color: var(--text-clr);
     background-color: lightgray;
     border: 1px solid black;
+}
+
+.button--anchor {
+    padding: 0 0.5rem;
 }
 
 .button.transparent {
@@ -132,15 +147,6 @@ input {
 
 .button:hover {
     opacity: 0.9;
-}
-
-.anchor {
-    color: var(--accent-clr);
-    text-decoration: none;
-}
-
-.anchor:hover {
-    text-decoration: underline;
 }
 
 .fullwidth {

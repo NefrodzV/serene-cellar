@@ -1,6 +1,7 @@
 import React from 'react'
 import { createClassName } from '../../utils'
 export function Button({
+    as: Element = 'button',
     variant = 'primary',
     children,
     onClick,
@@ -8,12 +9,12 @@ export function Button({
     ...props
 }) {
     return (
-        <button
+        <Element
             className={createClassName('button', variant, className)}
             onClick={onClick}
             {...props}
         >
             {children}
-        </button>
+        </Element>
     )
 }

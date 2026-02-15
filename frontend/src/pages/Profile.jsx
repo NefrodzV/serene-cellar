@@ -2,9 +2,9 @@ import { API_URL } from '../config'
 import { useUser } from '../hooks'
 import { Button } from '../components/ui/Button'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 export function ProfilePage() {
-    const { user, logout } = useUser()
+    const { user, isAuthenticated, isAuthReady, logout } = useUser()
     const navigate = useNavigate()
     const [orders, setOrders] = useState([])
 
@@ -15,13 +15,13 @@ export function ProfilePage() {
     }
 
     useEffect(() => {
+        if (!isAuthReady || !isAuthenticated) return
         async function getOrders() {
             try {
                 const res = await fetch(`${API_URL}/me/orders`, {
                     credentials: 'include',
                 })
                 const data = await res.json()
-                console.log()
                 if (!res.ok) {
                     throw new Error(
                         'GET orders response: ',
@@ -34,11 +34,9 @@ export function ProfilePage() {
                 console.error(error)
             }
         }
+
         getOrders()
-        if (!user) {
-            navigate('/shop', { replace: true })
-        }
-    }, [])
+    }, [isAuthReady, isAuthenticated])
 
     async function handleLogout() {
         const hasLoggedOut = await logout()
@@ -46,6 +44,8 @@ export function ProfilePage() {
             navigate('/login', { replace: true })
         }
     }
+
+    if (isAuthReady && !isAuthReady) return <Navigate to={'/shop'} replace />
     return (
         <div className="profile-page">
             <h1 className="heading">Profile</h1>
@@ -71,7 +71,7 @@ export function ProfilePage() {
                 <h2>Order History</h2>
                 <ul className="order-list">
                     {orders?.map((order) => (
-                        <li key={order.id} className="order-item">
+                        <li key={order?.id} className="order-item">
                             <div className="order-item-header">
                                 <span className="order-item-date">
                                     Date: {order.date}
@@ -90,11 +90,14 @@ export function ProfilePage() {
                                 </div>
                                 <ul className="bought-items-list">
                                     {order.items.map((item) => (
-                                        <li className="bought-item">
+                                        <li
+                                            key={item.orderItemId}
+                                            className="bought-item"
+                                        >
                                             <div className="bought-item-image-container">
-                                                {item?.image?.url ? (
+                                                {item?.image?.storageKey ? (
                                                     <img
-                                                        src={item?.image?.url}
+                                                        src={`${API_URL}/${item?.image?.storageKey}`}
                                                         alt="Bought item image"
                                                     />
                                                 ) : (

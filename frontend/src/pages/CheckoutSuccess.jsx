@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '../components/ui'
 import { Link } from 'react-router-dom'
 export function CheckoutSuccess() {
     return (
@@ -10,10 +11,12 @@ export function CheckoutSuccess() {
                 Thank you for your purchase. Your order is now being prepared.
             </p>
 
-            <Link className="button">View order</Link>
-            <Link className="button" to={'/shop'}>
+            <Button as={Link} to={'/profile'} variant="anchor">
+                View order
+            </Button>
+            <Button as={Link} to={'/shop'} variant="anchor">
                 Continue shopping
-            </Link>
+            </Button>
         </div>
     )
 }

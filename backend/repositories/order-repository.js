@@ -50,7 +50,7 @@ export async function getOrdersByUserId(userId) {
       SELECT json_build_object(
       'image_id', i.id,
       'asset_id', a.id,
-      'url', a.url
+      'storage_key', a.storage_key
       ) AS image_json
       FROM product_images i 
       JOIN assets a
@@ -65,6 +65,5 @@ export async function getOrdersByUserId(userId) {
         [userId]
     )
 
-    console.log(rows[0].items)
     return camelize(rows)
 }
