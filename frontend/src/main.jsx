@@ -10,15 +10,15 @@ import './style.css'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <MessageProvider>
-      <UserProvider>
-        <CartProvider>
-          <GoogleOAuthProvider clientId={googleClientId}>
-            <RouterProvider router={router} />
-          </GoogleOAuthProvider>
-        </CartProvider>
-      </UserProvider>
-    </MessageProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <MessageProvider>
+            <UserProvider>
+                <CartProvider>
+                    <GoogleOAuthProvider clientId={googleClientId}>
+                        <RouterProvider router={router} />
+                    </GoogleOAuthProvider>
+                </CartProvider>
+            </UserProvider>
+        </MessageProvider>
+    </React.StrictMode>
 )

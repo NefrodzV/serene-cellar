@@ -1,9 +1,9 @@
-import pkceChallenge from "pkce-challenge"
+import pkceChallenge from 'pkce-challenge'
 const twitterClientId = import.meta.env.VITE_TWITTER_CLIENT_ID
 
 export default function useTwitterAuth() {
     const authenticate = async () => {
-        const { code_verifier, code_challenge } =  await pkceChallenge()
+        const { code_verifier, code_challenge } = await pkceChallenge()
         localStorage.setItem('code_verifier', code_verifier)
 
         const params = new URLSearchParams({
@@ -13,13 +13,13 @@ export default function useTwitterAuth() {
             scope: 'tweet.read users.read offline.access',
             state: 'Some random state',
             code_challenge: code_challenge,
-            code_challenge_method: 'S256'
+            code_challenge_method: 'S256',
         })
 
-        window.location.href  = `https://twitter.com/i/oauth2/authorize?${params.toString()}`
-    }   
+        window.location.href = `https://twitter.com/i/oauth2/authorize?${params.toString()}`
+    }
 
     return {
-        authenticate
+        authenticate,
     }
 }

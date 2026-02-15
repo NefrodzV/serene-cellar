@@ -1,23 +1,23 @@
 {
-  "name": "serene-cellar-web",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/react": "^19.2.13",
-    "prettier": "3.6.2",
-    "vite": "^6.3.5"
-  },
-  "dependencies": {
-    "@react-oauth/google": "^0.12.2",
-    "pkce-challenge": "^5.0.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.1",
-    "uuid": "^11.1.0"
-  }
+    "name": "serene-cellar-web",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "@types/react": "^19.2.13",
+        "prettier": "^3.6.2",
+        "vite": "^6.3.5"
+    },
+    "dependencies": {
+        "@react-oauth/google": "^0.12.2",
+        "pkce-challenge": "^5.0.0",
+        "react-dom": "^19.1.0",
+        "react-router-dom": "^7.6.1",
+        "uuid": "^11.1.0"
+    }
 }

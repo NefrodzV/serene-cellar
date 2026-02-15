@@ -2,86 +2,86 @@ import { CART_KEY } from '../config'
 import { v4 as uuidv4 } from 'uuid'
 import { API_URL } from '../config'
 export async function addItem(item, quantity) {
-  const localCartItems = getLocalCart()
+    const localCartItems = getLocalCart()
 
-  // Finding if item already exists and updating the quantity
-  const itemIndex = localCartItems.findIndex((i) => i.id === item.id)
-  if (itemIndex !== -1) {
-    const itemFound = localCartItems[itemIndex]
-    localCartItems[itemIndex] = {
-      ...itemFound,
-      quantity: itemFound.quantity + quantity,
+    // Finding if item already exists and updating the quantity
+    const itemIndex = localCartItems.findIndex((i) => i.id === item.id)
+    if (itemIndex !== -1) {
+        const itemFound = localCartItems[itemIndex]
+        localCartItems[itemIndex] = {
+            ...itemFound,
+            quantity: itemFound.quantity + quantity,
+        }
+    } else {
+        localCartItems.push({
+            ...item,
+            id: uuidv4(),
+            quantity,
+        })
     }
-  } else {
-    localCartItems.push({
-      ...item,
-      id: uuidv4(),
-      quantity,
-    })
-  }
 
-  localStorage.setItem(CART_KEY, JSON.stringify(localCartItems))
-  const validatedCart = await validateLocalCartItems(localCartItems)
-  return validatedCart
+    localStorage.setItem(CART_KEY, JSON.stringify(localCartItems))
+    const validatedCart = await validateLocalCartItems(localCartItems)
+    return validatedCart
 }
 
 export async function deleteItem(id) {
-  console.log('delete item running')
-  const items = getLocalCart()
-  const itemsUpdated = items.filter((i) => !(i.id === id))
+    console.log('delete item running')
+    const items = getLocalCart()
+    const itemsUpdated = items.filter((i) => !(i.id === id))
 
-  console.log('updated', itemsUpdated)
-  localStorage.setItem(CART_KEY, JSON.stringify(itemsUpdated))
+    console.log('updated', itemsUpdated)
+    localStorage.setItem(CART_KEY, JSON.stringify(itemsUpdated))
 
-  if (itemsUpdated.length) {
-    const data = await validateLocalCartItems(itemsUpdated)
-    return data ?? null
-  } else {
-    return null
-  }
+    if (itemsUpdated.length) {
+        const data = await validateLocalCartItems(itemsUpdated)
+        return data ?? null
+    } else {
+        return null
+    }
 }
 
 export async function updateItem(id, quantity) {
-  const items = getLocalCart()
-  const itemIndex = items.findIndex((i) => i.id === id)
-  if (itemIndex === -1)
-    throw new Error('No index found for this item in local storage')
-  const itemFound = items[itemIndex]
-  items[itemIndex] = { ...itemFound, quantity: quantity }
-  localStorage.setItem(CART_KEY, JSON.stringify(items))
+    const items = getLocalCart()
+    const itemIndex = items.findIndex((i) => i.id === id)
+    if (itemIndex === -1)
+        throw new Error('No index found for this item in local storage')
+    const itemFound = items[itemIndex]
+    items[itemIndex] = { ...itemFound, quantity: quantity }
+    localStorage.setItem(CART_KEY, JSON.stringify(items))
 
-  const data = await validateLocalCartItems(items)
-  return data ?? null
+    const data = await validateLocalCartItems(items)
+    return data ?? null
 }
 
 export function getLocalCart() {
-  return JSON.parse(localStorage.getItem(CART_KEY)) || []
+    return JSON.parse(localStorage.getItem(CART_KEY)) || []
 }
 
 export function hasItems() {
-  const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
-  return items.length > 0
+    const items = JSON.parse(localStorage.getItem(CART_KEY)) || []
+    return items.length > 0
 }
 
 export async function validateLocalCartItems(items, signal) {
-  const res = await fetch(`${API_URL}/me/cart/validate`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal,
-    body: JSON.stringify({ items }),
-  })
+    const res = await fetch(`${API_URL}/me/cart/validate`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        signal,
+        body: JSON.stringify({ items }),
+    })
 
-  if (!res.ok) {
-    const error = new Error(
-      'Local cart validation failed with status:' + res.status
-    )
-    error.status = res.status
-    throw error
-  }
+    if (!res.ok) {
+        const error = new Error(
+            'Local cart validation failed with status:' + res.status
+        )
+        error.status = res.status
+        throw error
+    }
 
-  const data = await res.json()
+    const data = await res.json()
 
-  return data ?? null
+    return data ?? null
 }

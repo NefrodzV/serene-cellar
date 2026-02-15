@@ -1,64 +1,64 @@
 import React from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import {
-  CartPage,
-  LoginPage,
-  ProductPage,
-  ShopPage,
-  RegisterPage,
-  CheckoutSuccess,
-  CheckoutCancel,
-  ProfilePage,
+    CartPage,
+    LoginPage,
+    ProductPage,
+    ShopPage,
+    RegisterPage,
+    CheckoutSuccess,
+    CheckoutCancel,
+    ProfilePage,
 } from '../pages'
 import { MainLayout } from '../layouts/MainLayout'
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to={'/shop'} />,
-      },
-      {
-        path: '/shop',
-        element: <ShopPage />,
-      },
-      {
-        path: '/shop/:id',
-        element: <ProductPage />,
-      },
+    {
+        path: '/',
+        element: <MainLayout />,
+        children: [
+            {
+                index: true,
+                element: <Navigate to={'/shop'} />,
+            },
+            {
+                path: '/shop',
+                element: <ShopPage />,
+            },
+            {
+                path: '/shop/:id',
+                element: <ProductPage />,
+            },
 
-      {
-        path: '/cart',
-        element: <CartPage />,
-      },
+            {
+                path: '/cart',
+                element: <CartPage />,
+            },
 
-      {
-        path: '/checkout/success',
-        element: <CheckoutSuccess />,
-      },
+            {
+                path: '/checkout/success',
+                element: <CheckoutSuccess />,
+            },
 
-      {
-        path: '/checkout/cancel',
-        element: <CheckoutCancel />,
-      },
-      {
-        path: '/profile',
-        element: <ProfilePage />,
-      },
+            {
+                path: '/checkout/cancel',
+                element: <CheckoutCancel />,
+            },
+            {
+                path: '/profile',
+                element: <ProfilePage />,
+            },
 
-      {
-        path: '/login',
-        element: <LoginPage />,
-      },
+            {
+                path: '/login',
+                element: <LoginPage />,
+            },
 
-      {
-        path: '/register',
-        element: <RegisterPage />,
-      },
-    ],
-  },
+            {
+                path: '/register',
+                element: <RegisterPage />,
+            },
+        ],
+    },
 ])
 
 export default router

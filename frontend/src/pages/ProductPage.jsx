@@ -4,55 +4,57 @@ import React, { useEffect, useState } from 'react'
 import { Spinner } from '../components/ui'
 import { ProductHeader, RelatedProducts } from '../components/product'
 export function ProductPage() {
-  const MIN_QUANTITY = 1
-  const { id } = useParams()
-  const { product, isLoading, message } = useProduct(id)
-  const [selectedVariant, setSelectedVariant] = useState(null)
-  const [quantity, setQuantity] = useState(1)
-  const { addItem } = useCart()
-  const subtotal = selectedVariant
-    ? (quantity * selectedVariant?.price).toFixed(2)
-    : null
+    const MIN_QUANTITY = 1
+    const { id } = useParams()
+    const { product, isLoading, message } = useProduct(id)
+    const [selectedVariant, setSelectedVariant] = useState(null)
+    const [quantity, setQuantity] = useState(1)
+    const { addItem } = useCart()
+    const subtotal = selectedVariant
+        ? (quantity * selectedVariant?.price).toFixed(2)
+        : null
 
-  const { relatedProducts } = useRelatedProducts(id)
+    const { relatedProducts } = useRelatedProducts(id)
 
-  useEffect(() => {
-    if (!product) return
-    console.log('product changed', product.name, product.typeOfAlcohol)
+    useEffect(() => {
+        if (!product) return
+        console.log('product changed', product.name, product.typeOfAlcohol)
 
-    setSelectedVariant(product?.variants[0])
-  }, [product])
+        setSelectedVariant(product?.variants[0])
+    }, [product])
 
-  return (
-    <div className="product-page">
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          <ProductHeader
-            product={product}
-            quantity={quantity}
-            subtotal={subtotal}
-            minQuantity={MIN_QUANTITY}
-            onIncrement={() => {
-              if (quantity >= selectedVariant?.stock) return
-              setQuantity((prev) => prev + 1)
-            }}
-            onDecrement={() => {
-              if (quantity <= MIN_QUANTITY) return
-              setQuantity((prev) => prev - 1)
-            }}
-            selectedVariant={selectedVariant}
-            onVariantSelected={(id) => {
-              const variant = product.variants.find((v) => v.id === id)
-              setSelectedVariant(variant)
-            }}
-            onAddToCart={() => addItem(selectedVariant, quantity)}
-          />
+    return (
+        <div className="product-page">
+            {isLoading ? (
+                <Spinner />
+            ) : (
+                <>
+                    <ProductHeader
+                        product={product}
+                        quantity={quantity}
+                        subtotal={subtotal}
+                        minQuantity={MIN_QUANTITY}
+                        onIncrement={() => {
+                            if (quantity >= selectedVariant?.stock) return
+                            setQuantity((prev) => prev + 1)
+                        }}
+                        onDecrement={() => {
+                            if (quantity <= MIN_QUANTITY) return
+                            setQuantity((prev) => prev - 1)
+                        }}
+                        selectedVariant={selectedVariant}
+                        onVariantSelected={(id) => {
+                            const variant = product.variants.find(
+                                (v) => v.id === id
+                            )
+                            setSelectedVariant(variant)
+                        }}
+                        onAddToCart={() => addItem(selectedVariant, quantity)}
+                    />
 
-          <RelatedProducts products={relatedProducts} />
-        </>
-      )}
-    </div>
-  )
+                    <RelatedProducts products={relatedProducts} />
+                </>
+            )}
+        </div>
+    )
 }

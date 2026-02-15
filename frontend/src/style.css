@@ -1108,6 +1108,29 @@ input {
     gap: 2px;
 }
 
+/* Checkout Page */
+.checkout-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.checkout-icon-wrapper {
+    background-color: #111;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-page__checkmark {
+    font-size: clamp(3rem, 6vw, 12rem);
+    color: #2ecc71;
+}
 /* Helper classes */
 .capitalize {
     text-transform: capitalize;
