@@ -50,6 +50,8 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
             await sleep(delays[attempt])
         }
 
+        console.log('Attemps times: ', attempt)
+
         try {
             return await queryCallback()
         } catch (e) {
