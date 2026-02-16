@@ -40,13 +40,14 @@ export async function withTransaction(func) {
 }
 
 export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
-    const delays = [0, 800, 1600, 3200, 5000]
+    const delays = [0, 100, 200, 400, 800]
     const MAX_RETRIES = delays.length
     if (retries > MAX_RETRIES) {
         throw new Error('Only a max of 4 retries allowed')
     }
     for (let attempt = 0; attempt < retries; attempt++) {
         console.log('Attemps times: ', attempt)
+        console.log('Slepping in ms', delays[attempt])
 
         try {
             if (delays[attempt]) {
@@ -54,7 +55,7 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
             }
             return await queryCallback()
         } catch (e) {
-            console.log('DB error fields:', {
+            console.log('Retry errors fields:', {
                 code: e?.code,
                 message: e?.message,
                 name: e?.name,
