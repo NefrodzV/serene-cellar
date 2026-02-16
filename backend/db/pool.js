@@ -33,6 +33,7 @@ export async function withTransaction(func) {
     } catch (error) {
         await client.query('ROLLBACK')
         console.error('Error with transaction', error)
+        throw error
     } finally {
         client.release()
     }

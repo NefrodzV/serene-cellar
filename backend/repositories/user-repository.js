@@ -9,28 +9,17 @@ export const userRepository = {
         return rows[0]
     },
 
-    async createUserWithEmail({ firstName, lastName, password, email }) {
-        const client = await pool.connect()
-        try {
-            await client.query(`BEGIN`)
-            const { rows } = await pool.query(
-                `INSERT INTO users (email, password, first_name, last_name)
+    async createUserWithEmail(
+        { firstName, lastName, password, email },
+        client = pool
+    ) {
+        const { rows } = await client.query(
+            `INSERT INTO users (email, password, first_name, last_name)
             VALUES ($1,$2,$3,$4) RETURNING id, first_name, last_name`,
-                [email, password, firstName, lastName]
-            )
+            [email, password, firstName, lastName]
+        )
 
-            // Creating cart
-            await pool.query(`INSERT INTO carts (user_id) VALUES($1)`, [
-                rows[0].id,
-            ])
-            await client.query('COMMIT')
-            return camelize(rows[0])
-        } catch (e) {
-            await client.query('ROLLBACK')
-            throw e
-        } finally {
-            client.release()
-        }
+        return camelize(rows[0])
     },
 
     async getUserById(id) {

@@ -7,6 +7,7 @@ import { generateToken } from '../services/index.js'
 import { userRepository } from '../repositories/index.js'
 import { setCookieAndRespond } from '../utils/setCookieAndRespond.js'
 import * as cartRepository from '../repositories/cart-repository.js'
+import { withTransaction } from '../db/pool.js'
 configDotenv()
 
 const register = [
@@ -71,14 +72,24 @@ const register = [
         try {
             const data = matchedData(req)
             const encryptedPassword = await bcrypt.hash(data.password, 10)
-            const user = await userRepository.createUserWithEmail({
-                email: data.email,
-                password: encryptedPassword,
-                firstName: data.firstName,
-                lastName: data.lastName,
+
+            const user = await withTransaction(async (client) => {
+                const user = await userRepository.createUserWithEmail(
+                    {
+                        email: data.email,
+                        password: encryptedPassword,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                    },
+                    client
+                )
+
+                // Creating user cart
+                await cartRepository.createUserCart(user.id, client)
+
+                return user
             })
-            // Creating user cart
-            await cartRepository.createUserCart(user.id)
+
             const token = generateToken(user)
             req.user = user
             req.token = token

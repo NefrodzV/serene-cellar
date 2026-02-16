@@ -122,8 +122,8 @@ export async function getItemsByUserId(userId) {
     return rows
 }
 
-export async function createUserCart(userId) {
-    await pool.query(
+export async function createUserCart(userId, client = pool) {
+    await client.query(
         `
         INSERT INTO carts
         (user_id) VALUES ($1)`,
