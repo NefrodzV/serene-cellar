@@ -6,8 +6,8 @@ import {
     ProductPage,
     ShopPage,
     RegisterPage,
-    CheckoutSuccess,
-    CheckoutCancel,
+    CheckoutSuccessPage,
+    CheckoutCancelPage,
     ProfilePage,
 } from '../pages'
 import { MainLayout } from '../layouts/MainLayout'
@@ -36,12 +36,12 @@ const router = createBrowserRouter([
 
             {
                 path: '/checkout/success',
-                element: <CheckoutSuccess />,
+                element: <CheckoutSuccessPage />,
             },
 
             {
                 path: '/checkout/cancel',
-                element: <CheckoutCancel />,
+                element: <CheckoutCancelPage />,
             },
             {
                 path: '/profile',

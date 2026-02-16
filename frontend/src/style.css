@@ -76,6 +76,7 @@ input {
     cursor: pointer;
     font-weight: bold;
     font-size: 1rem;
+
     min-height: 44px;
     display: flex;
     justify-content: center;
@@ -1115,7 +1116,7 @@ input {
 }
 
 /* Checkout Page */
-.checkout-page {
+.status-page {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -1124,19 +1125,25 @@ input {
     gap: 0.5rem;
 }
 
-.checkout-icon-wrapper {
-    background-color: #111;
-    height: 300px;
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.status-page__icon {
+    font-size: clamp(3rem, 6vw, 12rem);
 }
 
-.checkout-page__checkmark {
-    font-size: clamp(3rem, 6vw, 12rem);
+.status-page__icon--success {
     color: #2ecc71;
 }
+
+.status-page__icon--error {
+    color: red;
+}
+
+.status-page__subtitle {
+    font-size: 1.5rem;
+}
+.status-page__action {
+    min-width: 8rem;
+}
+
 /* Helper classes */
 .capitalize {
     text-transform: capitalize;
