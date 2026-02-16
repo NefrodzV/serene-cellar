@@ -54,6 +54,11 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
             }
             return await queryCallback()
         } catch (e) {
+            console.log('DB error fields:', {
+                code: e?.code,
+                message: e?.message,
+                name: e?.name,
+            })
             const netRetry = new Set([
                 'ECONNREFUSED',
                 'ETIMEDOUT',
