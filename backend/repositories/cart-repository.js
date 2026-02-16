@@ -200,6 +200,7 @@ export async function getItemsForStripe(userId) {
     const { rows } = await pool.query(
         `
       SELECT
+        ci.id,
         pv.id as variant_id,
         pr.amount, 
         ci.quantity,

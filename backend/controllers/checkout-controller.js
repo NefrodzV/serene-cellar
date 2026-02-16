@@ -1,9 +1,11 @@
 import Stripe from 'stripe'
 import passport from '../config/passport-config.js'
 import express from 'express'
-import { userRepository } from '../repositories/user-repository.js'
 import { configDotenv } from 'dotenv'
-import { getItemsForStripe } from '../repositories/cart-repository.js'
+import {
+    deleteCartItem,
+    getItemsForStripe,
+} from '../repositories/cart-repository.js'
 import {
     createOrder,
     createOrderItem,
@@ -21,7 +23,7 @@ const stripe = new Stripe(stripeSecret)
 export const createSession = [
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
-        const cartItems = await getItemsForStripe(req.user.id)
+        const cartItems = (await getItemsForStripe(req.user.id)) || []
 
         const session = await stripe.checkout.sessions.create({
             line_items: cartItems.map((item) => ({
@@ -32,6 +34,7 @@ export const createSession = [
                     product_data: {
                         name: `${item.name} (${item.displayName})`,
                         metadata: {
+                            cart_item_id: item.id,
                             variant_id: item.variantId,
                         },
                     },
@@ -63,26 +66,30 @@ export const hook = [
                         expand: ['data.price.product'],
                     }
                 )
+
                 const items = lineItems.data.map((item) => ({
                     variantId: parseInt(
                         item.price.product.metadata.variant_id,
                         10
                     ),
+                    cartItemId: item.price.product.metadata.cart_item_id,
                     quantity: item.quantity,
                     price: (item.price.unit_amount / 100).toFixed(2), // Calculate numeric price from cents
                 }))
+
                 const userId = parseInt(session.metadata.user_id, 10)
                 await withTransaction(async (client) => {
                     const order = await createOrder(client, userId, session.id)
                     for (const item of items) {
                         await createOrderItem(client, order.id, item)
+                        deleteCartItem(item.cartItemId)
                     }
                 })
             }
         } catch (err) {
             next(err)
         }
-        // console.log('Event type:', event.type)
+
         return res.sendStatus(200)
     },
 ]
