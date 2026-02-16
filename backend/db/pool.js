@@ -6,13 +6,17 @@ const { Pool } = pg
 
 const nodeEnv = process.env.NODE_ENV
 
-console.log('NODE ENV', nodeEnv)
 const postgresUrl = process.env.POSTGRES_URL
 if (nodeEnv === 'production' && !postgresUrl)
     throw new Error('Postgres database url is undefined')
+const basePoolOptions = {
+    connectioTimeotMillis: 8000,
+    idleTimeoutMillis: 30000,
+    max: 10,
+}
 const pgConfig =
     nodeEnv === 'production'
-        ? { connectionString: postgresUrl }
+        ? { ...basePoolOptions, connectionString: postgresUrl }
         : {
               host: process.env.DB_HOST,
               user: process.env.ROLE_NAME,
@@ -40,7 +44,7 @@ export async function withTransaction(func) {
 }
 
 export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
-    const delays = [0, 100, 200, 400, 800]
+    const delays = [0, 500, 1000, 2000, 4000]
     const MAX_RETRIES = delays.length
     if (retries > MAX_RETRIES) {
         throw new Error('Only a max of 4 retries allowed')
@@ -64,6 +68,7 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
                 'ECONNREFUSED',
                 'ETIMEDOUT',
                 'ECONNRESET',
+                '57P03',
             ])
             if (!netRetry.has(e.code)) throw e
             if (attempt + 1 >= retries) {
