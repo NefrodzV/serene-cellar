@@ -46,13 +46,12 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
         throw new Error('Only a max of 4 retries allowed')
     }
     for (let attempt = 0; attempt < retries; attempt++) {
-        if (delays[attempt]) {
-            await sleep(delays[attempt])
-        }
-
         console.log('Attemps times: ', attempt)
 
         try {
+            if (delays[attempt]) {
+                await sleep(delays[attempt])
+            }
             return await queryCallback()
         } catch (e) {
             const netRetry = new Set([
