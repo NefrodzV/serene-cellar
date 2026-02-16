@@ -58,8 +58,6 @@ const register = [
         .withMessage('Password confirmation is required')
         .bail()
         .custom((value, { req }) => {
-            console.log(value)
-            console.log(req.body)
             if (value !== req.body.password) {
                 throw new Error('Passwords do not match')
             }
