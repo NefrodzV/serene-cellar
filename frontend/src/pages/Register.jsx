@@ -117,7 +117,7 @@ export function RegisterPage() {
                 confirmPassword
             )
             // For now just navigation maybe update this to show a notification.
-            navigate('/shop')
+            navigate('/register/success')
         } catch (error) {
             switch (error.status) {
                 case 400:
@@ -132,9 +132,10 @@ export function RegisterPage() {
                     break
                 default:
                     console.error(
-                        'Unknown error not handled in switch statement'
+                        'Unknown error not handled in switch statement:',
+                        error
                     )
-                    console.error(error)
+
                     break
             }
         }

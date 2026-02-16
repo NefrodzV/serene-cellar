@@ -9,6 +9,7 @@ import {
     CheckoutSuccessPage,
     CheckoutCancelPage,
     ProfilePage,
+    RegisterSuccessPage,
 } from '../pages'
 import { MainLayout } from '../layouts/MainLayout'
 const router = createBrowserRouter([
@@ -56,6 +57,11 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <RegisterPage />,
+            },
+
+            {
+                path: '/register/success',
+                element: <RegisterSuccessPage />,
             },
         ],
     },
