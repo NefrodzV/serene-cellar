@@ -1,24 +1,20 @@
 import { param, query, validationResult } from 'express-validator'
 import { validate } from '../middlewares/validationHandler.js'
 import * as productRepository from '../repositories/product-repository.js'
+import { queryWithRetries } from '../db/pool.js'
 
 const getProducts = [
     async (req, res, next) => {
         const { types } = req.query
-        if (types) return next()
-        try {
-            // TODO: probably need to update images having a white background
-            const products = await productRepository.getProducts()
-            return res.json(products)
-        } catch (err) {
-            next(err)
+        if (types && typeof types !== 'string') {
+            return res.status(400).json({ error: 'Invalid types parameter' })
         }
-    },
-    async (req, res, next) => {
-        const { types } = req.query
         try {
-            const products =
-                await productRepository.getProductsByAlcoholType(types)
+            const products = await queryWithRetries(() =>
+                types
+                    ? productRepository.getProductAlcoholTypes(types)
+                    : productRepository.getProducts()
+            )
             return res.json(products)
         } catch (err) {
             next(err)
