@@ -61,6 +61,7 @@ export async function queryWithRetries(queryCallback, { retries = 4 } = {}) {
             ])
             if (!netRetry.has(e.code)) throw e
             if (attempt + 1 >= retries) {
+                console.log('All attemps have been used up throwing error')
                 throw e
             }
         }
