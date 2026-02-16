@@ -6,13 +6,7 @@ import { Drawer } from '../components'
 export function MainLayout() {
     const { cart } = useCart()
     const { isAuthenticated, user } = useUser()
-    const location = useLocation()
-    const isFilled =
-        location.pathname === '/login' ||
-        (location.pathname === '/cart' && cart?.isEmpty)
-    const classes = ['main', isFilled ? 'main--fill' : '']
-        .filter(Boolean)
-        .join(' ')
+
     return (
         <div className="app-layout">
             <header className="header">
@@ -72,7 +66,7 @@ export function MainLayout() {
                     />
                 </div>
             </header>
-            <main className={classes}>
+            <main className="main">
                 <Outlet />
                 <MessageContainer />
             </main>
