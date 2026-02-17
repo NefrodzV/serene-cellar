@@ -1,5 +1,6 @@
 import { API_URL, CART_KEY } from '../config'
 import { getLocalCart } from './localCartService'
+import { v4 as uuid } from 'uuid'
 export async function fetchCart(signal) {
     const res = await fetch(`${API_URL}/me/cart`, {
         credentials: 'include',
@@ -21,6 +22,7 @@ export async function addItem(priceId, quantity) {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
+            'Idempotency-Key': uuid(),
         },
         credentials: 'include',
         body: JSON.stringify({ priceId, quantity }),
