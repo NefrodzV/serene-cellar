@@ -1,8 +1,8 @@
 import { pool } from '../db/pool.js'
 import { camelize } from '../utils/camelize.js'
 
-export async function getCartByUserId(userId) {
-    const { rows } = await pool.query(
+export async function getCartByUserId(userId, client = pool) {
+    const { rows } = await client.query(
         `
       SELECT 
       COALESCE(bool_and(item.purchasable), false) as can_checkout,

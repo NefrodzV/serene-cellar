@@ -2,7 +2,9 @@ import { body, param, matchedData } from 'express-validator'
 import { passport } from '../config/index.js'
 import { validate } from '../middlewares/validationHandler.js'
 import * as cartRepository from '../repositories/cart-repository.js'
-import { queryWithRetries, withTransaction } from '../db/pool.js'
+import * as idempotencyRepository from '../repositories/idempotent-keys-repository.js'
+import { pool, queryWithRetries, withTransaction } from '../db/pool.js'
+import { response } from 'express'
 
 const getCart = [
     passport.authenticate('jwt', { session: false }),
@@ -30,15 +32,62 @@ const addItem = [
     validate,
 
     async (req, res, next) => {
-        const { productId, priceId, quantity } = matchedData(req)
+        console.log('request', req.headers['idempotency-key'])
+        const key = req.headers['idempotency-key']
+        if (!key)
+            return res.status(400).json({ error: 'Missing idempotency key' })
+        const { priceId, quantity } = matchedData(req)
+        const user = req.user
 
         try {
-            await queryWithRetries(() =>
-                cartRepository.createCartItem(req.user.id, quantity, priceId)
-            )
-            // await cartRepository.createCartItem(req.user.id, quantity, priceId)
-            const cart = await cartRepository.getCartByUserId(req.user.id)
-            return res.json({ cart })
+            const result = await queryWithRetries(async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    const claimed = await idempotencyRepository.claim(
+                        key,
+                        user.id,
+                        client
+                    )
+                    // Key exists send saved response
+                    if (!claimed) {
+                        const existing = await idempotencyRepository.find(
+                            key,
+                            user.id,
+                            client
+                        )
+                        await client.query('COMMIT')
+                        return existing
+                    }
+
+                    // Nothing exists create new resource
+                    await cartRepository.createCartItem(
+                        user.id,
+                        quantity,
+                        priceId,
+                        client
+                    )
+
+                    const cart = await cartRepository.getCartByUserId(user.id)
+                    await idempotencyRepository.storeResult(
+                        key,
+                        201,
+                        user.id,
+                        cart,
+                        client
+                    )
+
+                    await client.query('COMMIT')
+                    return { cart, statusCode: 201 }
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
+                }
+            })
+
+            return res.status(result.statusCode).json({ cart: result.cart })
         } catch (error) {
             next(error)
         }
