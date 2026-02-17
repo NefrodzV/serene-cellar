@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser'
 import { errorHandler } from './middlewares/errorHandler.js'
 import { checkoutController } from './controllers/index.js'
 import { configDotenv } from 'dotenv'
+import { pool, queryWithRetries } from './db/pool.js'
 configDotenv()
 const frontendDomain = process.env.FRONTEND_DOMAIN
 if (!frontendDomain) throw new Error('FRONTEND_DOMAIN IS UNDEFINED')
@@ -54,6 +55,14 @@ app.use(cartRouter)
 app.use('/images', express.static('images'))
 app.get('/', (req, res) => {
     res.send('Hello! Serene Cellar!')
+})
+app.get('/health/db', async (req, res) => {
+    try {
+        await queryWithRetries(() => pool.query('SELECT 1'))
+        return res.json({ ok: true })
+    } catch (e) {
+        next(e)
+    }
 })
 app.use(errorHandler)
 app.listen(port, () => {
