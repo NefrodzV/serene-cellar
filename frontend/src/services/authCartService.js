@@ -67,7 +67,7 @@ export async function updateItem(itemId, quantity, key) {
     return data
 }
 
-export async function syncCart(signal, key) {
+export async function syncCart(signal) {
     const items = await getLocalCart()
     if (items.length === 0) {
         return null
@@ -78,7 +78,6 @@ export async function syncCart(signal, key) {
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'Idempotency-Key': key,
         },
         signal: signal,
         body: JSON.stringify({

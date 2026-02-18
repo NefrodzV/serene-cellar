@@ -32,62 +32,17 @@ const addItem = [
     validate,
 
     async (req, res, next) => {
-        console.log('request', req.headers['idempotency-key'])
-        const key = req.headers['idempotency-key']
-        if (!key)
-            return res.status(400).json({ error: 'Missing idempotency key' })
         const { priceId, quantity } = matchedData(req)
         const user = req.user
 
         try {
-            const result = await queryWithRetries(async () => {
-                const client = await pool.connect()
-                try {
-                    await client.query('BEGIN')
-                    const claimed = await idempotencyRepository.claim(
-                        key,
-                        user.id,
-                        client
-                    )
-                    // Key exists send saved response
-                    if (!claimed) {
-                        const existing = await idempotencyRepository.find(
-                            key,
-                            user.id,
-                            client
-                        )
-                        await client.query('COMMIT')
-                        return existing
-                    }
+            await queryWithRetries(() =>
+                cartRepository.addToCart(user.id, quantity, priceId)
+            )
 
-                    // Nothing exists create new resource
-                    await cartRepository.addToCart(
-                        user.id,
-                        quantity,
-                        priceId,
-                        client
-                    )
+            const cart = await cartRepository.getCartByUserId(user.id)
 
-                    const cart = await cartRepository.getCartByUserId(user.id)
-                    await idempotencyRepository.storeResult(
-                        key,
-                        201,
-                        user.id,
-                        cart,
-                        client
-                    )
-
-                    await client.query('COMMIT')
-                    return { cart, statusCode: 201 }
-                } catch (e) {
-                    await client.query('ROLLBACK')
-                    throw e
-                } finally {
-                    client.release()
-                }
-            })
-
-            return res.status(result.statusCode).json({ cart: result.cart })
+            return res.status(200).json({ cart })
         } catch (error) {
             next(error)
         }
