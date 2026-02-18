@@ -89,11 +89,26 @@ export async function getCartItemByPriceId(userId, priceId) {
     return rows[0] || null
 }
 
-export async function createCartItem(userId, quantity, priceId, client = pool) {
+export async function addToCart(userId, quantity, priceId, client = pool) {
     await client.query(
         `INSERT INTO cart_items 
         (cart_id, quantity, price_id)
         VALUES ((SELECT id from carts WHERE user_id=$1), $2, $3) ON CONFLICT(cart_id, price_id) DO UPDATE SET quantity = EXCLUDED.quantity + cart_items.quantity`,
+        [userId, quantity, priceId]
+    )
+}
+
+export async function upsertItemQuantity(
+    userId,
+    priceId,
+    quantity,
+    client = pool
+) {
+    await client.query(
+        `
+        INSERT INTO cart_items 
+        (cart_id, quantity, price_id)
+        VALUES ((SELECT id from carts WHERE user_id=$1), $2, $3) ON CONFLICT(cart_id, price_id) DO UPDATE SET quantity = EXCLUDED.quantity`,
         [userId, quantity, priceId]
     )
 }

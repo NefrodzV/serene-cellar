@@ -61,7 +61,7 @@ const addItem = [
                     }
 
                     // Nothing exists create new resource
-                    await cartRepository.createCartItem(
+                    await cartRepository.addToCart(
                         user.id,
                         quantity,
                         priceId,
@@ -163,36 +163,26 @@ const sync = [
     validate,
     async function (req, res, next) {
         const data = matchedData(req)
-        const existingItems = await cartRepository.getItemsByUserId(req.user.id)
-        const existingMap = new Map(
-            existingItems.map((item) => [`${item.priceId}`, item])
-        )
-
-        withTransaction(async (client) => {
-            for (const localItem of data.items) {
-                const existingItem = existingMap.get(`${localItem.priceId}`)
-                if (existingItem) {
-                    await cartRepository.incrementCartItemQuantity(
-                        existingItem.id,
-                        localItem.quantity,
-                        client
-                    )
-                } else {
-                    await cartRepository.createCartItem(
+        try {
+            await withTransaction(async (client) => {
+                for (const localItem of data.items) {
+                    await cartRepository.upsertItemQuantity(
                         req.user.id,
                         localItem.quantity,
                         localItem.priceId,
                         client
                     )
                 }
-            }
-        })
+            })
 
-        // Getting updated cart items
-        const cart = await cartRepository.getCartByUserId(req.user.id)
-        return res.status(200).json({
-            cart,
-        })
+            // Getting updated cart items
+            const cart = await cartRepository.getCartByUserId(req.user.id)
+            return res.status(200).json({
+                cart,
+            })
+        } catch (e) {
+            next(e)
+        }
     },
 ]
 

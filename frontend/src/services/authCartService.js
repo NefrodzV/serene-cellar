@@ -17,12 +17,12 @@ export async function fetchCart(signal) {
     return data
 }
 
-export async function addItem(priceId, quantity) {
+export async function addItem(priceId, quantity, key) {
     const options = {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
-            'Idempotency-Key': uuid(),
+            'Idempotency-Key': key,
         },
         credentials: 'include',
         body: JSON.stringify({ priceId, quantity }),
@@ -48,24 +48,26 @@ export async function deleteItem(itemId) {
     return data
 }
 
-export async function updateItem(itemId, quantity) {
+export async function updateItem(itemId, quantity, key) {
     const options = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Idempotency-Key': key,
         },
         credentials: 'include',
         body: JSON.stringify({ quantity }),
     }
     const res = await fetch(`${API_URL}/me/cart/items/${itemId}`, options)
-    const data = await res.json()
+
     if (!res.ok) {
         throw new Error(data || 'Failed to update item from remote cart')
     }
+    const data = await res.json()
     return data
 }
 
-export async function syncCart(signal) {
+export async function syncCart(signal, key) {
     const items = await getLocalCart()
     if (items.length === 0) {
         return null
@@ -76,6 +78,7 @@ export async function syncCart(signal) {
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
+            'Idempotency-Key': key,
         },
         signal: signal,
         body: JSON.stringify({
