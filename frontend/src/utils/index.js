@@ -39,3 +39,12 @@ export function createClassName(parent, variant, classes) {
         .join(' ')
     return array
 }
+
+export const generateSkeletons = (number) => {
+    const skeletons = []
+    for (let i = 0; i < number; i++) {
+        const skeleton = { id: i }
+        skeletons.push(skeleton)
+    }
+    return skeletons
+}

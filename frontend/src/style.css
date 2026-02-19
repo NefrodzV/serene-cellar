@@ -301,12 +301,14 @@ input {
     padding-inline: 0.5rem;
 }
 
-.product-container .filters {
+.product-container .filters,
+.filter-skeleton {
     display: flex;
     gap: 0.5rem;
     align-items: center;
 }
-.product-grid {
+.product-grid,
+.product-grid-skeleton {
     flex: 1;
     overflow-x: hidden;
     position: relative;
@@ -1144,9 +1146,40 @@ input {
     min-width: 8rem;
 }
 
+/* Skeleton */
+.skeleton {
+    border-radius: 0.8rem;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    animation-name: flicker;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.skeleton--title {
+    min-height: 2rem;
+    max-width: 150px;
+}
+
+.skeleton--tag {
+    min-height: 1.3rem;
+    max-width: 2rem;
+}
 /* Helper classes */
 .capitalize {
     text-transform: capitalize;
+}
+
+@keyframes flicker {
+    from {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 50%;
+    }
 }
 
 @keyframes rotate {
